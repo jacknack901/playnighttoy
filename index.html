@@ -1,0 +1,2445 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>頑夜TOY｜PLAY NIGHT TOY</title>
+  <style>
+    :root{
+      --bg:#0f0c14;--card:#191421;--card2:#211a2b;--line:#342940;
+      --text:#f7f3fb;--muted:#aaa0b5;--accent:#b9ff5f;--accent2:#7dd3fc;
+      --warn:#ffd166;--hot:#ff8ea1;--ok:#9ee7ae;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#0d0a12,#14101a 42%,#0d0a12);
+      color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif}
+    button,a{font:inherit}
+    .wrap{max-width:1100px;margin:auto;padding:18px 14px 60px}
+    .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px}
+    .topActions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+    .preorderBtn{
+      position:relative;
+      overflow:visible;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#0b0b0b;
+      border-color:transparent;
+      font-weight:950;
+      font-size:14px;
+      padding:11px 16px;
+      box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 18px rgba(185,255,95,.32);
+      transform:translateZ(0);
+      animation:preorderPulse 2.2s ease-in-out infinite;
+    }
+    .preorderBtn::before{
+      content:"✨";
+      margin-right:6px;
+      font-size:14px;
+    }
+    .preorderBtn::after{
+      content:"NEW";
+      position:absolute;
+      top:-9px;
+      right:-8px;
+      min-width:34px;
+      height:18px;
+      padding:0 6px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      background:#ff5f8f;
+      color:#fff;
+      font-size:9px;
+      line-height:1;
+      font-weight:950;
+      letter-spacing:.08em;
+      box-shadow:0 4px 12px rgba(255,95,143,.35);
+    }
+    .preorderBtn:hover{
+      filter:brightness(1.08);
+      transform:translateY(-1px);
+      box-shadow:0 0 0 1px rgba(255,255,255,.15),0 0 24px rgba(185,255,95,.45);
+    }
+    @keyframes preorderPulse{
+      0%,100%{box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 14px rgba(185,255,95,.22)}
+      50%{box-shadow:0 0 0 1px rgba(255,255,255,.18),0 0 28px rgba(125,211,252,.48)}
+    }
+    .brand{font-size:12px;color:var(--accent);font-weight:900;letter-spacing:.12em}
+    h1{font-size:28px;margin:5px 0 6px}.sub{color:var(--muted);font-size:13px;line-height:1.6}
+    .btn{border:1px solid var(--line);background:#241d2e;color:#fff;border-radius:12px;
+      padding:10px 13px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+    .btn:disabled{opacity:.55}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .overviewSection{margin-top:18px}
+    .overviewSectionHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 11px}
+    .overviewSectionTitle{font-size:20px;font-weight:950}
+    .overviewSectionCount{font-size:12px;color:var(--muted);padding:5px 9px;border:1px solid var(--line);border-radius:999px;background:#17121d}
+    .soldSection{margin-top:34px;padding-top:24px;border-top:1px dashed #40344c}
+    .soldSection .overviewSectionTitle{color:#b9afc2}
+    .card{background:rgba(25,20,33,.96);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+    .coverWrap{position:relative;overflow:hidden}
+    .cover{width:100%;aspect-ratio:16/7;object-fit:cover;background:#251e2e;display:block}
+    .soldCard{opacity:.82;background:#151219;border-color:#2b2531}
+    .soldCard .cover{filter:grayscale(1);opacity:.42}
+    .soldCard .body{filter:saturate(.45)}
+    .soldStamp{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+    .soldStamp span{padding:10px 18px;border:2px solid rgba(255,255,255,.78);border-radius:10px;background:rgba(12,10,15,.72);
+      color:#fff;font-size:22px;font-weight:1000;letter-spacing:.08em;transform:rotate(-5deg);box-shadow:0 8px 28px rgba(0,0,0,.28)}
+    .soldReason{margin-top:11px;padding:10px 12px;border-radius:12px;background:#201b24;border:1px solid #3a313f;color:#d4cbd9;font-size:14px;font-weight:900;text-align:center}
+    .cover.ph{display:flex;align-items:center;justify-content:center;color:var(--muted)}
+    .body{padding:15px}.name{font-size:18px;font-weight:950;line-height:1.35}
+    .tags{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+    .tag{font-size:11px;padding:5px 8px;border-radius:999px;background:#2a2234;color:#e9deef;border:1px solid #3a2f47}
+    .tag.hot{color:#ffd9df;border-color:#6d3743;background:#2b171d}.tag.ok{color:#d7ffdb;border-color:#386047;background:#17271c}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+    .stat{background:#120f17;border:1px solid #2d2437;border-radius:12px;padding:10px;text-align:center}
+    .stat strong{font-size:17px;display:block}.stat span{font-size:10px;color:var(--muted);display:block;margin-top:3px}
+    .majorBanner{margin-top:11px;padding:10px 12px;border-radius:12px;font-size:15px;font-weight:950;text-align:center}.majorBanner.yes{background:#2c2510;border:1px solid #7b681d;color:#ffe982}.majorBanner.no{background:#25171b;border:1px solid #65333e;color:#ffb8c4}.promos{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.promo{font-size:12px;font-weight:900;color:#141414;background:var(--accent);padding:6px 9px;border-radius:9px}
+    .footer{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}
+    .updated{font-size:11px;color:var(--muted)}
+    .open{background:var(--accent);color:#111;border:0;border-radius:11px;padding:9px 12px;font-weight:950;text-decoration:none}
+    .empty,.error,.loading{padding:32px 18px;text-align:center;border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--muted)}
+    .error strong{color:#ffd2d9}.hidden{display:none!important}
+    .back{margin-bottom:14px}.hero{display:grid;grid-template-columns:260px 1fr;gap:18px;padding:16px}
+    .hero img{width:100%;border-radius:14px;max-height:230px;object-fit:cover;background:#201927}
+    .hero h1{margin:0 0 9px;font-size:25px}.heroPrice{font-size:25px;font-weight:950;color:var(--accent)}
+    .detailStats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:13px}
+    .sectionTitle{font-size:19px;font-weight:950;margin:22px 0 10px}
+    .prizeList{display:grid;gap:9px}.prize{display:grid;grid-template-columns:90px 1fr 120px 95px;align-items:center;gap:10px;
+      padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+    .grade{font-weight:950;font-size:17px}.pname{font-weight:800}.pmeta{font-size:11px;color:var(--muted);margin-top:3px}
+    .remain{text-align:right;font-weight:900}.rate{text-align:right;font-weight:950;color:var(--accent2)}
+    .sync{margin-top:11px;font-size:12px;color:var(--muted)}
+    .comingSection{margin-top:30px;padding-top:20px;border-top:1px dashed #344252}
+    .comingSection .overviewSectionTitle{color:#a8ddff}
+    .groupSection{margin:18px 0 26px;padding-top:18px;border-top:1px dashed #47542f}
+    .groupSection .overviewSectionTitle{color:#d9ff9e}
+    .specialBanner{margin-top:11px;padding:10px 12px;border-radius:12px;font-size:14px;font-weight:950;text-align:center}
+    .specialBanner.coming{background:#142330;border:1px solid #315975;color:#b9e6ff}
+    .specialBanner.group{background:#202810;border:1px solid #536a22;color:#dcff9e}
+    .progress{height:10px;background:#100d14;border:1px solid #352b40;border-radius:999px;overflow:hidden;margin-top:10px}
+    .progress>span{display:block;height:100%;background:var(--accent);width:0}
+    .groupBtn{border:0;background:var(--accent);color:#101010;border-radius:11px;padding:9px 13px;font-weight:950;cursor:pointer}
+    .groupBtn:disabled{opacity:.45;cursor:not-allowed}
+    .modalMask{
+      position:fixed;inset:0;background:rgba(0,0,0,.76);display:flex;
+      align-items:flex-start;justify-content:center;padding:14px;z-index:9999;
+      overflow-y:auto;overscroll-behavior:contain
+    }
+    .modalBox{
+      width:min(640px,100%);max-height:calc(100dvh - 28px);overflow-y:auto;
+      background:#191421;border:1px solid #443650;border-radius:18px;
+      padding:0;box-shadow:0 24px 80px rgba(0,0,0,.5);
+      box-sizing:border-box;margin:auto;overscroll-behavior:contain
+    }
+    .groupModalHead{
+      position:sticky;top:0;z-index:3;display:flex;align-items:flex-start;
+      justify-content:space-between;gap:12px;padding:16px 16px 12px;
+      background:rgba(25,20,33,.97);border-bottom:1px solid #3a2e45;
+      backdrop-filter:blur(8px)
+    }
+    .groupModalHead h2{margin:0 0 5px;font-size:20px;line-height:1.3}
+    .groupModalClose{
+      flex:0 0 auto;width:36px;height:36px;border-radius:999px;border:1px solid #554464;
+      background:#110e15;color:#fff;font-size:22px;line-height:1;cursor:pointer
+    }
+    .groupModalBody{padding:14px 16px 0}
+    .modalBox label{display:block;font-size:12px;color:var(--muted);margin:0 0 5px}
+    .modalBox input,.modalBox textarea,.modalBox select{
+      width:100%;box-sizing:border-box;background:#100d14;color:#fff;
+      border:1px solid #3b3046;border-radius:11px;padding:11px;font-size:16px
+    }
+    .groupTopGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:end}
+    .groupFormGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 12px;margin-top:14px}
+    .groupFieldFull{grid-column:1/-1}
+    .modalActions{
+      position:sticky;bottom:0;z-index:3;display:flex;justify-content:flex-end;gap:8px;
+      margin-top:14px;padding:12px 16px 16px;background:rgba(25,20,33,.98);
+      border-top:1px solid #3a2e45;backdrop-filter:blur(8px)
+    }
+    .modalActions .btn,.modalActions .groupBtn{min-height:44px}
+    .bankBox{
+      margin-top:12px;padding:13px;border-radius:13px;background:#121a20;
+      border:1px solid #365062
+    }
+    .bankBox .bankTitle{font-size:12px;color:#9fcbe5;font-weight:900;margin-bottom:6px}
+    .bankBox .bankAccount{font-size:20px;font-weight:950;letter-spacing:.8px;word-break:break-all}
+    .bankRow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .copyBankBtn{
+      flex:0 0 auto;border:1px solid #4a6678;border-radius:9px;background:#17232b;color:#dff3ff;
+      padding:7px 10px;font-size:12px;font-weight:900;cursor:pointer
+    }
+    .paymentRequired{
+      margin-top:10px;padding:10px 12px;border-radius:11px;
+      background:#2a2112;border:1px solid #68562e;color:#ffe7a3;font-size:12px;line-height:1.6
+    }
+    .payAmountBox{
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      margin:0;padding:12px;border-radius:12px;background:#201829;border:1px solid #493957
+    }
+    .payAmountBox span{font-size:12px;color:#c7bdce}
+    .payAmountBox strong{font-size:22px;color:#ffe68a;white-space:nowrap}
+    .payNotice{margin-top:10px;font-size:12px;line-height:1.65;color:#c7bdce}
+
+    /* v25.44 客戶入口：活動報名／新品預購 */
+    .preorderSection{margin:24px 0 28px;padding-top:20px;border-top:1px dashed #355064}
+    .preorderSection .overviewSectionTitle{color:#b9e6ff}
+    .preorderCardPrice{font-size:22px;font-weight:950;color:var(--accent);margin-top:8px}
+    .preorderCardNote{margin-top:8px;color:#cfc5d7;font-size:12px;line-height:1.55}
+    .joinBtn,.preorderJoinBtn{
+      border:0;border-radius:11px;padding:9px 13px;font-weight:950;cursor:pointer;
+      background:var(--accent);color:#101010
+    }
+    .joinBtn:disabled,.preorderJoinBtn:disabled{opacity:.45;cursor:not-allowed}
+    .activityJoinBtnV2551{
+      position:relative;z-index:2;pointer-events:auto;touch-action:manipulation;
+      min-height:44px;width:100%;
+    }
+    .activitySignupMeta{
+      margin-top:8px;padding:8px 10px;border-radius:10px;background:#182013;
+      border:1px solid #40592b;color:#d9ff9e;font-size:12px;font-weight:850
+    }
+    .customerFormGrid{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px 12px;margin-top:14px
+    }
+    .customerFormGrid .full{grid-column:1/-1}
+    .customerSummaryBox{
+      padding:12px;border-radius:13px;background:#121a20;border:1px solid #36556a;
+      margin-top:10px
+    }
+    .customerSummaryBox strong{font-size:22px;color:var(--accent)}
+    @media(max-width:640px){
+      .customerFormGrid{grid-template-columns:1fr}
+      .customerFormGrid .full{grid-column:auto}
+    }
+
+    /* v25.32 活動海報／IG */
+    .igBtn{
+      background:linear-gradient(135deg,#ff7a59,#ff4f8b 45%,#8b5cf6);
+      color:#fff;border-color:transparent;font-weight:950;
+      box-shadow:0 0 18px rgba(255,79,139,.24)
+    }
+    .igBtn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+    .announcementSection{margin:16px 0 18px}
+    .announcementGrid{
+      display:grid;grid-auto-flow:column;grid-auto-columns:minmax(235px,290px);
+      gap:12px;overflow-x:auto;padding:2px 2px 10px;scroll-snap-type:x proximity
+    }
+    .announcementCard{
+      scroll-snap-align:start;border:1px solid #332a3b;border-radius:15px;
+      overflow:hidden;background:#17131d;box-shadow:0 10px 28px rgba(0,0,0,.18)
+    }
+    .announcementPosterBtn{
+      display:block;width:100%;padding:0;border:0;background:#0c0a0e;cursor:zoom-in
+    }
+    .announcementPoster{
+      display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#24202a
+    }
+    .announcementPosterPh{
+      display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:4/5;
+      color:#8f8498;background:linear-gradient(145deg,#201a25,#111014);font-weight:900
+    }
+    .announcementBody{padding:12px}
+    .announcementTitle{font-size:16px;font-weight:950;line-height:1.35}
+    .announcementDate{margin-top:4px;color:#b8acc1;font-size:11px}
+    .announcementText{margin-top:8px;color:#d6cddd;font-size:12px;line-height:1.65;white-space:pre-wrap}
+    .announcementAction{margin-top:10px}
+    .announcementAction .btn{width:100%;text-align:center}
+    .posterLightbox{
+      position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);
+      display:flex;align-items:center;justify-content:center;padding:18px
+    }
+    .posterLightbox.hidden{display:none}
+    .posterLightboxInner{position:relative;max-width:min(94vw,820px);max-height:94vh}
+    .posterLightbox img{display:block;max-width:94vw;max-height:90vh;object-fit:contain;border-radius:12px}
+    .posterLightboxClose{
+      position:absolute;right:-8px;top:-8px;width:38px;height:38px;border:0;border-radius:999px;
+      background:#fff;color:#111;font-size:24px;font-weight:900;cursor:pointer
+    }
+    .groupRules{margin-top:14px;padding:13px;border-radius:13px;background:#15111b;border:1px solid #51415f}
+    .groupRulesTitle{font-size:13px;font-weight:950;color:#ffe68a;margin-bottom:8px}
+    .groupRulesScroll{
+      max-height:180px;overflow-y:auto;padding:0 8px 0 0;
+      scrollbar-width:thin;overscroll-behavior:contain
+    }
+    .groupRules ol{margin:0;padding-left:20px}
+    .groupRules li{margin:7px 0;line-height:1.65;font-size:12px;color:#ddd3e4}
+    .ruleAgree{
+      display:flex!important;align-items:flex-start;gap:8px;margin-top:12px!important;
+      color:#fff!important;font-weight:900;padding-top:10px;border-top:1px solid #3a3044
+    }
+    .ruleAgree input{width:auto!important;margin-top:3px;flex:0 0 auto}
+    @media(max-width:760px){
+      .grid{grid-template-columns:1fr}.stats,.detailStats{grid-template-columns:repeat(2,1fr)}
+      .hero{grid-template-columns:1fr}.hero img{max-height:190px}
+      .prize{grid-template-columns:62px 1fr 80px}.rate{grid-column:2/4;text-align:left;font-size:12px}
+      h1{font-size:24px}.top{align-items:center}
+      .topActions{max-width:190px}
+      .topActions .btn{padding:9px 10px;font-size:12px}
+      .topActions .preorderBtn{padding:10px 13px;font-size:12px}
+      .preorderBtn::after{top:-8px;right:-5px}
+      .announcementGrid{grid-auto-columns:minmax(78vw,78vw)}
+      .modalMask{padding:0;align-items:stretch}
+      .modalBox{
+        width:100%;max-height:100dvh;min-height:100dvh;margin:0;border-radius:0;border-left:0;border-right:0
+      }
+      .groupModalHead{padding:14px 14px 11px}
+      .groupModalHead h2{font-size:18px}
+      .groupModalBody{padding:12px 14px 0}
+      .groupTopGrid,.groupFormGrid{grid-template-columns:1fr}
+      .groupFieldFull{grid-column:auto}
+      .groupRulesScroll{max-height:160px}
+      .modalActions{
+        display:grid;grid-template-columns:.8fr 1.4fr;padding:10px 14px calc(10px + env(safe-area-inset-bottom))
+      }
+      .modalActions .btn,.modalActions .groupBtn{width:100%;padding:11px 8px;font-size:13px}
+      .bankBox .bankAccount{font-size:18px}
+      .payAmountBox strong{font-size:20px}
+    }
+  
+    /* v25.52｜頑夜TOY 官方網站式首頁 */
+    html{scroll-behavior:smooth;scroll-padding-top:94px}
+    body{
+      background:
+        radial-gradient(circle at 18% -12%,rgba(255,255,255,.05),transparent 24%),
+        radial-gradient(circle at 86% 0%,rgba(255,255,255,.04),transparent 20%),
+        #080808;
+    }
+                    .siteHero{
+      position:relative;overflow:hidden;margin-bottom:18px;padding:0;
+      border:1px solid rgba(255,255,255,.10);border-radius:24px;
+      background:
+        linear-gradient(135deg,rgba(255,255,255,.03),rgba(255,255,255,0) 42%),
+        radial-gradient(circle at 86% 14%,rgba(255,255,255,.06),transparent 22%),
+        linear-gradient(135deg,#090909 0%,#111111 52%,#070707 100%);
+      box-shadow:0 22px 60px rgba(0,0,0,.40)
+    }
+    .siteHero::before{
+      content:'';position:absolute;inset:0;pointer-events:none;opacity:.24;
+      background:repeating-linear-gradient(135deg,rgba(255,255,255,.04) 0 1px,transparent 1px 18px)
+    }
+    .siteHero::after{
+      content:'';position:absolute;right:-46px;bottom:-74px;width:210px;height:210px;border-radius:50%;
+      background:radial-gradient(circle,rgba(255,255,255,.07),transparent 68%);filter:blur(16px);pointer-events:none
+    }
+    .siteHeroShell{position:relative;z-index:1;padding:16px 20px}
+    .siteHeaderRow{
+      display:flex;align-items:center;justify-content:space-between;gap:18px;min-width:0
+    }
+    .siteHeaderLogo{
+      display:block;width:178px;max-width:42%;height:auto;object-fit:contain;flex:0 1 auto;
+      filter:
+        drop-shadow(1px 0 0 rgba(255,255,255,.98))
+        drop-shadow(-1px 0 0 rgba(255,255,255,.98))
+        drop-shadow(0 1px 0 rgba(255,255,255,.98))
+        drop-shadow(0 -1px 0 rgba(255,255,255,.98))
+        drop-shadow(1px 1px 0 rgba(255,255,255,.90))
+        drop-shadow(-1px -1px 0 rgba(255,255,255,.90))
+        drop-shadow(0 6px 12px rgba(0,0,0,.24))
+    }
+    .siteHeaderActions{
+      display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-left:auto
+    }
+    .siteSocialLinks{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:nowrap}
+    .siteHeaderActions .btn{
+      min-height:34px;padding:7px 12px;border-radius:999px;
+      font-size:10px;font-weight:950;letter-spacing:.02em;white-space:nowrap
+    }
+    .siteHeaderActions .igBtn{
+      background:#fff;color:#090909;border-color:#fff;box-shadow:0 7px 16px rgba(255,255,255,.08)
+    }
+    .siteHeaderActions .creatorSocialBtn{
+      background:linear-gradient(135deg,#f58529 0%,#dd2a7b 48%,#8134af 72%,#515bd4 100%);
+      color:#fff;border:1px solid rgba(255,255,255,.18);box-shadow:0 7px 16px rgba(221,42,123,.16)
+    }
+    .siteHeaderActions .creatorYtBtn{
+      background:#ff0033;color:#fff;border-color:#ff3158;box-shadow:0 7px 16px rgba(255,0,51,.16)
+    }
+    .siteHeaderActions .igBtn:hover,
+    .siteHeaderActions .creatorSocialBtn:hover,
+    .siteHeaderActions .creatorYtBtn:hover{filter:brightness(1.06);transform:translateY(-1px)}
+
+    .quickNav{
+      position:sticky;top:8px;z-index:1000;
+      display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;
+      margin:0 0 22px;padding:10px;
+      border:1px solid rgba(255,255,255,.10);border-radius:18px;
+      background:rgba(10,10,10,.90);backdrop-filter:blur(14px);
+      box-shadow:0 12px 34px rgba(0,0,0,.34)
+    }
+    .quickNavBtn{
+      border:1px solid rgba(255,255,255,.10);background:linear-gradient(180deg,#161616,#101010);color:#f5f5f5;border-radius:12px;
+      min-height:46px;padding:8px 7px;font-size:12px;font-weight:950;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;
+      text-transform:uppercase;letter-spacing:.04em;
+      transition:transform .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,background .18s ease
+    }
+    .quickNavBtn:hover,.quickNavBtn:focus{
+      border-color:#fff;color:#090909;outline:none;transform:translateY(-1px);
+      background:#fff;box-shadow:0 8px 18px rgba(255,255,255,.08)
+    }
+    .siteSection{
+      scroll-margin-top:94px;margin:28px 0;padding:18px 0 0;
+      border-top:1px solid rgba(83,70,96,.58)
+    }
+    .siteSection:first-of-type{border-top:0}
+    @supports (content-visibility:auto){
+      .siteSection,.overviewSection{content-visibility:auto;contain-intrinsic-size:1px 520px}
+    }
+    .siteSectionHead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:12px}
+    .siteSectionKicker{font-size:10px;letter-spacing:.15em;color:#95899f;font-weight:900}
+    .siteSectionTitle{font-size:22px;font-weight:1000;line-height:1.2}
+    .siteSectionDesc{font-size:12px;color:#9e92a8;margin-top:4px}
+    .siteSectionCount{font-size:12px;color:#cfc4d6;border:1px solid #43384d;border-radius:999px;padding:5px 9px;white-space:nowrap}
+    .officialSection .siteSectionTitle{color:#c9f7ff}
+    .customSection .siteSectionTitle{color:#ffe59a}
+    .siteEmpty{padding:18px;border:1px dashed #44384f;border-radius:14px;color:#95899f;text-align:center}
+    .legacyAuxSection{margin-top:32px}
+    .top{display:none!important}
+    #overviewLoading{margin-top:10px}
+    .announcementSection,.preorderSection,.groupSection{margin-top:0!important;padding-top:0!important;border-top:0!important}
+    @media(max-width:760px){
+      .wrap{padding-top:12px}
+      .siteHero{border-radius:18px}
+      .siteHeroShell{padding:12px 13px}
+      .siteHeaderRow{gap:8px;flex-wrap:nowrap}
+      .siteHeaderLogo{width:112px;max-width:34%}
+      .siteHeaderActions{flex:1 1 auto;min-width:0;gap:5px;align-items:flex-end;flex-direction:column;justify-content:center}
+      .siteSocialLinks{width:100%;justify-content:flex-end;gap:4px}
+      .siteSocialLinks .btn{flex:1 1 0;min-width:0;min-height:31px;padding:5px 4px;font-size:9.5px;text-align:center;justify-content:center}
+      .quickNav{top:5px;grid-template-columns:repeat(6,minmax(0,1fr));overflow:visible;gap:3px;padding:6px 4px}
+      .quickNavBtn{font-size:clamp(9.5px,2.55vw,11px);min-width:0;min-height:42px;padding:5px 1px;line-height:1.08;white-space:nowrap;letter-spacing:0}
+      .siteSectionTitle{font-size:20px}
+    }
+
+
+    /* v25.82｜主頁 6 個快速選單固定同一排 */
+    /* 桌機與手機都採六欄；手機縮小間距與字級，避免第 6 個換到第二排。 */
+
+    /* v25.81｜直購／預購商品圖片改為 1:1 正方形 */
+    #directBuyGridV2579 .coverWrap,
+    #preorderGrid .coverWrap{
+      aspect-ratio:1/1;
+      background:#251e2e;
+    }
+    #directBuyGridV2579 .cover,
+    #preorderGrid .cover{
+      width:100%;height:100%;aspect-ratio:auto;
+      object-fit:contain;
+    }
+    /* v26.9｜直購／預購卡片高度與按鈕固定對齊 */
+    #directBuyGridV2579 .card,
+    #preorderGrid .card{height:100%;display:flex;flex-direction:column}
+    #directBuyGridV2579 .body,
+    #preorderGrid .body{display:flex;flex-direction:column;flex:1;min-height:0}
+    #directBuyGridV2579 .name,
+    #preorderGrid .name{min-height:48px}
+    #directBuyGridV2579 .footer,
+    #preorderGrid .footer{margin-top:auto;min-height:44px;align-items:stretch}
+    #directBuyGridV2579 .preorderJoinBtn,
+    #preorderGrid .preorderJoinBtn{min-height:44px;display:inline-flex;align-items:center;justify-content:center;line-height:1.2;text-align:center}
+
+    /* v25.80｜活動／直購／預購橫向自動輪播 */
+    .contentCarouselTrack{
+      display:grid!important;grid-auto-flow:column!important;
+      grid-auto-columns:calc((100% - 36px)/4)!important;
+      grid-template-columns:none!important;gap:12px!important;
+      overflow-x:auto!important;overflow-y:hidden!important;
+      padding:2px 2px 12px!important;scroll-snap-type:x mandatory;
+      scroll-behavior:smooth;overscroll-behavior-x:contain;
+      scrollbar-width:thin;scrollbar-color:#55465f transparent;
+      -webkit-overflow-scrolling:touch;
+    }
+    .contentCarouselTrack > *{scroll-snap-align:start;min-width:0}
+    .contentCarouselTrack::-webkit-scrollbar{height:6px}
+    .contentCarouselTrack::-webkit-scrollbar-thumb{background:#55465f;border-radius:99px}
+    .contentCarouselTrack::-webkit-scrollbar-track{background:transparent}
+    .carouselHeadActions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+    .carouselNav{display:flex;align-items:center;gap:6px}
+    .carouselNavBtn{
+      width:34px;height:34px;border-radius:999px;border:1px solid #45394f;
+      background:#17131d;color:#fff;font-size:20px;line-height:1;font-weight:900;
+      display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+      transition:.15s ease;touch-action:manipulation
+    }
+    .carouselNavBtn:hover{background:#241d2b;border-color:#705e7d;transform:translateY(-1px)}
+    .carouselNavBtn:active{transform:translateY(0) scale(.96)}
+    .carouselHintV2580{font-size:10px;color:#8e8398;white-space:nowrap}
+    @media(max-width:1024px){
+      .contentCarouselTrack{grid-auto-columns:calc((100% - 12px)/2)!important}
+    }
+    @media(max-width:640px){
+      .contentCarouselTrack{grid-auto-columns:82vw!important;gap:10px!important;padding-bottom:10px!important}
+      .carouselNavBtn{width:32px;height:32px;font-size:18px}
+      .carouselHintV2580{display:none}
+      .siteSectionHead{align-items:flex-start}
+      .carouselHeadActions{gap:6px}
+    }
+  
+    /* v25.87 抽獎活動 */
+    .raffleMetaV2587{color:#ffe08a!important;font-weight:800}
+    .raffleRuleInlineV2587{margin-top:8px;padding:9px 10px;border-radius:10px;background:rgba(255,190,68,.11);border:1px solid rgba(255,190,68,.35);font-size:12px;line-height:1.55;color:#ffe5ad}
+    .raffleWinnerBoxV2587{margin-top:10px;padding:10px 12px;border-radius:12px;background:rgba(89,220,145,.10);border:1px solid rgba(89,220,145,.35);display:grid;gap:5px;font-size:13px}
+    .raffleWinnerBoxV2587 strong{color:#8ff0b7;font-size:14px}
+    .raffleWarningV2587{padding:14px;border-radius:14px;background:rgba(255,171,64,.12);border:1px solid rgba(255,171,64,.45);line-height:1.65;color:#ffe6b8}
+    .raffleWarningV2587 strong{display:block;color:#ffd36f;font-size:16px;margin-bottom:4px}
+    .raffleAgreeV2587{display:flex;align-items:flex-start;gap:9px;margin-top:14px;padding:12px;border:1px solid #59466b;border-radius:12px;background:#18111f;line-height:1.55;font-size:13px;cursor:pointer}
+    .raffleAgreeV2587 input{margin-top:3px;flex:0 0 auto}
+    .raffleModalBoxV2587{max-width:540px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="overviewView">
+                        <section class="siteHero">
+        <div class="siteHeroShell">
+          <div class="siteHeaderRow">
+            <img class="siteHeaderLogo" src="https://i.ibb.co/dsbV76Hs/4.png" alt="頑夜 TOY LOGO">
+            <div class="siteHeaderActions">
+              <div class="siteSocialLinks">
+                <a id="topIgBtn" class="btn igBtn hidden" href="#" target="_blank" rel="noopener noreferrer">頑夜TOYIG</a>
+                <a class="btn creatorSocialBtn" href="https://www.instagram.com/jacknack901/" target="_blank" rel="noopener noreferrer">小夜IG</a>
+                <a class="btn creatorSocialBtn creatorYtBtn" href="https://www.youtube.com/@NightStore901" target="_blank" rel="noopener noreferrer">小夜YT</a>
+</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <nav class="quickNav" aria-label="網站快速功能">
+        <button class="quickNavBtn" type="button" onclick="jumpSiteSectionV2552('announcementSection')">活動</button>
+        <button class="quickNavBtn" type="button" onclick="jumpSiteSectionV2552('directBuySectionV2579')">直購</button>
+        <button class="quickNavBtn" type="button" onclick="jumpSiteSectionV2552('preorderSection')">預購</button>
+        <button class="quickNavBtn" type="button" onclick="jumpSiteSectionV2552('groupSection')">集單</button>
+        <button class="quickNavBtn" type="button" onclick="jumpSiteSectionV2552('officialKujiSection')">官方賞</button>
+        <button class="quickNavBtn" type="button" onclick="jumpSiteSectionV2552('customKujiSection')">自製賞</button>
+      </nav>
+
+      <div id="overviewSub" class="sub hidden" aria-hidden="true"></div>
+      <div id="overviewLoading" class="loading">載入中…</div>
+      <div id="overviewError" class="error hidden"></div>
+
+      <section id="announcementSection" class="siteSection announcementSection hidden">
+        <div class="siteSectionHead">
+          <div>
+            <div class="siteSectionKicker">EVENT</div>
+            <div class="siteSectionTitle">活動</div>
+            <div class="siteSectionDesc">最新活動</div>
+          </div>
+          <div class="carouselHeadActions">
+            <div id="announcementCount" class="siteSectionCount">0 則</div>
+            <div class="carouselNav" aria-label="活動輪播控制">
+              <button class="carouselNavBtn" type="button" onclick="carouselMoveV2580('announcementGrid',-1)" aria-label="上一個活動">‹</button>
+              <button class="carouselNavBtn" type="button" onclick="carouselMoveV2580('announcementGrid',1)" aria-label="下一個活動">›</button>
+            </div>
+            <span class="carouselHintV2580">自動輪播</span>
+          </div>
+        </div>
+        <div id="announcementGrid" class="announcementGrid contentCarouselTrack"></div>
+      </section>
+
+
+      <section id="directBuySectionV2579" class="siteSection preorderSection hidden">
+        <div class="siteSectionHead">
+          <div>
+            <div class="siteSectionKicker">SHOP</div>
+            <div class="siteSectionTitle">直購商品</div>
+            <div class="siteSectionDesc">精選現貨／直購商品</div>
+          </div>
+          <div class="carouselHeadActions">
+            <div id="directBuyCountV2579" class="siteSectionCount">0 項</div>
+            <div class="carouselNav" aria-label="直購商品輪播控制">
+              <button class="carouselNavBtn" type="button" onclick="carouselMoveV2580('directBuyGridV2579',-1)" aria-label="上一個直購商品">‹</button>
+              <button class="carouselNavBtn" type="button" onclick="carouselMoveV2580('directBuyGridV2579',1)" aria-label="下一個直購商品">›</button>
+            </div>
+            <span class="carouselHintV2580">自動輪播</span>
+            <a id="directShopAllV266" class="btn" href="#" target="_blank" rel="noopener noreferrer" style="padding:7px 11px;font-size:12px">查看全部商城 ↗</a>
+          </div>
+        </div>
+        <div id="directBuyGridV2579" class="grid contentCarouselTrack"></div>
+        <div id="directBuyEmptyV2579" class="siteEmpty hidden">目前沒有開放中的直購商品。</div>
+      </section>
+
+      <section id="preorderSection" class="siteSection preorderSection">
+        <div class="siteSectionHead">
+          <div>
+            <div class="siteSectionKicker">PREORDER</div>
+            <div class="siteSectionTitle">預購</div>
+            <div class="siteSectionDesc">開放預購商品</div>
+          </div>
+          <div class="carouselHeadActions">
+            <div id="preorderCount" class="siteSectionCount">0 項</div>
+            <div class="carouselNav" aria-label="預購商品輪播控制">
+              <button class="carouselNavBtn" type="button" onclick="carouselMoveV2580('preorderGrid',-1)" aria-label="上一個預購商品">‹</button>
+              <button class="carouselNavBtn" type="button" onclick="carouselMoveV2580('preorderGrid',1)" aria-label="下一個預購商品">›</button>
+            </div>
+            <span class="carouselHintV2580">自動輪播</span>
+            <a id="preorderShopAllV266" class="btn" href="#" target="_blank" rel="noopener noreferrer" style="padding:7px 11px;font-size:12px">
+              查看全部商城 ↗
+            </a>
+          </div>
+        </div>
+        <div id="preorderGrid" class="grid contentCarouselTrack"></div>
+        <div id="preorderEmptyV2550" class="siteEmpty hidden">目前沒有開放中的預購商品。</div>
+      </section>
+
+      <section id="groupSection" class="siteSection groupSection hidden">
+        <div class="siteSectionHead">
+          <div>
+            <div class="siteSectionKicker">GROUP ORDER</div>
+            <div class="siteSectionTitle">集單</div>
+            <div class="siteSectionDesc">開放集單</div>
+          </div>
+          <div id="groupCount" class="siteSectionCount">0 套</div>
+        </div>
+        <div id="groupGrid" class="grid"></div>
+      </section>
+
+      <section id="officialKujiSection" class="siteSection officialSection">
+        <div class="siteSectionHead">
+          <div>
+            <div class="siteSectionKicker">OFFICIAL KUJI</div>
+            <div class="siteSectionTitle">官方一番賞配率</div>
+            <div class="siteSectionDesc">即時剩餘與配率</div>
+          </div>
+          <div id="officialKujiCount" class="siteSectionCount">0 套</div>
+        </div>
+        <div id="officialKujiGrid" class="grid"></div>
+        <div id="officialKujiEmpty" class="siteEmpty hidden">目前沒有公開中的官方一番賞。</div>
+      </section>
+
+      <section id="customKujiSection" class="siteSection customSection">
+        <div class="siteSectionHead">
+          <div>
+            <div class="siteSectionKicker">PLAY NIGHT ORIGINAL</div>
+            <div class="siteSectionTitle">自製一番賞配率</div>
+            <div class="siteSectionDesc">店內限定配率</div>
+          </div>
+          <div id="customKujiCount" class="siteSectionCount">0 套</div>
+        </div>
+        <div id="customKujiGrid" class="grid"></div>
+        <div id="customKujiEmpty" class="siteEmpty hidden">目前沒有公開中的自製一番賞。</div>
+      </section>
+
+      <!-- 相容舊版 JS 的隱藏容器 -->
+      <section id="activeSection" class="hidden">
+        <div id="activeCount">0 套</div>
+        <div id="overviewGrid"></div>
+        <div id="overviewEmpty" class="hidden"></div>
+      </section>
+
+      <section id="comingSection" class="overviewSection comingSection hidden">
+        <div class="overviewSectionHead">
+          <div class="overviewSectionTitle">預定上架</div>
+          <div id="comingCount" class="overviewSectionCount">0 套</div>
+        </div>
+        <div id="comingGrid" class="grid"></div>
+      </section>
+
+
+      <section id="soldSection" class="overviewSection soldSection hidden">
+        <div class="overviewSectionHead">
+          <div class="overviewSectionTitle">已售完／已結束</div>
+          <div id="soldCount" class="overviewSectionCount">0 套</div>
+        </div>
+        <div id="soldGrid" class="grid"></div>
+        <div id="soldHistoryLoadingV260" class="loading hidden" style="margin-top:10px">售完紀錄讀取中…</div>
+        <div id="soldHistoryActionsV260" style="display:flex;justify-content:center;margin-top:14px">
+          <button id="soldLoadMoreBtnV260" class="btn" type="button" onclick="loadSoldHistoryV260(false)">載入售完紀錄</button>
+        </div>
+      </section>
+
+    </div>
+
+    <div id="detailView" class="hidden">
+      <div class="back"><button id="backBtn" class="btn" type="button" onclick="showOverview()">← 回頑夜TOY首頁</button></div>
+      <div id="detailLoading" class="loading">配率讀取中…</div>
+      <div id="detailError" class="error hidden"></div>
+      <div id="detailContent" class="hidden">
+        <div class="card hero">
+          <div id="detailImageWrap"></div>
+          <div>
+            <div class="brand">頑夜TOY｜PLAY NIGHT TOY</div>
+            <h1 id="detailName"></h1>
+            <div class="heroPrice"><span id="detailPrice"></span>／抽</div><div id="detailMajorBanner" class="majorBanner yes"></div>
+            <div id="detailTags" class="tags"></div>
+            <div class="detailStats">
+              <div class="stat"><strong id="dRemain">0</strong><span>剩餘抽數</span></div>
+              <div class="stat"><strong id="dSold">0</strong><span>已抽數</span></div>
+              <div class="stat"><strong id="dMajor">0</strong><span>大賞剩餘</span></div>
+              <div class="stat"><strong id="dMajorRate">0%</strong><span>目前大賞率</span></div>
+            </div>
+            <div id="detailPromos" class="promos"></div>
+            <div id="detailSync" class="sync"></div>
+            <div id="detailUpdated" class="updated" style="margin-top:8px"></div>
+          </div>
+        </div>
+
+        <div class="sectionTitle">各賞即時配率</div>
+        <div id="prizeList" class="prizeList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="posterLightbox" class="posterLightbox hidden" onclick="if(event.target===this) closePosterLightboxV2532()">
+    <div class="posterLightboxInner">
+      <button class="posterLightboxClose" type="button" onclick="closePosterLightboxV2532()">×</button>
+      <img id="posterLightboxImage" alt="活動海報">
+    </div>
+  </div>
+
+  <div id="raffleSignupModalV2587" class="modalMask hidden" aria-hidden="true">
+    <div class="modalBox raffleModalBoxV2587">
+      <div class="groupModalHead">
+        <div>
+          <h2 id="raffleSignupTitleV2587">抽獎活動報名</h2>
+          <div id="raffleSignupMetaV2587" class="sub"></div>
+        </div>
+        <button class="groupModalClose" type="button" onclick="closeRaffleSignupV2587()">×</button>
+      </div>
+      <div class="groupModalBody">
+        <input id="raffleSignupIdV2587" type="hidden">
+        <div class="raffleWarningV2587">
+          <strong>⚠️ 中獎身分核對規則</strong>
+          <div>請填寫你目前在「頑夜 LINE 社群」中使用的名稱。</div>
+          <div>中獎後會以 LINE 社群中的用戶名稱核對身分；<b>若報名名稱與社群中的名稱不同，該次中獎資格不成立。</b></div>
+        </div>
+        <div class="customerFormGrid" style="margin-top:14px">
+          <div class="full">
+            <label for="raffleLineNameV2587">LINE 社群用戶名稱 *</label>
+            <input id="raffleLineNameV2587" maxlength="80" autocomplete="off" placeholder="請完整輸入你在頑夜 LINE 社群中的名稱">
+          </div>
+          <div class="full">
+            <label for="rafflePhoneLast3V2587">手機號碼末 3 碼 *</label>
+            <input id="rafflePhoneLast3V2587" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="例如 901">
+          </div>
+        </div>
+        <label class="raffleAgreeV2587">
+          <input id="raffleAgreeV2587" type="checkbox">
+          <span>我已確認以上填寫的「LINE 社群用戶名稱」與我目前在頑夜 LINE 社群中的名稱完全相同；若不同，我同意中獎資格取消。</span>
+        </label>
+        <div id="raffleSignupErrorV2587" class="error hidden" style="margin-top:12px;padding:10px"></div>
+      </div>
+      <div class="modalActions">
+        <button class="btn" type="button" onclick="closeRaffleSignupV2587()">取消</button>
+        <button id="raffleSignupSubmitBtnV2587" class="joinBtn" type="button" onclick="submitRaffleSignupV2587()">確認報名抽獎</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="activitySignupModal" class="modalMask hidden" aria-hidden="true">
+    <div class="modalBox">
+      <div class="groupModalHead">
+        <div>
+          <h2 id="activitySignupTitle">我要參加活動</h2>
+          <div id="activitySignupMeta" class="sub"></div>
+        </div>
+        <button class="groupModalClose" type="button" onclick="closeActivitySignupV2544()">×</button>
+      </div>
+      <div class="groupModalBody">
+        <input id="activitySignupId" type="hidden">
+        <input id="activitySignupRemaining" type="hidden">
+        <input id="activitySignupFee" type="hidden">
+        <input id="activitySignupConfiguredPaymentMode" type="hidden">
+
+        <div id="activityPaymentChoiceWrap" class="hidden" style="margin-bottom:12px">
+          <label for="activitySignupPaymentMethod">付款方式 *</label>
+          <select id="activitySignupPaymentMethod" onchange="updateActivityPaymentV2545()">
+            <option value="transfer">先匯款</option>
+            <option value="onsite">現場付款</option>
+          </select>
+        </div>
+
+        <div id="activityOnsitePaymentNotice" class="paymentRequired hidden">
+          活動當天到現場再付款，不需要先匯款。
+        </div>
+
+        <div id="activityPaymentArea">
+          <div class="payAmountBox">
+            <span>本次應匯款</span>
+            <strong id="activityExpectedAmount">NT$0</strong>
+          </div>
+
+          <div class="bankBox">
+            <div class="bankTitle">匯款帳號</div>
+            <div>中國信託（822）</div>
+            <div class="bankRow">
+              <div class="bankAccount">783540123887</div>
+              <button class="copyBankBtn" type="button" onclick="copyBankAccountV2545()">複製帳號</button>
+            </div>
+          </div>
+
+          <div class="paymentRequired">
+            請先完成匯款，再送出報名資料。送出後會先標記為「待確認收款」，店家核對入帳後才算正式完成報名。
+          </div>
+        </div>
+
+        <div class="customerFormGrid">
+          <div>
+            <label for="activitySignupName">姓名 *</label>
+            <input id="activitySignupName" autocomplete="name" maxlength="50" placeholder="請輸入姓名">
+          </div>
+          <div>
+            <label for="activitySignupQty">參加人數 *</label>
+            <input id="activitySignupQty" type="number" min="1" max="20" step="1" value="1" oninput="updateActivityPaymentV2545()">
+          </div>
+          <div>
+            <label for="activitySignupPhone">手機 *</label>
+            <input id="activitySignupPhone" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="0912345678">
+          </div>
+          <div>
+            <label for="activitySignupLine">LINE ID *</label>
+            <input id="activitySignupLine" maxlength="80" placeholder="請輸入 LINE ID">
+          </div>
+          <div id="activityBankLast5Wrap">
+            <label for="activitySignupBankLast5">匯款帳號後五碼 *</label>
+            <input id="activitySignupBankLast5" inputmode="numeric" maxlength="5" placeholder="例如 12345">
+          </div>
+          <div id="activityPaidAmountWrap">
+            <label for="activitySignupPaidAmount">實際匯款金額 *</label>
+            <input id="activitySignupPaidAmount" type="number" min="1" step="1" inputmode="numeric" placeholder="請輸入實際匯款金額">
+          </div>
+          <div class="full">
+            <label for="activitySignupNote">備註（可不填）</label>
+            <textarea id="activitySignupNote" rows="3" maxlength="300" placeholder="例如：兩位一起參加"></textarea>
+          </div>
+        </div>
+
+        <div id="activitySignupFormError" class="error hidden" style="margin-top:12px;padding:10px"></div>
+      </div>
+      <div class="modalActions">
+        <button class="btn" type="button" onclick="closeActivitySignupV2544()">取消</button>
+        <button id="activitySignupSubmitBtn" class="joinBtn" type="button" onclick="submitActivitySignupV2544()">我已匯款，送出報名</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="preorderModal" class="modalMask hidden">
+    <div class="modalBox">
+      <div class="groupModalHead">
+        <div>
+          <h2 id="preorderModalTitle">新品預購</h2>
+          <div id="preorderModalMeta" class="sub"></div>
+        </div>
+        <button class="groupModalClose" type="button" onclick="closePreorderModalV2544()">×</button>
+      </div>
+      <div class="groupModalBody">
+        <input id="preorderModalBarcode" type="hidden">
+        <input id="preorderModalPrice" type="hidden">
+
+        <div class="customerSummaryBox">
+          <div class="sub">本次應匯款／預購總額</div>
+          <strong id="preorderModalTotal">NT$0</strong>
+          <div class="sub" style="margin-top:4px">請先完成匯款，再填寫資料送出。</div>
+        </div>
+
+        <div class="bankBox">
+          <div class="bankTitle">匯款帳號</div>
+          <div>中國信託（822）</div>
+          <div class="bankRow">
+            <div class="bankAccount">783540123887</div>
+            <button class="copyBankBtn" type="button" onclick="copyBankAccountV2545()">複製帳號</button>
+          </div>
+        </div>
+
+        <div class="paymentRequired">
+          送出後會先記錄為「待確認收款」。店家實際核對銀行入帳後，才會正式確認這筆預購。
+        </div>
+
+        <div class="customerFormGrid">
+          <div>
+            <label for="publicPreorderQty">數量 *</label>
+            <input id="publicPreorderQty" type="number" min="1" max="99" step="1" value="1" oninput="updatePublicPreorderTotalV2544()">
+          </div>
+          <div>
+            <label for="publicPreorderName">姓名 *</label>
+            <input id="publicPreorderName" autocomplete="name" maxlength="50" placeholder="請輸入姓名">
+          </div>
+          <div>
+            <label for="publicPreorderPhone">手機 *</label>
+            <input id="publicPreorderPhone" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="0912345678">
+          </div>
+          <div>
+            <label for="publicPreorderLine">LINE ID *</label>
+            <input id="publicPreorderLine" maxlength="80" placeholder="請輸入 LINE ID">
+          </div>
+          <div>
+            <label for="publicPreorderBankLast5">匯款帳號後五碼 *</label>
+            <input id="publicPreorderBankLast5" inputmode="numeric" maxlength="5" placeholder="例如 12345">
+          </div>
+          <div>
+            <label for="publicPreorderPaidAmount">實際匯款金額 *</label>
+            <input id="publicPreorderPaidAmount" type="number" min="1" step="1" inputmode="numeric" placeholder="請輸入實際匯款金額">
+          </div>
+          <div class="full">
+            <label for="publicPreorderNote">備註（可不填）</label>
+            <textarea id="publicPreorderNote" rows="3" maxlength="300" placeholder="例如：到貨請用 LINE 通知"></textarea>
+          </div>
+        </div>
+
+        <div id="preorderFormError" class="error hidden" style="margin-top:12px;padding:10px"></div>
+      </div>
+      <div class="modalActions">
+        <button class="btn" type="button" onclick="closePreorderModalV2544()">取消</button>
+        <button id="preorderSubmitBtn" class="preorderJoinBtn" type="button" onclick="submitPublicPreorderV2544()">我已匯款，送出預購</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="groupModal" class="modalMask hidden">
+    <div id="groupModalBox" class="modalBox">
+      <div class="groupModalHead">
+        <div>
+          <h2 id="groupModalTitle">我要跟單／匯款</h2>
+          <div id="groupModalMeta" class="sub"></div>
+        </div>
+        <button class="groupModalClose" type="button" aria-label="關閉" onclick="closeGroupModal()">×</button>
+      </div>
+
+      <div class="groupModalBody">
+        <input id="groupModalCode" type="hidden">
+        <input id="groupModalPrice" type="hidden">
+
+        <div class="groupTopGrid">
+          <div>
+            <label for="groupQty">想跟幾抽</label>
+            <input id="groupQty" type="number" min="1" max="999" step="1" value="1" oninput="updateGroupPaymentAmount()">
+          </div>
+          <div class="payAmountBox">
+            <span>本次應匯款</span>
+            <strong id="groupExpectedAmount">NT$0</strong>
+          </div>
+        </div>
+
+        <div class="bankBox">
+          <div class="bankTitle">匯款帳號</div>
+          <div>中國信託（822）</div>
+          <div class="bankRow">
+            <div class="bankAccount">783540123887</div>
+            <button class="copyBankBtn" type="button" onclick="copyBankAccountV2545()">複製帳號</button>
+          </div>
+        </div>
+
+        <div class="payNotice">
+          請先完成匯款，再填寫資料送出。店家核對入帳後才會正式計入集單進度；尚未確認前只會保留名額。<br>
+          店到店運費不包含在本次集單款項內，後續另付。
+        </div>
+
+        <div class="groupFormGrid">
+          <div>
+            <label for="groupName">姓名</label>
+            <input id="groupName" maxlength="50" autocomplete="name" placeholder="請輸入姓名">
+          </div>
+          <div>
+            <label for="groupPhone">電話</label>
+            <input id="groupPhone" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="例如 0912345678">
+          </div>
+          <div>
+            <label for="groupLineId">LINE ID</label>
+            <input id="groupLineId" maxlength="80" placeholder="請輸入 LINE ID">
+          </div>
+          <div>
+            <label for="groupBankLast5">匯款帳號後五碼</label>
+            <input id="groupBankLast5" inputmode="numeric" maxlength="5" placeholder="例如 12345">
+          </div>
+          <div>
+            <label for="groupPaidAmount">實際匯款金額</label>
+            <input id="groupPaidAmount" type="number" min="1" step="1" inputmode="numeric" placeholder="請輸入實際匯款金額">
+          </div>
+          <div>
+            <label for="groupDeliveryMethod">收貨方式</label>
+            <select id="groupDeliveryMethod">
+              <option value="">請選擇</option>
+              <option value="到店面交">到店面交</option>
+              <option value="店到店（運費後續另付）">店到店（運費後續另付）</option>
+            </select>
+          </div>
+          <div class="groupFieldFull">
+            <label for="groupNote">備註（可不填）</label>
+            <textarea id="groupNote" rows="2" maxlength="200" placeholder="例如：到貨請電話通知"></textarea>
+          </div>
+        </div>
+
+        <div class="groupRules">
+          <div class="groupRulesTitle">集單規則說明｜請閱讀後勾選同意</div>
+          <div class="groupRulesScroll">
+            <ol>
+              <li><strong>匯款完成即視為確認參加集單。</strong>除商品未到貨、供應商砍單、本店無法履約，或依法應辦理退費的情況外，恕不因個人因素取消或退款。</li>
+              <li><strong>開獎方式：</strong>商品到貨後優先使用官方原籤開獎；若商品未附官方籤，則改用等量數字籤。依系統集單登記順序進行抽取，每位客人依實際購買抽數依序抽取，開獎過程全程錄影留存。</li>
+              <li><strong>不論是否集滿目標抽數，只要商品正常到貨都會照常開獎。</strong>集單價格會低於之後門市現場正式販售價格。</li>
+              <li><strong>最後賞規則：</strong>若本次集單達成滿單，最後賞不會直接依集單順序給最後一位參加者，而是由本次已完成付款並經店家確認收款的有效集單中，另外以抽籤方式決定最後賞得主；抽籤過程會全程錄影留存。</li>
+            </ol>
+          </div>
+          <label class="ruleAgree">
+            <input id="groupRuleAgree" type="checkbox">
+            <span>我已閱讀並同意以上集單規則</span>
+          </label>
+        </div>
+
+        <div id="groupFormError" class="error hidden" style="margin-top:12px;padding:10px"></div>
+      </div>
+
+      <div class="modalActions">
+        <button class="btn" type="button" onclick="closeGroupModal()">取消</button>
+        <button id="groupSubmitBtn" class="groupBtn" type="button" onclick="submitGroupOrder()">我已匯款，送出資料</button>
+      </div>
+    </div>
+  </div>
+
+<script src="config.js?v=2740"></script>
+<script src="gas-bridge.js?v=2740"></script>
+<script>
+  var REFRESH_TIMER=null;
+  var FRONT_CONTENT_SIGNATURE_V2532='';
+  var CAROUSEL_TIMERS_V2580={};
+  var PUBLIC_VERSION_V260='';
+  var PUBLIC_VERSION_POLLING_V260=false;
+  var PUBLIC_COMMERCE_LOADING_V260=false;
+  var PUBLIC_COMMERCE_VERSION_V260='';
+  var SHOP_PUBLIC_URL_V266=String(window.WANWAN_SHOP_URL||'');
+  var SHOP_HOME_RANDOM_MAX_V266=8;
+  var SOLD_HISTORY_OFFSET_V260=0;
+  var SOLD_HISTORY_TOTAL_V260=0;
+  var SOLD_HISTORY_LOADING_V260=false;
+  var SOLD_HISTORY_VERSION_V260='';
+  var SOLD_HISTORY_PAGE_SIZE_V260=8;
+  var SOLD_HISTORY_OBSERVER_V260=null;
+  var DETAIL_VERSION_V265='';
+  var DETAIL_VERSION_POLLING_V265=false;
+
+  function esc(v){
+    return String(v==null?'':v)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  function money(v){
+    return '$'+Math.round(Number(v||0)).toLocaleString('zh-TW');
+  }
+  function formatRaffleDateTimeV2588(v){
+    if(v==null || v==='') return '';
+    var raw=String(v).trim();
+    var d=null;
+    try{
+      d=(v instanceof Date)?v:new Date(v);
+      if(isNaN(d.getTime())) d=null;
+    }catch(e){ d=null; }
+    if(d){
+      try{
+        var parts=new Intl.DateTimeFormat('en-US',{
+          timeZone:'Asia/Taipei',
+          month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false
+        }).formatToParts(d);
+        var map={};
+        parts.forEach(function(x){ if(x.type!=='literal') map[x.type]=x.value; });
+        var hh=String(map.hour||'00');
+        if(hh==='24') hh='00';
+        return Number(map.month)+'/'+Number(map.day)+' '+hh+':'+String(map.minute||'00').padStart(2,'0');
+      }catch(e){}
+    }
+    var m=raw.match(/(?:\d{4}[\/\-])?(\d{1,2})[\/\-](\d{1,2})(?:[T\s]+)(\d{1,2}):(\d{2})/);
+    if(m) return Number(m[1])+'/'+Number(m[2])+' '+String(m[3]).padStart(2,'0')+':'+m[4];
+    return raw.replace('T',' ').replace(/\s*(?:GMT|GM)[^｜]*/i,'').trim();
+  }
+  function qp(name){
+    try{return new URLSearchParams(location.search).get(name)||'';}catch(e){return '';}
+  }
+  function setTimer(fn){
+    if(REFRESH_TIMER) clearInterval(REFRESH_TIMER);
+    REFRESH_TIMER=setInterval(function(){fn(true);},30000);
+  }
+
+  // v26.0：首頁每 30 秒只檢查版本；資料沒有變就不重抓整份首頁。
+  function setOverviewTimerV260_(){
+    if(REFRESH_TIMER) clearInterval(REFRESH_TIMER);
+    REFRESH_TIMER=setInterval(function(){
+      if(document.hidden) return;
+      if(PUBLIC_VERSION_POLLING_V260) return;
+      PUBLIC_VERSION_POLLING_V260=true;
+      google.script.run
+        .withSuccessHandler(function(res){
+          PUBLIC_VERSION_POLLING_V260=false;
+          var next=String(res&&res.version||'');
+          if(next && PUBLIC_VERSION_V260 && next!==PUBLIC_VERSION_V260){
+            PUBLIC_COMMERCE_VERSION_V260='';
+            resetSoldHistoryV260_();
+            loadOverview(true);
+          }else if(next && !PUBLIC_VERSION_V260){
+            PUBLIC_VERSION_V260=next;
+          }
+        })
+        .withFailureHandler(function(){ PUBLIC_VERSION_POLLING_V260=false; })
+        .getPublicKujiVersionV260();
+    },30000);
+  }
+
+
+  function setDetailTimerV265_(code){
+    if(REFRESH_TIMER) clearInterval(REFRESH_TIMER);
+    REFRESH_TIMER=setInterval(function(){
+      if(document.hidden || DETAIL_VERSION_POLLING_V265) return;
+      DETAIL_VERSION_POLLING_V265=true;
+      google.script.run
+        .withSuccessHandler(function(res){
+          DETAIL_VERSION_POLLING_V265=false;
+          var next=String(res&&res.version||'');
+          if(next && DETAIL_VERSION_V265 && next!==DETAIL_VERSION_V265){
+            loadDetail(code,true);
+          }else if(next && !DETAIL_VERSION_V265){
+            DETAIL_VERSION_V265=next;
+          }
+        })
+        .withFailureHandler(function(){DETAIL_VERSION_POLLING_V265=false;})
+        .getPublicKujiVersionV260();
+    },30000);
+  }
+
+  function shuffleV2580_(source){
+    var arr=Array.isArray(source)?source.slice():[];
+    for(var i=arr.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var tmp=arr[i];arr[i]=arr[j];arr[j]=tmp;
+    }
+    return arr;
+  }
+
+  function carouselStepWidthV2580_(track){
+    if(!track) return 0;
+    var first=track.firstElementChild;
+    if(!first) return 0;
+    var gap=0;
+    try{gap=parseFloat(getComputedStyle(track).columnGap||getComputedStyle(track).gap||0)||0;}catch(e){}
+    return first.getBoundingClientRect().width+gap;
+  }
+
+  function carouselMoveV2580(id,direction){
+    var track=document.getElementById(id);
+    if(!track) return;
+    var step=carouselStepWidthV2580_(track);
+    if(!step) return;
+    var max=Math.max(0,track.scrollWidth-track.clientWidth);
+    var dir=Number(direction||1)>=0?1:-1;
+    if(dir>0 && track.scrollLeft>=max-8){
+      track.scrollTo({left:0,behavior:'smooth'});
+    }else if(dir<0 && track.scrollLeft<=8){
+      track.scrollTo({left:max,behavior:'smooth'});
+    }else{
+      track.scrollBy({left:step*dir,behavior:'smooth'});
+    }
+    restartCarouselV2580_(id);
+  }
+
+  function stopCarouselV2580_(id){
+    if(CAROUSEL_TIMERS_V2580[id]){
+      clearInterval(CAROUSEL_TIMERS_V2580[id]);
+      delete CAROUSEL_TIMERS_V2580[id];
+    }
+  }
+
+  function startCarouselV2580_(id){
+    var track=document.getElementById(id);
+    if(!track) return;
+    stopCarouselV2580_(id);
+    if(track.children.length<=1 || track.scrollWidth<=track.clientWidth+8) return;
+    CAROUSEL_TIMERS_V2580[id]=setInterval(function(){
+      if(document.hidden) return;
+      var active=document.activeElement;
+      if(track.matches(':hover') || (active && track.contains(active))) return;
+      var max=Math.max(0,track.scrollWidth-track.clientWidth);
+      var step=carouselStepWidthV2580_(track);
+      if(!step) return;
+      if(track.scrollLeft>=max-8) track.scrollTo({left:0,behavior:'smooth'});
+      else track.scrollBy({left:step,behavior:'smooth'});
+    },4000);
+  }
+
+  function restartCarouselV2580_(id){
+    stopCarouselV2580_(id);
+    setTimeout(function(){startCarouselV2580_(id);},5000);
+  }
+
+  function initCarouselV2580_(id){
+    var track=document.getElementById(id);
+    if(!track) return;
+    track.scrollLeft=0;
+    if(track.dataset.carouselBound!=='1'){
+      track.dataset.carouselBound='1';
+      track.addEventListener('touchstart',function(){stopCarouselV2580_(id);},{passive:true});
+      track.addEventListener('touchend',function(){restartCarouselV2580_(id);},{passive:true});
+      track.addEventListener('pointerdown',function(){stopCarouselV2580_(id);});
+      track.addEventListener('pointerup',function(){restartCarouselV2580_(id);});
+    }
+    requestAnimationFrame(function(){startCarouselV2580_(id);});
+  }
+
+  function dateLabelV2532(a){
+    var s=String(a.startDate||'').trim();
+    var e=String(a.endDate||'').trim();
+    if(s && e) return s+' ～ '+e;
+    if(s) return s+' 起';
+    if(e) return '至 '+e;
+    return '';
+  }
+
+  function openPosterLightboxV2532(url){
+    url=String(url||'').trim();
+    if(!url) return;
+    document.getElementById('posterLightboxImage').src=url;
+    document.getElementById('posterLightbox').classList.remove('hidden');
+    document.body.style.overflow='hidden';
+  }
+
+  function closePosterLightboxV2532(){
+    document.getElementById('posterLightbox').classList.add('hidden');
+    document.getElementById('posterLightboxImage').src='';
+    document.body.style.overflow='';
+  }
+
+  function renderFrontContentV2532(announcements,social){
+    announcements=Array.isArray(announcements)?announcements:[];
+    social=social||null;
+
+    var signature='';
+    try{signature=JSON.stringify([announcements,social]);}catch(e){}
+    if(signature && signature===FRONT_CONTENT_SIGNATURE_V2532) return;
+    FRONT_CONTENT_SIGNATURE_V2532=signature;
+
+    var section=document.getElementById('announcementSection');
+    var grid=document.getElementById('announcementGrid');
+    document.getElementById('announcementCount').textContent=announcements.length+' 則';
+
+    if(announcements.length){
+      section.classList.remove('hidden');
+      grid.innerHTML=announcements.map(function(a){
+        var poster=a.imageUrl
+          ? '<button class="announcementPosterBtn" type="button" data-poster="'+esc(a.imageUrl)+'">'+
+              '<img class="announcementPoster" src="'+esc(a.imageUrl)+'" alt="'+esc(a.title||'活動海報')+'" loading="lazy" decoding="async">'+
+            '</button>'
+          : '<div class="announcementPosterPh">📣 店內活動</div>';
+
+        var date=dateLabelV2532(a);
+        var actionUrl=a.linkUrl || a.instagramUrl || '';
+        var externalAction=(actionUrl)
+          ? '<a class="btn igBtn" href="'+esc(actionUrl)+'" target="_blank" rel="noopener noreferrer">'+
+              esc(a.buttonText|| (a.instagramUrl?'查看 IG 貼文':'查看詳情'))+
+            '</a>'
+          : '';
+
+        var signupMeta='';
+        var signupAction='';
+        if(a.raffleEnabled){
+          var rafflePeople=Number(a.raffleSignupPeople||0);
+          var winners=Array.isArray(a.raffleWinners)?a.raffleWinners:[];
+          var raffleDone=(a.raffleStatus==='已開獎' || winners.length>0);
+          signupMeta='<div class="activitySignupMeta raffleMetaV2587">🎁 抽獎活動｜已報名 '+rafflePeople+' 人'+
+            (a.raffleSignupDeadline?'｜截止 '+esc(formatRaffleDateTimeV2588(a.raffleSignupDeadline)):'')+
+            (a.raffleDrawAt?'｜開獎 '+esc(formatRaffleDateTimeV2588(a.raffleDrawAt)):'')+
+            '｜得獎 '+Number(a.raffleWinnerCount||1)+' 名</div>'+
+            '<div class="raffleRuleInlineV2587">⚠️ 報名的 LINE 社群用戶名稱必須與社群中目前名稱相同；中獎時若名稱不同，中獎資格不成立。</div>'+
+            (winners.length
+              ? '<div class="raffleWinnerBoxV2587"><strong>🎉 得獎名單</strong>'+
+                  winners.map(function(w){return '<div>第 '+Number(w.rank||1)+' 名｜<b>'+esc(w.lineName||'')+'</b>｜手機末三碼 '+esc(w.phoneLast3||'')+'</div>';}).join('')+
+                '</div>'
+              : '');
+          var raffleBtnText=raffleDone?'已開獎':(a.raffleClosed?'等待開獎／報名截止':'我要報名');
+          signupAction='<button class="joinBtn raffleJoinBtnV2587" type="button" '+
+            'onclick="return openRaffleSignupFromButtonV2587(this)" '+
+            'data-raffle-signup="'+esc(a.id)+'" '+
+            'data-raffle-title="'+esc(a.title||'抽獎活動')+'" '+
+            'data-raffle-draw-at="'+esc(a.raffleDrawAt||'')+'" '+
+            'data-raffle-deadline="'+esc(a.raffleSignupDeadline||a.raffleDrawAt||'')+'" '+
+            ((a.raffleClosed||raffleDone)?'disabled':'')+'>'+raffleBtnText+'</button>';
+        }else if(a.signupEnabled){
+          var limit=Number(a.signupLimit||0);
+          var qty=Number(a.signupQty||0);
+          var remain=Number(a.signupRemaining||0);
+          signupMeta='<div class="activitySignupMeta">'+
+            (a.signupClosed
+              ? '報名已截止'
+              : ('已登記 '+qty+' 人'+(limit>0?'｜剩餘 '+remain+' 名':'｜不限名額')))+
+            (a.signupDeadline?'｜截止 '+esc(a.signupDeadline):'')+
+            (Number(a.signupFee||0)>0?'｜報名費 '+money(a.signupFee)+'/人':'｜免費')+
+            (Number(a.signupFee||0)>0
+              ? '｜'+({transfer:'先匯款',onsite:'現場付款',either:'匯款或現場付款'}[a.paymentMode]||'先匯款')
+              : '')+
+          '</div>';
+          signupAction=
+            '<button class="joinBtn activityJoinBtnV2551" type="button" '+
+              'onclick="return openActivitySignupFromButtonV2551(this)" '+
+              'data-activity-signup="'+esc(a.id)+'" '+
+              'data-activity-title="'+esc(a.title||'活動')+'" '+
+              'data-activity-remaining="'+(limit>0?remain:99999)+'" '+
+              'data-activity-fee="'+Number(a.signupFee||0)+'" '+
+              'data-activity-payment-mode="'+esc(a.paymentMode || (Number(a.signupFee||0)>0?'transfer':'free'))+'" '+
+              'data-activity-note="'+esc(a.signupNote||'')+'" '+
+              (a.signupClosed?'disabled':'')+'>'+
+              (a.signupClosed?'報名截止':'我要參加')+
+            '</button>';
+        }
+
+        var action=(externalAction || signupAction)
+          ? '<div class="announcementAction" style="display:grid;gap:7px">'+signupAction+externalAction+'</div>'
+          : '';
+
+        return '<article class="announcementCard">'+poster+
+          '<div class="announcementBody">'+
+            '<div class="announcementTitle">'+esc(a.title||'活動公告')+'</div>'+
+            (date?'<div class="announcementDate">📅 '+esc(date)+'</div>':'')+
+            (a.description?'<div class="announcementText">'+esc(a.description)+'</div>':'')+
+            signupMeta+
+            action+
+          '</div>'+
+        '</article>';
+      }).join('');
+
+      grid.querySelectorAll('[data-poster]').forEach(function(btn){
+        btn.addEventListener('click',function(){
+          openPosterLightboxV2532(btn.getAttribute('data-poster'));
+        });
+      });
+
+      // v25.51：活動報名按鈕改由按鈕本身 onclick 直接開啟，
+      // 避免動態卡片渲染後 listener 未成功綁定造成「按了沒反應」。
+      initCarouselV2580_('announcementGrid');
+    }else{
+      section.classList.add('hidden');
+      grid.innerHTML='';
+      stopCarouselV2580_('announcementGrid');
+    }
+
+    var topBtn=document.getElementById('topIgBtn');
+
+    // v25.33：IG 只保留頁面上方按鈕。
+    if(social && social.linkUrl){
+      topBtn.href=social.linkUrl;
+      topBtn.textContent='頑夜TOYIG';
+      topBtn.classList.remove('hidden');
+    }else{
+      topBtn.classList.add('hidden');
+    }
+  }
+
+  var overviewLoadingV2583=false;
+  var overviewLastLoadedAtV2583=0;
+
+  function loadOverview(silent){
+    if(overviewLoadingV2583) return;
+    if(silent && overviewLastLoadedAtV2583 && Date.now()-overviewLastLoadedAtV2583<15000) return;
+    overviewLoadingV2583=true;
+    document.getElementById('overviewView').classList.remove('hidden');
+    document.getElementById('detailView').classList.add('hidden');
+    var btn=document.getElementById('refreshBtn');
+    if(!silent && btn){btn.disabled=true;btn.textContent='更新中…';}
+    document.getElementById('overviewError').classList.add('hidden');
+
+    var gridNow=document.getElementById('overviewGrid');
+    if(!silent || !gridNow.innerHTML.trim()){
+      document.getElementById('overviewLoading').classList.remove('hidden');
+    }
+
+    google.script.run
+      .withSuccessHandler(function(res){
+        overviewLoadingV2583=false;
+        overviewLastLoadedAtV2583=Date.now();
+        if(btn){btn.disabled=false;btn.textContent='更新';}
+        document.getElementById('overviewLoading').classList.add('hidden');
+        res=res||{};
+        var nextPublicVersion=String(res.publicVersion||'');
+        if(nextPublicVersion && PUBLIC_VERSION_V260 && nextPublicVersion!==PUBLIC_VERSION_V260){
+          PUBLIC_COMMERCE_VERSION_V260='';
+          resetSoldHistoryV260_();
+        }
+        if(nextPublicVersion) PUBLIC_VERSION_V260=nextPublicVersion;
+        var items=Array.isArray(res.items)?res.items:[];
+        renderFrontContentV2532(res.announcements,res.social);
+        setTimeout(syncRaffleDeadlineButtonsV2601_,0);
+
+        // v25.22：正常販售／預定上架／集單中／已售完四區。
+        var activeItems=[], comingItems=[], groupItems=[], soldItems=[];
+        items.forEach(function(item){
+          var mode=item.publicMode||'normal';
+          if(mode==='coming'){ comingItems.push(item); return; }
+          if(mode==='group'){ groupItems.push(item); return; }
+          if(mode==='sold' || item.closed || Number(item.remainingDraws||0)<=0){ soldItems.push(item); return; }
+          activeItems.push(item);
+        });
+
+        // v25.52 網站摘要會在一番賞分類完成後更新。
+
+        var officialItems=activeItems.filter(function(x){return x.siteCategory!=='custom';});
+        var customItems=activeItems.filter(function(x){return x.siteCategory==='custom';});
+
+        document.getElementById('overviewSub').textContent=
+          '活動 '+(Array.isArray(res.announcements)?res.announcements.length:0)+
+          '｜集單 '+groupItems.length+
+          '｜官方一番賞 '+officialItems.length+
+          '｜自製一番賞 '+customItems.length+
+          '｜資料變更時自動更新';
+
+        document.getElementById('activeCount').textContent=activeItems.length+' 套';
+        document.getElementById('officialKujiCount').textContent=officialItems.length+' 套';
+        document.getElementById('customKujiCount').textContent=customItems.length+' 套';
+        document.getElementById('comingCount').textContent=comingItems.length+' 套';
+        document.getElementById('groupCount').textContent=groupItems.length+' 套';
+        var soldTotalV260=Math.max(0,Number(res.soldCount||soldItems.length||0));
+        document.getElementById('soldCount').textContent=soldTotalV260+' 套';
+
+        var grid=document.getElementById('overviewGrid');
+        var officialGrid=document.getElementById('officialKujiGrid');
+        var customGrid=document.getElementById('customKujiGrid');
+        var comingGrid=document.getElementById('comingGrid');
+        var groupGrid=document.getElementById('groupGrid');
+        var comingSection=document.getElementById('comingSection');
+        var groupSection=document.getElementById('groupSection');
+        var preorderSection=document.getElementById('preorderSection');
+        var soldSection=document.getElementById('soldSection');
+        var empty=document.getElementById('overviewEmpty');
+
+        function coverHtml(item,stamp){
+          var img=item.imageUrl
+            ? '<img class="cover" src="'+esc(item.imageUrl)+'" alt="" loading="lazy" decoding="async">'
+            : '<div class="cover ph">暫無圖片</div>';
+          return '<div class="coverWrap">'+img+
+            (stamp?'<div class="soldStamp"><span>'+esc(stamp)+'</span></div>':'')+
+            '</div>';
+        }
+
+        function renderNormalCard(item,finished){
+          var remaining=Number(item.remainingDraws||0);
+          var majorRemaining=Number(item.majorRemaining||0);
+          var majorOriginal=Number(item.majorOriginal||0);
+          var historical=!!item.historicalSoldOut || item.closeMethod==='建立前已售完' || item.publicMode==='sold';
+          var soldOut=historical || remaining<=0 || item.closeMethod==='全部正常售完';
+          var endLabel=soldOut?'SOLD OUT｜已售完':'活動已結束';
+
+          var tags=[];
+          if(finished){
+            tags.push('<span class="tag hot">'+esc(soldOut?'已售完':'活動結束')+'</span>');
+            if(Number(item.totalDraws||0)>0) tags.push('<span class="tag">原始 '+Number(item.totalDraws||0)+' 抽</span>');
+          }else{
+            tags.push('<span class="tag">剩 '+remaining+' / '+Number(item.totalDraws||0)+' 抽</span>');
+            if(majorOriginal>0 && majorRemaining===0) tags.push('<span class="tag hot">大賞已抽完</span>');
+            if(item.lastPrizeExists && !item.lastPrizeGiven) tags.push('<span class="tag ok">最後賞還在</span>');
+          }
+
+          var promos=(!finished ? (item.promotions||[]) : []).map(function(p){
+            return '<span class="promo">'+Number(p.qty)+' 抽 '+money(p.totalPrice)+'</span>';
+          }).join('');
+
+          var statusBlock=finished
+            ? '<div class="soldReason">'+
+                (historical?'這套一番賞已售完，保留基本資料紀錄':
+                  (soldOut?'這套一番賞已售完，保留最終配率供查看':'這套一番賞活動已結束，保留最終紀錄供查看'))+
+              '</div>'
+            : '<div class="majorBanner '+(majorRemaining>0?'yes':'no')+'">'+
+                (majorRemaining>0?('🎯 還有大賞｜剩 '+majorRemaining+' 個'):(majorOriginal>0?'大賞已抽完':'目前未設定大賞'))+
+              '</div>';
+
+          return '<article class="card '+(finished?'soldCard':'')+'">'+coverHtml(item,finished?endLabel:'')+'<div class="body">'+
+            '<div class="name">'+esc(item.name)+'</div>'+
+            '<div class="tags">'+tags.join('')+'</div>'+statusBlock+
+            '<div class="stats">'+
+              '<div class="stat"><strong>'+(Number(item.price||0)>0?money(item.price):'未定')+'</strong><span>一抽價格</span></div>'+
+              '<div class="stat"><strong>'+(historical?Number(item.totalDraws||0):remaining)+'</strong><span>'+(historical?'原始總抽數':'剩餘抽數')+'</span></div>'+
+              '<div class="stat"><strong>'+(historical?'—':majorRemaining)+'</strong><span>大賞剩餘</span></div>'+
+              '<div class="stat"><strong>'+(historical?'—':Number(item.majorRate||0).toFixed(2)+'%')+'</strong><span>大賞率</span></div>'+
+            '</div>'+
+            (promos?'<div class="promos">'+promos+'</div>':'')+
+            '<div class="footer"><div class="updated">更新：'+esc(item.updatedAt||'—')+'</div>'+
+              (historical?'<span class="tag">售完紀錄</span>':
+                '<button class="open" type="button" data-kuji-code="'+esc(item.publicCode||'')+'">'+(finished?'查看最終配率':'查看完整配率')+'</button>')+
+            '</div></div></article>';
+        }
+
+        function renderComingCard(item){
+          return '<article class="card">'+coverHtml(item,'COMING SOON')+'<div class="body">'+
+            '<div class="name">'+esc(item.name)+'</div>'+
+            '<div class="specialBanner coming">📅 預定上架'+(item.plannedLaunchDate?'｜'+esc(item.plannedLaunchDate):'')+'</div>'+
+            '<div class="stats">'+
+              '<div class="stat"><strong>'+(Number(item.price||0)>0?money(item.price):'未定')+'</strong><span>預計一抽</span></div>'+
+              '<div class="stat"><strong>'+(Number(item.totalDraws||0)>0?Number(item.totalDraws):'—')+'</strong><span>預計總抽數</span></div>'+
+              '<div class="stat"><strong>'+esc(item.plannedLaunchDate||'未定')+'</strong><span>上架日</span></div>'+
+              '<div class="stat"><strong>即將登場</strong><span>目前狀態</span></div>'+
+            '</div>'+
+            '<div class="footer"><div class="updated">更新：'+esc(item.updatedAt||'—')+'</div><span class="tag ok">預定上架</span></div>'+
+          '</div></article>';
+        }
+
+        function renderGroupCard(item){
+          var current=Number(item.groupQty||0), target=Number(item.groupTargetQty||0);
+          var pct=target>0?Math.min(100,Math.round(current/target*100)):0;
+          var closed=!!item.groupClosed;
+          return '<article class="card">'+coverHtml(item,closed?'集單截止':'集單中')+'<div class="body">'+
+            '<div class="name">'+esc(item.name)+'</div>'+
+            '<div class="specialBanner group">🙋 已確認｜'+current+' / '+target+' 抽</div>'+
+            '<div class="progress"><span style="width:'+pct+'%"></span></div>'+
+            '<div class="tags">'+
+              '<span class="tag">已收款 '+Number(item.groupPeople||0)+' 人</span>'+
+              (Number(item.groupPendingQty||0)>0?'<span class="tag hot">待核帳 '+Number(item.groupPendingQty||0)+' 抽</span>':'')+
+              (item.groupCloseDate?'<span class="tag">截止 '+esc(item.groupCloseDate)+'</span>':'')+
+              (Number(item.price||0)>0?'<span class="tag">'+money(item.price)+'/抽</span>':'')+
+            '</div>'+
+            (item.groupDescription?'<div class="soldReason" style="filter:none">'+esc(item.groupDescription)+'</div>':'')+
+            '<div class="footer"><div class="updated">'+(closed?'目前已截止／名額暫滿':'剩餘可登記 '+Number(item.groupRemaining||0)+' 抽')+'</div>'+
+              '<button class="groupBtn" type="button" data-group-code="'+esc(item.publicCode||'')+'" data-group-name="'+esc(item.name||'')+'" data-group-price="'+Number(item.price||0)+'" data-group-remaining="'+Number(item.groupRemaining||0)+'" '+(closed?'disabled':'')+'>'+(closed?'集單截止':'我要跟單／匯款')+'</button>'+
+            '</div></div></article>';
+        }
+
+        function renderPreorderCard(item){
+          var image=item.imageUrl
+            ? '<img class="cover" src="'+esc(item.imageUrl)+'" alt="'+esc(item.name||'預購商品')+'" loading="lazy" decoding="async">'
+            : '<div class="cover ph">新品預購</div>';
+          return '<article class="card">'+
+            '<div class="coverWrap">'+image+'</div>'+
+            '<div class="body">'+
+              '<div class="name">'+esc(item.name||'預購商品')+'</div>'+
+              '<div class="preorderCardPrice">'+money(Number(item.price||0))+'</div>'+
+              '<div class="footer">'+
+                '<div></div>'+
+                '<button class="preorderJoinBtn" type="button" data-preorder-barcode="'+esc(item.barcode||'')+'" '+
+                  'data-preorder-name="'+esc(item.name||'')+'" data-preorder-price="'+Number(item.price||0)+'">我要預購</button>'+
+              '</div>'+
+            '</div>'+
+          '</article>';
+        }
+
+
+        grid.innerHTML='';
+        officialGrid.innerHTML=officialItems.map(function(item){return renderNormalCard(item,false);}).join('');
+        customGrid.innerHTML=customItems.map(function(item){return renderNormalCard(item,false);}).join('');
+        comingGrid.innerHTML=comingItems.map(renderComingCard).join('');
+        groupGrid.innerHTML=groupItems.map(renderGroupCard).join('');
+
+        empty.classList.toggle('hidden',activeItems.length>0);
+        document.getElementById('officialKujiEmpty').classList.toggle('hidden',officialItems.length>0);
+        document.getElementById('customKujiEmpty').classList.toggle('hidden',customItems.length>0);
+        comingSection.classList.toggle('hidden',comingItems.length===0);
+        groupSection.classList.toggle('hidden',groupItems.length===0);
+        preorderSection.classList.remove('hidden');
+        soldSection.classList.toggle('hidden',soldTotalV260===0);
+        if(SOLD_HISTORY_VERSION_V260 && SOLD_HISTORY_VERSION_V260!==PUBLIC_VERSION_V260) resetSoldHistoryV260_();
+        if(!SOLD_HISTORY_OFFSET_V260) SOLD_HISTORY_TOTAL_V260=soldTotalV260;
+        var soldMoreBtnV260=document.getElementById('soldLoadMoreBtnV260');
+        if(soldMoreBtnV260){ soldMoreBtnV260.style.display=soldTotalV260>0?'':'none'; }
+
+        [officialGrid,customGrid].forEach(function(root){ bindKujiDetailButtonsV260_(root); });
+        groupGrid.querySelectorAll('[data-group-code]').forEach(function(btn){
+          btn.addEventListener('click',function(){
+            openGroupModal(
+              btn.getAttribute('data-group-code'),
+              btn.getAttribute('data-group-name'),
+              Number(btn.getAttribute('data-group-remaining')||0),
+              Number(btn.getAttribute('data-group-price')||0)
+            );
+          });
+        });
+        loadPublicCommerceV260(false);
+        initSoldHistoryObserverV260_();
+      })
+      .withFailureHandler(function(err){
+        overviewLoadingV2583=false;
+        if(btn){btn.disabled=false;btn.textContent='重新嘗試';}
+        document.getElementById('overviewLoading').classList.add('hidden');
+        var box=document.getElementById('overviewError');
+        box.innerHTML='<strong>目前無法讀取一番賞配率</strong><br>'+esc(err&&err.message?err.message:String(err||'未知錯誤'));
+        box.classList.remove('hidden');
+      })
+      .getPublicKujiList();
+  }
+
+  function copyBankAccountV2545(){
+    var account='783540123887';
+    function done(){ alert('已複製匯款帳號：'+account); }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(account).then(done).catch(function(){
+        fallbackCopyBankV2545_(account);
+      });
+    }else{
+      fallbackCopyBankV2545_(account);
+    }
+  }
+
+  function fallbackCopyBankV2545_(account){
+    var ta=document.createElement('textarea');
+    ta.value=account;
+    ta.setAttribute('readonly','');
+    ta.style.position='fixed';
+    ta.style.opacity='0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{document.execCommand('copy');}catch(e){}
+    document.body.removeChild(ta);
+    alert('已複製匯款帳號：'+account);
+  }
+
+  function randomPickV2579_(source,limit){
+    var arr=Array.isArray(source)?source.slice():[];
+    for(var i=arr.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var tmp=arr[i];arr[i]=arr[j];arr[j]=tmp;
+    }
+    return arr.slice(0,Math.max(0,Number(limit||4)));
+  }
+
+  function renderDirectBuyV2579(config){
+    config=config||{};
+    var section=document.getElementById('directBuySectionV2579');
+    var grid=document.getElementById('directBuyGridV2579');
+    var count=document.getElementById('directBuyCountV2579');
+    var empty=document.getElementById('directBuyEmptyV2579');
+    if(!section||!grid) return;
+    var active=(Array.isArray(config.items)?config.items:[]).filter(function(x){
+      return x && x.enabled && x.name && x.buyUrl;
+    });
+    var items=shuffleV2580_(active).slice(0,Math.max(1,Number(config.displayMax||SHOP_HOME_RANDOM_MAX_V266||8)));
+    if(count) count.textContent=items.length+' 項';
+    grid.innerHTML=items.map(function(item){
+      var cover=item.imageUrl
+        ? '<div class="coverWrap"><img class="cover" src="'+esc(item.imageUrl)+'" alt="" loading="lazy" decoding="async"></div>'
+        : '<div class="coverWrap"><div class="cover ph">直購商品</div></div>';
+      var price=Number(item.price||0)>0
+        ? '<div class="preorderCardPrice">'+money(Number(item.price||0))+'</div>' : '';
+      return '<article class="card">'+cover+'<div class="body">'+
+        '<div class="name">'+esc(item.name||'直購商品')+'</div>'+price+
+        '<div class="footer"><div></div><a class="preorderJoinBtn" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center" href="'+esc(item.buyUrl)+'" target="_blank" rel="noopener noreferrer">我要購買</a></div>'+
+      '</div></article>';
+    }).join('');
+    section.classList.toggle('hidden',items.length===0);
+    if(empty) empty.classList.toggle('hidden',items.length>0);
+    if(items.length) initCarouselV2580_('directBuyGridV2579');
+    else stopCarouselV2580_('directBuyGridV2579');
+  }
+
+  function githubProductUrlV274_(item){
+    var base=String(window.WANWAN_SHOP_URL||SHOP_PUBLIC_URL_V266||'./shop.html');
+    if(!item || !item.id) return base;
+    try{ var u=new URL(base, location.href); u.searchParams.set('product',String(item.id)); return u.href; }catch(e){ return base+(base.indexOf('?')>=0?'&':'?')+'product='+encodeURIComponent(String(item.id)); }
+  }
+
+  function renderPreorderCardV260_(item){
+    var image=item.imageUrl
+      ? '<img class="cover" src="'+esc(item.imageUrl)+'" alt="'+esc(item.name||'預購商品')+'" loading="lazy" decoding="async">'
+      : '<div class="cover ph">新品預購</div>';
+    var closed=!!item.isClosed;
+    var state=closed?'<div style="font-size:12px;font-weight:900;color:#ffb78e;margin-top:4px">已結單｜可留下資料等待報價</div>':'';
+    return '<article class="card">'+
+      '<div class="coverWrap">'+image+'</div>'+ '<div class="body">'+
+        '<div class="name">'+esc(item.name||'預購商品')+'</div>'+ '<div class="preorderCardPrice">'+money(Number(item.price||0))+'</div>'+state+'<div class="footer"><div></div>'+ 
+          (item.id
+            ? '<a class="preorderJoinBtn" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center" href="'+esc(githubProductUrlV274_(item))+'">'+(closed?'留下詢價':'前往預購')+'</a>'
+            : '<button class="preorderJoinBtn" type="button" data-preorder-barcode="'+esc(item.barcode||'')+'" data-preorder-name="'+esc(item.name||'')+'" data-preorder-price="'+Number(item.price||0)+'">我要預購</button>')+ '</div>'+ '</div>'+ '</article>';
+  }
+
+  function bindPreorderButtonsV260_(root){
+    if(!root) return;
+    root.querySelectorAll('[data-preorder-barcode]').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        openPreorderModalV2544(btn.getAttribute('data-preorder-barcode'),btn.getAttribute('data-preorder-name'),Number(btn.getAttribute('data-preorder-price')||0));
+      });
+    });
+  }
+
+  function orderPreorderHomeItemsV269_(source){
+    var arr=Array.isArray(source)?source.slice():[];
+    var open=arr.filter(function(x){return !x || !x.isClosed;});
+    var closed=arr.filter(function(x){return x && x.isClosed;});
+    return shuffleV2580_(open).concat(shuffleV2580_(closed));
+  }
+
+  function loadPublicCommerceV260(force){
+    if(PUBLIC_COMMERCE_LOADING_V260) return;
+    if(!force && PUBLIC_COMMERCE_VERSION_V260 && PUBLIC_COMMERCE_VERSION_V260===PUBLIC_VERSION_V260) return;
+    PUBLIC_COMMERCE_LOADING_V260=true;
+    var preorderGrid=document.getElementById('preorderGrid');
+    var preorderCount=document.getElementById('preorderCount');
+    if(preorderGrid && !preorderGrid.innerHTML.trim()) preorderGrid.innerHTML='<div class="siteEmpty">預購商品載入中…</div>';
+    google.script.run
+      .withSuccessHandler(function(res){
+        PUBLIC_COMMERCE_LOADING_V260=false; res=res||{};
+        PUBLIC_COMMERCE_VERSION_V260=String(res.publicVersion||PUBLIC_VERSION_V260||'loaded');
+        SHOP_PUBLIC_URL_V266=String(window.WANWAN_SHOP_URL||res.shopUrl||SHOP_PUBLIC_URL_V266||'./shop.html');
+        SHOP_HOME_RANDOM_MAX_V266=Math.max(1,Number(res.homeRandomCount||8));
+        var shopLink1=document.getElementById('directShopAllV266'); if(shopLink1) shopLink1.href=SHOP_PUBLIC_URL_V266||'#';
+        var shopLink2=document.getElementById('preorderShopAllV266'); if(shopLink2) shopLink2.href=SHOP_PUBLIC_URL_V266||'#';
+        renderDirectBuyV2579(res.directBuy);
+        var preorderItems=orderPreorderHomeItemsV269_(res.preorders).slice(0,SHOP_HOME_RANDOM_MAX_V266);
+        if(preorderCount) preorderCount.textContent=preorderItems.length+' 項';
+        if(preorderGrid){
+          preorderGrid.innerHTML=preorderItems.map(renderPreorderCardV260_).join('');
+          bindPreorderButtonsV260_(preorderGrid);
+          if(preorderItems.length) initCarouselV2580_('preorderGrid'); else stopCarouselV2580_('preorderGrid');
+        }
+        var empty=document.getElementById('preorderEmptyV2550'); if(empty) empty.classList.toggle('hidden',preorderItems.length>0);
+      })
+      .withFailureHandler(function(){
+        PUBLIC_COMMERCE_LOADING_V260=false;
+        if(preorderGrid && preorderGrid.innerHTML.indexOf('載入中')>=0) preorderGrid.innerHTML='<div class="siteEmpty">預購商品暫時無法載入，可稍後再試。</div>';
+      })
+      .getPublicCommerceV260();
+  }
+
+  function renderSoldKujiCardV260_(item){
+    var historical=!!item.historicalSoldOut || item.closeMethod==='建立前已售完' || item.publicMode==='sold';
+    var remaining=Number(item.remainingDraws||0);
+    var soldOut=historical || remaining<=0 || item.closeMethod==='全部正常售完';
+    var endLabel=soldOut?'SOLD OUT｜已售完':'活動已結束';
+    var img=item.imageUrl?'<img class="cover" src="'+esc(item.imageUrl)+'" alt="" loading="lazy" decoding="async">':'<div class="cover ph">暫無圖片</div>';
+    return '<article class="card soldCard"><div class="coverWrap">'+img+'<div class="soldStamp"><span>'+esc(endLabel)+'</span></div></div><div class="body">'+
+      '<div class="name">'+esc(item.name||'一番賞')+'</div><div class="tags"><span class="tag hot">'+esc(soldOut?'已售完':'活動結束')+'</span></div>'+
+      '<div class="soldReason">'+(historical?'這套一番賞已售完，保留基本資料紀錄':(soldOut?'這套一番賞已售完，保留最終配率供查看':'這套一番賞活動已結束，保留最終紀錄供查看'))+'</div>'+
+      '<div class="footer"><div class="updated">更新：'+esc(item.updatedAt||'—')+'</div>'+
+      (historical?'<span class="tag">售完紀錄</span>':'<button class="open" type="button" data-kuji-code="'+esc(item.publicCode||'')+'">查看最終配率</button>')+'</div></div></article>';
+  }
+
+  function bindKujiDetailButtonsV260_(root){
+    if(!root) return;
+    root.querySelectorAll('[data-kuji-code]').forEach(function(btn){
+      if(btn.dataset.boundV260==='1') return;
+      btn.dataset.boundV260='1';
+      btn.addEventListener('click',function(){openDetail(btn.getAttribute('data-kuji-code'));});
+    });
+  }
+
+  function resetSoldHistoryV260_(){
+    SOLD_HISTORY_OFFSET_V260=0; SOLD_HISTORY_TOTAL_V260=0; SOLD_HISTORY_VERSION_V260=''; SOLD_HISTORY_LOADING_V260=false;
+    var grid=document.getElementById('soldGrid'); if(grid) grid.innerHTML='';
+    var btn=document.getElementById('soldLoadMoreBtnV260'); if(btn){btn.disabled=false;btn.textContent='載入售完紀錄';}
+    var loading=document.getElementById('soldHistoryLoadingV260'); if(loading) loading.classList.add('hidden');
+  }
+
+  function loadSoldHistoryV260(reset){
+    if(SOLD_HISTORY_LOADING_V260) return;
+    if(reset) resetSoldHistoryV260_();
+    if(SOLD_HISTORY_TOTAL_V260>0 && SOLD_HISTORY_OFFSET_V260>=SOLD_HISTORY_TOTAL_V260) return;
+    SOLD_HISTORY_LOADING_V260=true;
+    var grid=document.getElementById('soldGrid'), btn=document.getElementById('soldLoadMoreBtnV260'), loading=document.getElementById('soldHistoryLoadingV260');
+    if(btn){btn.disabled=true;btn.textContent='讀取中…';}
+    if(loading) loading.classList.remove('hidden');
+    google.script.run
+      .withSuccessHandler(function(res){
+        SOLD_HISTORY_LOADING_V260=false; res=res||{};
+        if(loading) loading.classList.add('hidden');
+        var items=Array.isArray(res.items)?res.items:[];
+        SOLD_HISTORY_TOTAL_V260=Number(res.total||0);
+        SOLD_HISTORY_VERSION_V260=String(res.publicVersion||PUBLIC_VERSION_V260||'');
+        if(grid) grid.insertAdjacentHTML('beforeend',items.map(renderSoldKujiCardV260_).join(''));
+        SOLD_HISTORY_OFFSET_V260+=items.length;
+        bindKujiDetailButtonsV260_(grid);
+        var count=document.getElementById('soldCount'); if(count) count.textContent=SOLD_HISTORY_TOTAL_V260+' 套';
+        var hasMore=!!res.hasMore;
+        if(btn){btn.disabled=false;btn.textContent=hasMore?'載入更多售完紀錄':'已載入全部';btn.style.display=hasMore?'':'none';}
+      })
+      .withFailureHandler(function(){
+        SOLD_HISTORY_LOADING_V260=false; if(loading) loading.classList.add('hidden');
+        if(btn){btn.disabled=false;btn.textContent='重新載入售完紀錄';}
+      })
+      .getPublicSoldKujiListV260(SOLD_HISTORY_OFFSET_V260,SOLD_HISTORY_PAGE_SIZE_V260);
+  }
+
+  function initSoldHistoryObserverV260_(){
+    var section=document.getElementById('soldSection'); if(!section || !('IntersectionObserver' in window)) return;
+    if(SOLD_HISTORY_OBSERVER_V260) SOLD_HISTORY_OBSERVER_V260.disconnect();
+    SOLD_HISTORY_OBSERVER_V260=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){ if(entry.isIntersecting && !SOLD_HISTORY_OFFSET_V260 && SOLD_HISTORY_TOTAL_V260!==0) loadSoldHistoryV260(false); });
+    },{rootMargin:'240px 0px'});
+    SOLD_HISTORY_OBSERVER_V260.observe(section);
+  }
+
+  function jumpSiteSectionV2552(id){
+    var section=document.getElementById(id);
+    if(!section) return;
+    section.classList.remove('hidden');
+    section.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  function scrollToPreorderV2544(){
+    var section=document.getElementById('preorderSection');
+    if(section) section.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  function ensureActivitySignupModalV2552_(){
+    var required=[
+      'activitySignupModal','activitySignupId','activitySignupRemaining','activitySignupFee',
+      'activitySignupConfiguredPaymentMode','activitySignupPaymentMethod','activityPaymentChoiceWrap','activityOnsitePaymentNotice',
+      'activitySignupTitle','activitySignupMeta','activitySignupName','activitySignupPhone',
+      'activitySignupLine','activitySignupQty','activitySignupBankLast5','activitySignupPaidAmount',
+      'activitySignupNote','activitySignupFormError','activityPaymentArea',
+      'activityBankLast5Wrap','activityPaidAmountWrap','activitySignupSubmitBtn','activityExpectedAmount'
+    ];
+    var missing=required.filter(function(id){return !document.getElementById(id);});
+    if(!missing.length) return true;
+
+    var old=document.getElementById('activitySignupModal');
+    if(old && old.parentNode) old.parentNode.removeChild(old);
+
+    var holder=document.createElement('div');
+    holder.innerHTML=
+      '<div id="activitySignupModal" class="modalMask hidden" aria-hidden="true">'+
+        '<div class="modalBox">'+
+          '<div class="groupModalHead"><div><h2 id="activitySignupTitle">我要參加活動</h2><div id="activitySignupMeta" class="sub"></div></div>'+
+          '<button class="groupModalClose" type="button" onclick="closeActivitySignupV2544()">×</button></div>'+
+          '<div class="groupModalBody">'+
+            '<input id="activitySignupId" type="hidden"><input id="activitySignupRemaining" type="hidden"><input id="activitySignupFee" type="hidden">'+
+            '<input id="activitySignupConfiguredPaymentMode" type="hidden">'+
+            '<div id="activityPaymentChoiceWrap" class="hidden" style="margin-bottom:12px"><label for="activitySignupPaymentMethod">付款方式 *</label>'+
+              '<select id="activitySignupPaymentMethod" onchange="updateActivityPaymentV2545()"><option value="transfer">先匯款</option><option value="onsite">現場付款</option></select></div>'+
+            '<div id="activityOnsitePaymentNotice" class="paymentRequired hidden">活動當天到現場再付款，不需要先匯款。</div>'+
+            '<div id="activityPaymentArea">'+
+              '<div class="payAmountBox"><span>本次應匯款</span><strong id="activityExpectedAmount">NT$0</strong></div>'+
+              '<div class="bankBox"><div class="bankTitle">匯款帳號</div><div>中國信託（822）</div>'+
+                '<div class="bankRow"><div class="bankAccount">783540123887</div><button class="copyBankBtn" type="button" onclick="copyBankAccountV2545()">複製帳號</button></div>'+
+              '</div>'+
+              '<div class="paymentRequired">請先完成匯款，再送出報名資料。送出後會先標記為「待確認收款」，店家核對入帳後才算正式完成報名。</div>'+
+            '</div>'+
+            '<div class="customerFormGrid">'+
+              '<div><label>姓名 *</label><input id="activitySignupName" autocomplete="name" maxlength="50" placeholder="請輸入姓名"></div>'+
+              '<div><label>參加人數 *</label><input id="activitySignupQty" type="number" min="1" max="20" step="1" value="1" oninput="updateActivityPaymentV2545()"></div>'+
+              '<div><label>手機 *</label><input id="activitySignupPhone" inputmode="tel" maxlength="30" placeholder="0912345678"></div>'+
+              '<div><label>LINE ID *</label><input id="activitySignupLine" maxlength="80" placeholder="請輸入 LINE ID"></div>'+
+              '<div id="activityBankLast5Wrap"><label>匯款帳號後五碼 *</label><input id="activitySignupBankLast5" inputmode="numeric" maxlength="5" placeholder="例如 12345"></div>'+
+              '<div id="activityPaidAmountWrap"><label>實際匯款金額 *</label><input id="activitySignupPaidAmount" type="number" min="1" step="1" inputmode="numeric"></div>'+
+              '<div class="full"><label>備註（可不填）</label><textarea id="activitySignupNote" rows="3" maxlength="300"></textarea></div>'+
+            '</div>'+
+            '<div id="activitySignupFormError" class="error hidden" style="margin-top:12px;padding:10px"></div>'+
+          '</div>'+
+          '<div class="modalActions"><button class="btn" type="button" onclick="closeActivitySignupV2544()">取消</button>'+
+          '<button id="activitySignupSubmitBtn" class="joinBtn" type="button" onclick="submitActivitySignupV2544()">送出活動報名</button></div>'+
+        '</div>'+
+      '</div>';
+
+    var modal=holder.firstElementChild;
+    if(!modal) return false;
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click',function(e){
+      if(e.target===modal) closeActivitySignupV2544();
+    });
+
+    return required.every(function(id){return !!document.getElementById(id);});
+  }
+
+
+  // v26.1｜抽獎截止時間前端保護：支援 0:00 / 00:00，並以 +08:00 台北時間判斷。
+  var raffleSignupDeadlineV2601='';
+  function parseRaffleTaipeiTimeV2601_(value){
+    value=String(value||'').trim();
+    var m=value.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})[T ](\d{1,2}):(\d{1,2})(?::(\d{1,2}))?/);
+    if(!m) return null;
+    var y=Number(m[1]),mo=Number(m[2]),d=Number(m[3]),h=Number(m[4]),mi=Number(m[5]),sec=Number(m[6]||0);
+    if(mo<1||mo>12||d<1||d>31||h<0||h>23||mi<0||mi>59||sec<0||sec>59) return null;
+    // Date.UTC(...)-8h = 台北當地時間對應的 UTC epoch；不依賴客人裝置時區。
+    return new Date(Date.UTC(y,mo-1,d,h-8,mi,sec));
+  }
+  function raffleDeadlinePassedV2601_(value){
+    var dt=parseRaffleTaipeiTimeV2601_(value);
+    return !!(dt && Date.now()>=dt.getTime());
+  }
+  function syncRaffleDeadlineButtonsV2601_(){
+    document.querySelectorAll('[data-raffle-signup]').forEach(function(btn){
+      var deadline=btn.getAttribute('data-raffle-deadline')||btn.getAttribute('data-raffle-draw-at')||'';
+      if(raffleDeadlinePassedV2601_(deadline)){
+        btn.disabled=true;
+        if(btn.textContent!=='已開獎') btn.textContent='報名截止';
+      }
+    });
+  }
+  if(!window.__raffleDeadlineTimerV2601){
+    window.__raffleDeadlineTimerV2601=setInterval(syncRaffleDeadlineButtonsV2601_,15000);
+  }
+
+  function openRaffleSignupFromButtonV2587(btn){
+    if(!btn || btn.disabled) return false;
+    var id=btn.getAttribute('data-raffle-signup')||'';
+    var title=btn.getAttribute('data-raffle-title')||'抽獎活動';
+    var drawAt=btn.getAttribute('data-raffle-draw-at')||'';
+    var deadline=btn.getAttribute('data-raffle-deadline')||'';
+    if(!id){ alert('抽獎活動資料載入不完整，請重新整理後再試。'); return false; }
+    if(raffleDeadlinePassedV2601_(deadline||drawAt)){
+      btn.disabled=true; btn.textContent='報名截止';
+      alert('這個抽獎已截止報名。');
+      return false;
+    }
+    raffleSignupDeadlineV2601=deadline||drawAt||'';
+    var submitBtnV2601=document.getElementById('raffleSignupSubmitBtnV2587');
+    if(submitBtnV2601){submitBtnV2601.disabled=false;submitBtnV2601.textContent='確認報名抽獎';}
+    document.getElementById('raffleSignupIdV2587').value=id;
+    document.getElementById('raffleSignupTitleV2587').textContent='我要報名｜'+title;
+    document.getElementById('raffleSignupMetaV2587').textContent=
+      (deadline?'報名截止：'+formatRaffleDateTimeV2588(deadline)+'｜':'')+
+      (drawAt?'開獎：'+formatRaffleDateTimeV2588(drawAt):'');
+    document.getElementById('raffleLineNameV2587').value='';
+    document.getElementById('rafflePhoneLast3V2587').value='';
+    document.getElementById('raffleAgreeV2587').checked=false;
+    var err=document.getElementById('raffleSignupErrorV2587'); err.textContent=''; err.classList.add('hidden');
+    var modal=document.getElementById('raffleSignupModalV2587');
+    modal.classList.remove('hidden'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+    var box=modal.querySelector('.modalBox'); if(box) box.scrollTop=0;
+    setTimeout(function(){try{document.getElementById('raffleLineNameV2587').focus();}catch(e){}},100);
+    return false;
+  }
+
+  function closeRaffleSignupV2587(){
+    var modal=document.getElementById('raffleSignupModalV2587');
+    if(modal){modal.classList.add('hidden');modal.setAttribute('aria-hidden','true');}
+    document.body.style.overflow='';
+  }
+
+  function submitRaffleSignupV2587(){
+    var id=document.getElementById('raffleSignupIdV2587').value;
+    var lineName=document.getElementById('raffleLineNameV2587').value.trim();
+    var phoneLast3=document.getElementById('rafflePhoneLast3V2587').value.replace(/\D/g,'');
+    var agreed=document.getElementById('raffleAgreeV2587').checked;
+    var err=document.getElementById('raffleSignupErrorV2587');
+    err.classList.add('hidden');
+    if(raffleDeadlinePassedV2601_(raffleSignupDeadlineV2601)){
+      err.textContent='這個抽獎已截止報名。';err.classList.remove('hidden');
+      var expiredBtn=document.getElementById('raffleSignupSubmitBtnV2587');
+      if(expiredBtn){expiredBtn.disabled=true;expiredBtn.textContent='報名已截止';}
+      syncRaffleDeadlineButtonsV2601_();
+      return;
+    }
+    if(!lineName){err.textContent='請輸入 LINE 社群用戶名稱。';err.classList.remove('hidden');return;}
+    if(!/^\d{3}$/.test(phoneLast3)){err.textContent='手機號碼末 3 碼請輸入 3 位數字。';err.classList.remove('hidden');return;}
+    if(!agreed){err.textContent='請先勾選確認名稱核對規則。';err.classList.remove('hidden');return;}
+    var btn=document.getElementById('raffleSignupSubmitBtnV2587'); btn.disabled=true; btn.textContent='報名中…';
+    var requestId='RAFFLE-'+Date.now()+'-'+Math.random().toString(36).slice(2,10);
+    google.script.run
+      .withSuccessHandler(function(res){
+        btn.disabled=false;btn.textContent='確認報名抽獎';closeRaffleSignupV2587();
+        alert((res&&res.message)||'抽獎報名成功！');loadOverview(true);
+      })
+      .withFailureHandler(function(error){
+        btn.disabled=false;btn.textContent='確認報名抽獎';
+        err.textContent=error&&error.message?error.message:String(error||'報名失敗');err.classList.remove('hidden');
+      })
+      .submitRaffleSignupV2587(id,{lineName:lineName,phoneLast3:phoneLast3,agreed:agreed,requestId:requestId});
+  }
+
+  function openActivitySignupFromButtonV2551(btn){
+    try{
+      if(!btn || btn.disabled) return false;
+      if(!ensureActivitySignupModalV2552_()){
+        alert('活動報名元件初始化失敗，請重新整理頁面後再試。');
+        return false;
+      }
+      btn.setAttribute('data-v2551-opened','1');
+      setTimeout(function(){
+        try{btn.removeAttribute('data-v2551-opened');}catch(e){}
+      },250);
+
+      var id=btn.getAttribute('data-activity-signup')||'';
+      var title=btn.getAttribute('data-activity-title')||'活動';
+      var remaining=Number(btn.getAttribute('data-activity-remaining')||99999);
+      var fee=Number(btn.getAttribute('data-activity-fee')||0);
+      var paymentMode=btn.getAttribute('data-activity-payment-mode') || (fee>0?'transfer':'free');
+      var note=btn.getAttribute('data-activity-note')||'';
+
+      if(!id){
+        alert('活動資料載入不完整，請重新整理頁面後再試。');
+        return false;
+      }
+
+      openActivitySignupV2544(id,title,remaining,fee,note,paymentMode);
+    }catch(err){
+      alert('活動報名視窗開啟失敗：'+
+        (err&&err.message?err.message:String(err||'未知錯誤'))+
+        '\\n請重新整理頁面後再試。'
+      );
+    }
+    return false;
+  }
+
+  function openActivitySignupV2544(id,title,remaining,fee,note,paymentMode){
+    fee=Number(fee||0);
+    remaining=Number(remaining||99999);
+    paymentMode=fee<=0 ? 'free' : (['transfer','onsite','either'].indexOf(paymentMode)>=0 ? paymentMode : 'transfer');
+
+    if(!ensureActivitySignupModalV2552_()){
+      throw new Error('活動報名元件初始化失敗');
+    }
+    var ids=[
+      'activitySignupModal','activitySignupId','activitySignupRemaining','activitySignupFee',
+      'activitySignupConfiguredPaymentMode','activitySignupPaymentMethod','activityPaymentChoiceWrap','activityOnsitePaymentNotice',
+      'activitySignupTitle','activitySignupMeta','activitySignupName','activitySignupPhone',
+      'activitySignupLine','activitySignupQty','activitySignupBankLast5','activitySignupPaidAmount',
+      'activitySignupNote','activitySignupFormError','activityPaymentArea',
+      'activityBankLast5Wrap','activityPaidAmountWrap','activitySignupSubmitBtn',
+      'activityExpectedAmount'
+    ];
+    var el={};
+    for(var i=0;i<ids.length;i++){
+      el[ids[i]]=document.getElementById(ids[i]);
+      if(!el[ids[i]]){
+        throw new Error('缺少頁面元件：'+ids[i]);
+      }
+    }
+
+    el.activitySignupId.value=id||'';
+    el.activitySignupRemaining.value=remaining;
+    el.activitySignupFee.value=fee;
+    el.activitySignupConfiguredPaymentMode.value=paymentMode;
+    el.activitySignupPaymentMethod.value=paymentMode==='onsite' ? 'onsite' : 'transfer';
+    el.activitySignupTitle.textContent='我要參加｜'+(title||'活動');
+    el.activitySignupMeta.textContent=
+      (remaining<99999?'目前剩餘 '+remaining+' 個名額':'目前不限名額')+
+      (fee>0?'｜報名費 '+money(fee)+'/人':'｜免費')+
+      (note?'｜'+note:'');
+
+    el.activitySignupName.value='';
+    el.activitySignupPhone.value='';
+    el.activitySignupLine.value='';
+    el.activitySignupQty.value='1';
+    el.activitySignupQty.max=remaining<99999?String(Math.max(1,remaining)):'20';
+    el.activitySignupBankLast5.value='';
+    el.activitySignupPaidAmount.value='';
+    el.activitySignupNote.value='';
+    el.activitySignupFormError.textContent='';
+    el.activitySignupFormError.classList.add('hidden');
+
+    el.activityPaymentChoiceWrap.classList.toggle('hidden',paymentMode!=='either');
+    updateActivityPaymentV2545();
+
+    el.activitySignupModal.classList.remove('hidden');
+    el.activitySignupModal.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+
+    // 手機瀏覽器確保報名視窗回到最上方。
+    var box=el.activitySignupModal.querySelector('.modalBox');
+    if(box) box.scrollTop=0;
+  }
+
+  function updateActivityPaymentV2545(){
+    var qty=Math.max(1,Number(document.getElementById('activitySignupQty').value||1));
+    var fee=Math.max(0,Number(document.getElementById('activitySignupFee').value||0));
+    var configured=document.getElementById('activitySignupConfiguredPaymentMode').value || (fee>0?'transfer':'free');
+    var selected=configured==='either'
+      ? (document.getElementById('activitySignupPaymentMethod').value||'transfer')
+      : configured;
+    if(fee<=0) selected='free';
+
+    var isTransfer=selected==='transfer' && fee>0;
+    var isOnsite=selected==='onsite' && fee>0;
+
+    document.getElementById('activityExpectedAmount').textContent=money(qty*fee);
+    document.getElementById('activityPaymentArea').style.display=isTransfer?'':'none';
+    document.getElementById('activityBankLast5Wrap').style.display=isTransfer?'':'none';
+    document.getElementById('activityPaidAmountWrap').style.display=isTransfer?'':'none';
+    document.getElementById('activityOnsitePaymentNotice').classList.toggle('hidden',!isOnsite);
+
+    var submit=document.getElementById('activitySignupSubmitBtn');
+    if(selected==='transfer') submit.textContent='我已匯款，送出報名';
+    else if(selected==='onsite') submit.textContent='送出報名｜現場付款';
+    else submit.textContent='送出活動報名';
+  }
+
+  function closeActivitySignupV2544(){
+    var modal=document.getElementById('activitySignupModal');
+    if(modal){
+      modal.classList.add('hidden');
+      modal.setAttribute('aria-hidden','true');
+    }
+    document.body.style.overflow='';
+  }
+
+  function submitActivitySignupV2544(){
+    var id=document.getElementById('activitySignupId').value;
+    var name=document.getElementById('activitySignupName').value.trim();
+    var phone=document.getElementById('activitySignupPhone').value.trim();
+    var lineId=document.getElementById('activitySignupLine').value.trim();
+    var qty=Number(document.getElementById('activitySignupQty').value||1);
+    var fee=Number(document.getElementById('activitySignupFee').value||0);
+    var configuredPaymentMode=document.getElementById('activitySignupConfiguredPaymentMode').value || (fee>0?'transfer':'free');
+    var paymentMethod=configuredPaymentMode==='either'
+      ? (document.getElementById('activitySignupPaymentMethod').value||'transfer')
+      : configuredPaymentMode;
+    if(fee<=0) paymentMethod='free';
+    var bankLast5=document.getElementById('activitySignupBankLast5').value.trim();
+    var paidAmount=Number(document.getElementById('activitySignupPaidAmount').value||0);
+    var expectedAmount=Math.round(qty*fee*100)/100;
+    var note=document.getElementById('activitySignupNote').value.trim();
+    var remaining=Number(document.getElementById('activitySignupRemaining').value||99999);
+    var err=document.getElementById('activitySignupFormError');
+    err.classList.add('hidden');
+
+    if(!name){err.textContent='請輸入姓名';err.classList.remove('hidden');return;}
+    if(phone.replace(/\D/g,'').length<8){err.textContent='請輸入正確手機號碼';err.classList.remove('hidden');return;}
+    if(!lineId){err.textContent='請輸入 LINE ID';err.classList.remove('hidden');return;}
+    if(!Number.isInteger(qty)||qty<=0){err.textContent='請輸入參加人數';err.classList.remove('hidden');return;}
+    if(remaining<99999 && qty>remaining){err.textContent='目前只剩 '+remaining+' 個名額';err.classList.remove('hidden');return;}
+    if(paymentMethod==='transfer' && fee>0){
+      if(!/^\d{5}$/.test(bankLast5)){err.textContent='請輸入匯款帳號後五碼';err.classList.remove('hidden');return;}
+      if(!(paidAmount>0)){err.textContent='請輸入實際匯款金額';err.classList.remove('hidden');return;}
+      if(Math.abs(paidAmount-expectedAmount)>0.009){
+        err.textContent='實際匯款金額需等於 '+money(expectedAmount);
+        err.classList.remove('hidden');return;
+      }
+    }
+
+    var btn=document.getElementById('activitySignupSubmitBtn');
+    btn.disabled=true;btn.textContent='送出中…';
+    var requestId='EVENT-'+Date.now()+'-'+Math.random().toString(36).slice(2,10);
+
+    google.script.run
+      .withSuccessHandler(function(res){
+        btn.disabled=false;
+        btn.textContent=paymentMethod==='transfer'
+          ? '我已匯款，送出報名'
+          : (paymentMethod==='onsite'?'送出報名｜現場付款':'送出活動報名');
+        closeActivitySignupV2544();
+        alert((res&&res.message)||'活動報名成功！');
+        loadOverview(true);
+      })
+      .withFailureHandler(function(error){
+        btn.disabled=false;
+        btn.textContent=paymentMethod==='transfer'
+          ? '我已匯款，送出報名'
+          : (paymentMethod==='onsite'?'送出報名｜現場付款':'送出活動報名');
+        err.textContent=error&&error.message?error.message:String(error||'送出失敗');
+        err.classList.remove('hidden');
+      })
+      .submitKujiActivitySignupV2544(id,{
+        name:name,phone:phone,lineId:lineId,qty:qty,note:note,requestId:requestId,
+        paymentMethod:paymentMethod,
+        bankLast5:paymentMethod==='transfer'?bankLast5:'',
+        paidAmount:paymentMethod==='transfer'?paidAmount:0
+      });
+  }
+
+  function openPreorderModalV2544(barcode,name,price){
+    document.getElementById('preorderModalBarcode').value=barcode||'';
+    document.getElementById('preorderModalPrice').value=Number(price||0);
+    document.getElementById('preorderModalTitle').textContent='新品預購｜'+(name||'商品');
+    document.getElementById('preorderModalMeta').textContent='單價 '+money(Number(price||0));
+    document.getElementById('publicPreorderQty').value='1';
+    document.getElementById('publicPreorderName').value='';
+    document.getElementById('publicPreorderPhone').value='';
+    document.getElementById('publicPreorderLine').value='';
+    document.getElementById('publicPreorderBankLast5').value='';
+    document.getElementById('publicPreorderPaidAmount').value='';
+    document.getElementById('publicPreorderNote').value='';
+    document.getElementById('preorderFormError').classList.add('hidden');
+    updatePublicPreorderTotalV2544();
+    document.getElementById('preorderModal').classList.remove('hidden');
+    document.body.style.overflow='hidden';
+  }
+
+  function closePreorderModalV2544(){
+    document.getElementById('preorderModal').classList.add('hidden');
+    document.body.style.overflow='';
+  }
+
+  function updatePublicPreorderTotalV2544(){
+    var qty=Number(document.getElementById('publicPreorderQty').value||1);
+    var price=Number(document.getElementById('preorderModalPrice').value||0);
+    var total=Math.max(0,Math.round(qty*price));
+    document.getElementById('preorderModalTotal').textContent=money(total);
+    var paid=document.getElementById('publicPreorderPaidAmount');
+    if(paid) paid.placeholder='應匯款 '+money(total).replace('$','NT$');
+  }
+
+  function submitPublicPreorderV2544(){
+    var barcode=document.getElementById('preorderModalBarcode').value;
+    var name=document.getElementById('publicPreorderName').value.trim();
+    var phone=document.getElementById('publicPreorderPhone').value.trim();
+    var lineId=document.getElementById('publicPreorderLine').value.trim();
+    var qty=Number(document.getElementById('publicPreorderQty').value||1);
+    var bankLast5=document.getElementById('publicPreorderBankLast5').value.trim();
+    var paidAmount=Number(document.getElementById('publicPreorderPaidAmount').value||0);
+    var price=Number(document.getElementById('preorderModalPrice').value||0);
+    var expectedAmount=Math.round(qty*price*100)/100;
+    var note=document.getElementById('publicPreorderNote').value.trim();
+    var err=document.getElementById('preorderFormError');
+    err.classList.add('hidden');
+
+    if(!name){err.textContent='請輸入姓名';err.classList.remove('hidden');return;}
+    if(phone.replace(/\D/g,'').length<8){err.textContent='請輸入正確手機號碼';err.classList.remove('hidden');return;}
+    if(!lineId){err.textContent='請輸入 LINE ID';err.classList.remove('hidden');return;}
+    if(!Number.isInteger(qty)||qty<=0||qty>99){err.textContent='預購數量請輸入 1～99';err.classList.remove('hidden');return;}
+    if(!/^\d{5}$/.test(bankLast5)){err.textContent='請輸入匯款帳號後五碼';err.classList.remove('hidden');return;}
+    if(!(paidAmount>0)){err.textContent='請輸入實際匯款金額';err.classList.remove('hidden');return;}
+    if(Math.abs(paidAmount-expectedAmount)>0.009){
+      err.textContent='實際匯款金額需等於 '+money(expectedAmount);
+      err.classList.remove('hidden');return;
+    }
+
+    var btn=document.getElementById('preorderSubmitBtn');
+    btn.disabled=true;btn.textContent='送出中…';
+    var requestId='PUB-PRE-'+Date.now()+'-'+Math.random().toString(36).slice(2,10);
+
+    google.script.run
+      .withSuccessHandler(function(res){
+        btn.disabled=false;btn.textContent='我已匯款，送出預購';
+        closePreorderModalV2544();
+        alert((res&&res.message)||'預購已送出！');
+      })
+      .withFailureHandler(function(error){
+        btn.disabled=false;btn.textContent='我已匯款，送出預購';
+        err.textContent=error&&error.message?error.message:String(error||'送出失敗');
+        err.classList.remove('hidden');
+      })
+      .submitPublicPreorderV2544(barcode,{
+        name:name,phone:phone,lineId:lineId,qty:qty,note:note,requestId:requestId,
+        bankLast5:bankLast5,paidAmount:paidAmount
+      });
+  }
+
+  // v25.51 fallback：即使動態 inline handler 被瀏覽器環境阻擋，
+  // 仍可用事件代理開啟活動報名視窗。
+  document.addEventListener('click',function(e){
+    var target=e.target;
+    if(!target) return;
+    var btn=target.closest ? target.closest('[data-activity-signup]') : null;
+    if(!btn || btn.disabled || btn.getAttribute('data-v2551-opened')==='1') return;
+    openActivitySignupFromButtonV2551(btn);
+  });
+
+  var activityModalV2552=document.getElementById('activitySignupModal');
+  if(activityModalV2552){
+    activityModalV2552.addEventListener('click',function(e){
+      if(e.target===this) closeActivitySignupV2544();
+    });
+  }
+  document.getElementById('preorderModal').addEventListener('click',function(e){
+    if(e.target===this) closePreorderModalV2544();
+  });
+
+  function updateGroupPaymentAmount(){
+    var qty=Number(document.getElementById('groupQty').value||0);
+    var price=Number(document.getElementById('groupModalPrice').value||0);
+    var total=(Number.isFinite(qty)&&qty>0&&Number.isFinite(price)&&price>0)?Math.round(qty*price):0;
+    document.getElementById('groupExpectedAmount').textContent=money(total);
+    var paidEl=document.getElementById('groupPaidAmount');
+    if(!paidEl.dataset.userEdited){
+      paidEl.value=total>0?String(total):'';
+    }
+  }
+
+  function openGroupModal(code,name,remaining,price){
+    document.getElementById('groupModalCode').value=code||'';
+    document.getElementById('groupModalPrice').value=Number(price||0);
+    document.getElementById('groupModalTitle').textContent='我要跟單／匯款｜'+(name||'一番賞');
+    document.getElementById('groupModalMeta').textContent=
+      (remaining>0?'目前剩餘可登記 '+remaining+' 抽':'目前暫無可登記名額')+
+      (Number(price||0)>0?'｜一抽 '+money(price):'');
+    document.getElementById('groupName').value='';
+    document.getElementById('groupPhone').value='';
+    document.getElementById('groupLineId').value='';
+    document.getElementById('groupQty').value='1';
+    document.getElementById('groupQty').max=remaining>0?String(remaining):'999';
+    document.getElementById('groupBankLast5').value='';
+    document.getElementById('groupPaidAmount').value='';
+    document.getElementById('groupPaidAmount').dataset.userEdited='';
+    document.getElementById('groupDeliveryMethod').value='';
+    document.getElementById('groupRuleAgree').checked=false;
+    document.getElementById('groupNote').value='';
+    document.getElementById('groupFormError').classList.add('hidden');
+    updateGroupPaymentAmount();
+    var modal=document.getElementById('groupModal');
+    var box=document.getElementById('groupModalBox');
+    if(box) box.scrollTop=0;
+    modal.classList.remove('hidden');
+    document.body.style.overflow='hidden';
+  }
+
+  function closeGroupModal(){
+    document.getElementById('groupModal').classList.add('hidden');
+    document.body.style.overflow='';
+  }
+
+  document.getElementById('groupModal').addEventListener('click',function(e){
+    if(e.target===this) closeGroupModal();
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape') return;
+    if(!document.getElementById('activitySignupModal').classList.contains('hidden')){
+      closeActivitySignupV2544(); return;
+    }
+    if(!document.getElementById('preorderModal').classList.contains('hidden')){
+      closePreorderModalV2544(); return;
+    }
+    if(!document.getElementById('groupModal').classList.contains('hidden')){
+      closeGroupModal();
+    }
+  });
+
+  document.addEventListener('input',function(e){
+    if(e.target && e.target.id==='groupPaidAmount'){
+      e.target.dataset.userEdited='1';
+    }
+  });
+
+  function submitGroupOrder(){
+    var code=document.getElementById('groupModalCode').value;
+    var price=Number(document.getElementById('groupModalPrice').value||0);
+    var name=document.getElementById('groupName').value.trim();
+    var phone=document.getElementById('groupPhone').value.trim();
+    var lineId=document.getElementById('groupLineId').value.trim();
+    var qty=Number(document.getElementById('groupQty').value);
+    var bankLast5=document.getElementById('groupBankLast5').value.replace(/\D/g,'').slice(-5);
+    var paidAmount=Number(document.getElementById('groupPaidAmount').value);
+    var deliveryMethod=document.getElementById('groupDeliveryMethod').value;
+    var note=document.getElementById('groupNote').value.trim();
+    var err=document.getElementById('groupFormError');
+    err.classList.add('hidden');
+
+    var expected=Math.round(price*qty);
+
+    if(!name){err.textContent='請輸入姓名';err.classList.remove('hidden');return;}
+    if(phone.replace(/\s+/g,'').length<8){err.textContent='請輸入正確電話';err.classList.remove('hidden');return;}
+    if(!lineId){err.textContent='請輸入 LINE ID';err.classList.remove('hidden');return;}
+    if(!Number.isInteger(qty)||qty<=0){err.textContent='請輸入跟單抽數';err.classList.remove('hidden');return;}
+    if(!(price>0)){err.textContent='這個集單尚未設定一抽價格，請聯絡店家';err.classList.remove('hidden');return;}
+    if(bankLast5.length!==5){err.textContent='請輸入匯款帳號後五碼';err.classList.remove('hidden');return;}
+    if(!(paidAmount>0)){err.textContent='請輸入實際匯款金額';err.classList.remove('hidden');return;}
+    if(!deliveryMethod){err.textContent='請選擇收貨方式';err.classList.remove('hidden');return;}
+    if(!document.getElementById('groupRuleAgree').checked){err.textContent='請先閱讀並同意集單規則';err.classList.remove('hidden');return;}
+
+    var btn=document.getElementById('groupSubmitBtn');
+    btn.disabled=true;btn.textContent='送出中…';
+    var requestId='WEB-PAY-'+Date.now()+'-'+Math.random().toString(36).slice(2,10);
+
+    google.script.run
+      .withSuccessHandler(function(res){
+        btn.disabled=false;btn.textContent='我已匯款，送出資料';
+        closeGroupModal();
+        alert((res&&res.message)||'匯款資料已送出，請等待店家確認收款。');
+        loadOverview(true);
+      })
+      .withFailureHandler(function(error){
+        btn.disabled=false;btn.textContent='我已匯款，送出資料';
+        err.textContent=error&&error.message?error.message:String(error||'送出失敗');
+        err.classList.remove('hidden');
+      })
+      .submitKujiGroupPaymentV2523(code,{
+        name:name,phone:phone,lineId:lineId,qty:qty,note:note,
+        paidAmount:paidAmount,bankLast5:bankLast5,deliveryMethod:deliveryMethod,
+        requestId:requestId
+      });
+  }
+
+  function openDetail(code){
+    code=String(code||'').trim();
+    if(!code) return;
+    if(REFRESH_TIMER){ clearInterval(REFRESH_TIMER); REFRESH_TIMER=null; }
+    DETAIL_VERSION_V265='';
+    loadDetail(code,false);
+    setDetailTimerV265_(code);
+  }
+
+  function showOverview(){
+    if(REFRESH_TIMER){ clearInterval(REFRESH_TIMER); REFRESH_TIMER=null; }
+
+    // v25.14：純同頁返回，不再使用 href / location 導頁。
+    document.getElementById('detailView').classList.add('hidden');
+    document.getElementById('detailContent').classList.add('hidden');
+    document.getElementById('detailLoading').classList.add('hidden');
+    document.getElementById('detailError').classList.add('hidden');
+
+    document.getElementById('overviewView').classList.remove('hidden');
+    document.getElementById('overviewError').classList.add('hidden');
+
+    // 保留目前卡片直到新資料回來，避免返回瞬間白屏。
+    loadOverview(true);
+    setOverviewTimerV260_();
+
+    try { window.scrollTo({top:0,behavior:'smooth'}); }
+    catch(e){ window.scrollTo(0,0); }
+  }
+
+  function loadDetail(code,silent){
+    document.getElementById('overviewView').classList.add('hidden');
+    document.getElementById('detailView').classList.remove('hidden');
+    if(!silent) document.getElementById('detailLoading').classList.remove('hidden');
+    document.getElementById('detailError').classList.add('hidden');
+
+    google.script.run
+      .withSuccessHandler(function(d){
+        document.getElementById('detailLoading').classList.add('hidden');
+        document.getElementById('detailContent').classList.remove('hidden');
+        d=d||{};
+        if(d.publicVersion) DETAIL_VERSION_V265=String(d.publicVersion);
+        document.getElementById('detailName').textContent=d.name||'一番賞';
+        document.getElementById('detailPrice').textContent=money(d.price);
+        var mb=document.getElementById('detailMajorBanner');
+        var mr=Number(d.majorRemaining||0);
+        var detailRemain=Number(d.remainingDraws||0);
+        var detailMode=d.publicMode||'normal';
+        if(detailMode==='coming' || detailMode==='group'){
+          throw new Error(detailMode==='coming'?'這套目前是預定上架，尚未開放配率。':'這套目前正在集單，尚未開放配率。');
+        }
+        var detailHistorical=!!d.historicalSoldOut || d.closeMethod==='建立前已售完';
+        var detailSoldOut=detailHistorical || detailRemain<=0 || d.closeMethod==='全部正常售完';
+        var detailFinished=!!d.closed || detailSoldOut;
+        mb.className='majorBanner '+(!detailFinished && mr>0?'yes':'no');
+        if(detailFinished){
+          mb.textContent=detailSoldOut ? 'SOLD OUT｜已售完' : '活動已結束';
+        }else{
+          mb.textContent=mr>0 ? ('🎯 還有大賞｜剩 '+mr+' 個') : '大賞已抽完';
+        }
+        document.getElementById('dRemain').textContent=Number(d.remainingDraws||0);
+        document.getElementById('dSold').textContent=Number(d.soldDraws||0);
+        document.getElementById('dMajor').textContent=Number(d.majorRemaining||0);
+        document.getElementById('dMajorRate').textContent=Number(d.majorRate||0).toFixed(2)+'%';
+        document.getElementById('detailUpdated').textContent='最後更新：'+(d.updatedAt||'—');
+
+        document.getElementById('detailImageWrap').innerHTML=d.imageUrl
+          ? '<img src="'+esc(d.imageUrl)+'" alt="">'
+          : '<div class="cover ph" style="border-radius:14px">暫無圖片</div>';
+
+        var tags=[];
+        tags.push('<span class="tag">'+esc(d.status||'販售中')+'</span>');
+        if(d.lastPrizeExists) tags.push('<span class="tag ok">'+(d.lastPrizeGiven?'最後賞已送出':'最後賞還在')+'</span>');
+        if(d.closed) tags.push('<span class="tag hot">活動已結束</span>');
+        document.getElementById('detailTags').innerHTML=tags.join('');
+
+        document.getElementById('detailPromos').innerHTML=detailFinished ? '' : (d.promotions||[]).map(function(p){
+          return '<span class="promo">'+Number(p.qty)+' 抽 '+money(p.totalPrice)+'</span>';
+        }).join('');
+
+        document.getElementById('detailSync').textContent=detailHistorical
+          ? '歷史售完紀錄｜這套在建立配率前已售完，因此沒有當時的獎項配率資料'
+          : (d.syncOk ? '✓ 配率與商品庫存同步' : '⚠ '+(d.syncMessage||'配率與庫存目前有差異'));
+
+        document.getElementById('prizeList').innerHTML=detailHistorical
+          ? '<div class="empty">此套一番賞在建立配率紀錄前就已售完，因此沒有當時的獎項配率資料。</div>'
+          : (d.prizes||[]).map(function(p){
+              var rate=p.lastPrize?'最後賞':Number(p.probability||0).toFixed(2)+'%';
+              return '<div class="prize">'+
+                '<div class="grade">'+esc(p.grade||'')+'</div>'+
+                '<div><div class="pname">'+esc(p.name||p.grade||'')+'</div>'+
+                  '<div class="pmeta">'+(p.major?'大賞｜':'')+(p.lastPrize?'最後賞｜':'')+'原始 '+Number(p.originalQty||0)+' 個</div></div>'+
+                '<div class="remain">剩 '+Number(p.remainingQty||0)+' / '+Number(p.originalQty||0)+'</div>'+
+                '<div class="rate">'+rate+'</div>'+
+              '</div>';
+            }).join('');
+      })
+      .withFailureHandler(function(err){
+        document.getElementById('detailLoading').classList.add('hidden');
+        document.getElementById('detailContent').classList.add('hidden');
+        var box=document.getElementById('detailError');
+        box.innerHTML='<strong>目前無法查看這套一番賞</strong><br>'+esc(err&&err.message?err.message:String(err||'未知錯誤'));
+        box.classList.remove('hidden');
+      })
+      .getPublicKuji(code);
+  }
+
+  document.addEventListener('click',function(e){
+    var m=document.getElementById('raffleSignupModalV2587');
+    if(m && e.target===m) closeRaffleSignupV2587();
+  });
+
+  document.addEventListener('DOMContentLoaded',function(){
+    var code=qp('k');
+    if(code){
+      DETAIL_VERSION_V265='';
+      loadDetail(code,false);
+      setDetailTimerV265_(code);
+    }else{
+      loadOverview(false);
+      setOverviewTimerV260_();
+    }
+  });
+</script>
+</body>
+</html>

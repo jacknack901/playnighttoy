@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>頑夜 GitHub Pages 連線測試</title>
+<style>body{font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#fff;max-width:720px;margin:0 auto;padding:24px}button{padding:12px 18px;border:0;border-radius:10px;font-weight:700;cursor:pointer}pre{white-space:pre-wrap;background:#111827;padding:16px;border-radius:12px}.ok{color:#86efac}.bad{color:#fca5a5}a{color:#93c5fd}</style></head>
+<body><h1>頑夜｜GitHub Pages 連線測試</h1><p>網址與 Apps Script 已預先設定。按下測試即可。</p><p><a href="./index.html">回首頁</a>｜<a href="./shop.html">開啟商城</a></p><button id="go">測試一番賞讀取</button><pre id="out">尚未測試</pre>
+<script src="config.js?v=2740"></script><script src="gas-bridge.js?v=2740"></script>
+<script>document.getElementById('go').onclick=function(){var o=document.getElementById('out');o.className='';o.textContent='連線中…';google.script.run.withSuccessHandler(function(res){o.className='ok';o.textContent='成功！\n一番賞數量：'+((res&&res.items&&res.items.length)||0)+'\n版本：'+((res&&res.publicVersion)||'—');}).withFailureHandler(function(e){o.className='bad';o.textContent='失敗：'+(e&&e.message?e.message:e);}).getPublicKujiList();};</script></body></html>
