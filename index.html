@@ -440,6 +440,19 @@
     #directBuyGridV2579 .preorderJoinBtn,
     #preorderGrid .preorderJoinBtn{min-height:44px;display:inline-flex;align-items:center;justify-content:center;line-height:1.2;text-align:center}
 
+    /* v27.5｜商城商品圖片點擊放大 */
+    .productImageZoomBtn{
+      display:block;width:100%;height:100%;padding:0;margin:0;border:0;background:transparent;
+      cursor:zoom-in;overflow:hidden;color:inherit;text-align:inherit
+    }
+    .productImageZoomBtn .cover{transition:transform .18s ease}
+    .productImageZoomBtn:hover .cover{transform:scale(1.018)}
+    .productImageZoomHint{
+      position:absolute;right:8px;bottom:8px;z-index:2;padding:5px 8px;border-radius:999px;
+      background:rgba(10,8,13,.76);border:1px solid rgba(255,255,255,.18);color:#fff;
+      font-size:10px;font-weight:900;pointer-events:none;backdrop-filter:blur(5px)
+    }
+
     /* v25.80｜活動／直購／預購橫向自動輪播 */
     .contentCarouselTrack{
       display:grid!important;grid-auto-flow:column!important;
@@ -685,7 +698,7 @@
   <div id="posterLightbox" class="posterLightbox hidden" onclick="if(event.target===this) closePosterLightboxV2532()">
     <div class="posterLightboxInner">
       <button class="posterLightboxClose" type="button" onclick="closePosterLightboxV2532()">×</button>
-      <img id="posterLightboxImage" alt="活動海報">
+      <img id="posterLightboxImage" alt="圖片預覽">
     </div>
   </div>
 
@@ -987,8 +1000,8 @@
     </div>
   </div>
 
-<script src="config.js?v=2740"></script>
-<script src="gas-bridge.js?v=2740"></script>
+<script src="config.js?v=2750"></script>
+<script src="gas-bridge.js?v=2750"></script>
 <script>
   var REFRESH_TIMER=null;
   var FRONT_CONTENT_SIGNATURE_V2532='';
@@ -1193,6 +1206,19 @@
     document.getElementById('posterLightbox').classList.add('hidden');
     document.getElementById('posterLightboxImage').src='';
     document.body.style.overflow='';
+  }
+
+  function bindProductImageZoomV275_(root){
+    if(!root) return;
+    root.querySelectorAll('[data-product-zoom]').forEach(function(btn){
+      if(btn.dataset.zoomBoundV275==='1') return;
+      btn.dataset.zoomBoundV275='1';
+      btn.addEventListener('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        openPosterLightboxV2532(btn.getAttribute('data-product-zoom'));
+      });
+    });
   }
 
   function renderFrontContentV2532(announcements,social){
@@ -1595,7 +1621,7 @@
     if(count) count.textContent=items.length+' 項';
     grid.innerHTML=items.map(function(item){
       var cover=item.imageUrl
-        ? '<div class="coverWrap"><img class="cover" src="'+esc(item.imageUrl)+'" alt="" loading="lazy" decoding="async"></div>'
+        ? '<div class="coverWrap"><button class="productImageZoomBtn" type="button" data-product-zoom="'+esc(item.imageUrl)+'" aria-label="放大 '+esc(item.name||'直購商品')+' 圖片"><img class="cover" src="'+esc(item.imageUrl)+'" alt="'+esc(item.name||'直購商品')+'" loading="lazy" decoding="async"><span class="productImageZoomHint">🔍 點圖放大</span></button></div>'
         : '<div class="coverWrap"><div class="cover ph">直購商品</div></div>';
       var price=Number(item.price||0)>0
         ? '<div class="preorderCardPrice">'+money(Number(item.price||0))+'</div>' : '';
@@ -1606,6 +1632,7 @@
     }).join('');
     section.classList.toggle('hidden',items.length===0);
     if(empty) empty.classList.toggle('hidden',items.length>0);
+    bindProductImageZoomV275_(grid);
     if(items.length) initCarouselV2580_('directBuyGridV2579');
     else stopCarouselV2580_('directBuyGridV2579');
   }
@@ -1618,7 +1645,7 @@
 
   function renderPreorderCardV260_(item){
     var image=item.imageUrl
-      ? '<img class="cover" src="'+esc(item.imageUrl)+'" alt="'+esc(item.name||'預購商品')+'" loading="lazy" decoding="async">'
+      ? '<button class="productImageZoomBtn" type="button" data-product-zoom="'+esc(item.imageUrl)+'" aria-label="放大 '+esc(item.name||'預購商品')+' 圖片"><img class="cover" src="'+esc(item.imageUrl)+'" alt="'+esc(item.name||'預購商品')+'" loading="lazy" decoding="async"><span class="productImageZoomHint">🔍 點圖放大</span></button>'
       : '<div class="cover ph">新品預購</div>';
     var closed=!!item.isClosed;
     var state=closed?'<div style="font-size:12px;font-weight:900;color:#ffb78e;margin-top:4px">已結單｜可留下資料等待報價</div>':'';
@@ -1667,6 +1694,7 @@
         if(preorderGrid){
           preorderGrid.innerHTML=preorderItems.map(renderPreorderCardV260_).join('');
           bindPreorderButtonsV260_(preorderGrid);
+          bindProductImageZoomV275_(preorderGrid);
           if(preorderItems.length) initCarouselV2580_('preorderGrid'); else stopCarouselV2580_('preorderGrid');
         }
         var empty=document.getElementById('preorderEmptyV2550'); if(empty) empty.classList.toggle('hidden',preorderItems.length>0);
