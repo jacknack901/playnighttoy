@@ -4,6 +4,11 @@
   <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://script.google.com">
+  <link rel="preconnect" href="https://script.googleusercontent.com">
+  <link rel="dns-prefetch" href="//script.google.com">
+  <link rel="preconnect" href="https://drive.google.com">
+  <link rel="preconnect" href="https://lh3.googleusercontent.com">
   <title>頑夜TOY｜PLAY NIGHT TOY</title>
   <style>
     :root{
@@ -77,7 +82,7 @@
     .overviewSectionCount{font-size:12px;color:var(--muted);padding:5px 9px;border:1px solid var(--line);border-radius:999px;background:#17121d}
     .soldSection{margin-top:34px;padding-top:24px;border-top:1px dashed #40344c}
     .soldSection .overviewSectionTitle{color:#b9afc2}
-    .card{background:rgba(25,20,33,.96);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+    .card{background:rgba(25,20,33,.96);border:1px solid var(--line);border-radius:18px;overflow:hidden;content-visibility:auto;contain-intrinsic-size:460px}
     .coverWrap{position:relative;overflow:hidden}
     .cover{width:100%;aspect-ratio:16/7;object-fit:cover;background:#251e2e;display:block}
     .soldCard{opacity:.82;background:#151219;border-color:#2b2531}
@@ -508,7 +513,7 @@
                         <section class="siteHero">
         <div class="siteHeroShell">
           <div class="siteHeaderRow">
-            <img class="siteHeaderLogo" src="https://i.ibb.co/dsbV76Hs/4.png" alt="頑夜 TOY LOGO">
+            <img class="siteHeaderLogo" src="./assets/logo.png" alt="頑夜 TOY LOGO">
             <div class="siteHeaderActions">
               <div class="siteSocialLinks">
                 <a id="topIgBtn" class="btn igBtn hidden" href="#" target="_blank" rel="noopener noreferrer">頑夜TOYIG</a>
@@ -1000,8 +1005,8 @@
     </div>
   </div>
 
-<script src="config.js?v=2750"></script>
-<script src="gas-bridge.js?v=2750"></script>
+<script src="config.js?v=27110"></script>
+<script src="gas-bridge.js?v=27110"></script>
 <script>
   var REFRESH_TIMER=null;
   var FRONT_CONTENT_SIGNATURE_V2532='';
@@ -1025,6 +1030,15 @@
     return String(v==null?'':v)
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
       .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  function homeThumbV2711_(url,w){
+    url=String(url||'').trim();w=Math.max(320,Math.min(1000,Number(w||560)));if(!url)return '';
+    if(/drive\.google\.com\/thumbnail/i.test(url)){
+      if(/[?&]sz=w\d+/i.test(url))return url.replace(/([?&]sz=)w\d+/i,'$1w'+w);
+      return url+(url.indexOf('?')>=0?'&':'?')+'sz=w'+w;
+    }
+    if(/lh3\.googleusercontent\.com/i.test(url)&&/=w\d+/i.test(url))return url.replace(/=w\d+/i,'=w'+w);
+    return url;
   }
   function money(v){
     return '$'+Math.round(Number(v||0)).toLocaleString('zh-TW');
@@ -1076,7 +1090,7 @@
           if(next && PUBLIC_VERSION_V260 && next!==PUBLIC_VERSION_V260){
             PUBLIC_COMMERCE_VERSION_V260='';
             resetSoldHistoryV260_();
-            loadOverview(true);
+            homeRefreshParallelV2711_(true,true);
           }else if(next && !PUBLIC_VERSION_V260){
             PUBLIC_VERSION_V260=next;
           }
@@ -1350,9 +1364,23 @@
   var HOME_OVERVIEW_CACHE_KEY_V2710='wanye-home-v27.10-overview';
   var HOME_COMMERCE_CACHE_KEY_V2710='wanye-home-v27.10-commerce';
   var HOME_CACHE_MAX_AGE_V2710=86400000;
+  var HOME_EMBEDDED_COMMERCE_V2711={"preorders":[{"barcode":"SHOP-6CF8CCC7BBCB","name":"DesignCOCO 1/7 PVC 碧藍航線 四萬十 悠閒龍神大人Ver.","price":5360,"imageUrl":"https://drive.google.com/thumbnail?id=11mO5GHJaA7C5sGjNeqIVJ-JVuWKd66jZ&sz=w480","closeDate":"2026-11-18","shopUrl":"https://jacknack901.github.io/playnighttoy/shop.html?product=SHOP-6CF8CCC7BBCB","category":"PVC","isClosed":false,"status":"上架中"},{"barcode":"SHOP-EA72BD3989A7","name":"APEX Q版 Cuties系列 明日方舟:終末地 管理員 (女)","price":800,"imageUrl":"https://drive.google.com/thumbnail?id=1dY8SQAJRyJudKH0fDxsQROHSI4cOyI2S&sz=w480","closeDate":"2026-11-15","shopUrl":"https://jacknack901.github.io/playnighttoy/shop.html?product=SHOP-EA72BD3989A7","category":"PVC","isClosed":false,"status":"上架中"},{"barcode":"SHOP-F2112FFC85ED","name":"APEX Q版 Cuties系列 明日方舟:終末地 佩麗卡","price":800,"imageUrl":"https://drive.google.com/thumbnail?id=1YaqqxxlBT7uMjKI0Xa0x_nuIKQpcxMGW&sz=w480","closeDate":"2026-11-15","shopUrl":"https://jacknack901.github.io/playnighttoy/shop.html?product=SHOP-F2112FFC85ED","category":"PVC","isClosed":false,"status":"上架中"},{"barcode":"SHOP-212CB503A917","name":"APEX 1/7 PVC 崩壞3 月下誓約 予愛以心","price":5980,"imageUrl":"https://drive.google.com/thumbnail?id=1DLiMRekwBNYraxsp6dzxOj0vGjo71F-6&sz=w480","closeDate":"2026-11-15","shopUrl":"https://jacknack901.github.io/playnighttoy/shop.html?product=SHOP-212CB503A917","category":"PVC","isClosed":false,"status":"上架中"},{"barcode":"SHOP-022BF7E895FD","name":"PinkCharm 1/6 PVC Lion 水手服Ver. illustration by rurudo","price":4990,"imageUrl":"https://drive.google.com/thumbnail?id=1PnMUD2UDfy_xxEBXpDA3oGkTdGmHUEMn&sz=w480","closeDate":"2026-10-18","shopUrl":"https://jacknack901.github.io/playnighttoy/shop.html?product=SHOP-022BF7E895FD","category":"PVC","isClosed":false,"status":"上架中"},{"barcode":"SHOP-DA9A792F0A11","name":"GSC 1/7 PVC「G.S.Collection」彌香(泳裝)","price":4120,"imageUrl":"https://drive.google.com/thumbnail?id=18RekEhmHMNFwSPXyoi59y1DbF2wDbXwb&sz=w480","closeDate":"2026-11-18","shopUrl":"https://jacknack901.github.io/playnighttoy/shop.html?product=SHOP-DA9A792F0A11","category":"PVC","isClosed":false,"status":"上架中"},{"barcode":"SHOP-8153FF5E4D20","name":"GSC Harmonia bloom -白雪- Sophia","price":3280,"imageUrl":"https://drive.google.com/thumbnail?id=1dhjFPjeagGtP9lsWwrDzE7gPkndf0JNM&sz=w480","closeDate":"2026-11-18","shopUrl":"https://jacknack901.github.io/playnighttoy/shop.html?product=SHOP-8153FF5E4D20","category":"PVC","isClosed":false,"status":"上架中"},{"barcode":"SHOP-6A4F59C5A872","name":"GSC 1/7 PVC 馬娘 超級小溪","price":5440,"imageUrl":"https://drive.google.com/thumbnail?id=1-gFo135wGduKr5jCvDY45dLPFIod08ao&sz=w480","closeDate":"2026-11-18","shopUrl":"https://jacknack901.github.io/playnighttoy/shop.html?product=SHOP-6A4F59C5A872","category":"PVC","isClosed":false,"status":"上架中"}],"directBuy":{"maxItems":11,"displayMax":8,"items":[{"slot":1,"name":"[拆擺展示] 高配發光 Precious G.E.M. 火影忍者疾風傳「旗木卡卡西 須佐能乎ver.」","price":7000,"imageUrl":"https://img.toy-people.com/member/165243412249.jpg","buyUrl":"https://myship.7-11.com.tw/general/detail/GM2609236881260","enabled":true,"shopProductId":"SHOP-581843259FEF","category":"其他"},{"slot":2,"name":"[拆擺展示]十年百忍工作室 波風水門 四代(雙頭雕)","price":7500,"imageUrl":"https://img.cloudimg.in/uploads/shops/21046/products/07/075f3a2b6dd77c9e53149791727e1dc7.jpg","buyUrl":"https://jacknack901.github.io/playnighttoy/shop.html?product=SHOP-171B6CD6F3D7","enabled":true,"shopProductId":"SHOP-171B6CD6F3D7","category":"GK"},{"slot":3,"name":"[拆擺展示] 火影忍者 GK 藥師兜 [影之玉 Studio]","price":7500,"imageUrl":"https://cdn.store-assets.com/s/1190549/i/83503658.jpeg","buyUrl":"https://jacknack901.github.io/playnighttoy/shop.html?product=SHOP-F8D0B03F2E25","enabled":true,"shopProductId":"SHOP-F8D0B03F2E25","category":"GK"},{"slot":4,"name":"POP MART 泡泡瑪特 比奇堡的居民們-搞怪毛絨 第二彈","price":650,"imageUrl":"https://img.pchome.com.tw/cs/items/DSBE35A900JWKIF/000001_1775792265.jpg","buyUrl":"https://myship.7-11.com.tw/general/detail/GM2609236881260","enabled":true,"shopProductId":"SHOP-A56238046CDE","category":"其他"},{"slot":5,"name":"線條小狗幸福瞬間","price":360,"imageUrl":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMAURsWuQJcCQ38AVXKSUxXVZImIa0UTWKmlN6wdMrylZMySxz1_DVZMY&s=10","buyUrl":"https://myship.7-11.com.tw/general/detail/GM2609236881260","enabled":true,"shopProductId":"SHOP-3DB26FF83BF9","category":"其他"},{"slot":6,"name":"迴響光年羅小黑盲盒","price":350,"imageUrl":"https://img.alicdn.com/bao/uploaded/i1/4088555128/O1CN01oGZ1Yl1nkgAiIuDvK_!!4088555128.jpg_500x500q90","buyUrl":"https://myship.7-11.com.tw/general/detail/GM2609236881260","enabled":true,"shopProductId":"SHOP-29CD548C1C6C","category":"盲盒"}]},"shopUrl":"https://jacknack901.github.io/playnighttoy/shop.html","shopCount":175,"homeRandomCount":8,"publicVersion":"embedded-v27.11-20261008"};
 
   function homeCachePutV2710_(key,data){try{localStorage.setItem(key,JSON.stringify({ts:Date.now(),data:data}));}catch(e){}}
   function homeCacheGetV2710_(key){try{var raw=localStorage.getItem(key);if(!raw)return null;var box=JSON.parse(raw);if(!box||!box.data||Date.now()-Number(box.ts||0)>HOME_CACHE_MAX_AGE_V2710)return null;return box.data;}catch(e){return null;}}
+  function homeCacheBoxV2711_(key){try{var raw=localStorage.getItem(key);if(!raw)return null;var box=JSON.parse(raw);if(!box||!box.data||Date.now()-Number(box.ts||0)>HOME_CACHE_MAX_AGE_V2710)return null;return box;}catch(e){return null;}}
+  function homeRunIdleV2711_(fn,timeout){if('requestIdleCallback' in window)requestIdleCallback(fn,{timeout:timeout||1200});else setTimeout(fn,Math.min(timeout||1200,350));}
+  function homeRefreshParallelV2711_(needOverview,needCommerce){if(needOverview)loadOverview(true);if(needCommerce)loadPublicCommerceV260(true);}
+  function homeVerifyAndRefreshV2711_(overviewBox,commerceBox){
+    homeRunIdleV2711_(function(){
+      google.script.run.withSuccessHandler(function(res){
+        var v=String(res&&res.version||'');
+        var ov=String(overviewBox&&overviewBox.data&&overviewBox.data.publicVersion||'');
+        var cv=String(commerceBox&&commerceBox.data&&commerceBox.data.publicVersion||'');
+        if(!v || (ov&&ov!==v) || (cv&&cv!==v)) homeRefreshParallelV2711_(true,true);
+      }).withFailureHandler(function(){/* 快照可正常使用，背景確認失敗不阻塞客人 */}).getPublicKujiVersionV260();
+    },1500);
+  }
 
   function applyOverviewResponseV2710_(res,btn,fromCacheV2710){
     btn=btn||document.getElementById('refreshBtn');
@@ -1415,7 +1443,7 @@
 
         function coverHtml(item,stamp){
           var img=item.imageUrl
-            ? '<img class="cover" src="'+esc(item.imageUrl)+'" alt="" loading="lazy" decoding="async">'
+            ? '<img class="cover" src="'+esc(homeThumbV2711_(item.imageUrl,560))+'" alt="" loading="lazy" decoding="async">'
             : '<div class="cover ph">暫無圖片</div>';
           return '<div class="coverWrap">'+img+
             (stamp?'<div class="soldStamp"><span>'+esc(stamp)+'</span></div>':'')+
@@ -1754,7 +1782,7 @@
     var remaining=Number(item.remainingDraws||0);
     var soldOut=historical || remaining<=0 || item.closeMethod==='全部正常售完';
     var endLabel=soldOut?'SOLD OUT｜已售完':'活動已結束';
-    var img=item.imageUrl?'<img class="cover" src="'+esc(item.imageUrl)+'" alt="" loading="lazy" decoding="async">':'<div class="cover ph">暫無圖片</div>';
+    var img=item.imageUrl?'<img class="cover" src="'+esc(homeThumbV2711_(item.imageUrl,560))+'" alt="" loading="lazy" decoding="async">':'<div class="cover ph">暫無圖片</div>';
     return '<article class="card soldCard"><div class="coverWrap">'+img+'<div class="soldStamp"><span>'+esc(endLabel)+'</span></div></div><div class="body">'+
       '<div class="name">'+esc(item.name||'一番賞')+'</div><div class="tags"><span class="tag hot">'+esc(soldOut?'已售完':'活動結束')+'</span></div>'+
       '<div class="soldReason">'+(historical?'這套一番賞已售完，保留基本資料紀錄':(soldOut?'這套一番賞已售完，保留最終配率供查看':'這套一番賞活動已結束，保留最終紀錄供查看'))+'</div>'+
@@ -2507,12 +2535,18 @@
       loadDetail(code,false);
       setDetailTimerV265_(code);
     }else{
-      // v27.10：回訪先秒開本機快照；一番賞與商城資料同時背景更新，不再等前者完成才載後者。
-      var cachedOverview=homeCacheGetV2710_(HOME_OVERVIEW_CACHE_KEY_V2710);
-      var cachedCommerce=homeCacheGetV2710_(HOME_COMMERCE_CACHE_KEY_V2710);
+      // v27.11：有快照就直接顯示，只用極小 version RPC 背景確認；
+      // 沒快照時一番賞／商城兩支 API 平行載入，誰先回誰先顯示，互不等待。
+      var overviewBoxV2711=homeCacheBoxV2711_(HOME_OVERVIEW_CACHE_KEY_V2710);
+      var commerceBoxV2711=homeCacheBoxV2711_(HOME_COMMERCE_CACHE_KEY_V2710);
+      var cachedOverview=overviewBoxV2711&&overviewBoxV2711.data;
+      var cachedCommerce=commerceBoxV2711&&commerceBoxV2711.data;
+      var usedEmbeddedCommerceV2711=false;
       if(cachedOverview) applyOverviewResponseV2710_(cachedOverview,null,true);
       if(cachedCommerce) applyPublicCommerceV2710_(cachedCommerce,true);
-      loadHomeBootstrapV2710_(!!cachedOverview,!!cachedCommerce);
+      else if(HOME_EMBEDDED_COMMERCE_V2711){applyPublicCommerceV2710_(HOME_EMBEDDED_COMMERCE_V2711,true);usedEmbeddedCommerceV2711=true;}
+      if(cachedOverview&&cachedCommerce) homeVerifyAndRefreshV2711_(overviewBoxV2711,commerceBoxV2711);
+      else homeRefreshParallelV2711_(!cachedOverview,!cachedCommerce||usedEmbeddedCommerceV2711);
       setOverviewTimerV260_();
     }
   });
