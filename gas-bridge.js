@@ -2,7 +2,7 @@
   'use strict';
   var GAS_URL=String(window.WANWAN_GAS_EXEC_URL||'').trim();
   var READ={
-    getPublicKujiVersionV260:1,getPublicKujiList:1,getPublicCommerceV260:1,
+    getPublicKujiVersionV260:1,getPublicKujiList:1,getPublicCommerceV260:1,getPublicHomeBootstrapV2710:1,
     getPublicSoldKujiListV260:1,getPublicKuji:1,getPublicShopPageV270:1,getPublicShopProductV270:1
   };
   var WRITE={
