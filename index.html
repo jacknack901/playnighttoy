@@ -1347,24 +1347,16 @@
 
   var overviewLoadingV2583=false;
   var overviewLastLoadedAtV2583=0;
+  var HOME_OVERVIEW_CACHE_KEY_V2710='wanye-home-v27.10-overview';
+  var HOME_COMMERCE_CACHE_KEY_V2710='wanye-home-v27.10-commerce';
+  var HOME_CACHE_MAX_AGE_V2710=86400000;
 
-  function loadOverview(silent){
-    if(overviewLoadingV2583) return;
-    if(silent && overviewLastLoadedAtV2583 && Date.now()-overviewLastLoadedAtV2583<15000) return;
-    overviewLoadingV2583=true;
-    document.getElementById('overviewView').classList.remove('hidden');
-    document.getElementById('detailView').classList.add('hidden');
-    var btn=document.getElementById('refreshBtn');
-    if(!silent && btn){btn.disabled=true;btn.textContent='更新中…';}
-    document.getElementById('overviewError').classList.add('hidden');
+  function homeCachePutV2710_(key,data){try{localStorage.setItem(key,JSON.stringify({ts:Date.now(),data:data}));}catch(e){}}
+  function homeCacheGetV2710_(key){try{var raw=localStorage.getItem(key);if(!raw)return null;var box=JSON.parse(raw);if(!box||!box.data||Date.now()-Number(box.ts||0)>HOME_CACHE_MAX_AGE_V2710)return null;return box.data;}catch(e){return null;}}
 
-    var gridNow=document.getElementById('overviewGrid');
-    if(!silent || !gridNow.innerHTML.trim()){
-      document.getElementById('overviewLoading').classList.remove('hidden');
-    }
+  function applyOverviewResponseV2710_(res,btn,fromCacheV2710){
+    btn=btn||document.getElementById('refreshBtn');
 
-    google.script.run
-      .withSuccessHandler(function(res){
         overviewLoadingV2583=false;
         overviewLastLoadedAtV2583=Date.now();
         if(btn){btn.disabled=false;btn.textContent='更新';}
@@ -1559,8 +1551,29 @@
             );
           });
         });
-        loadPublicCommerceV260(false);
+        if(!fromCacheV2710) homeCachePutV2710_(HOME_OVERVIEW_CACHE_KEY_V2710,res);
         initSoldHistoryObserverV260_();
+      
+  }
+
+  function loadOverview(silent){
+    if(overviewLoadingV2583) return;
+    if(silent && overviewLastLoadedAtV2583 && Date.now()-overviewLastLoadedAtV2583<15000) return;
+    overviewLoadingV2583=true;
+    document.getElementById('overviewView').classList.remove('hidden');
+    document.getElementById('detailView').classList.add('hidden');
+    var btn=document.getElementById('refreshBtn');
+    if(!silent && btn){btn.disabled=true;btn.textContent='更新中…';}
+    document.getElementById('overviewError').classList.add('hidden');
+
+    var gridNow=document.getElementById('overviewGrid');
+    if(!silent || !gridNow.innerHTML.trim()){
+      document.getElementById('overviewLoading').classList.remove('hidden');
+    }
+
+    google.script.run
+      .withSuccessHandler(function(res){
+        applyOverviewResponseV2710_(res,btn,false);
       })
       .withFailureHandler(function(err){
         overviewLoadingV2583=false;
@@ -1673,15 +1686,8 @@
     return shuffleV2580_(open).concat(shuffleV2580_(closed));
   }
 
-  function loadPublicCommerceV260(force){
-    if(PUBLIC_COMMERCE_LOADING_V260) return;
-    if(!force && PUBLIC_COMMERCE_VERSION_V260 && PUBLIC_COMMERCE_VERSION_V260===PUBLIC_VERSION_V260) return;
-    PUBLIC_COMMERCE_LOADING_V260=true;
-    var preorderGrid=document.getElementById('preorderGrid');
-    var preorderCount=document.getElementById('preorderCount');
-    if(preorderGrid && !preorderGrid.innerHTML.trim()) preorderGrid.innerHTML='<div class="siteEmpty">預購商品載入中…</div>';
-    google.script.run
-      .withSuccessHandler(function(res){
+  function applyPublicCommerceV2710_(res,fromCacheV2710){
+
         PUBLIC_COMMERCE_LOADING_V260=false; res=res||{};
         PUBLIC_COMMERCE_VERSION_V260=String(res.publicVersion||PUBLIC_VERSION_V260||'loaded');
         SHOP_PUBLIC_URL_V266=String(window.WANWAN_SHOP_URL||res.shopUrl||SHOP_PUBLIC_URL_V266||'./shop.html');
@@ -1698,12 +1704,49 @@
           if(preorderItems.length) initCarouselV2580_('preorderGrid'); else stopCarouselV2580_('preorderGrid');
         }
         var empty=document.getElementById('preorderEmptyV2550'); if(empty) empty.classList.toggle('hidden',preorderItems.length>0);
+        if(!fromCacheV2710) homeCachePutV2710_(HOME_COMMERCE_CACHE_KEY_V2710,res);
+      
+  }
+
+  function loadPublicCommerceV260(force){
+    if(PUBLIC_COMMERCE_LOADING_V260) return;
+    if(!force && PUBLIC_COMMERCE_VERSION_V260 && PUBLIC_COMMERCE_VERSION_V260===PUBLIC_VERSION_V260) return;
+    PUBLIC_COMMERCE_LOADING_V260=true;
+    var preorderGrid=document.getElementById('preorderGrid');
+    var preorderCount=document.getElementById('preorderCount');
+    if(preorderGrid && !preorderGrid.innerHTML.trim()) preorderGrid.innerHTML='<div class="siteEmpty">預購商品載入中…</div>';
+    google.script.run
+      .withSuccessHandler(function(res){
+        applyPublicCommerceV2710_(res,false);
       })
       .withFailureHandler(function(){
         PUBLIC_COMMERCE_LOADING_V260=false;
         if(preorderGrid && preorderGrid.innerHTML.indexOf('載入中')>=0) preorderGrid.innerHTML='<div class="siteEmpty">預購商品暫時無法載入，可稍後再試。</div>';
       })
       .getPublicCommerceV260();
+  }
+
+  function loadHomeBootstrapV2710_(hasOverviewCache,hasCommerceCache){
+    // 一次 JSONP 同時刷新兩區；失敗時才退回舊的兩支 API，功能不受影響。
+    overviewLoadingV2583=true;
+    PUBLIC_COMMERCE_LOADING_V260=true;
+    google.script.run
+      .withSuccessHandler(function(bundle){
+        bundle=bundle||{};
+        overviewLoadingV2583=false;
+        PUBLIC_COMMERCE_LOADING_V260=false;
+        if(bundle.overview) applyOverviewResponseV2710_(bundle.overview,null,false);
+        else loadOverview(!!hasOverviewCache);
+        if(bundle.commerce) applyPublicCommerceV2710_(bundle.commerce,false);
+        else loadPublicCommerceV260(true);
+      })
+      .withFailureHandler(function(){
+        overviewLoadingV2583=false;
+        PUBLIC_COMMERCE_LOADING_V260=false;
+        loadOverview(!!hasOverviewCache);
+        loadPublicCommerceV260(true);
+      })
+      .getPublicHomeBootstrapV2710();
   }
 
   function renderSoldKujiCardV260_(item){
@@ -2464,7 +2507,12 @@
       loadDetail(code,false);
       setDetailTimerV265_(code);
     }else{
-      loadOverview(false);
+      // v27.10：回訪先秒開本機快照；一番賞與商城資料同時背景更新，不再等前者完成才載後者。
+      var cachedOverview=homeCacheGetV2710_(HOME_OVERVIEW_CACHE_KEY_V2710);
+      var cachedCommerce=homeCacheGetV2710_(HOME_COMMERCE_CACHE_KEY_V2710);
+      if(cachedOverview) applyOverviewResponseV2710_(cachedOverview,null,true);
+      if(cachedCommerce) applyPublicCommerceV2710_(cachedCommerce,true);
+      loadHomeBootstrapV2710_(!!cachedOverview,!!cachedCommerce);
       setOverviewTimerV260_();
     }
   });
