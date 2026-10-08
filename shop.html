@@ -94,7 +94,7 @@
 <script>
   var SHOP_DATA={items:[],categories:[],availableCategories:[],counts:{all:0,preorder:0,direct:0},directMarketUrl:'',publicUrl:String(window.WANWAN_SHOP_URL||location.href.split('?')[0]),homeUrl:String(window.WANWAN_HOME_URL||'./index.html')};
   var ACTIVE_CATEGORY='',ACTIVE_TYPE='',ACTIVE_PRODUCT=null,FOCUS_ITEM=null,SHOP_OFFSET=0,SHOP_TOTAL=0,SHOP_HAS_MORE=false,SHOP_LOADING=false,SHOP_PAGE_SIZE=16,SEARCH_TIMER=null,FIRST_LOAD=true,SHOP_SNAPSHOT_SHOWN_V278=false;
-  var SHOP_SNAPSHOT_KEY_V278='wanye-shop-v27.8-bootstrap';
+  var SHOP_SNAPSHOT_KEY_V278='wanye-shop-v27.10-bootstrap';
   var FEATURED_V275={direct:[],closing:[]},FEATURED_LOADING_V275=false;
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function money(n){return 'NT$'+Math.round(Number(n||0)).toLocaleString('zh-TW');}
@@ -107,7 +107,11 @@
   function isDefaultShopViewV278_(){return !ACTIVE_TYPE&&!ACTIVE_CATEGORY&&!document.getElementById('search').value.trim()&&document.getElementById('sort').value==='new'&&!queryProductId();}
   function saveShopSnapshotV278_(res){if(!isDefaultShopViewV278_())return;try{localStorage.setItem(SHOP_SNAPSHOT_KEY_V278,JSON.stringify({ts:Date.now(),data:res}));}catch(e){}}
   function restoreShopSnapshotV278_(){if(queryProductId())return false;try{var raw=localStorage.getItem(SHOP_SNAPSHOT_KEY_V278);if(!raw)return false;var box=JSON.parse(raw);if(!box||!box.data||Date.now()-Number(box.ts||0)>86400000)return false;applyShopPageV278_(box.data,true,true,true);SHOP_SNAPSHOT_SHOWN_V278=true;return true;}catch(e){return false;}}
-  function applyShopPageV278_(res,reset,wasFirst,fromCache){res=res||{};var incoming=Array.isArray(res.items)?res.items:[];if(reset)SHOP_DATA.items=incoming;else SHOP_DATA.items=(SHOP_DATA.items||[]).concat(incoming);SHOP_OFFSET=Number(res.offset||0)+incoming.length;SHOP_TOTAL=Number(res.total||0);SHOP_HAS_MORE=!!res.hasMore;SHOP_DATA.categories=res.categories||SHOP_DATA.categories||[];SHOP_DATA.availableCategories=res.availableCategories||SHOP_DATA.availableCategories||[];SHOP_DATA.counts=res.counts||SHOP_DATA.counts;SHOP_DATA.directMarketUrl=res.directMarketUrl||SHOP_DATA.directMarketUrl;SHOP_DATA.publicUrl=String(window.WANWAN_SHOP_URL||res.publicUrl||SHOP_DATA.publicUrl);SHOP_DATA.homeUrl=String(window.WANWAN_HOME_URL||res.homeUrl||SHOP_DATA.homeUrl);FOCUS_ITEM=res.focusItem||FOCUS_ITEM;if(wasFirst&&(Array.isArray(res.featuredDirect)||Array.isArray(res.featuredClosing))){FEATURED_V275.direct=Array.isArray(res.featuredDirect)?res.featuredDirect:[];FEATURED_V275.closing=Array.isArray(res.featuredClosing)?res.featuredClosing:[];}else if(wasFirst&&!fromCache){loadFeaturedV275_();}if(SHOP_DATA.homeUrl)document.getElementById('homeBtn').href=SHOP_DATA.homeUrl;document.getElementById('statAll').textContent=SHOP_DATA.counts.all||0;document.getElementById('statPre').textContent=SHOP_DATA.counts.preorder||0;document.getElementById('statDirect').textContent=SHOP_DATA.counts.direct||0;if(reset){renderTypeTabs();renderChips();render();}else{appendShopItemsV279_(incoming);}if(wasFirst&&!fromCache){FIRST_LOAD=false;openHashProduct();}}
+  function applyShopPageV278_(res,reset,wasFirst,fromCache){res=res||{};var incoming=Array.isArray(res.items)?res.items:[];if(reset)SHOP_DATA.items=incoming;else SHOP_DATA.items=(SHOP_DATA.items||[]).concat(incoming);SHOP_OFFSET=Number(res.offset||0)+incoming.length;SHOP_TOTAL=Number(res.total||0);SHOP_HAS_MORE=!!res.hasMore;SHOP_DATA.categories=res.categories||SHOP_DATA.categories||[];SHOP_DATA.availableCategories=res.availableCategories||SHOP_DATA.availableCategories||[];SHOP_DATA.counts=res.counts||SHOP_DATA.counts;SHOP_DATA.directMarketUrl=res.directMarketUrl||SHOP_DATA.directMarketUrl;SHOP_DATA.publicUrl=String(window.WANWAN_SHOP_URL||res.publicUrl||SHOP_DATA.publicUrl);SHOP_DATA.homeUrl=String(window.WANWAN_HOME_URL||res.homeUrl||SHOP_DATA.homeUrl);FOCUS_ITEM=res.focusItem||FOCUS_ITEM;if(wasFirst&&(Array.isArray(res.featuredDirectPool)||Array.isArray(res.featuredClosingPool)||Array.isArray(res.featuredDirect)||Array.isArray(res.featuredClosing))){
+    // v27.10：候選池可以快取，但每次進頁重新抽 2+2，避免精選被頁快取固定住。
+    // 若先顯示本機快照，背景刷新時維持本次已抽結果，避免畫面瞬間跳兩次。
+    if(fromCache||!SHOP_SNAPSHOT_SHOWN_V278) chooseFeaturedV2710_(res);
+  }else if(wasFirst&&!fromCache){loadFeaturedV275_();}if(SHOP_DATA.homeUrl)document.getElementById('homeBtn').href=SHOP_DATA.homeUrl;document.getElementById('statAll').textContent=SHOP_DATA.counts.all||0;document.getElementById('statPre').textContent=SHOP_DATA.counts.preorder||0;document.getElementById('statDirect').textContent=SHOP_DATA.counts.direct||0;if(reset){renderTypeTabs();renderChips();render();}else{appendShopItemsV279_(incoming);}if(wasFirst&&!fromCache){FIRST_LOAD=false;openHashProduct();}}
   function showSkeleton(){var g=document.getElementById('grid');g.innerHTML='';for(var i=0;i<8;i++){var d=document.createElement('div');d.className='card skeleton';g.appendChild(d);}}
   function shuffleV275_(arr){arr=Array.isArray(arr)?arr.slice():[];for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=arr[i];arr[i]=arr[j];arr[j]=t;}return arr;}
   function itemKeyV275_(x){return String((x&&x.id)||((x&&x.type)||'')+'|'+((x&&x.name)||'')+'|'+((x&&x.imageUrl)||''));}
@@ -119,6 +123,28 @@
     var picked=shuffleV275_(pool).slice(0,2),used={};picked.forEach(function(x){used[itemKeyV275_(x)]=1;});
     if(picked.length<2){shuffleV275_(open).forEach(function(x){var k=itemKeyV275_(x);if(picked.length<2&&!used[k]){used[k]=1;picked.push(x);}});}
     return picked.slice(0,2);
+  }
+  function chooseFeaturedV2710_(res){
+    res=res||{};
+    var dp=Array.isArray(res.featuredDirectPool)?res.featuredDirectPool:(Array.isArray(res.featuredDirect)?res.featuredDirect:[]);
+    var cp=Array.isArray(res.featuredClosingPool)?res.featuredClosingPool:(Array.isArray(res.featuredClosing)?res.featuredClosing:[]);
+    var last={direct:[],closing:[]};
+    try{last=JSON.parse(localStorage.getItem('wanye-shop-featured-last-v27.10')||'{}')||last;}catch(e){}
+    function avoidLast(pool,lastIds,limit){
+      pool=shuffleV275_(pool);lastIds=Array.isArray(lastIds)?lastIds:[];
+      var first=pool.filter(function(x){return lastIds.indexOf(itemKeyV275_(x))<0;}),out=first.slice(0,limit);
+      if(out.length<limit) pool.forEach(function(x){if(out.length<limit&&!out.some(function(y){return itemKeyV275_(y)===itemKeyV275_(x);}))out.push(x);});
+      return out.slice(0,limit);
+    }
+    var directPool=dp.filter(function(x){return x&&x.type==='直購'&&!x.isClosed;});
+    FEATURED_V275.direct=avoidLast(directPool,last.direct,2);
+    // 快結單仍以最近結單候選優先，只是在候選中避開上一輪。
+    var open=cp.filter(function(x){return x&&x.type==='預購'&&!x.isClosed;});
+    var dated=open.filter(function(x){return closeTimeV275_(x)!==Number.MAX_SAFE_INTEGER;}).sort(function(a,b){return closeTimeV275_(a)-closeTimeV275_(b);});
+    var near=dated.slice(0,Math.min(10,dated.length));
+    if(near.length<2) near=open;
+    FEATURED_V275.closing=avoidLast(near,last.closing,2);
+    try{localStorage.setItem('wanye-shop-featured-last-v27.10',JSON.stringify({direct:FEATURED_V275.direct.map(itemKeyV275_),closing:FEATURED_V275.closing.map(itemKeyV275_)}));}catch(e){}
   }
   function showFeaturedV275_(){return !ACTIVE_TYPE&&!ACTIVE_CATEGORY&&!document.getElementById('search').value.trim()&&document.getElementById('sort').value==='new';}
   function openProductLightboxV275(url){url=String(url||'').trim();if(!url)return;document.getElementById('productLightboxImageV275').src=url;document.getElementById('productLightboxV275').classList.remove('hidden');document.body.style.overflow='hidden';}
