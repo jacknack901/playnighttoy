@@ -1076,7 +1076,7 @@
     REFRESH_TIMER=setInterval(function(){fn(true);},30000);
   }
 
-  // v26.0：首頁每 30 秒只檢查版本；資料沒有變就不重抓整份首頁。
+  // v27.12.4：首頁每 5 秒只檢查極小版本號；資料沒有變就不重抓整份首頁。
   function setOverviewTimerV260_(){
     if(REFRESH_TIMER) clearInterval(REFRESH_TIMER);
     REFRESH_TIMER=setInterval(function(){
@@ -1097,7 +1097,7 @@
         })
         .withFailureHandler(function(){ PUBLIC_VERSION_POLLING_V260=false; })
         .getPublicKujiVersionV260();
-    },30000);
+    },5000);
   }
 
 
@@ -1118,7 +1118,7 @@
         })
         .withFailureHandler(function(){DETAIL_VERSION_POLLING_V265=false;})
         .getPublicKujiVersionV260();
-    },30000);
+    },5000);
   }
 
   function shuffleV2580_(source){
@@ -1586,7 +1586,7 @@
 
   function loadOverview(silent){
     if(overviewLoadingV2583) return;
-    if(silent && overviewLastLoadedAtV2583 && Date.now()-overviewLastLoadedAtV2583<15000) return;
+    if(silent && overviewLastLoadedAtV2583 && Date.now()-overviewLastLoadedAtV2583<1000) return;
     overviewLoadingV2583=true;
     document.getElementById('overviewView').classList.remove('hidden');
     document.getElementById('detailView').classList.add('hidden');
