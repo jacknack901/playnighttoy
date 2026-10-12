@@ -3,7 +3,7 @@
   var GAS_URL=String(window.WANWAN_GAS_EXEC_URL||'').trim();
   var READ={
     getPublicKujiVersionV260:1,getPublicKujiList:1,getPublicCommerceV260:1,getPublicHomeBootstrapV2710:1,
-    getPublicSoldKujiListV260:1,getPublicKuji:1,getPublicShopPageV270:1,getPublicShopProductV270:1
+    getPublicSoldKujiListV260:1,getPublicKuji:1,getPublicShopPageV270:1,getPublicShopProductV270:1,getPublicFormRpcAckV271210:1
   };
   var WRITE={
     submitRaffleSignupV2587:1,submitKujiActivitySignupV2544:1,submitPublicPreorderV2544:1,
@@ -84,29 +84,41 @@
     function input(name,value){var x=document.createElement('input');x.type='hidden';x.name=name;x.value=value;form.appendChild(x);}
     input('bridge','form'); input('action',action); input('args',JSON.stringify(Array.isArray(args)?args:[])); input('requestId',requestId);
     document.body.appendChild(form);
-    var done=false;
+    var done=false,pollTimer=null;
     function finish(){
       window.removeEventListener('message',onmsg);
+      if(pollTimer)clearTimeout(pollTimer);
       try{form.remove();}catch(e){}
       setTimeout(function(){try{frame.remove();}catch(e){}},50);
+    }
+    function resolvePayload(res){
+      if(done)return;done=true;clearTimeout(timer);finish();res=res||{};
+      if(res.ok===true){if(typeof ok==='function')ok(res.data);}else if(typeof fail==='function')fail({message:res.error||'送出失敗。'});
+    }
+    function pollAck(){
+      if(done)return;
+      jsonpBridge('getPublicFormRpcAckV271210',[requestId],function(ack){
+        if(done)return;
+        if(ack&&ack.ready===true){resolvePayload(ack.payload||{});return;}
+        pollTimer=setTimeout(pollAck,700);
+      },function(){if(!done)pollTimer=setTimeout(pollAck,1000);});
     }
     function onmsg(ev){
       var m=ev&&ev.data;
       if(!m||m.__wanyeBridgeV271!==true||m.requestId!==requestId)return;
-      if(done)return;done=true;clearTimeout(timer);finish();
-      var res=m.payload||{};
-      if(res.ok===true){if(typeof ok==='function')ok(res.data);}else if(typeof fail==='function')fail({message:res.error||'送出失敗。'});
+      resolvePayload(m.payload||{});
     }
     window.addEventListener('message',onmsg);
     var timer=setTimeout(function(){
       if(done)return;done=true;finish();
-      if(typeof fail==='function')fail({message:'送出逾時，請確認網路後再試；若已成功送出請勿重複操作。'});
-    },30000);
-    try{form.submit();}catch(err){
+      if(typeof fail==='function')fail({message:'送出逾時，請稍後查看訂單；系統會用同一送出識別碼避免重複訂單。'});
+    },45000);
+    try{form.submit();pollTimer=setTimeout(pollAck,650);}catch(err){
       if(done)return;done=true;clearTimeout(timer);finish();
       if(typeof fail==='function')fail({message:err&&err.message?err.message:'送出失敗。'});
     }
   }
+
   function rpc(action,args,ok,fail){
     if(READ[action]) return jsonp(action,args,ok,fail);
     if(WRITE[action]) return formPost(action,args,ok,fail);
