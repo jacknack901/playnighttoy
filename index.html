@@ -505,33 +505,224 @@
     .raffleAgreeV2587{display:flex;align-items:flex-start;gap:9px;margin-top:14px;padding:12px;border:1px solid #59466b;border-radius:12px;background:#18111f;line-height:1.55;font-size:13px;cursor:pointer}
     .raffleAgreeV2587 input{margin-top:3px;flex:0 0 auto}
     .raffleModalBoxV2587{max-width:540px}
+
+
+    /* v27.12.15｜頑夜首頁霓虹動漫電商改版 */
+    :root{
+      --night-bg:#03050b;--night-panel:#08111d;--night-panel2:#0d1524;
+      --night-line:#263653;--night-text:#f7f8ff;--night-muted:#96a1b8;
+      --night-pink:#f43cff;--night-purple:#a83dff;--night-blue:#38a8ff;
+      --accent:#f43cff;--accent2:#38a8ff;--line:#263653;--card:#08111d;--card2:#0d1524;
+    }
+    body{
+      background:
+        radial-gradient(circle at 13% 2%,rgba(168,61,255,.14),transparent 22%),
+        radial-gradient(circle at 88% 7%,rgba(56,168,255,.11),transparent 24%),
+        linear-gradient(180deg,#02040a 0%,#060b14 46%,#02050a 100%);
+      color:var(--night-text);padding-bottom:76px;
+    }
+    .wrap{max-width:1180px;padding:0 14px 78px}
+    .siteHero{margin:0 -14px 18px;border:0;border-radius:0;background:#03050b;box-shadow:none;overflow:visible}
+    .siteHero::before,.siteHero::after{display:none}
+    .siteHeroShell{padding:0}
+    .siteHeaderRow{
+      min-height:78px;padding:12px 18px;position:relative;z-index:5;
+      background:rgba(3,5,11,.86);border-bottom:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(18px);box-shadow:0 10px 34px rgba(0,0,0,.2)
+    }
+    .siteHeaderLogo{width:205px;max-width:44%;filter:drop-shadow(0 0 12px rgba(244,60,255,.22)) drop-shadow(0 3px 10px rgba(0,0,0,.4))}
+    .siteHeaderActions{gap:7px}
+    .siteSocialLinks{gap:7px}
+    .siteHeaderActions .btn{
+      min-height:38px;padding:8px 12px;border-radius:12px;background:#080d16;color:#fff;
+      border:1px solid #263653;box-shadow:none;font-size:11px
+    }
+    .siteHeaderActions .igBtn,.siteHeaderActions .creatorSocialBtn,.siteHeaderActions .creatorYtBtn{
+      background:#080d16;color:#fff;border:1px solid #263653;box-shadow:none
+    }
+    .siteHeaderActions .btn:hover{border-color:#d83dff;box-shadow:0 0 18px rgba(216,61,255,.18)}
+    .headerShopBtnV2715{color:#fff!important;text-decoration:none}
+    .headerShopBtnV2715 svg{width:18px;height:18px;display:block}
+
+    .neonHeroV2715{
+      min-height:430px;position:relative;display:flex;align-items:center;overflow:hidden;
+      background:#04050a url('./assets/home-hero-v2715.jpg') center/cover no-repeat;
+      border-bottom:1px solid rgba(244,60,255,.28)
+    }
+    .neonHeroV2715::before{
+      content:'';position:absolute;inset:0;background:
+        linear-gradient(90deg,rgba(2,3,8,.98) 0%,rgba(2,3,8,.90) 28%,rgba(2,3,8,.42) 58%,rgba(2,3,8,.10) 100%),
+        linear-gradient(0deg,rgba(3,5,11,.78),transparent 40%);pointer-events:none
+    }
+    .neonHeroV2715::after{
+      content:'';position:absolute;left:0;right:0;bottom:0;height:2px;
+      background:linear-gradient(90deg,transparent,#38a8ff,#f43cff,#a83dff,transparent);
+      box-shadow:0 0 24px rgba(244,60,255,.75)
+    }
+    .neonHeroCopyV2715{position:relative;z-index:2;width:min(610px,58%);padding:58px 34px 54px}
+    .neonHeroEyebrowV2715{font-size:12px;font-weight:950;letter-spacing:.16em;color:#e077ff;text-transform:uppercase}
+    .neonHeroTitleV2715{margin:9px 0 8px;font-size:clamp(42px,6vw,72px);line-height:.97;font-weight:1000;letter-spacing:-.04em;text-shadow:0 0 24px rgba(244,60,255,.22)}
+    .neonHeroTitleV2715 em{font-style:normal;color:#fff;display:block}
+    .neonHeroTitleV2715 span{color:#f64cff;background:linear-gradient(90deg,#fff,#ff75ff 38%,#a949ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .neonHeroDescV2715{max-width:430px;color:#c3c9d6;font-size:15px;line-height:1.8;margin-top:16px}
+    .neonHeroActionsV2715{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+    .neonHeroPrimaryV2715,.neonHeroSecondaryV2715{
+      min-height:46px;padding:0 18px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;
+      font-weight:950;text-decoration:none;cursor:pointer;border:0
+    }
+    .neonHeroPrimaryV2715{color:#08020b;background:linear-gradient(135deg,#ff59ff,#b83dff 58%,#6a5cff);box-shadow:0 0 28px rgba(244,60,255,.42)}
+    .neonHeroSecondaryV2715{color:#fff;background:rgba(8,13,24,.78);border:1px solid #344564}
+    .neonHeroTrustV2715{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px;color:#8591a7;font-size:11px;font-weight:800}
+    .neonHeroTrustV2715 span::before{content:'✦';color:#d446ff;margin-right:5px}
+
+    .quickNav{
+      position:relative;top:auto;z-index:4;margin:0 -2px 18px;padding:18px 2px 8px;
+      display:grid;grid-template-columns:repeat(8,minmax(82px,1fr));gap:10px;
+      border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;
+      overflow-x:auto;scrollbar-width:none
+    }
+    .quickNav::-webkit-scrollbar{display:none}
+    .quickNavBtn{
+      min-width:82px;min-height:92px;padding:8px 5px;border:0;border-radius:16px;background:transparent;color:#f5f7ff;
+      display:flex;flex-direction:column;gap:8px;font-size:12px;letter-spacing:0;text-transform:none
+    }
+    .quickNavBtn::before{
+      content:attr(data-icon);width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      margin:auto;font-size:25px;background:radial-gradient(circle at 35% 30%,rgba(244,60,255,.18),rgba(6,11,20,.92) 65%);
+      border:1px solid #713aa5;box-shadow:0 0 0 3px rgba(168,61,255,.08),0 0 18px rgba(244,60,255,.18)
+    }
+    .quickNavBtn:nth-child(even)::before{border-color:#2d78b9;box-shadow:0 0 0 3px rgba(56,168,255,.07),0 0 18px rgba(56,168,255,.15)}
+    .quickNavBtn:hover,.quickNavBtn:focus{background:transparent;color:#fff;transform:translateY(-2px);box-shadow:none;border:0}
+    .quickNavBtn:hover::before,.quickNavBtn:focus::before{border-color:#ff5cff;box-shadow:0 0 24px rgba(244,60,255,.35)}
+
+    .siteSection{margin:22px 0;padding:24px 0 0;border-top:1px solid rgba(50,69,99,.55)}
+    .siteSectionHead{margin-bottom:14px;align-items:center}
+    .siteSectionKicker{color:#d64bff;font-size:11px}
+    .siteSectionTitle{font-size:27px;color:#f7f8ff!important;letter-spacing:.01em}
+    .siteSectionTitle::first-letter{text-shadow:0 0 16px rgba(244,60,255,.3)}
+    .siteSectionDesc{color:#8f9bb0}
+    .siteSectionCount{background:#080e18;border-color:#263653;color:#b6c0d0}
+    .carouselNavBtn{background:#08101c;border-color:#293957}.carouselNavBtn:hover{background:#111b2d;border-color:#d145ff}
+    .btn{background:#0a111e;border-color:#2c3b58;color:#f4f6ff}
+
+    .card{background:linear-gradient(180deg,#0a121f,#070d17);border:1px solid #263653;border-radius:15px;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+    .card:hover{border-color:#74419e;box-shadow:0 10px 32px rgba(168,61,255,.13)}
+    .coverWrap{background:#07101a}
+    .body{padding:13px}
+    .name{font-size:16px;line-height:1.42;min-height:auto!important}
+    .tag{background:#111a2b;border-color:#2f4160;color:#dbe5f7}
+    .promo,.open,.groupBtn,.joinBtn,.preorderJoinBtn{background:linear-gradient(135deg,#ff5aff,#a43cff);color:#08030c;box-shadow:0 0 16px rgba(244,60,255,.18)}
+    .preorderCardPrice,.heroPrice{color:#ff62ff}
+    .stat{background:#050a12;border-color:#22324d}
+    .majorBanner.yes{background:rgba(255,54,228,.08);border-color:#8f3f99;color:#ffabf3}
+    .majorBanner.no{background:rgba(255,75,100,.08);border-color:#6c3345;color:#ffb9c4}
+
+    .announcementCard{background:#07101a;border-color:#263653;border-radius:15px}
+    .announcementBody{background:linear-gradient(180deg,#09111d,#070c14)}
+
+    .preorderPromoV2715{
+      position:relative;overflow:hidden;margin:26px 0 8px;min-height:170px;padding:24px 28px;border:1px solid #6c2b92;border-radius:18px;
+      display:flex;align-items:center;background:
+        linear-gradient(90deg,rgba(4,6,12,.95),rgba(20,8,34,.76)),
+        url('./assets/home-hero-v2715.jpg') 76% 38%/cover no-repeat;
+      box-shadow:0 0 30px rgba(168,61,255,.12)
+    }
+    .preorderPromoV2715::after{content:'PRE ORDER';position:absolute;right:24px;top:20px;font-weight:1000;font-style:italic;font-size:clamp(30px,5vw,64px);color:rgba(255,71,255,.85);transform:rotate(-5deg);text-shadow:0 0 22px rgba(244,60,255,.34)}
+    .preorderPromoInnerV2715{position:relative;z-index:2;max-width:500px}
+    .preorderPromoKickerV2715{color:#ed67ff;font-size:11px;letter-spacing:.14em;font-weight:950}
+    .preorderPromoTitleV2715{font-size:32px;font-weight:1000;margin:4px 0 5px}
+    .preorderPromoDescV2715{color:#aeb7c8;font-size:13px;line-height:1.65;max-width:360px}
+    .preorderPromoBtnV2715{margin-top:14px;display:inline-flex;padding:10px 16px;border-radius:11px;background:linear-gradient(135deg,#ff5aff,#a53cff);color:#08030c;text-decoration:none;font-weight:950}
+
+    .benefitStripV2715{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:18px 0 24px;background:#1a2941;border:1px solid #263653;border-radius:15px;overflow:hidden}
+    .benefitItemV2715{display:flex;align-items:center;gap:10px;min-height:72px;padding:12px 14px;background:#060d17;color:#c9d1df;font-size:11px;line-height:1.45}
+    .benefitIconV2715{width:38px;height:38px;flex:0 0 38px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid #2e78b4;color:#74caff;box-shadow:0 0 14px rgba(56,168,255,.12);font-size:18px}
+    .benefitItemV2715 b{display:block;color:#fff;font-size:12px}
+
+    .mobileBottomNavV2715{display:none}
+
+    @media(max-width:760px){
+      body{padding-bottom:76px}
+      .wrap{padding:0 10px 82px}
+      .siteHero{margin:0 -10px 14px}
+      .siteHeaderRow{min-height:64px;padding:9px 12px;gap:8px}
+      .siteHeaderLogo{width:135px;max-width:44%}
+      .siteHeaderActions{flex-direction:row;align-items:center;gap:5px}
+      .siteSocialLinks{width:auto;gap:5px}
+      .siteHeaderActions .btn{min-width:38px;min-height:38px;padding:7px 9px;font-size:0;flex:0 0 auto}
+      .siteHeaderActions .btn::before{font-size:14px}
+      #topIgBtn::after{content:'IG';font-size:11px}.creatorSocialBtn::after{content:'小夜';font-size:10px}.creatorYtBtn::after{content:'YT';font-size:10px}
+      .headerShopBtnV2715{display:inline-flex!important}
+      .neonHeroV2715{min-height:390px;background-position:62% center}
+      .neonHeroV2715::before{background:linear-gradient(90deg,rgba(2,3,8,.98) 0%,rgba(2,3,8,.85) 45%,rgba(2,3,8,.23) 100%),linear-gradient(0deg,rgba(3,5,11,.8),transparent 52%)}
+      .neonHeroCopyV2715{width:72%;padding:34px 16px 38px}
+      .neonHeroTitleV2715{font-size:42px}
+      .neonHeroDescV2715{font-size:13px;line-height:1.65;max-width:280px}
+      .neonHeroActionsV2715{gap:7px}.neonHeroPrimaryV2715,.neonHeroSecondaryV2715{min-height:42px;padding:0 13px;font-size:12px}
+      .neonHeroTrustV2715{gap:8px;font-size:9px}
+      .quickNav{grid-template-columns:repeat(8,82px);gap:7px;margin:0 -10px 14px;padding:12px 10px 6px}
+      .quickNavBtn{min-width:82px;min-height:82px;font-size:10px;padding:5px 2px}
+      .quickNavBtn::before{width:50px;height:50px;font-size:21px}
+      .siteSection{margin:18px 0;padding-top:20px}
+      .siteSectionTitle{font-size:22px}
+      .siteSectionHead{align-items:flex-start}
+      .preorderPromoV2715{min-height:155px;padding:20px 16px;margin-top:22px;background-position:72% 40%}
+      .preorderPromoV2715::after{right:10px;top:14px;font-size:32px;opacity:.72}
+      .preorderPromoInnerV2715{max-width:72%}.preorderPromoTitleV2715{font-size:25px}.preorderPromoDescV2715{font-size:11px}
+      .benefitStripV2715{grid-template-columns:repeat(2,1fr);gap:1px}.benefitItemV2715{min-height:66px;padding:10px;font-size:9px}.benefitItemV2715 b{font-size:10px}.benefitIconV2715{width:34px;height:34px;flex-basis:34px}
+      .mobileBottomNavV2715{
+        position:fixed;left:0;right:0;bottom:0;z-index:3000;height:66px;padding-bottom:env(safe-area-inset-bottom);
+        display:grid;grid-template-columns:repeat(5,1fr);background:rgba(3,7,13,.94);border-top:1px solid #22334f;backdrop-filter:blur(16px);box-shadow:0 -10px 34px rgba(0,0,0,.42)
+      }
+      .mobileBottomNavV2715 a,.mobileBottomNavV2715 button{border:0;background:transparent;color:#d5dbea;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;font-weight:800;cursor:pointer}
+      .mobileBottomNavV2715 .navIconV2715{font-size:21px;line-height:1}.mobileBottomNavV2715 .activeV2715{color:#f05aff;text-shadow:0 0 14px rgba(244,60,255,.5)}
+      .mobileBottomNavV2715 .centerV2715 .navIconV2715{width:42px;height:42px;margin-top:-16px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#090f1c;border:2px solid #c841ff;box-shadow:0 0 20px rgba(244,60,255,.32);font-size:24px}
+    }
+
 </style>
 </head>
 <body>
   <div class="wrap">
     <div id="overviewView">
-                        <section class="siteHero">
+      <section class="siteHero" id="homeTopV2715">
         <div class="siteHeroShell">
           <div class="siteHeaderRow">
             <img class="siteHeaderLogo" src="./assets/logo.png" alt="頑夜 TOY LOGO">
             <div class="siteHeaderActions">
               <div class="siteSocialLinks">
+                <a class="btn headerShopBtnV2715" href="./shop.html" aria-label="搜尋商城" title="搜尋商城">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m21 21-4.6-4.6m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
+                </a>
                 <a id="topIgBtn" class="btn igBtn hidden" href="#" target="_blank" rel="noopener noreferrer">頑夜TOYIG</a>
                 <a class="btn creatorSocialBtn" href="https://www.instagram.com/jacknack901/" target="_blank" rel="noopener noreferrer">小夜IG</a>
                 <a class="btn creatorSocialBtn creatorYtBtn" href="https://www.youtube.com/@NightStore901" target="_blank" rel="noopener noreferrer">小夜YT</a>
-</div>
+              </div>
+            </div>
+          </div>
+          <div class="neonHeroV2715">
+            <div class="neonHeroCopyV2715">
+              <div class="neonHeroEyebrowV2715">PLAY NIGHT TOY · FIGURES & COLLECTIBLES</div>
+              <h1 class="neonHeroTitleV2715"><em>收藏熱愛</em><span>讓夜晚更閃耀</span></h1>
+              <div class="neonHeroDescV2715">不只是玩具，而是陪伴我們的熱愛。從一番賞、公仔、盲盒到預購新品，在頑夜找到屬於你的收藏。</div>
+              <div class="neonHeroActionsV2715">
+                <a class="neonHeroPrimaryV2715" href="./shop.html">立即逛商城 →</a>
+                <button class="neonHeroSecondaryV2715" type="button" onclick="jumpSiteSectionV2552('officialKujiSection')">看即時一番賞</button>
+              </div>
+              <div class="neonHeroTrustV2715"><span>動漫收藏</span><span>預購新品</span><span>即時一番賞配率</span></div>
             </div>
           </div>
         </div>
       </section>
 
       <nav class="quickNav" aria-label="網站快速功能">
-        <button class="quickNavBtn" type="button" onclick="jumpSiteSectionV2552('announcementSection')">活動</button>
-        <button class="quickNavBtn" type="button" onclick="jumpSiteSectionV2552('directBuySectionV2579')">直購</button>
-        <button class="quickNavBtn" type="button" onclick="jumpSiteSectionV2552('preorderSection')">預購</button>
-        <button class="quickNavBtn" type="button" onclick="jumpSiteSectionV2552('groupSection')">集單</button>
-        <button class="quickNavBtn" type="button" onclick="jumpSiteSectionV2552('officialKujiSection')">官方賞</button>
-        <button class="quickNavBtn" type="button" onclick="jumpSiteSectionV2552('customKujiSection')">自製賞</button>
+        <button class="quickNavBtn" data-icon="🎟" type="button" onclick="jumpSiteSectionV2552('officialKujiSection')">一番賞</button>
+        <button class="quickNavBtn" data-icon="🔥" type="button" onclick="jumpSiteSectionV2552('directBuySectionV2579')">現貨直購</button>
+        <button class="quickNavBtn" data-icon="♛" type="button" onclick="jumpSiteSectionV2552('preorderSection')">預購</button>
+        <button class="quickNavBtn" data-icon="✦" type="button" onclick="jumpSiteSectionV2552('announcementSection')">活動</button>
+        <button class="quickNavBtn" data-icon="◎" type="button" onclick="jumpSiteSectionV2552('groupSection')">集單</button>
+        <button class="quickNavBtn" data-icon="★" type="button" onclick="jumpSiteSectionV2552('officialKujiSection')">官方賞</button>
+        <button class="quickNavBtn" data-icon="♜" type="button" onclick="jumpSiteSectionV2552('customKujiSection')">自製賞</button>
+        <a class="quickNavBtn" data-icon="▦" href="./shop.html">全部商城</a>
       </nav>
 
       <div id="overviewSub" class="sub hidden" aria-hidden="true"></div>
@@ -561,9 +752,9 @@
       <section id="directBuySectionV2579" class="siteSection preorderSection hidden">
         <div class="siteSectionHead">
           <div>
-            <div class="siteSectionKicker">SHOP</div>
-            <div class="siteSectionTitle">直購商品</div>
-            <div class="siteSectionDesc">精選現貨／直購商品</div>
+            <div class="siteSectionKicker">FEATURED</div>
+            <div class="siteSectionTitle">精選商品</div>
+            <div class="siteSectionDesc">熱門現貨・本週精選直購</div>
           </div>
           <div class="carouselHeadActions">
             <div id="directBuyCountV2579" class="siteSectionCount">0 項</div>
@@ -578,6 +769,21 @@
         <div id="directBuyGridV2579" class="grid contentCarouselTrack"></div>
         <div id="directBuyEmptyV2579" class="siteEmpty hidden">目前沒有開放中的直購商品。</div>
       </section>
+
+      <section class="preorderPromoV2715" aria-label="預購專區">
+        <div class="preorderPromoInnerV2715">
+          <div class="preorderPromoKickerV2715">PRE ORDER</div>
+          <div class="preorderPromoTitleV2715">預購專區</div>
+          <div class="preorderPromoDescV2715">搶先收藏新品，不錯過喜歡的角色。預購、GK 與結單商品都能從商城查看。</div>
+          <button class="preorderPromoBtnV2715" type="button" onclick="jumpSiteSectionV2552('preorderSection')">前往預購 →</button>
+        </div>
+      </section>
+      <div class="benefitStripV2715" aria-label="頑夜服務特色">
+        <div class="benefitItemV2715"><div class="benefitIconV2715">🚚</div><div><b>店取／寄送</b>依商品頁與訂單說明</div></div>
+        <div class="benefitItemV2715"><div class="benefitIconV2715">▣</div><div><b>動漫收藏選品</b>一番賞・公仔・盲盒・周邊</div></div>
+        <div class="benefitItemV2715"><div class="benefitIconV2715">◇</div><div><b>多元付款</b>依現場與訂單提供方式</div></div>
+        <div class="benefitItemV2715"><div class="benefitIconV2715">◉</div><div><b>社群客服</b>頑夜 IG／小夜 IG 即時聯繫</div></div>
+      </div>
 
       <section id="preorderSection" class="siteSection preorderSection">
         <div class="siteSectionHead">
@@ -669,6 +875,14 @@
       </section>
 
     </div>
+
+    <nav class="mobileBottomNavV2715" aria-label="手機底部導覽">
+      <button class="activeV2715" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span class="navIconV2715">⌂</span><span>首頁</span></button>
+      <a href="./shop.html"><span class="navIconV2715">▦</span><span>商城</span></a>
+      <button class="centerV2715" type="button" onclick="jumpSiteSectionV2552('directBuySectionV2579')"><span class="navIconV2715">♛</span><span>頑夜精選</span></button>
+      <button type="button" onclick="jumpSiteSectionV2552('announcementSection')"><span class="navIconV2715">◇</span><span>活動</span></button>
+      <button type="button" onclick="jumpSiteSectionV2552('officialKujiSection')"><span class="navIconV2715">🎟</span><span>一番賞</span></button>
+    </nav>
 
     <div id="detailView" class="hidden">
       <div class="back"><button id="backBtn" class="btn" type="button" onclick="showOverview()">← 回頑夜TOY首頁</button></div>
