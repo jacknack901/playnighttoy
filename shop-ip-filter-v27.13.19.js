@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  var VER='27.13.19';
+  var VER='27.13.20';
   var ACTIVE_IP_V271319='';
   var ACTIVE_SEARCH_V271319='';
   var PREV_SEARCH_V271319='';
@@ -176,7 +176,7 @@
     window.addEventListener('popstate',run);run();
     var tries=0,t=setInterval(function(){tries++;run();if(tries>40)clearInterval(t);},500);
   }
-  function initV271319(){if(!document.getElementById('categoryChips')||!document.getElementById('search'))return;watchV271319();}
+  function initV271319(){var tries=0;function boot(){if(document.getElementById('categoryChips')&&document.getElementById('search')){watchV271319();return;}tries++;if(tries<60)setTimeout(boot,200);}boot();}
   window.WANYE_IP_FILTER_VERSION=VER;
   window.wanyeInferIpV271319=inferV271319;
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initV271319);else initV271319();
