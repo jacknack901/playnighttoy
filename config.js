@@ -1,4 +1,4 @@
-// 頑夜 GitHub Pages 公開前台設定｜v27.13.9
+// 頑夜 GitHub Pages 公開前台設定｜v27.13.19
 window.WANWAN_GAS_EXEC_URL = 'https://script.google.com/macros/s/AKfycbxLJqANquTNnLlY7Zb5tR851EobSPTAsVho5SxYjBv2quX-B7uOqyBEcj5BdG5m8xw/exec';
 window.WANWAN_HOME_URL = 'https://jacknack901.github.io/playnighttoy/';
 window.WANWAN_SHOP_URL = 'https://jacknack901.github.io/playnighttoy/shop.html';
@@ -23,6 +23,15 @@ window.WANWAN_OFFICIAL_LINE_URL = 'https://lin.ee/sUCSbJV';
     a.innerHTML='<span class="lineIconV27139">LINE</span><span class="lineTextV27139">官方 LINE</span>';
     document.body.appendChild(a);
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',addOfficialLineButtonV27139);
-  else addOfficialLineButtonV27139();
+  function loadShopIpModuleV271319(){
+    if(document.getElementById('wanyeShopIpScriptV271319'))return;
+    var s=document.createElement('script');
+    s.id='wanyeShopIpScriptV271319';
+    s.src=String(window.WANWAN_SITE_BASE_URL||'./')+'shop-ip-filter-v27.13.19.js?v=271319';
+    s.async=true;
+    document.head.appendChild(s);
+  }
+  function initV271319(){addOfficialLineButtonV27139();loadShopIpModuleV271319();}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initV271319);
+  else initV271319();
 })();
