@@ -81,6 +81,11 @@
     .ipThumb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px}
     .ipOrb{font-size:14px;font-weight:950;color:#365170;background:#eaf4ff}
     .ipOrb.tone0{background:#e8f4ff}.ipOrb.tone1{background:#fff2be;color:#816719}.ipOrb.tone2{background:#f1edff;color:#68569a}.ipOrb.tone3{background:#ffeaf3;color:#a05d7a}.ipOrb.tone4{background:#e7f8ef;color:#477d61}
+
+    .ipThumb,.ipPickerThumb.logo{overflow:hidden;background:#fff}
+    .ipThumb img,.ipPickerThumb.logo img{width:100%;height:100%;object-fit:contain;padding:3px}
+    .ipLogoFallback{width:100%;height:100%;place-items:center;font-weight:950;color:#365170}
+
     .ipText{min-width:0}
     .ipText strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#2e3c54;font-size:12px}
     .ipText small{display:block;margin-top:3px;color:#9aa4b1;font-size:9px}
@@ -509,8 +514,8 @@
   </div>
 </div>
 
-<script src="config.js?v=271520"></script>
-<script src="gas-bridge.js?v=271520"></script>
+<script src="config.js?v=271530"></script>
+<script src="gas-bridge.js?v=271530"></script>
 <script>
   var SHOP_DATA={
     items:[],
@@ -547,7 +552,25 @@
   var IP_EXPANDED=false;
   var IP_MODAL_OPEN=false;
 
+  var ALL_PRODUCTS_CACHE=[];
+  var ALL_PRODUCTS_READY=false;
+  var ALL_PRODUCTS_LOADING=false;
+  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V27153';
+  var ALL_PRODUCTS_CACHE_TTL=10*60*1000;
+
   var IP_LOGOS={
+    '精靈村':'https://pbs.twimg.com/profile_images/574766295528296449/VbZGbrsU_400x400.jpeg',
+    '裝甲騎兵':'https://commons.wikimedia.org/wiki/Special:Redirect/file/Armored%20Trooper%20VOTOMS%20logo.png',
+    'CLANNAD':'https://cdn.super-groupies.com/images/title/248/c26b8483-0a3d-4be5-afc4-3e0b9f12f5ec.png',
+    'JoJo的奇妙冒險':'https://upload.wikimedia.org/wikipedia/commons/4/4f/Jojo%27s_Bizarre_Adventure_%28English_logo%29.png',
+    '原神':'https://image.pngaaa.com/815/5638815-middle.png',
+    '鳴潮':'https://cucdn.creativeuncut.com/gallery-47/art/ww-logo.jpg',
+    '烙印勇士':'https://commons.wikimedia.org/wiki/Special:Redirect/file/Berserk%20anime%20logo.png',
+    '決勝時刻':'https://seeklogo.com/images/C/call-of-duty-logo-0C50D4E092-seeklogo.com.png',
+    '戀上換裝娃娃':'https://media.vgm.io/products/15/10251/10251-1755284805.png',
+    '超級索尼子':'https://www.popbuddies.com/image/cache/catalog/website/banners/license_logos/super_sonico_logo_2-1200x800.jpg',
+    '碧藍航線':'https://cdn2.steamgriddb.com/file/sgdb-cdn/logo/352d47cf1a528e7f85aca7ef55669802.png',
+    '少女樂團 吶喊吧':'https://cdn.super-groupies.com/images/title/420/6d230701-95f8-4a3d-a881-f68470630444.png',
     '航海王':'https://commons.wikimedia.org/wiki/Special:Redirect/file/One%20piece%20logo.svg',
     '寶可夢':'https://commons.wikimedia.org/wiki/Special:Redirect/file/Pokemon%20logo.png',
     '七龍珠':'https://commons.wikimedia.org/wiki/Special:Redirect/file/Dragon%20Ball%20Z%20logo.svg',
@@ -606,6 +629,11 @@
     {label:'勝利女神：妮姬',aliases:['勝利女神：妮姬','勝利女神 妮姬','NIKKE']},
     {label:'蔚藍檔案',aliases:['蔚藍檔案','BLUE ARCHIVE']},
     {label:'賽馬娘',aliases:['賽馬娘','UMAMUSUME','UMA MUSUME']},
+    {label:'魔法少女小圓',aliases:['瓦爾普吉斯的迴天','魔法少女小圓','MADOKA MAGICA']},
+    {label:'義妹生活',aliases:['義妹生活']},
+    {label:'槍彈辯駁',aliases:['槍彈辯駁','DANGANRONPA']},
+    {label:'賽馬娘',aliases:['賽馬娘','UMAMUSUME','UMA MUSUME','春烏菈菈','初春烏拉拉']},
+    {label:'惡靈古堡',aliases:['惡靈古堡','RESIDENT EVIL','BIOHAZARD']},
     {label:'JoJo的奇妙冒險',aliases:['JOJO','奇妙冒險']},
     {label:'幽遊白書',aliases:['幽遊白書','YU YU HAKUSHO']},
     {label:'灌籃高手',aliases:['灌籃高手','SLAM DUNK']},
@@ -861,8 +889,42 @@
     renderIpModal();
   }
 
+  function saveAllProductsCache(){
+    try{
+      sessionStorage.setItem(ALL_PRODUCTS_CACHE_KEY,JSON.stringify({
+        t:Date.now(),
+        items:ALL_PRODUCTS_CACHE
+      }));
+    }catch(e){}
+  }
+
+  function restoreAllProductsCache(){
+    try{
+      var raw=sessionStorage.getItem(ALL_PRODUCTS_CACHE_KEY);
+      if(!raw)return false;
+      var obj=JSON.parse(raw);
+      if(!obj||!Array.isArray(obj.items)||!obj.items.length)return false;
+      if(Date.now()-Number(obj.t||0)>ALL_PRODUCTS_CACHE_TTL)return false;
+
+      ALL_PRODUCTS_CACHE=obj.items;
+      ALL_PRODUCTS_READY=true;
+      mergeIpCatalog(ALL_PRODUCTS_CACHE);
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
   function loadIpCatalog(){
-    if(IP_CATALOG_LOADING)return;
+    if(ALL_PRODUCTS_READY){
+      mergeIpCatalog(ALL_PRODUCTS_CACHE);
+      return;
+    }
+    if(ALL_PRODUCTS_LOADING)return;
+
+    if(restoreAllProductsCache())return;
+
+    ALL_PRODUCTS_LOADING=true;
     IP_CATALOG_LOADING=true;
 
     var offset=0;
@@ -880,17 +942,32 @@
           offset=Number(res.offset||offset)+items.length;
           page++;
 
-          if(res.hasMore && items.length && page<5){
+          if(res.hasMore && items.length && page<10){
             next();
             return;
           }
 
+          ALL_PRODUCTS_LOADING=false;
           IP_CATALOG_LOADING=false;
+          ALL_PRODUCTS_CACHE=all;
+          ALL_PRODUCTS_READY=true;
+          saveAllProductsCache();
           mergeIpCatalog(all);
+
+          if(ACTIVE_IP||ACTIVE_CATEGORY||ACTIVE_MODE!=='all'||document.getElementById('search').value.trim()){
+            applyClientFilters();
+          }
         })
         .withFailureHandler(function(){
+          ALL_PRODUCTS_LOADING=false;
           IP_CATALOG_LOADING=false;
-          mergeIpCatalog(SHOP_DATA.items||[]);
+
+          var fallback=(SHOP_DATA.items||[]).slice();
+          if(fallback.length){
+            ALL_PRODUCTS_CACHE=fallback;
+            ALL_PRODUCTS_READY=true;
+            mergeIpCatalog(fallback);
+          }
         })
         .getPublicShopPageV270({
           type:'',category:'',q:'',sort:'new',offset:offset,limit:limit,focusId:''
@@ -898,6 +975,114 @@
     }
 
     next();
+  }
+
+  function clientSort(arr,sort){
+    arr=arr.slice();
+
+    if(sort==='priceAsc'){
+      arr.sort(function(a,b){return Number(a.price||0)-Number(b.price||0);});
+    }else if(sort==='priceDesc'){
+      arr.sort(function(a,b){return Number(b.price||0)-Number(a.price||0);});
+    }else if(sort==='close'){
+      arr.sort(function(a,b){return closeTimeV275_(a)-closeTimeV275_(b);});
+    }else{
+      arr.sort(function(a,b){
+        var at=String(a.createdAt||a.createdTime||a.updatedAt||'');
+        var bt=String(b.createdAt||b.createdTime||b.updatedAt||'');
+        return bt.localeCompare(at);
+      });
+    }
+    return arr;
+  }
+
+  function clientFilteredProducts(){
+    var arr=(ALL_PRODUCTS_CACHE||[]).slice();
+    var q=String(document.getElementById('search').value||'').trim().toUpperCase();
+    var sort=document.getElementById('sort').value;
+
+    if(ACTIVE_MODE==='preorder'){
+      arr=arr.filter(function(x){return x&&x.type==='預購'&&!x.isClosed;});
+    }else if(ACTIVE_MODE==='direct'){
+      arr=arr.filter(function(x){return x&&x.type==='直購'&&!x.isClosed;});
+    }else if(ACTIVE_MODE==='closed'){
+      arr=arr.filter(function(x){return x&&x.isClosed;});
+    }
+
+    if(ACTIVE_CATEGORY){
+      arr=arr.filter(function(x){return String((x&&x.category)||'')===ACTIVE_CATEGORY;});
+    }
+
+    if(ACTIVE_IP){
+      arr=arr.filter(function(x){
+        var ip=inferIp(x&&x.name);
+        return !!(ip&&ip.label===ACTIVE_IP);
+      });
+    }else if(q){
+      arr=arr.filter(function(x){
+        var ip=inferIp(x&&x.name);
+        var hay=[
+          x&&x.name,
+          x&&x.category,
+          x&&x.type,
+          ip&&ip.label
+        ].join(' ').toUpperCase();
+        return hay.indexOf(q)>=0;
+      });
+    }
+
+    return clientSort(arr,sort);
+  }
+
+  function clientAvailableCategories(){
+    var arr=(ALL_PRODUCTS_CACHE||[]).slice();
+
+    if(ACTIVE_MODE==='preorder'){
+      arr=arr.filter(function(x){return x&&x.type==='預購'&&!x.isClosed;});
+    }else if(ACTIVE_MODE==='direct'){
+      arr=arr.filter(function(x){return x&&x.type==='直購'&&!x.isClosed;});
+    }else if(ACTIVE_MODE==='closed'){
+      arr=arr.filter(function(x){return x&&x.isClosed;});
+    }
+
+    if(ACTIVE_IP){
+      arr=arr.filter(function(x){
+        var ip=inferIp(x&&x.name);
+        return !!(ip&&ip.label===ACTIVE_IP);
+      });
+    }
+
+    var seen={},cats=[];
+    arr.forEach(function(x){
+      var c=String((x&&x.category)||'').trim();
+      if(c&&!seen[c]){seen[c]=1;cats.push(c);}
+    });
+    return cats.sort(function(a,b){return a.localeCompare(b,'zh-Hant');});
+  }
+
+  function applyClientFilters(){
+    if(!ALL_PRODUCTS_READY)return false;
+
+    SHOP_DATA.items=clientFilteredProducts();
+    SHOP_TOTAL=SHOP_DATA.items.length;
+    SHOP_HAS_MORE=false;
+    SHOP_OFFSET=SHOP_TOTAL;
+    SHOP_DATA.availableCategories=clientAvailableCategories();
+
+    var all=(ALL_PRODUCTS_CACHE||[]);
+    SHOP_DATA.counts={
+      all:all.length,
+      preorder:all.filter(function(x){return x&&x.type==='預購'&&!x.isClosed;}).length,
+      direct:all.filter(function(x){return x&&x.type==='直購'&&!x.isClosed;}).length
+    };
+
+    document.getElementById('statAll').textContent=SHOP_DATA.counts.all||0;
+    document.getElementById('statPre').textContent=SHOP_DATA.counts.preorder||0;
+    document.getElementById('statDirect').textContent=SHOP_DATA.counts.direct||0;
+
+    renderChips();
+    render();
+    return true;
   }
 
   function applyIpFilter(label,searchTerm){
@@ -914,7 +1099,10 @@
     renderModeTabs();
     renderIpChips();
     renderIpModal();
-    loadShop(true);
+
+    if(!applyClientFilters()){
+      loadShop(true);
+    }
 
     var catalog=document.getElementById('catalogSection');
     if(catalog)catalog.scrollIntoView({behavior:'smooth',block:'start'});
@@ -956,7 +1144,7 @@
       return '<button class="ipCard '+(ACTIVE_IP===x.label?'active':'')+'" type="button" '+
         'data-ip="'+esc(x.label)+'" data-search="'+esc(x.search)+'">'+
         (logo
-          ?'<span class="ipThumb"><img src="'+esc(logo)+'" alt="'+esc(x.label)+'"></span>'
+          ?'<span class="ipThumb hasLogo"><img src="'+esc(logo)+'" alt="'+esc(x.label)+'" onerror="this.parentNode.classList.remove(\'hasLogo\');this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\';"><span class="ipLogoFallback tone'+(i%5)+'" style="display:none">'+esc(String(x.label).slice(0,1))+'</span></span>'
           :'<span class="ipOrb tone'+(i%5)+'">'+esc(String(x.label).slice(0,1))+'</span>')+
         '<span class="ipText"><strong>'+esc(x.label)+'</strong>'+(x.count?'<small>'+x.count+' 件</small>':'')+'</span>'+
         '</button>';
@@ -991,7 +1179,7 @@
       return '<button class="ipPickerItem '+(ACTIVE_IP===x.label?'active':'')+'" type="button" '+
         'data-ip="'+esc(x.label)+'" data-search="'+esc(x.search)+'">'+
         (logo
-          ?'<span class="ipPickerThumb logo"><img src="'+esc(logo)+'" alt="'+esc(x.label)+'"></span>'
+          ?'<span class="ipPickerThumb logo"><img src="'+esc(logo)+'" alt="'+esc(x.label)+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\';"><span class="ipLogoFallback tone'+(i%5)+'" style="display:none">'+esc(String(x.label).slice(0,1))+'</span></span>'
           :'<span class="ipPickerThumb tone'+(i%5)+'">'+esc(String(x.label).slice(0,1))+'</span>')+
         '<span class="ipPickerText"><strong>'+esc(x.label)+'</strong>'+(x.count?'<small>'+x.count+' 件</small>':'')+'</span>'+
         '</button>';
@@ -1035,7 +1223,10 @@
 
         renderModeTabs();
         renderIpChips();
-        loadShop(true);
+
+        if(!applyClientFilters()){
+          loadShop(true);
+        }
       };
     });
   }
@@ -1055,7 +1246,10 @@
         document.getElementById('search').value='';
         renderChips();
         renderIpChips();
-        loadShop(true);
+
+        if(!applyClientFilters()){
+          loadShop(true);
+        }
       };
     });
   }
@@ -1259,6 +1453,7 @@
 
   function findProduct(id){
     return (SHOP_DATA.items||[]).find(function(p){return p.id===id;}) ||
+      (ALL_PRODUCTS_CACHE||[]).find(function(p){return p&&p.id===id;}) ||
       featuredItemsV275_().find(function(p){return p&&p.id===id;}) ||
       ((FOCUS_ITEM&&FOCUS_ITEM.id===id)?FOCUS_ITEM:null);
   }
@@ -1499,13 +1694,17 @@
     renderModeTabs();
 
     SEARCH_TIMER=setTimeout(function(){
-      loadShop(true);
-    },280);
+      if(!applyClientFilters()){
+        loadShop(true);
+      }
+    },80);
   });
 
   document.getElementById('sort').addEventListener('change',function(){
     CLOSED_AUTO_LOADS=0;
-    loadShop(true);
+    if(!applyClientFilters()){
+      loadShop(true);
+    }
   });
 
   document.getElementById('orderQty').addEventListener('input',updateTotal);
@@ -1547,12 +1746,12 @@
   renderModeTabs();
   renderIpChips();
   renderIpModal();
+  loadIpCatalog();
   loadFeaturedV275_();
   loadShop(true);
-  loadIpCatalog();
 </script>
 
-<script src="shop-enhancements-v27.13.6.js?v=271520"></script>
-<script src="shop-ui-v27.15.2.js?v=271520"></script>
+<script src="shop-enhancements-v27.13.6.js?v=271530"></script>
+<script src="shop-ui-v27.15.3.js?v=271530"></script>
 </body>
 </html>
