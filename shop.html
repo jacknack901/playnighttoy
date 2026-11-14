@@ -274,6 +274,286 @@
       .field.full{grid-column:auto}
     }
 
+  
+    /* v27.15.4｜商城視覺層次強化 */
+    body{
+      position:relative;
+      background:
+        radial-gradient(circle at 8% 0%,rgba(77,145,230,.13),transparent 28%),
+        radial-gradient(circle at 92% 8%,rgba(255,215,93,.16),transparent 23%),
+        radial-gradient(circle at 78% 70%,rgba(185,169,232,.10),transparent 25%),
+        linear-gradient(180deg,#fbfcff 0%,#f4f7fb 55%,#fbfcff 100%)!important;
+    }
+    body:before{
+      content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.22;
+      background-image:radial-gradient(circle at 1px 1px,rgba(64,95,132,.20) 1px,transparent 0);
+      background-size:28px 28px;
+      mask-image:linear-gradient(180deg,rgba(0,0,0,.42),transparent 74%);
+    }
+
+    header{
+      box-shadow:0 7px 22px rgba(44,67,98,.05);
+    }
+    header:before{
+      content:"";position:absolute;left:0;right:0;top:0;height:3px;
+      background:linear-gradient(90deg,#4d91e6 0 42%,#ffd75d 42% 68%,#b9a9e8 68% 100%);
+    }
+    .head{padding-top:14px!important}
+    .brandBlock{position:relative}
+    .brandBlock:after{
+      content:"OFFICIAL SHOP";display:inline-flex;align-items:center;height:20px;margin-left:3px;
+      padding:0 7px;border-radius:999px;background:#eef6ff;border:1px solid #d6e7f8;
+      color:#4c7ba9;font-size:7px;font-weight:950;letter-spacing:.08em
+    }
+
+    .shopNav{
+      background:linear-gradient(90deg,rgba(238,246,255,.78),rgba(255,251,233,.74),rgba(245,241,255,.78));
+    }
+    .typeTabs{padding:5px 0!important}
+    .typeTab{
+      transition:transform .16s ease,background .16s ease,color .16s ease!important;
+    }
+    .typeTab:hover{transform:translateY(-1px)}
+
+    .section{margin-top:18px!important}
+    .sectionKicker{
+      display:block;color:#7a94b1;font-size:8px;font-weight:950;letter-spacing:.14em;margin-bottom:3px
+    }
+
+    /* 熱門作品：變成商城首頁主分類面板，不使用大 Hero */
+    .discoverCard{
+      position:relative;overflow:hidden;
+      padding:22px!important;
+      border-color:#dfe7f0!important;
+      background:
+        linear-gradient(135deg,rgba(255,255,255,.98),rgba(247,251,255,.98) 58%,rgba(255,252,238,.98))!important;
+      box-shadow:0 16px 38px rgba(42,67,99,.08)!important;
+    }
+    .discoverCard:before{
+      content:"";position:absolute;left:0;right:0;top:0;height:4px;
+      background:linear-gradient(90deg,#4d91e6,#ffd75d,#b9a9e8)
+    }
+    .discoverGlow{position:absolute;border-radius:50%;pointer-events:none;filter:blur(1px)}
+    .glowBlue{width:210px;height:210px;right:-75px;top:-100px;background:radial-gradient(circle,rgba(77,145,230,.13),transparent 68%)}
+    .glowYellow{width:180px;height:180px;left:32%;bottom:-120px;background:radial-gradient(circle,rgba(255,215,93,.13),transparent 68%)}
+    .discoverWatermark{
+      position:absolute;right:18px;bottom:-20px;width:105px;height:105px;opacity:.055;
+      transform:rotate(-8deg);pointer-events:none
+    }
+    .discoverWatermark img{width:100%;height:100%;object-fit:contain}
+    .discoverTop{
+      position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:15px
+    }
+    .discoverTitle strong{font-size:22px!important;color:#26364e}
+    .discoverTools{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+    .discoverTools .stats{margin:0!important}
+    .stat{
+      background:rgba(255,255,255,.88)!important;border-color:#dde5ed!important;
+      box-shadow:0 4px 13px rgba(39,62,91,.04)
+    }
+    .stat b{color:#2f6fae!important}
+    .sectionMore{
+      border:1px solid #cfe0f1!important;background:#eef6ff!important;color:#316aa5!important;
+      min-height:36px;transition:.16s ease!important
+    }
+    .sectionMore:hover{transform:translateY(-1px);background:#e6f2ff!important}
+
+    .ipGrid{position:relative;z-index:2;gap:11px!important}
+    .ipCard{
+      min-height:68px;border-radius:17px!important;
+      background:rgba(255,255,255,.92)!important;
+      box-shadow:0 6px 18px rgba(44,67,98,.055);
+      border-color:#e1e7ee!important;
+      transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease!important
+    }
+    .ipCard:nth-child(4n+1){background:linear-gradient(135deg,#fff,#f4f9ff)!important}
+    .ipCard:nth-child(4n+2){background:linear-gradient(135deg,#fff,#fffaf0)!important}
+    .ipCard:nth-child(4n+3){background:linear-gradient(135deg,#fff,#f8f5ff)!important}
+    .ipCard:nth-child(4n+4){background:linear-gradient(135deg,#fff,#fff4f8)!important}
+    .ipCard:hover{
+      transform:translateY(-2px)!important;box-shadow:0 11px 24px rgba(44,67,98,.09)!important;
+      border-color:#bdd3e9!important
+    }
+    .ipCard.active{box-shadow:0 0 0 3px rgba(77,145,230,.10),0 9px 24px rgba(44,67,98,.07)!important}
+    .ipThumb,.ipOrb{
+      box-shadow:inset 0 0 0 1px rgba(49,85,122,.06),0 4px 10px rgba(49,85,122,.05)
+    }
+
+    /* 近期推薦：有品牌感但仍然是功能區 */
+    .featuredFrame{
+      position:relative;overflow:hidden;
+      padding:21px!important;border-color:#e0e5ee!important;
+      background:
+        linear-gradient(135deg,#eef7ff 0%,#ffffff 48%,#fff9df 100%)!important;
+      box-shadow:0 15px 36px rgba(43,67,98,.075)!important
+    }
+    .featuredFrame:before{
+      content:"";position:absolute;left:0;right:0;top:0;height:4px;
+      background:linear-gradient(90deg,#75b5ef,#ffd75d)
+    }
+    .featuredHead{position:relative;z-index:2;margin-bottom:14px!important}
+    .featuredHeading strong{font-size:21px!important;color:#28384e}
+    .featuredShopLink{
+      color:#3974ad;text-decoration:none;font-size:10px;font-weight:900;
+      background:rgba(255,255,255,.72);border:1px solid #d5e2ef;border-radius:999px;padding:7px 10px
+    }
+    .featuredDecor{position:absolute;pointer-events:none;z-index:0}
+    .decorMoon{
+      right:-30px;top:-54px;width:150px;height:150px;border-radius:50%;
+      border:24px solid rgba(255,215,93,.13);background:transparent
+    }
+    .decorStar{right:126px;top:16px;color:rgba(77,145,230,.20);font-size:25px;font-weight:950}
+
+    /* 商品總覽：像真正商城的列表區 */
+    .catalogPanel{
+      position:relative;overflow:hidden;padding:20px!important;
+      background:rgba(255,255,255,.96)!important;border-color:#dfe5ed!important;
+      box-shadow:0 15px 38px rgba(42,67,99,.075)!important
+    }
+    .catalogPanel:before{
+      content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+      background:linear-gradient(180deg,#4d91e6,#b9a9e8,#ffd75d)
+    }
+    .catalogTop{position:relative;z-index:2;margin-bottom:14px!important}
+    .catalogTitle strong{font-size:22px!important;color:#26364e}
+    .sortBox select{
+      min-width:158px!important;background:#f7fafc!important;border-color:#d9e1ea!important;
+      font-weight:800;color:#546279!important
+    }
+    .filterRow{
+      position:relative;z-index:2;padding:12px!important;border:1px solid #e5eaf0!important;
+      border-radius:14px;background:linear-gradient(90deg,#f8fbff,#fffdf7)!important
+    }
+    .filterLabel{
+      display:flex;align-items:center;gap:5px;color:#6f7f93!important
+    }
+    .filterLabel:before{content:"⌗";color:#4d91e6;font-size:13px}
+    .chip{
+      background:#fff!important;border-color:#dfe5ed!important;box-shadow:0 2px 8px rgba(44,67,98,.035)
+    }
+    .chip.active{box-shadow:0 0 0 2px rgba(77,145,230,.08)}
+    .resultHead{
+      padding:11px 2px 3px!important;margin-top:10px!important;border-bottom:1px solid #eef1f4
+    }
+    .resultHead strong{font-size:15px!important}
+    .resultHead span{
+      padding:4px 8px;border-radius:999px;background:#f2f5f8;color:#758197!important
+    }
+
+    /* 商品卡片 */
+    .grid{gap:14px!important}
+    .card{
+      position:relative;border-radius:18px!important;overflow:hidden;
+      background:#fff!important;border-color:#e1e6ed!important;
+      box-shadow:0 6px 18px rgba(37,59,88,.055)!important;
+      transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease!important
+    }
+    .card:before{
+      content:"";position:absolute;left:0;right:0;top:0;height:3px;z-index:4
+    }
+    .card.preCard:before{background:linear-gradient(90deg,#4d91e6,#91c7f4)}
+    .card.directCard:before{background:linear-gradient(90deg,#62b7d8,#9de3c3)}
+    .card.closedCard:before{background:linear-gradient(90deg,#c58a78,#e8bba9)}
+    .card:hover{
+      transform:translateY(-3px)!important;border-color:#c5d5e6!important;
+      box-shadow:0 14px 30px rgba(37,59,88,.10)!important
+    }
+    .cover{
+      background:
+        radial-gradient(circle at 50% 45%,#fff 0 28%,transparent 58%),
+        linear-gradient(145deg,#f8fafc,#f2f5f9)!important;
+      border-bottom:1px solid #eef1f4
+    }
+    .preCard .cover{background:linear-gradient(145deg,#fbfdff,#eff7ff)!important}
+    .directCard .cover{background:linear-gradient(145deg,#fbffff,#eef9f7)!important}
+    .closedCard .cover{background:linear-gradient(145deg,#fffdfb,#faf3ef)!important}
+    .body{padding:12px!important}
+    .cat{
+      display:inline-flex;align-self:flex-start;padding:3px 7px;border-radius:999px;
+      background:#f3f6f9;color:#7d8999!important;font-size:8px!important
+    }
+    .name{margin-top:7px!important;color:#29394f!important}
+    .price{color:#2f6fae!important}
+    .directCard .price{color:#31809b!important}
+    .closedCard .price{color:#a36555!important}
+    .buy{transition:transform .14s ease,box-shadow .14s ease,background .14s ease!important}
+    .buy:hover{transform:translateY(-1px);box-shadow:0 7px 15px rgba(51,99,148,.16)}
+    .buy.pre{background:linear-gradient(135deg,#4d91e6,#3679c8)!important}
+    .buyLink{background:linear-gradient(135deg,#50a6c9,#3784a6)!important}
+    .buy.closed{background:linear-gradient(135deg,#b77b68,#985e4e)!important}
+
+    .trustRow{margin-top:18px!important}
+    .trustItem{
+      background:rgba(255,255,255,.90)!important;box-shadow:0 5px 16px rgba(40,61,93,.04)
+    }
+
+    footer{
+      padding-top:26px!important;border-top:1px solid rgba(217,224,233,.7)
+    }
+
+    @media(max-width:720px){
+      body:before{opacity:.15;background-size:23px 23px}
+      .brandBlock:after{display:none}
+      .section{margin-top:11px!important}
+
+      .discoverCard,.featuredFrame,.catalogPanel{
+        border-radius:17px!important;padding:13px!important;box-shadow:none!important
+      }
+      .discoverTop{align-items:flex-start;gap:10px;margin-bottom:11px}
+      .discoverTitle strong,.catalogTitle strong{font-size:17px!important}
+      .discoverTools{gap:6px}
+      .discoverTools .stats{
+        display:grid!important;grid-template-columns:repeat(3,1fr);width:100%;gap:5px!important
+      }
+      .discoverTools .stat{
+        text-align:center;padding:6px 5px!important;font-size:8px!important;border-radius:10px!important
+      }
+      .discoverTools .stat b{display:block;font-size:11px;margin-top:1px}
+      .sectionMore{min-height:31px;font-size:9px!important;padding:6px 9px!important}
+      .discoverWatermark{width:72px;height:72px;right:7px;bottom:-16px}
+      .glowBlue{width:120px;height:120px}
+      .glowYellow{width:110px;height:110px}
+
+      .ipGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:7px!important}
+      .ipCard{min-height:56px!important;padding:8px!important}
+      .ipThumb,.ipOrb{width:36px!important;height:36px!important}
+      .ipText strong{font-size:10px!important}
+
+      .featuredHead{margin-bottom:10px!important}
+      .featuredHeading strong{font-size:16px!important}
+      .featuredShopLink{font-size:8px;padding:6px 8px}
+      .decorMoon{width:100px;height:100px;right:-34px;top:-45px;border-width:17px}
+      .decorStar{display:none}
+
+      .catalogTop{grid-template-columns:1fr auto!important;gap:7px!important}
+      .sortBox select{min-width:114px!important;height:35px!important;font-size:9px!important}
+      .filterRow{padding:9px!important}
+      .resultHead{padding-top:8px!important}
+
+      .grid,#featuredGridV275{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+      .card{border-radius:14px!important;box-shadow:none!important}
+      .card:hover{transform:none!important}
+      .body{padding:8px!important}
+      .cat{font-size:7px!important;padding:2px 5px}
+      .name{font-size:11.5px!important;line-height:1.4!important}
+      .price{font-size:16px!important}
+      .buy{min-height:38px!important;font-size:10.5px!important}
+
+      .trustRow{gap:6px!important}
+    }
+
+    @media(max-width:380px){
+      .discoverTop{display:block}
+      .discoverTools{margin-top:8px;justify-content:space-between}
+      .discoverTools .stats{width:100%}
+      .sectionMore{margin-left:auto}
+      .ipCard{min-width:0}
+      .ipText strong{white-space:normal!important;line-height:1.25}
+      .grid,#featuredGridV275{gap:6px!important}
+      .body{padding:7px!important}
+      .name{font-size:10.5px!important}
+    }
+
   </style>
 </head>
 <body>
@@ -310,26 +590,30 @@
 </header>
 
 <div class="wrap">
-  <section class="shopIntro">
-    <div>
-      <h1>找到你想收藏的角色</h1>
+  <section id="shopDiscover" class="section discoverSection">
+    <div class="sectionCard discoverCard">
+      <div class="discoverGlow glowBlue"></div>
+      <div class="discoverGlow glowYellow"></div>
+      <div class="discoverWatermark" aria-hidden="true">
+        <img src="./assets/logo.png" alt="">
       </div>
-    <div class="stats">
-      <div class="stat">全部 <b id="statAll">—</b></div>
-      <div class="stat">預購 <b id="statPre">—</b></div>
-      <div class="stat">現貨 <b id="statDirect">—</b></div>
-    </div>
-  </section>
 
-  <section id="shopDiscover" class="section">
-    <div class="sectionCard">
-      <div class="sectionHead">
-        <div class="sectionTitle">
+      <div class="discoverTop">
+        <div class="sectionTitle discoverTitle">
+          <span class="sectionKicker">DISCOVER</span>
           <strong>熱門作品</strong>
+        </div>
+
+        <div class="discoverTools">
+          <div class="stats">
+            <div class="stat">全部 <b id="statAll">—</b></div>
+            <div class="stat">預購 <b id="statPre">—</b></div>
+            <div class="stat">現貨 <b id="statDirect">—</b></div>
+          </div>
+          <button id="ipMoreBtn" class="sectionMore" type="button" style="display:none">更多作品</button>
+        </div>
       </div>
-        <button id="ipMoreBtn" class="sectionMore" type="button" style="display:none">更多作品</button>
-      </div>
-      
+
       <div id="ipChips" class="ipGrid">
         <div class="ipEmpty">載入中…</div>
       </div>
@@ -338,10 +622,14 @@
 
   <section id="featuredTopV275" class="featuredTop">
     <div class="featuredFrame">
+      <div class="featuredDecor decorMoon" aria-hidden="true"></div>
+      <div class="featuredDecor decorStar" aria-hidden="true">✦</div>
       <div class="featuredHead">
-        <div>
+        <div class="featuredHeading">
+          <span class="sectionKicker">PICK UP</span>
           <strong>近期推薦</strong>
-      </div>
+        </div>
+        <a class="featuredShopLink" href="./shop.html">全部商品 →</a>
       </div>
       <div id="featuredGridV275" class="grid">
         <div class="empty" style="grid-column:1/-1">載入中…</div>
@@ -353,8 +641,9 @@
     <div class="catalogPanel">
       <div class="catalogTop">
         <div class="catalogTitle">
+          <span class="sectionKicker">SHOP ALL</span>
           <strong>商品總覽</strong>
-      </div>
+        </div>
         <div class="sortBox">
           <select id="sort" aria-label="商品排序">
             <option value="new">最新上架</option>
@@ -514,8 +803,8 @@
   </div>
 </div>
 
-<script src="config.js?v=271530"></script>
-<script src="gas-bridge.js?v=271530"></script>
+<script src="config.js?v=271540"></script>
+<script src="gas-bridge.js?v=271540"></script>
 <script>
   var SHOP_DATA={
     items:[],
@@ -1420,7 +1709,8 @@
 
     var priceText=closed?'已結單':money(x.price);
 
-    return '<article class="card '+(closed?'closed':'')+'">'+
+    var cardType=closed?'closedCard':(x.type==='直購'?'directCard':'preCard');
+    return '<article class="card '+cardType+' '+(closed?'closed':'')+'">'+
       '<div class="cover"'+zoom+'>'+img+
       (x.imageUrl?'<span class="zoomHint">🔍 點圖放大</span>':'')+
       '<div class="badges">'+
@@ -1751,7 +2041,7 @@
   loadShop(true);
 </script>
 
-<script src="shop-enhancements-v27.13.6.js?v=271530"></script>
-<script src="shop-ui-v27.15.3.js?v=271530"></script>
+<script src="shop-enhancements-v27.13.6.js?v=271540"></script>
+<script src="shop-ui-v27.15.4.js?v=271540"></script>
 </body>
 </html>
