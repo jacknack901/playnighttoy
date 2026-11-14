@@ -497,6 +497,100 @@
       .kujiStat{padding:5px 2px}
     }
 
+  
+    /* v27.16.2｜最新活動縮小版 */
+    #latestEvents .sectionCard{padding:18px}
+    #latestEvents .sectionHead{margin-bottom:12px}
+    #latestEvents .sectionTitle strong{font-size:20px}
+    #latestEvents .eventGrid{
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:10px
+    }
+    #latestEvents .eventCard{
+      border-radius:15px;
+      box-shadow:0 4px 14px rgba(35,57,86,.045)
+    }
+    #latestEvents .eventPosterStage{
+      aspect-ratio:4/5;
+      padding:6px
+    }
+    #latestEvents .eventBody{padding:10px}
+    #latestEvents .eventTitle{
+      font-size:13px;
+      line-height:1.38;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient:vertical;
+      overflow:hidden
+    }
+    #latestEvents .eventDesc{
+      margin-top:4px;
+      font-size:9px;
+      line-height:1.45;
+      -webkit-line-clamp:2
+    }
+    #latestEvents .eventMeta{margin-bottom:5px}
+    #latestEvents .pill{
+      min-height:21px;
+      padding:0 6px;
+      font-size:8px
+    }
+    #latestEvents .eventActions{padding-top:8px}
+    #latestEvents .eventActions .btn{
+      min-height:34px;
+      padding:6px 8px;
+      font-size:9px
+    }
+    #latestEvents .eventZoomHint{
+      right:7px;
+      bottom:7px;
+      padding:4px 6px;
+      font-size:7px
+    }
+
+    @media(max-width:980px){
+      #latestEvents .eventGrid{
+        grid-template-columns:repeat(3,minmax(0,1fr));
+      }
+    }
+
+    @media(max-width:680px){
+      #latestEvents .sectionCard{padding:12px}
+      #latestEvents .eventGrid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:7px
+      }
+      #latestEvents .eventCard{display:block}
+      #latestEvents .eventPosterStage{
+        aspect-ratio:4/5;
+        padding:4px
+      }
+      #latestEvents .eventBody{padding:8px}
+      #latestEvents .eventTitle{font-size:11px}
+      #latestEvents .eventDesc{display:none}
+      #latestEvents .eventMeta{gap:4px;margin-bottom:4px}
+      #latestEvents .pill{font-size:7px;min-height:19px;padding:0 5px}
+      #latestEvents .eventActions{
+        grid-template-columns:1fr;
+        gap:5px;
+        padding-top:6px
+      }
+      #latestEvents .eventActions .btn{
+        min-height:31px;
+        font-size:8px;
+      }
+      #latestEvents .eventZoomHint{
+        font-size:6px;
+        padding:3px 5px
+      }
+    }
+
+    @media(max-width:380px){
+      #latestEvents .eventGrid{gap:6px}
+      #latestEvents .eventBody{padding:7px}
+      #latestEvents .eventTitle{font-size:10.5px}
+    }
+
   </style>
 </head>
 <body>
@@ -741,8 +835,8 @@
   <a href="./shop.html"><span class="ico">🛒</span><span>商城</span></a>
 </nav>
 
-<script src="config.js?v=271610"></script>
-<script src="gas-bridge.js?v=271610"></script>
+<script src="config.js?v=271620"></script>
+<script src="gas-bridge.js?v=271620"></script>
 <script>
   var OVERVIEW_CACHE='wanye-official-v27160-overview';
   var COMMERCE_CACHE='wanye-official-v27160-commerce';
