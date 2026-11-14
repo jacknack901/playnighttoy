@@ -604,6 +604,22 @@
       image-rendering:auto;
     }
 
+  
+    /* v27.16.4｜活動報名進度 */
+    .signupProgress{
+      display:inline-flex;align-items:center;gap:4px;min-height:21px;padding:0 7px;border-radius:999px;
+      background:#edf8f2;border:1px solid #c9e8d6;color:#39775a;font-size:8px;font-weight:900
+    }
+    .signupProgress.full{
+      background:#fff1ed;border-color:#efc9be;color:#9a5a49
+    }
+    .signupProgress.unlimited{
+      background:#f2f5f9;border-color:#dfe5eb;color:#68768a
+    }
+    @media(max-width:680px){
+      .signupProgress{font-size:7px;min-height:19px;padding:0 5px}
+    }
+
   </style>
 </head>
 <body>
@@ -848,8 +864,8 @@
   <a href="./shop.html"><span class="ico">🛒</span><span>商城</span></a>
 </nav>
 
-<script src="config.js?v=271630"></script>
-<script src="gas-bridge.js?v=271630"></script>
+<script src="config.js?v=271640"></script>
+<script src="gas-bridge.js?v=271640"></script>
 <script>
   var OVERVIEW_CACHE='wanye-official-v27160-overview';
   var COMMERCE_CACHE='wanye-official-v27160-commerce';
@@ -965,8 +981,28 @@
       var d=eventDateLabel(a);
       if(d)meta.push('<span class="pill blue">'+esc(d)+'</span>');
       if(Number(a.signupFee||0)>0)meta.push('<span class="pill yellow">'+money(a.signupFee)+'</span>');
-      if(a.raffleEnabled)meta.push('<span class="pill pink">抽獎活動</span>');
-      else if(a.signupEnabled)meta.push('<span class="pill">開放報名</span>');
+
+      if(a.raffleEnabled){
+        var rafflePeople=Number(a.raffleSignupPeople||0);
+        meta.push('<span class="pill pink">抽獎活動</span>');
+        meta.push('<span class="signupProgress unlimited">已報名 '+rafflePeople+' 人</span>');
+      }else if(a.signupEnabled){
+        var signupQty=Number(a.signupQty||0);
+        var signupLimit=Number(a.signupLimit||0);
+        var signupFull=signupLimit>0 && signupQty>=signupLimit;
+
+        meta.push('<span class="pill">開放報名</span>');
+
+        if(signupLimit>0){
+          meta.push(
+            '<span class="signupProgress '+(signupFull?'full':'')+'">'+
+              '已報名 '+signupQty+' / '+signupLimit+' 人'+
+            '</span>'
+          );
+        }else{
+          meta.push('<span class="signupProgress unlimited">已報名 '+signupQty+' 人</span>');
+        }
+      }
 
       var actions='';
       if(a.raffleEnabled){
@@ -976,12 +1012,17 @@
           '" data-deadline="'+esc(a.raffleSignupDeadline||'')+'" data-draw="'+esc(a.raffleDrawAt||'')+'">'+
           (closed?'報名截止':'我要報名')+'</button>';
       }else if(a.signupEnabled){
-        actions+='<button class="btn primary" type="button" '+(a.signupClosed?'disabled':'')+
+        var eventLimit=Number(a.signupLimit||0);
+        var eventQty=Number(a.signupQty||0);
+        var eventFull=eventLimit>0 && eventQty>=eventLimit;
+        var eventDisabled=!!a.signupClosed || eventFull;
+
+        actions+='<button class="btn primary" type="button" '+(eventDisabled?'disabled':'')+
           ' onclick="openActivityFromCard(this)" data-id="'+esc(a.id)+'" data-title="'+esc(a.title||'活動')+
           '" data-remain="'+Number(a.signupLimit>0?a.signupRemaining:99999)+'" data-fee="'+Number(a.signupFee||0)+
           '" data-mode="'+esc(a.paymentMode|| (Number(a.signupFee||0)>0?'transfer':'free'))+
           '" data-note="'+esc(a.signupNote||'')+'">'+
-          (a.signupClosed?'報名截止':'我要參加')+'</button>';
+          (eventFull?'名額已滿':(a.signupClosed?'報名截止':'我要參加'))+'</button>';
       }
 
       var url=a.linkUrl||a.instagramUrl||'';
