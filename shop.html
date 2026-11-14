@@ -824,8 +824,8 @@
   </div>
 </div>
 
-<script src="config.js?v=271550"></script>
-<script src="gas-bridge.js?v=271550"></script>
+<script src="config.js?v=271570"></script>
+<script src="gas-bridge.js?v=271570"></script>
 <script>
   var SHOP_DATA={
     items:[],
@@ -865,8 +865,9 @@
   var ALL_PRODUCTS_CACHE=[];
   var ALL_PRODUCTS_READY=false;
   var ALL_PRODUCTS_LOADING=false;
-  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V27153';
+  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V27157';
   var ALL_PRODUCTS_CACHE_TTL=10*60*1000;
+  var ALL_PRODUCTS_REFRESHED_THIS_PAGE=false;
 
   var IP_LOGOS={
     '精靈村':'https://pbs.twimg.com/profile_images/574766295528296449/VbZGbrsU_400x400.jpeg',
@@ -1018,65 +1019,70 @@
     var upper=raw.toUpperCase();
     var compact=upper.replace(/\s+/g,' ');
 
-    // 1. 特殊類型優先，避免被「PVC / FIGURE / 公仔」等泛稱搶走。
+    // 先判斷「商品型態」，最後才參考後台原始分類。
+    // 這樣即使匯入時把玩偶填成景品、黏土人填成 PVC，商城仍會自動歸到正確品類。
+
+    // GK / 樹脂雕像
     if(
       /(^|[^A-Z0-9])GK([^A-Z0-9]|$)/.test(compact) ||
       /GARAGE\s*K(?:IT)?|RESIN\s*(STATUE|FIGURE|KIT)?|樹脂(?:雕像|模型|公仔|GK)|工作室\s*GK|GK\s*工作室/.test(compact)
     ) return 'GK';
 
-    // 「驚喜黏土人」本質是盲抽盒玩，需先於一般黏土人判斷。
+    // 盲抽 / 盒玩。驚喜黏土人屬於盲抽系列，必須先於一般黏土人。
     if(
-      /驚喜黏土人|NENDOROID\s*SURPRISE|盲抽|一中盒|中盒|盲盒|盒玩|食玩|BLIND\s*BOX|MYSTERY\s*BOX|TRADING\s*FIGURE|COLLECTION\s*BOX|BOX\s*SET/.test(compact)
+      /驚喜黏土人|NENDOROID\s*SURPRISE|盲盒|盲抽|盒玩|食玩|一中盒|中盒|BLIND\s*BOX|MYSTERY\s*BOX|TRADING\s*FIGURE|COLLECTION\s*BOX/.test(compact)
     ) return '盲盒';
 
+    // 黏土人 / 黏土娃
     if(
-      /黏土人|黏土娃|ねんどろいど|NENDOROID(?:\s*DOLL)?|HELLO!?\s*GOOD\s*SMILE/.test(compact)
+      /黏土人|黏土娃|ねんどろいど|NENDOROID(?:\s*DOLL|\s*MORE)?/.test(compact)
     ) return '黏土人';
 
+    // 娃娃 / 絨毛 / 玩偶
+    // 不使用單獨「娃娃」兩字，避免把 IP「戀上換裝娃娃」的 PVC 公仔誤判成娃娃。
     if(
-      /絨毛|毛絨|布偶|娃娃|玩偶|ぬいぐるみ|PLUSH|PLUSHIE|STUFFED\s*(TOY|DOLL)/.test(compact)
+      /KURIPAN|絨毛(?:娃娃|玩偶|公仔)?|毛絨(?:娃娃|玩偶|公仔)?|布偶|玩偶|ぬいぐるみ|PLUSH|PLUSHIE|STUFFED\s*(TOY|DOLL)/.test(compact)
     ) return '娃娃';
 
-    // 2. 景品系列關鍵字。
+    // 真正景品系列。POP UP PARADE / TENITOL / Qset 不列入景品。
     if(
-      /景品|PRIZE\s*FIGURE|BANPRESTO|BANDAI\s*SPIRITS\s*景品|LUMINASTA|COREful|CORE\s*FUL|DESKTOP\s*CUTE|TRIO[-\s]*TRY[-\s]*IT|FIGURIZM|NOODLE\s*STOPPER|ぬーどるストッパー|RELAX\s*TIME|Q\s*POSKET|AMP\+?|AQUA\s*FLOAT\s*GIRLS|TENITOL|SPM\b|SUPER\s*PREMIUM|EXQ\b/.test(compact)
+      /景品|PRIZE\s*FIGURE|BANPRESTO|LUMINASTA|COREFUL|CORE\s*FUL|DESKTOP\s*CUTE|TRIO[-\s]*TRY[-\s]*IT|FIGURIZM|NOODLE\s*STOPPER|ぬーどるストッパー|RELAX\s*TIME|Q\s*POSKET|AMP\+|AQUA\s*FLOAT\s*GIRLS|BICUTE\s*BUNNIES|GRANDISTA|VIBRATION\s*STARS|WORLD\s*COLLECTABLE|WCF\b|DXF\b|FLUFFY\s*PUFFY|MAXIMATIC|KING\s*OF\s*ARTIST|GLITTER\s*&\s*GLAMOURS|SOLID\s*EDGE\s*WORKS/.test(compact)
     ) return '景品';
 
-    // 3. 可動成品。
+    // 組裝模型
     if(
-      /\bFIGMA\b|S\.?H\.?\s*FIGUARTS|SHFIGUARTS|MAFEX|REVOLTECH|AMAZING\s*YAMAGUCHI|NENDOROID\s*MORE|可動(?:公仔|人偶|模型)|ACTION\s*FIGURE/.test(compact)
-    ) return '可動公仔';
-
-    // 4. 組裝模型。
-    if(
-      /組裝模型|塑膠模型|模型套件|MODEL\s*KIT|PLASTIC\s*MODEL|PLAMAX|MODEROID|FIGURE[-\s]*RISE|30MS|30MM|GUNPLA|鋼普拉|(^|[^A-Z])HG([^A-Z]|$)|(^|[^A-Z])RG([^A-Z]|$)|(^|[^A-Z])MG([^A-Z]|$)|(^|[^A-Z])PG([^A-Z]|$)/.test(compact)
+      /PLAMAX|MODEROID|PLASTIC\s*MODEL|MODEL\s*KIT|組裝模型|塑膠模型|模型套件|GUNPLA|鋼普拉|FIGURE[-\s]*RISE|30MS|30MM|(^|[^A-Z0-9])HG([^A-Z0-9]|$)|(^|[^A-Z0-9])RG([^A-Z0-9]|$)|(^|[^A-Z0-9])MG([^A-Z0-9]|$)|(^|[^A-Z0-9])PG([^A-Z0-9]|$)/.test(compact)
     ) return '模型';
 
-    // 5. 比例 PVC。
+    // 可動公仔
     if(
-      /(^|[^A-Z])PVC([^A-Z]|$)|SCALE\s*FIGURE|比例(?:模型|公仔)|\b1\/(?:4|6|7|8|10|12)\b|1：(?:4|6|7|8|10|12)|1:(?:4|6|7|8|10|12)/.test(compact)
-    ) return 'PVC';
+      /(^|[^A-Z])FIGMA([^A-Z]|$)|S\.?H\.?\s*FIGUARTS|SHFIGUARTS|MAFEX|REVOLTECH|AMAZING\s*YAMAGUCHI|可動(?:公仔|人偶|模型)|ACTION\s*FIGURE/.test(compact)
+    ) return '可動公仔';
 
-    // 6. 卡牌。
+    // 卡牌
     if(
-      /卡牌|卡盒|補充包|擴充包|牌組|卡包|TCG|TRADING\s*CARD|BOOSTER\s*(BOX|PACK)|STARTER\s*DECK|PSA\s*10|POKEMON\s*CARD|ONE\s*PIECE\s*CARD\s*GAME/.test(compact)
+      /卡牌|卡盒|卡包|補充包|擴充包|牌組|TCG|TRADING\s*CARD|BOOSTER\s*(BOX|PACK)|STARTER\s*DECK|POKEMON\s*CARD|ONE\s*PIECE\s*CARD\s*GAME|PSA(?:\s*10)?/.test(compact)
     ) return '卡牌';
 
-    // 7. 一番賞與扭蛋。
-    if(/一番賞|ICHIBAN\s*KUJI|KUJI/.test(compact))return '一番賞';
+    // 一番賞 / 扭蛋
+    if(/一番賞|ICHIBAN\s*KUJI/.test(compact))return '一番賞';
     if(/扭蛋|轉蛋|ガシャポン|ガチャ|GASHAPON|CAPSULE\s*TOY/.test(compact))return '扭蛋';
 
-    // 8. 一般周邊。
+    // 周邊
     if(
       /壓克力|亞克力|立牌|徽章|胸章|吊飾|鑰匙圈|鑰匙扣|資料夾|文件夾|海報|毛巾|抱枕|杯墊|馬克杯|杯子|T恤|T-SHIRT|帽子|托特包|滑鼠墊|桌墊|貼紙|色紙|明信片|ACRYLIC\s*(STAND|KEYCHAIN)|KEYCHAIN|BADGE|CAN\s*BADGE/.test(compact)
     ) return '周邊';
 
-    // 9. 再參考後台原始分類。
+    // 一般完成品公仔
+    if(
+      /POP\s*UP\s*PARADE|QSET|TENITOL|SCALE\s*FIGURE|(^|[^A-Z])PVC([^A-Z]|$)|比例(?:模型|公仔)|無比例\s*PVC|\b1\/(?:4|6|7|8|10|12)\b|1：(?:4|6|7|8|10|12)|1:(?:4|6|7|8|10|12)/.test(compact)
+    ) return 'PVC';
+
+    // 後台原分類只作最後輔助，不再優先主導商城分類。
     var normalized=normalizeRawCategory(rawCategory);
     if(normalized)return normalized;
 
-    // 10. 泛用公仔最後才吃，避免覆蓋上面更精準的分類。
-    if(/公仔|FIGURE|STATUE/.test(compact))return '其他公仔';
+    if(/公仔|FIGURE|STATUE|SOFUBI|軟膠/.test(compact))return '其他公仔';
 
     return '其他';
   }
@@ -1156,7 +1162,8 @@
   function currentQuery(reset){
     return {
       type:ACTIVE_TYPE,
-      category:ACTIVE_CATEGORY,
+      // 商品品類由前台依商品名稱統一判斷，不把推算品類送回後端原始分類欄。
+      category:'',
       q:document.getElementById('search').value.trim(),
       sort:document.getElementById('sort').value,
       offset:reset?0:SHOP_OFFSET,
@@ -1334,13 +1341,24 @@
   }
 
   function loadIpCatalog(){
-    if(ALL_PRODUCTS_READY){
-      mergeIpCatalog(ALL_PRODUCTS_CACHE);
-      return;
-    }
     if(ALL_PRODUCTS_LOADING)return;
 
-    if(restoreAllProductsCache())return;
+    // 先用 session 快取立即顯示，但每次進頁面仍會在背景同步最新商品一次。
+    // 這可避免剛上架的新商品被舊的 10 分鐘快取卡住。
+    if(!ALL_PRODUCTS_READY){
+      restoreAllProductsCache();
+    }
+
+    if(ALL_PRODUCTS_READY){
+      mergeIpCatalog(ALL_PRODUCTS_CACHE);
+      renderChips();
+
+      if(ACTIVE_IP||ACTIVE_CATEGORY||ACTIVE_MODE!=='all'||document.getElementById('search').value.trim()){
+        applyClientFilters();
+      }
+    }
+
+    if(ALL_PRODUCTS_REFRESHED_THIS_PAGE)return;
 
     ALL_PRODUCTS_LOADING=true;
     IP_CATALOG_LOADING=true;
@@ -1360,18 +1378,24 @@
           offset=Number(res.offset||offset)+items.length;
           page++;
 
-          if(res.hasMore && items.length && page<10){
+          if(res.hasMore && items.length && page<20){
             next();
             return;
           }
 
           ALL_PRODUCTS_LOADING=false;
           IP_CATALOG_LOADING=false;
+          ALL_PRODUCTS_REFRESHED_THIS_PAGE=true;
+
           ALL_PRODUCTS_CACHE=all;
           ALL_PRODUCTS_READY=true;
           saveAllProductsCache();
-          mergeIpCatalog(all);
 
+          mergeIpCatalog(all);
+          renderChips();
+
+          // 有任何篩選條件時，完整同步後一定重新套用一次，
+          // 確保剛新增商品會立即進到正確品類。
           if(ACTIVE_IP||ACTIVE_CATEGORY||ACTIVE_MODE!=='all'||document.getElementById('search').value.trim()){
             applyClientFilters();
           }
@@ -1380,11 +1404,15 @@
           ALL_PRODUCTS_LOADING=false;
           IP_CATALOG_LOADING=false;
 
-          var fallback=(SHOP_DATA.items||[]).slice();
-          if(fallback.length){
-            ALL_PRODUCTS_CACHE=fallback;
-            ALL_PRODUCTS_READY=true;
-            mergeIpCatalog(fallback);
+          // 已有快取時維持快取；完全沒有資料時才使用目前頁面商品作 fallback。
+          if(!ALL_PRODUCTS_READY){
+            var fallback=(SHOP_DATA.items||[]).slice();
+            if(fallback.length){
+              ALL_PRODUCTS_CACHE=fallback;
+              ALL_PRODUCTS_READY=true;
+              mergeIpCatalog(fallback);
+              renderChips();
+            }
           }
         })
         .getPublicShopPageV270({
@@ -1741,7 +1769,12 @@
 
         mergeIpCatalog(incoming);
         renderChips();
-        render();
+
+        if(ALL_PRODUCTS_READY && ACTIVE_CATEGORY){
+          applyClientFilters();
+        }else{
+          render();
+        }
 
         if(FIRST_LOAD){
           FIRST_LOAD=false;
@@ -2194,7 +2227,7 @@
   loadShop(true);
 </script>
 
-<script src="shop-enhancements-v27.13.6.js?v=271550"></script>
-<script src="shop-ui-v27.15.5.js?v=271550"></script>
+<script src="shop-enhancements-v27.13.6.js?v=271570"></script>
+<script src="shop-ui-v27.15.7.js?v=271570"></script>
 </body>
 </html>
