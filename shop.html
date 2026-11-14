@@ -554,6 +554,27 @@
       .name{font-size:10.5px!important}
     }
 
+  
+    /* v27.15.5｜商品品類分類 */
+    #categoryChips .chip{display:inline-flex;align-items:center;gap:4px}
+    #categoryChips .chip[data-cat="娃娃"]::before{content:"🧸"}
+    #categoryChips .chip[data-cat="盲盒"]::before{content:"▣"}
+    #categoryChips .chip[data-cat="景品"]::before{content:"★"}
+    #categoryChips .chip[data-cat="PVC"]::before{content:"♟"}
+    #categoryChips .chip[data-cat="GK"]::before{content:"◆"}
+    #categoryChips .chip[data-cat="黏土人"]::before{content:"●"}
+    #categoryChips .chip[data-cat="可動公仔"]::before{content:"⚙"}
+    #categoryChips .chip[data-cat="模型"]::before{content:"△"}
+    #categoryChips .chip[data-cat="卡牌"]::before{content:"▤"}
+    #categoryChips .chip[data-cat="一番賞"]::before{content:"🎟"}
+    #categoryChips .chip[data-cat="扭蛋"]::before{content:"◉"}
+    #categoryChips .chip[data-cat="周邊"]::before{content:"✦"}
+    #categoryChips .chip[data-cat="其他公仔"]::before{content:"◇"}
+    @media(max-width:720px){
+      #categoryChips .chip{gap:3px}
+      #categoryChips .chip::before{font-size:9px}
+    }
+
   </style>
 </head>
 <body>
@@ -803,8 +824,8 @@
   </div>
 </div>
 
-<script src="config.js?v=271540"></script>
-<script src="gas-bridge.js?v=271540"></script>
+<script src="config.js?v=271550"></script>
+<script src="gas-bridge.js?v=271550"></script>
 <script>
   var SHOP_DATA={
     items:[],
@@ -965,6 +986,114 @@
 
   function getIpLogo(label){
     return IP_LOGOS[String(label||'')]||'';
+  }
+
+
+  var PRODUCT_CATEGORY_ORDER=[
+    '娃娃','盲盒','景品','PVC','GK','黏土人','可動公仔','模型','卡牌','一番賞','扭蛋','周邊','其他公仔','其他'
+  ];
+
+  function normalizeRawCategory(raw){
+    var s=String(raw||'').trim().toUpperCase();
+    if(!s)return '';
+
+    if(/GK|RESIN|樹脂/.test(s))return 'GK';
+    if(/黏土人|黏土娃|NENDOROID/.test(s))return '黏土人';
+    if(/娃娃|絨毛|布偶|玩偶|PLUSH/.test(s))return '娃娃';
+    if(/盲盒|盒玩|BLIND/.test(s))return '盲盒';
+    if(/景品|PRIZE/.test(s))return '景品';
+    if(/PVC|比例|SCALE/.test(s))return 'PVC';
+    if(/可動|ACTION|FIGMA|FIGUARTS|MAFEX|REVOLTECH/.test(s))return '可動公仔';
+    if(/模型|MODEL|PLAMO|組裝/.test(s))return '模型';
+    if(/卡牌|TCG|CARD/.test(s))return '卡牌';
+    if(/一番賞|ICHIBAN/.test(s))return '一番賞';
+    if(/扭蛋|轉蛋|GASHAPON|CAPSULE/.test(s))return '扭蛋';
+    if(/周邊|徽章|立牌|吊飾|壓克力|ACRYLIC|KEYCHAIN/.test(s))return '周邊';
+    if(/公仔|FIGURE/.test(s))return '其他公仔';
+    return '';
+  }
+
+  function inferProductCategory(name,rawCategory){
+    var raw=String(name||'');
+    var upper=raw.toUpperCase();
+    var compact=upper.replace(/\s+/g,' ');
+
+    // 1. 特殊類型優先，避免被「PVC / FIGURE / 公仔」等泛稱搶走。
+    if(
+      /(^|[^A-Z0-9])GK([^A-Z0-9]|$)/.test(compact) ||
+      /GARAGE\s*K(?:IT)?|RESIN\s*(STATUE|FIGURE|KIT)?|樹脂(?:雕像|模型|公仔|GK)|工作室\s*GK|GK\s*工作室/.test(compact)
+    ) return 'GK';
+
+    // 「驚喜黏土人」本質是盲抽盒玩，需先於一般黏土人判斷。
+    if(
+      /驚喜黏土人|NENDOROID\s*SURPRISE|盲抽|一中盒|中盒|盲盒|盒玩|食玩|BLIND\s*BOX|MYSTERY\s*BOX|TRADING\s*FIGURE|COLLECTION\s*BOX|BOX\s*SET/.test(compact)
+    ) return '盲盒';
+
+    if(
+      /黏土人|黏土娃|ねんどろいど|NENDOROID(?:\s*DOLL)?|HELLO!?\s*GOOD\s*SMILE/.test(compact)
+    ) return '黏土人';
+
+    if(
+      /絨毛|毛絨|布偶|娃娃|玩偶|ぬいぐるみ|PLUSH|PLUSHIE|STUFFED\s*(TOY|DOLL)/.test(compact)
+    ) return '娃娃';
+
+    // 2. 景品系列關鍵字。
+    if(
+      /景品|PRIZE\s*FIGURE|BANPRESTO|BANDAI\s*SPIRITS\s*景品|LUMINASTA|COREful|CORE\s*FUL|DESKTOP\s*CUTE|TRIO[-\s]*TRY[-\s]*IT|FIGURIZM|NOODLE\s*STOPPER|ぬーどるストッパー|RELAX\s*TIME|Q\s*POSKET|AMP\+?|AQUA\s*FLOAT\s*GIRLS|TENITOL|SPM\b|SUPER\s*PREMIUM|EXQ\b/.test(compact)
+    ) return '景品';
+
+    // 3. 可動成品。
+    if(
+      /\bFIGMA\b|S\.?H\.?\s*FIGUARTS|SHFIGUARTS|MAFEX|REVOLTECH|AMAZING\s*YAMAGUCHI|NENDOROID\s*MORE|可動(?:公仔|人偶|模型)|ACTION\s*FIGURE/.test(compact)
+    ) return '可動公仔';
+
+    // 4. 組裝模型。
+    if(
+      /組裝模型|塑膠模型|模型套件|MODEL\s*KIT|PLASTIC\s*MODEL|PLAMAX|MODEROID|FIGURE[-\s]*RISE|30MS|30MM|GUNPLA|鋼普拉|(^|[^A-Z])HG([^A-Z]|$)|(^|[^A-Z])RG([^A-Z]|$)|(^|[^A-Z])MG([^A-Z]|$)|(^|[^A-Z])PG([^A-Z]|$)/.test(compact)
+    ) return '模型';
+
+    // 5. 比例 PVC。
+    if(
+      /(^|[^A-Z])PVC([^A-Z]|$)|SCALE\s*FIGURE|比例(?:模型|公仔)|\b1\/(?:4|6|7|8|10|12)\b|1：(?:4|6|7|8|10|12)|1:(?:4|6|7|8|10|12)/.test(compact)
+    ) return 'PVC';
+
+    // 6. 卡牌。
+    if(
+      /卡牌|卡盒|補充包|擴充包|牌組|卡包|TCG|TRADING\s*CARD|BOOSTER\s*(BOX|PACK)|STARTER\s*DECK|PSA\s*10|POKEMON\s*CARD|ONE\s*PIECE\s*CARD\s*GAME/.test(compact)
+    ) return '卡牌';
+
+    // 7. 一番賞與扭蛋。
+    if(/一番賞|ICHIBAN\s*KUJI|KUJI/.test(compact))return '一番賞';
+    if(/扭蛋|轉蛋|ガシャポン|ガチャ|GASHAPON|CAPSULE\s*TOY/.test(compact))return '扭蛋';
+
+    // 8. 一般周邊。
+    if(
+      /壓克力|亞克力|立牌|徽章|胸章|吊飾|鑰匙圈|鑰匙扣|資料夾|文件夾|海報|毛巾|抱枕|杯墊|馬克杯|杯子|T恤|T-SHIRT|帽子|托特包|滑鼠墊|桌墊|貼紙|色紙|明信片|ACRYLIC\s*(STAND|KEYCHAIN)|KEYCHAIN|BADGE|CAN\s*BADGE/.test(compact)
+    ) return '周邊';
+
+    // 9. 再參考後台原始分類。
+    var normalized=normalizeRawCategory(rawCategory);
+    if(normalized)return normalized;
+
+    // 10. 泛用公仔最後才吃，避免覆蓋上面更精準的分類。
+    if(/公仔|FIGURE|STATUE/.test(compact))return '其他公仔';
+
+    return '其他';
+  }
+
+  function categoryOf(item){
+    return inferProductCategory(item&&item.name,item&&item.category);
+  }
+
+  function sortProductCategories(list){
+    var order={};
+    PRODUCT_CATEGORY_ORDER.forEach(function(c,i){order[c]=i;});
+    return (list||[]).slice().sort(function(a,b){
+      var ai=Object.prototype.hasOwnProperty.call(order,a)?order[a]:999;
+      var bi=Object.prototype.hasOwnProperty.call(order,b)?order[b]:999;
+      if(ai!==bi)return ai-bi;
+      return String(a).localeCompare(String(b),'zh-Hant');
+    });
   }
 
   function itemKeyV275_(x){
@@ -1299,7 +1428,7 @@
     }
 
     if(ACTIVE_CATEGORY){
-      arr=arr.filter(function(x){return String((x&&x.category)||'')===ACTIVE_CATEGORY;});
+      arr=arr.filter(function(x){return categoryOf(x)===ACTIVE_CATEGORY;});
     }
 
     if(ACTIVE_IP){
@@ -1312,6 +1441,7 @@
         var ip=inferIp(x&&x.name);
         var hay=[
           x&&x.name,
+          categoryOf(x),
           x&&x.category,
           x&&x.type,
           ip&&ip.label
@@ -1343,10 +1473,11 @@
 
     var seen={},cats=[];
     arr.forEach(function(x){
-      var c=String((x&&x.category)||'').trim();
+      var c=categoryOf(x);
       if(c&&!seen[c]){seen[c]=1;cats.push(c);}
     });
-    return cats.sort(function(a,b){return a.localeCompare(b,'zh-Hant');});
+
+    return sortProductCategories(cats);
   }
 
   function applyClientFilters(){
@@ -1521,10 +1652,25 @@
   }
 
   function renderChips(){
-    var cats=[''].concat(SHOP_DATA.availableCategories||[]);
+    var sourceCats=[];
+
+    if(ALL_PRODUCTS_READY){
+      sourceCats=clientAvailableCategories();
+    }else{
+      var seen={};
+      (SHOP_DATA.items||[]).forEach(function(x){
+        var c=categoryOf(x);
+        if(c&&!seen[c]){seen[c]=1;sourceCats.push(c);}
+      });
+      sourceCats=sortProductCategories(sourceCats);
+    }
+
+    SHOP_DATA.availableCategories=sourceCats;
+
+    var cats=[''].concat(sourceCats);
     document.getElementById('categoryChips').innerHTML=cats.map(function(c){
       return '<button class="chip '+(c===ACTIVE_CATEGORY?'active':'')+'" data-cat="'+esc(c)+'">'+
-        (c||'全部類型')+'</button>';
+        (c||'全部品類')+'</button>';
     }).join('');
 
     document.querySelectorAll('[data-cat]').forEach(function(b){
@@ -1537,7 +1683,14 @@
         renderIpChips();
 
         if(!applyClientFilters()){
-          loadShop(true);
+          // 快取尚未完成時先用目前已載入商品做即時篩選；
+          // 完整快取完成後 applyClientFilters() 會自動重新補齊結果。
+          var base=(SHOP_DATA.items||[]).slice();
+          if(ACTIVE_CATEGORY){
+            SHOP_DATA.items=base.filter(function(x){return categoryOf(x)===ACTIVE_CATEGORY;});
+          }
+          render();
+          loadIpCatalog();
         }
       };
     });
@@ -1721,7 +1874,7 @@
       (closed?'<span class="badge closed">已結單</span>':'')+
       '</div></div>'+
       '<div class="body">'+
-      '<div class="cat">'+esc(x.category||'其他')+'</div>'+
+      '<div class="cat">'+esc(categoryOf(x))+'</div>'+
       '<div class="name">'+esc(x.name)+'</div>'+
       '<div class="price">'+priceText+'</div>'+
       '<div class="meta">'+esc(meta)+'</div>'+
@@ -1767,7 +1920,7 @@
     document.getElementById('modalImg').src=x.imageUrl;
     document.getElementById('modalName').textContent=x.name;
     document.getElementById('modalMeta').textContent=
-      x.type+'｜'+x.category+
+      x.type+'｜'+categoryOf(x)+
       (x.closeDate?'｜結單 '+x.closeDate.replace(/-/g,'/'):'')+
       (x.isClosed?'｜已結單':'');
 
@@ -2041,7 +2194,7 @@
   loadShop(true);
 </script>
 
-<script src="shop-enhancements-v27.13.6.js?v=271540"></script>
-<script src="shop-ui-v27.15.4.js?v=271540"></script>
+<script src="shop-enhancements-v27.13.6.js?v=271550"></script>
+<script src="shop-ui-v27.15.5.js?v=271550"></script>
 </body>
 </html>
