@@ -72,7 +72,6 @@
     .sectionTitle strong,.featuredHead strong{display:block;font-size:21px;color:#24324a}
     .sectionTitle span,.featuredHead span{display:block;margin-top:4px;font-size:11px;color:#8994a5}
     .sectionMore{border:0;background:#eef6ff;color:#356da8;border-radius:12px;padding:8px 11px;font-size:11px;font-weight:900}
-    .activeIpLabel{margin:-2px 0 12px;color:#7f8b9d;font-size:11px}
 
     .ipGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
     .ipCard{min-width:0;border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px;display:flex;align-items:center;gap:10px;text-align:left;transition:.16s ease}
@@ -230,7 +229,6 @@
       .sectionHead,.featuredHead{margin-bottom:11px}
       .sectionTitle strong,.featuredHead strong{font-size:16px}
       .sectionTitle span,.featuredHead span{font-size:9px}
-      .activeIpLabel{font-size:10px}
       .ipGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
       .ipCard{padding:9px;border-radius:13px}
       .ipThumb,.ipOrb{width:34px;height:34px;border-radius:10px}
@@ -310,8 +308,7 @@
   <section class="shopIntro">
     <div>
       <h1>找到你想收藏的角色</h1>
-      <p>從作品、商品類型或關鍵字快速找到預購與現貨商品。</p>
-    </div>
+      </div>
     <div class="stats">
       <div class="stat">全部 <b id="statAll">—</b></div>
       <div class="stat">預購 <b id="statPre">—</b></div>
@@ -324,13 +321,12 @@
       <div class="sectionHead">
         <div class="sectionTitle">
           <strong>熱門作品</strong>
-          <span>首頁只先顯示 4 個，其他點查看更多作品</span>
-        </div>
-        <button id="ipMoreBtn" class="sectionMore" type="button" style="display:none">查看更多作品</button>
       </div>
-      <div id="activeIpLabel" class="activeIpLabel">可選擇作品快速篩選</div>
+        <button id="ipMoreBtn" class="sectionMore" type="button" style="display:none">更多作品</button>
+      </div>
+      
       <div id="ipChips" class="ipGrid">
-        <div class="ipEmpty">作品分類載入中…</div>
+        <div class="ipEmpty">載入中…</div>
       </div>
     </div>
   </section>
@@ -340,11 +336,10 @@
       <div class="featuredHead">
         <div>
           <strong>近期推薦</strong>
-          <span>現貨精選與即將結單商品</span>
-        </div>
+      </div>
       </div>
       <div id="featuredGridV275" class="grid">
-        <div class="empty" style="grid-column:1/-1">推薦商品載入中…</div>
+        <div class="empty" style="grid-column:1/-1">載入中…</div>
       </div>
     </div>
   </section>
@@ -354,8 +349,7 @@
       <div class="catalogTop">
         <div class="catalogTitle">
           <strong>商品總覽</strong>
-          <span>可依商品類型與排序方式快速篩選</span>
-        </div>
+      </div>
         <div class="sortBox">
           <select id="sort" aria-label="商品排序">
             <option value="new">最新上架</option>
@@ -377,7 +371,7 @@
       </div>
 
       <div id="grid" class="grid">
-        <div class="empty" style="grid-column:1/-1">商品載入中…</div>
+        <div class="empty" style="grid-column:1/-1">載入中…</div>
       </div>
 
       <div id="loadMoreWrap" style="display:flex;justify-content:center;padding:22px 0 2px">
@@ -387,9 +381,9 @@
   </section>
 
   <section class="trustRow">
-    <div class="trustItem"><div class="trustIcon">🏪</div><div><strong>台北實體店</strong><span>線上線下都找得到頑夜</span></div></div>
-    <div class="trustItem"><div class="trustIcon">🔎</div><div><strong>訂單可查詢</strong><span>手機號碼即可查詢紀錄</span></div></div>
-    <div class="trustItem"><div class="trustIcon">💬</div><div><strong>官方 LINE</strong><span>商品問題可直接聯繫</span></div></div>
+    <div class="trustItem"><div class="trustIcon">🏪</div><div><strong>台北實體店</strong></div></div>
+    <div class="trustItem"><div class="trustIcon">🔎</div><div><strong>訂單查詢</strong></div></div>
+    <div class="trustItem"><div class="trustIcon">💬</div><div><strong>官方 LINE</strong></div></div>
   </section>
 
   <footer>
@@ -403,14 +397,13 @@
   <div class="selectorModal">
     <div class="selectorHead">
       <div>
-        <h2>選擇作品 / IP</h2>
-        <p>點選作品即可快速篩選相關商品</p>
+        <h2>作品分類</h2>
       </div>
       <button class="close" type="button" onclick="closeIpModal()">×</button>
     </div>
     <div class="selectorBody">
       <div id="ipModalGrid" class="ipPickerGrid">
-        <div class="ipEmpty">作品分類載入中…</div>
+        <div class="ipEmpty">載入中…</div>
       </div>
     </div>
   </div>
@@ -440,8 +433,7 @@
         <input id="modalUnitPrice" type="hidden">
 
         <div id="closedInquiryNotice" class="closedNotice hidden">
-          <strong>此商品已經結單。</strong><br>
-          目前不接受直接下單，但你可以留下聯絡資訊；若店家能追加或取得正式價格，會再聯絡報價。
+          <strong>此商品已結單。</strong><br>可留下聯絡資料等待追加報價。
         </div>
 
         <div id="purchaseTotalBox" class="totalBox">
@@ -476,7 +468,7 @@
           </div>
           <div class="field">
             <label>LINE ID *</label>
-            <input id="orderLine" placeholder="方便店家後續聯絡">
+            <input id="orderLine" placeholder="LINE ID">
           </div>
           <div id="orderLast5Field" class="field">
             <label>匯款帳號後五碼 *</label>
@@ -488,22 +480,22 @@
           </div>
           <div class="field full">
             <label>備註</label>
-            <textarea id="orderNote" rows="3" maxlength="300" placeholder="想詢問的數量、版本或其他需求都可以寫在這裡"></textarea>
+            <textarea id="orderNote" rows="3" maxlength="300" placeholder="選填"></textarea>
           </div>
         </div>
 
         <div id="purchaseNotice" class="notice">
-          送出後會先記錄為「待確認」。店家核對匯款後才正式成立；若商品數量有限，以店家確認結果為準。
+          送出後為待確認，店家核對匯款後成立。
         </div>
         <div id="inquiryNotice" class="notice hidden">
-          送出後只會建立詢價登記，不會產生訂單、也不需要先匯款。店家取得正式價格後會依你留下的電話／LINE 聯絡。
+          詢價不需先匯款，有價格後會聯絡你。
         </div>
         <div id="orderError" class="error hidden"></div>
       </div>
 
       <div class="actions">
         <button class="cancel" type="button" onclick="closeOrder()">取消</button>
-        <button id="orderSubmit" class="submit" type="button" onclick="submitAction()">我已匯款，送出訂單</button>
+        <button id="orderSubmit" class="submit" type="button" onclick="submitAction()">送出訂單</button>
       </div>
     </div>
 
@@ -517,8 +509,8 @@
   </div>
 </div>
 
-<script src="config.js?v=271510"></script>
-<script src="gas-bridge.js?v=271510"></script>
+<script src="config.js?v=271520"></script>
+<script src="gas-bridge.js?v=271520"></script>
 <script>
   var SHOP_DATA={
     items:[],
@@ -953,9 +945,9 @@
     var visible=all.slice(0,4);
 
     if(!all.length){
-      box.innerHTML='<div class="ipEmpty">作品分類載入中…</div>';
+      box.innerHTML='<div class="ipEmpty">載入中…</div>';
       if(more)more.style.display='none';
-      if(activeLabel)activeLabel.textContent='尚未選擇作品';
+      
       return;
     }
 
@@ -966,7 +958,7 @@
         (logo
           ?'<span class="ipThumb"><img src="'+esc(logo)+'" alt="'+esc(x.label)+'"></span>'
           :'<span class="ipOrb tone'+(i%5)+'">'+esc(String(x.label).slice(0,1))+'</span>')+
-        '<span class="ipText"><strong>'+esc(x.label)+'</strong><small>'+(x.count?x.count+' 件商品':'查看商品')+'</small></span>'+
+        '<span class="ipText"><strong>'+esc(x.label)+'</strong>'+(x.count?'<small>'+x.count+' 件</small>':'')+'</span>'+
         '</button>';
     }).join('');
 
@@ -978,13 +970,11 @@
 
     if(more){
       more.style.display=all.length>4?'':'none';
-      more.textContent='查看更多作品';
+      more.textContent='更多作品';
       more.onclick=openIpModal;
     }
 
-    if(activeLabel){
-      activeLabel.textContent=ACTIVE_IP ? ('目前作品：'+ACTIVE_IP) : '可選擇作品快速篩選';
-    }
+    
   }
 
   function renderIpModal(){
@@ -994,7 +984,7 @@
     var all=(IP_CATALOG||[]).filter(function(x){return x&&x.label;});
 
     var html='<button class="ipPickerItem '+(!ACTIVE_IP?'active':'')+'" type="button" data-ip="" data-search="">'+
-      '<span class="ipPickerThumb all">ALL</span><span class="ipPickerText"><strong>全部作品</strong><small>查看全部商品</small></span></button>';
+      '<span class="ipPickerThumb all">ALL</span><span class="ipPickerText"><strong>全部作品</strong></span></button>';
 
     html+=all.map(function(x,i){
       var logo=getIpLogo(x.label);
@@ -1003,11 +993,11 @@
         (logo
           ?'<span class="ipPickerThumb logo"><img src="'+esc(logo)+'" alt="'+esc(x.label)+'"></span>'
           :'<span class="ipPickerThumb tone'+(i%5)+'">'+esc(String(x.label).slice(0,1))+'</span>')+
-        '<span class="ipPickerText"><strong>'+esc(x.label)+'</strong><small>'+(x.count?x.count+' 件商品':'查看商品')+'</small></span>'+
+        '<span class="ipPickerText"><strong>'+esc(x.label)+'</strong>'+(x.count?'<small>'+x.count+' 件</small>':'')+'</span>'+
         '</button>';
     }).join('');
 
-    wrap.innerHTML=all.length?html:'<div class="ipEmpty">作品分類載入中…</div>';
+    wrap.innerHTML=all.length?html:'<div class="ipEmpty">載入中…</div>';
 
     wrap.querySelectorAll('[data-ip]').forEach(function(b){
       b.onclick=function(){
@@ -1205,12 +1195,12 @@
 
     if(x.type==='預購'){
       meta=closed
-        ? '已結單｜可留下資料等待追加報價'
-        : (x.closeDate?'結單 '+x.closeDate.replace(/-/g,'/'):'預購中');
+        ? '可登記詢價'
+        : (x.closeDate?'結單 '+x.closeDate.replace(/-/g,'/'):'');
     }else if(x.availableStock!==null){
-      meta='現貨｜庫存參考 '+x.availableStock+' 件';
+      meta='庫存 '+x.availableStock;
     }else{
-      meta='現貨直購';
+      meta='';
     }
 
     var action='';
@@ -1218,10 +1208,10 @@
     if(x.type==='直購'){
       action='<a class="buy buyLink" href="'+
         esc((SHOP_DATA&&SHOP_DATA.directMarketUrl)||x.purchaseUrl||'https://myship.7-11.com.tw/general/detail/GM2609236881260')+
-        '" target="_blank" rel="noopener noreferrer">我要購買</a>';
+        '" target="_blank" rel="noopener noreferrer">立即購買</a>';
     }else{
       action='<button class="buy '+(closed?'closed':'pre')+'" data-open="'+esc(x.id)+'">'+
-        (closed?'有興趣，登記詢價':'線上預購')+'</button>';
+        (closed?'登記詢價':'立即預購')+'</button>';
     }
 
     var eager=i<4?' eager fetchpriority="high"':' loading="lazy" fetchpriority="low"';
@@ -1264,7 +1254,7 @@
     document.getElementById('orderPaidField').classList.toggle('hidden',on);
     document.getElementById('purchaseNotice').classList.toggle('hidden',on);
     document.getElementById('inquiryNotice').classList.toggle('hidden',!on);
-    document.getElementById('orderSubmit').textContent=on?'留下資料，等候報價':'我已匯款，送出訂單';
+    document.getElementById('orderSubmit').textContent=on?'登記詢價':'送出訂單';
   }
 
   function findProduct(id){
@@ -1401,18 +1391,18 @@
     google.script.run
       .withSuccessHandler(function(res){
         btn.disabled=false;
-        btn.textContent='留下資料，等候報價';
+        btn.textContent='登記詢價';
 
         document.getElementById('orderFormWrap').classList.add('hidden');
         document.getElementById('successWrap').classList.remove('hidden');
         document.getElementById('successTitle').textContent='詢價資料已留下';
-        document.getElementById('successText').textContent=(res&&res.message)||'之後有正式價格時，店家會再聯絡你。';
+        document.getElementById('successText').textContent=(res&&res.message)||'有價格後會聯絡你。';
         document.getElementById('successId').textContent=(res&&res.inquiryId)||'';
         clearProductRoute();
       })
       .withFailureHandler(function(e){
         btn.disabled=false;
-        btn.textContent='留下資料，等候報價';
+        btn.textContent='登記詢價';
         showErr(e&&e.message?e.message:String(e||'送出失敗'));
       })
       .submitShopInquiryV267(ACTIVE_PRODUCT.id,p);
@@ -1453,7 +1443,7 @@
     google.script.run
       .withSuccessHandler(function(res){
         btn.disabled=false;
-        btn.textContent='我已匯款，送出訂單';
+        btn.textContent='送出訂單';
 
         document.getElementById('orderFormWrap').classList.add('hidden');
         document.getElementById('successWrap').classList.remove('hidden');
@@ -1466,7 +1456,7 @@
       })
       .withFailureHandler(function(e){
         btn.disabled=false;
-        btn.textContent='我已匯款，送出訂單';
+        btn.textContent='送出訂單';
         showErr(e&&e.message?e.message:String(e||'送出失敗'));
       })
       .submitShopOrderV266(ACTIVE_PRODUCT.id,{
@@ -1562,7 +1552,7 @@
   loadIpCatalog();
 </script>
 
-<script src="shop-enhancements-v27.13.6.js?v=271510"></script>
-<script src="shop-ui-v27.15.1.js?v=271510"></script>
+<script src="shop-enhancements-v27.13.6.js?v=271520"></script>
+<script src="shop-ui-v27.15.2.js?v=271520"></script>
 </body>
 </html>
