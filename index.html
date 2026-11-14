@@ -591,6 +591,19 @@
       #latestEvents .eventTitle{font-size:10.5px}
     }
 
+  
+    /* v27.16.3｜首頁載入效能 */
+    #latestProducts .sectionCard,
+    #latestKuji .sectionCard,
+    #directProducts .sectionCard,
+    #storeInfo .sectionCard{
+      content-visibility:auto;
+      contain-intrinsic-size:1px 640px;
+    }
+    .eventPoster,.productImage,.kujiCover{
+      image-rendering:auto;
+    }
+
   </style>
 </head>
 <body>
@@ -835,12 +848,14 @@
   <a href="./shop.html"><span class="ico">🛒</span><span>商城</span></a>
 </nav>
 
-<script src="config.js?v=271620"></script>
-<script src="gas-bridge.js?v=271620"></script>
+<script src="config.js?v=271630"></script>
+<script src="gas-bridge.js?v=271630"></script>
 <script>
   var OVERVIEW_CACHE='wanye-official-v27160-overview';
   var COMMERCE_CACHE='wanye-official-v27160-commerce';
   var CACHE_TTL=10*60*1000;
+  var STALE_CACHE_TTL=24*60*60*1000;
+  var HOME_FAST_LOADING=false;
 
   function esc(s){
     return String(s==null?'':s).replace(/[&<>"']/g,function(c){
@@ -865,14 +880,26 @@
     return url;
   }
 
-  function cacheGet(key){
+  function cacheRead(key,maxAge){
     try{
       var raw=localStorage.getItem(key);
       if(!raw)return null;
       var x=JSON.parse(raw);
-      if(!x||!x.data||Date.now()-Number(x.ts||0)>CACHE_TTL)return null;
-      return x.data;
+      if(!x||!x.data)return null;
+      var age=Date.now()-Number(x.ts||0);
+      if(age>Number(maxAge||CACHE_TTL))return null;
+      return {data:x.data,age:age};
     }catch(e){return null;}
+  }
+
+  function cacheGet(key){
+    var hit=cacheRead(key,CACHE_TTL);
+    return hit?hit.data:null;
+  }
+
+  function cachePeek(key){
+    var hit=cacheRead(key,STALE_CACHE_TTL);
+    return hit?hit.data:null;
   }
 
   function cachePut(key,data){
@@ -929,7 +956,7 @@
     grid.innerHTML=sorted.map(function(a){
       var poster=a.imageUrl
         ? '<div class="eventMediaWrap"><button class="eventPosterBtn" type="button" data-event-image="'+esc(thumb(a.imageUrl,1600))+'" aria-label="放大 '+esc(a.title||'活動')+' 海報">'+
-            '<span class="eventPosterStage"><img class="eventPoster" src="'+esc(thumb(a.imageUrl,1000))+'" alt="'+esc(a.title||'活動')+'" loading="lazy" decoding="async"></span>'+
+            '<span class="eventPosterStage"><img class="eventPoster" src="'+esc(thumb(a.imageUrl,720))+'" alt="'+esc(a.title||'活動')+'" loading="lazy" decoding="async"></span>'+
             '<span class="eventZoomHint">點圖放大</span>'+
           '</button></div>'
         : '<div class="eventPosterPh">◇</div>';
@@ -991,7 +1018,7 @@
     }else{
       grid.innerHTML=items.map(function(x){
         var img=x.imageUrl
-          ? '<img class="productImage" src="'+esc(thumb(x.imageUrl,560))+'" alt="'+esc(x.name||'商品')+'" loading="lazy" decoding="async">'
+          ? '<img class="productImage" src="'+esc(thumb(x.imageUrl,480))+'" alt="'+esc(x.name||'商品')+'" loading="lazy" decoding="async">'
           : '';
         return '<article class="productCard">'+
           '<div class="productImageWrap">'+img+'<span class="productBadge">'+esc(x.category||'預購')+'</span></div>'+
@@ -1052,7 +1079,7 @@
     }
 
     grid.innerHTML=active.map(function(x){
-      var img=x.imageUrl?'<img class="kujiCover" src="'+esc(thumb(x.imageUrl,760))+'" alt="'+esc(x.name||'一番賞')+'" loading="lazy" decoding="async">':'';
+      var img=x.imageUrl?'<img class="kujiCover" src="'+esc(thumb(x.imageUrl,560))+'" alt="'+esc(x.name||'一番賞')+'" loading="lazy" decoding="async">':'';
       var cat=x.siteCategory==='custom'?'自製一番賞':'官方一番賞';
       return '<article class="kujiCard">'+
         '<div class="kujiCoverWrap">'+img+'<span class="kujiTag">'+cat+'</span></div>'+
@@ -1080,41 +1107,106 @@
     }
   }
 
-  function loadOverview(){
-    var cached=cacheGet(OVERVIEW_CACHE);
-    if(cached)applyOverview(cached);
+  function renderOverviewError(){
+    document.getElementById('eventGrid').innerHTML=
+      '<div class="stateBox errorBox" style="grid-column:1/-1">活動暫時無法載入。</div>';
+    document.getElementById('kujiGrid').innerHTML=
+      '<div class="stateBox errorBox" style="grid-column:1/-1">一番賞配率暫時無法載入。</div>';
+  }
 
+  function renderCommerceError(){
+    document.getElementById('productGrid').innerHTML=
+      '<div class="stateBox errorBox" style="grid-column:1/-1">商品暫時無法載入。</div>';
+  }
+
+  function refreshOverviewFallback(showError){
     google.script.run
       .withSuccessHandler(function(res){
         cachePut(OVERVIEW_CACHE,res||{});
         applyOverview(res||{});
       })
-      .withFailureHandler(function(err){
-        if(!cached){
-          document.getElementById('eventGrid').innerHTML='<div class="stateBox errorBox" style="grid-column:1/-1">活動暫時無法載入。</div>';
-          document.getElementById('kujiGrid').innerHTML='<div class="stateBox errorBox" style="grid-column:1/-1">一番賞配率暫時無法載入。</div>';
-        }
+      .withFailureHandler(function(){
+        if(showError)renderOverviewError();
       })
       .getPublicKujiList();
   }
 
-  function loadCommerce(){
-    var cached=cacheGet(COMMERCE_CACHE);
-    if(cached)renderProducts(cached);
-
+  function refreshCommerceFallback(showError){
     google.script.run
       .withSuccessHandler(function(res){
         cachePut(COMMERCE_CACHE,res||{});
         renderProducts(res||{});
       })
       .withFailureHandler(function(){
-        if(!cached){
-          document.getElementById('productGrid').innerHTML='<div class="stateBox errorBox" style="grid-column:1/-1">商品暫時無法載入。</div>';
-        }
+        if(showError)renderCommerceError();
       })
       .getPublicCommerceV260();
   }
 
+  // 供活動 / 抽獎送出成功後單獨刷新最新活動與一番賞資料。
+  function loadOverview(){
+    refreshOverviewFallback(false);
+  }
+
+  // 保留相容接口；一般首頁初始化改走 loadHomeFast()。
+  function loadCommerce(){
+    refreshCommerceFallback(false);
+  }
+
+  function applyHomeBundle(bundle){
+    bundle=bundle||{};
+    var appliedOverview=false;
+    var appliedCommerce=false;
+
+    if(bundle.overview){
+      cachePut(OVERVIEW_CACHE,bundle.overview);
+      applyOverview(bundle.overview);
+      appliedOverview=true;
+    }
+
+    if(bundle.commerce){
+      cachePut(COMMERCE_CACHE,bundle.commerce);
+      renderProducts(bundle.commerce);
+      appliedCommerce=true;
+    }
+
+    return {overview:appliedOverview,commerce:appliedCommerce};
+  }
+
+  function loadHomeFast(){
+    if(HOME_FAST_LOADING)return;
+    HOME_FAST_LOADING=true;
+
+    // stale-while-revalidate：
+    // 即使快取超過 10 分鐘，只要仍在 24 小時內就先立即顯示，
+    // 接著才在背景抓最新資料。
+    var cachedOverview=cachePeek(OVERVIEW_CACHE);
+    var cachedCommerce=cachePeek(COMMERCE_CACHE);
+
+    if(cachedOverview)applyOverview(cachedOverview);
+    if(cachedCommerce)renderProducts(cachedCommerce);
+
+    var needOverviewError=!cachedOverview;
+    var needCommerceError=!cachedCommerce;
+
+    google.script.run
+      .withSuccessHandler(function(bundle){
+        HOME_FAST_LOADING=false;
+        var applied=applyHomeBundle(bundle||{});
+
+        // 整合 API 若某一區沒有資料，才補抓該區舊 API。
+        if(!applied.overview)refreshOverviewFallback(needOverviewError);
+        if(!applied.commerce)refreshCommerceFallback(needCommerceError);
+      })
+      .withFailureHandler(function(){
+        HOME_FAST_LOADING=false;
+
+        // 整合 API 失敗才退回舊的兩支 API。
+        refreshOverviewFallback(needOverviewError);
+        refreshCommerceFallback(needCommerceError);
+      })
+      .getPublicHomeBootstrapV2710();
+  }
 
   function openImageLightbox(url,alt){
     url=String(url||'').trim();
@@ -1390,8 +1482,7 @@
   });
 
   function init(){
-    loadOverview();
-    loadCommerce();
+    loadHomeFast();
 
     var code='';
     try{code=(new URL(location.href)).searchParams.get('k')||'';}catch(e){}
