@@ -3,46 +3,533 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>頑夜 TOY｜預購・直購商城</title>
+  <meta name="theme-color" content="#120d18">
+  <title>頑夜 TOY｜角色收藏商城</title>
   <style>
-    :root{--bg:#09070d;--panel:#15111b;--panel2:#1d1726;--line:#34283f;--text:#f7f3fb;--sub:#ad9fba;--accent:#f6cf59;--purple:#8f69ba;--good:#78d89b;--danger:#ff8585;--blue:#83c8ff;--closed:#ffad7d}
-    *{box-sizing:border-box}html{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -10%,#2b1e39 0,#0d0912 38%,#09070d 75%)}
-    button,input,select,textarea{font:inherit}.hidden{display:none!important}.wrap{width:min(1180px,100%);margin:auto;padding:0 16px 72px}
-    header{position:sticky;top:0;z-index:20;background:rgba(9,7,13,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)}.head{width:min(1180px,100%);margin:auto;padding:10px 16px;display:flex;align-items:center;gap:12px}.logo{width:52px;height:52px;object-fit:contain;border-radius:14px;background:#fff;padding:3px}.brand{min-width:0}.brand strong{display:block;font-size:18px;letter-spacing:.04em}.brand span{display:block;color:var(--sub);font-size:12px;margin-top:2px}.spacer{flex:1}.headBtn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:9px 13px;font-weight:800;text-decoration:none;white-space:nowrap}
-    .hero{padding:26px 0 12px}.heroBox{border:1px solid var(--line);background:linear-gradient(135deg,#1a1321,#0f0b15);border-radius:24px;padding:24px;box-shadow:0 18px 60px rgba(0,0,0,.24)}.eyebrow{font-size:12px;font-weight:900;color:var(--accent);letter-spacing:.14em}.hero h1{margin:8px 0;font-size:clamp(26px,6vw,44px);line-height:1.08}.hero p{margin:0;color:var(--sub);line-height:1.65}.stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.stat{padding:8px 11px;background:#0f0c13;border:1px solid #2b2234;border-radius:999px;font-size:12px;color:#d9cfe2}.stat b{color:var(--accent)}
-    .toolbar{position:sticky;top:73px;z-index:15;padding:12px 0;background:linear-gradient(var(--bg) 78%,transparent)}.typeTabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}.typeTab{border:1px solid var(--line);background:rgba(21,17,27,.96);color:var(--sub);border-radius:14px;padding:11px 8px;font-weight:900;cursor:pointer}.typeTab.active{background:linear-gradient(135deg,#432d58,#2d203b);color:#fff;border-color:#75558f}.typeTab.pre.active{background:linear-gradient(135deg,#6b4b13,#3e2c0f);border-color:#9b7021}.typeTab.direct.active{background:linear-gradient(135deg,#164661,#112f42);border-color:#397c9e}
-    .toolbox{background:rgba(21,17,27,.95);border:1px solid var(--line);border-radius:18px;padding:10px;display:grid;grid-template-columns:1.5fr .7fr;gap:8px}.toolbox input,.toolbox select{width:100%;border:1px solid #3a2d47;background:#0f0c13;color:var(--text);border-radius:12px;padding:11px 12px;outline:none}.chips{display:flex;gap:7px;overflow:auto;padding:8px 1px 0;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.chip{border:1px solid var(--line);background:var(--panel);color:var(--sub);border-radius:999px;padding:8px 12px;white-space:nowrap;font-weight:800;font-size:13px}.chip.active{background:#3a2a4b;border-color:#75558f;color:#fff}
-    .resultHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:16px 2px 10px}.resultHead strong{font-size:17px}.resultHead span{color:var(--sub);font-size:12px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{position:relative;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,#18121f,#110d17);border-radius:18px;box-shadow:0 10px 34px rgba(0,0,0,.17);display:flex;flex-direction:column}.card.closed{border-color:#66412d}.cover{aspect-ratio:1/1;background:#0c0910;overflow:hidden;position:relative}.cover img{width:100%;height:100%;object-fit:contain;display:block}.badges{position:absolute;left:8px;top:8px;display:flex;gap:5px;flex-wrap:wrap}.badge{font-size:10px;font-weight:900;border-radius:999px;padding:5px 8px;background:rgba(10,8,13,.84);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(5px)}.badge.pre{color:#ffdc79}.badge.direct{color:#8bd7ff}.badge.new{color:#8ff0ac}.badge.closed{color:#ffd1b8;border-color:#9a6040;background:rgba(72,36,21,.9)}.body{padding:12px;display:flex;flex:1;flex-direction:column}.cat{font-size:11px;color:#9c8daa;font-weight:800}.name{font-size:15px;font-weight:900;line-height:1.42;min-height:42px;margin-top:5px}.price{font-size:21px;font-weight:950;color:var(--accent);margin-top:10px}.closed .price{color:var(--closed)}.meta{font-size:11px;color:var(--sub);margin-top:6px;min-height:34px;line-height:1.5}.buy{margin-top:auto;border:0;border-radius:12px;background:linear-gradient(135deg,#8f69ba,#67488a);color:#fff;padding:11px 12px;font-weight:900;width:100%;min-height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1.2}.card{height:100%}.body{min-height:0}.buy.pre{background:linear-gradient(135deg,#d69d31,#9c6e18)}.buy.closed{background:linear-gradient(135deg,#9a5636,#6c3822)}.buyLink{display:block;text-align:center;text-decoration:none;box-sizing:border-box}.empty{padding:50px 16px;text-align:center;border:1px dashed #3a2e44;border-radius:18px;color:var(--sub)}.skeleton{min-height:360px;animation:pulse 1.2s ease-in-out infinite alternate;background:linear-gradient(180deg,#18121f,#110d17)}@keyframes pulse{from{opacity:.55}to{opacity:1}}
-    .modalMask{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.74);display:flex;align-items:center;justify-content:center;padding:16px}.modal{width:min(620px,100%);max-height:92vh;overflow:auto;background:#17111e;border:1px solid #4a3759;border-radius:22px;box-shadow:0 28px 90px rgba(0,0,0,.55)}.modalHead{display:flex;gap:12px;align-items:center;padding:16px;border-bottom:1px solid #34283f}.modalHead img{width:76px;height:76px;object-fit:contain;background:#0c0910;border-radius:12px}.modalTitle{min-width:0;flex:1}.modalTitle h2{font-size:18px;margin:0;line-height:1.35}.modalTitle .sub{color:var(--sub);font-size:12px;margin-top:5px}.close{width:38px;height:38px;border:1px solid #4a3759;background:#241b2d;color:#fff;border-radius:50%;font-size:22px}.modalBody{padding:16px}.totalBox{display:flex;align-items:end;justify-content:space-between;background:#0d0a11;border:1px solid #382b44;border-radius:14px;padding:12px 14px;margin-bottom:12px}.totalBox span{color:var(--sub);font-size:12px}.totalBox strong{font-size:24px;color:var(--accent)}.bank{background:#20192a;border:1px solid #473957;border-radius:14px;padding:12px;margin-bottom:14px}.bank .account{font-size:20px;font-weight:950;letter-spacing:.06em;color:#fff}.copy{border:1px solid #5a476b;background:#30233b;color:#fff;border-radius:9px;padding:7px 10px;font-weight:800}.closedNotice{background:#2d1c16;border:1px solid #6d422d;border-radius:14px;padding:13px;margin-bottom:14px;color:#f3cfbd;line-height:1.6;font-size:13px}.closedNotice strong{color:#ffbd96}.form{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label{display:block;font-size:12px;color:#c7b9d1;margin-bottom:5px;font-weight:800}.field input,.field textarea{width:100%;border:1px solid #453652;background:#0d0a11;color:#fff;border-radius:11px;padding:10px 11px;outline:none}.field.full{grid-column:1/-1}.notice{font-size:11px;color:#b9a9c5;line-height:1.55;margin:10px 0}.error{background:#3a161d;color:#ffb7bf;border:1px solid #71313e;border-radius:10px;padding:9px 10px;font-size:12px}.actions{display:flex;gap:8px;padding:0 16px 16px}.actions button{flex:1;border:0;border-radius:12px;padding:12px;font-weight:900}.cancel{background:#2a2231;color:#fff}.submit{background:linear-gradient(135deg,#8f69ba,#684889);color:#fff}.success{padding:32px 18px;text-align:center}.success .tick{font-size:46px}.success h2{margin:8px 0}.success p{color:var(--sub);line-height:1.6}.orderId{font-family:ui-monospace,monospace;background:#0e0a12;padding:8px;border-radius:9px;margin:12px 0;color:var(--accent);word-break:break-all}
-    @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:650px){.head{padding:8px 12px}.logo{width:44px;height:44px}.brand strong{font-size:15px}.headBtn{font-size:12px;padding:8px 10px}.wrap{padding:0 10px 60px}.hero{padding-top:14px}.heroBox{padding:18px;border-radius:19px}.toolbar{top:61px}.typeTabs{gap:5px}.typeTab{font-size:13px;padding:10px 5px}.toolbox{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{border-radius:14px}.body{padding:9px}.name{font-size:13px;min-height:38px}.price{font-size:18px}.buy{padding:10px 8px;font-size:13px}.form{grid-template-columns:1fr}.field.full{grid-column:auto}.modalMask{padding:8px}.modal{border-radius:18px}}
-  
-    /* v27.5｜最上方固定配置：2 直購 + 2 快結單；商品圖片可放大 */
-    .featuredTop{margin:12px 0 18px;padding:16px;border:1px solid #463651;border-radius:20px;background:linear-gradient(135deg,rgba(35,26,45,.96),rgba(15,11,20,.96));box-shadow:0 16px 44px rgba(0,0,0,.18)}
-    .featuredHead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px}.featuredHead strong{font-size:19px}.featuredHead span{font-size:11px;color:var(--sub);text-align:right;line-height:1.5}
-    #featuredGridV275{grid-template-columns:repeat(4,minmax(0,1fr))}.badge.feature{color:#fff;background:rgba(90,64,115,.92);border-color:#9b79be}.badge.closing{color:#1a1205;background:#ffd166;border-color:#ffe59b}.badge.directPick{color:#07151d;background:#8bd7ff;border-color:#c4ebff}
-    .cover[data-zoom-src]{cursor:zoom-in}.cover[data-zoom-src] img{transition:transform .18s ease}.cover[data-zoom-src]:hover img{transform:scale(1.02)}
-    .zoomHint{position:absolute;right:8px;bottom:8px;z-index:3;padding:5px 8px;border-radius:999px;background:rgba(9,7,13,.78);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:10px;font-weight:900;pointer-events:none;backdrop-filter:blur(5px)}
-    .productLightbox{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;padding:18px}.productLightbox.hidden{display:none}.productLightboxInner{position:relative;max-width:min(96vw,980px);max-height:94vh}.productLightbox img{display:block;max-width:94vw;max-height:90vh;object-fit:contain;border-radius:14px;background:#09070d}.productLightboxClose{position:absolute;right:-10px;top:-10px;width:40px;height:40px;border:0;border-radius:999px;background:#fff;color:#111;font-size:25px;font-weight:900;cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.35)}
-    @media(max-width:900px){#featuredGridV275{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media(max-width:650px){.featuredTop{padding:12px;border-radius:16px}.featuredHead{align-items:flex-start}.featuredHead strong{font-size:17px}.featuredHead span{font-size:10px}#featuredGridV275{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}}
+    :root{
+      --bg:#09070d;
+      --panel:#17121d;
+      --panel2:#21182a;
+      --line:#42324f;
+      --text:#f8f4fb;
+      --sub:#b7a8c2;
+      --accent:#ffd75f;
+      --purple:#9a78c5;
+      --purple2:#6c4c91;
+      --pink:#ffb8d5;
+      --mint:#9de3c3;
+      --good:#7edca5;
+      --danger:#ff8b9b;
+      --blue:#86d3ff;
+      --closed:#ffb494;
+      --cream:#fffaf0;
+    }
+    *{box-sizing:border-box}
+    html{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
+    body{
+      margin:0;min-height:100vh;
+      background:
+        radial-gradient(circle at 8% -5%,rgba(154,120,197,.19),transparent 29%),
+        radial-gradient(circle at 98% 9%,rgba(255,184,213,.12),transparent 24%),
+        linear-gradient(180deg,#0e0a14 0,#09070d 72%);
+    }
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .hidden{display:none!important}
+    .wrap{width:min(1180px,100%);margin:auto;padding:0 16px 78px}
+
+    header{
+      position:sticky;top:0;z-index:30;
+      background:rgba(13,9,18,.91);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid rgba(255,255,255,.08)
+    }
+    .head{
+      width:min(1180px,100%);margin:auto;padding:10px 16px;
+      min-height:72px;display:flex;align-items:center;gap:12px
+    }
+    .logo{
+      width:52px;height:52px;object-fit:contain;border-radius:16px;background:#fff;padding:3px;
+      box-shadow:0 8px 24px rgba(0,0,0,.2)
+    }
+    .brand{min-width:0}
+    .brand strong{display:block;font-size:18px;letter-spacing:.02em;font-weight:950}
+    .brand span{display:block;color:#cbbdd5;font-size:12px;margin-top:2px}
+    .spacer{flex:1}
+    .headBtn{
+      border:1px solid #4b3a58;background:rgba(29,23,38,.92);color:var(--text);
+      border-radius:999px;padding:9px 13px;font-weight:850;text-decoration:none;white-space:nowrap;
+      transition:.18s ease
+    }
+    .headBtn:hover{transform:translateY(-1px);border-color:#7e6393}
+
+    .hero{padding:22px 0 12px}
+    .heroBox{
+      position:relative;overflow:hidden;display:grid;
+      grid-template-columns:minmax(0,1.55fr) minmax(220px,.65fr);
+      gap:22px;align-items:center;padding:28px 30px;border-radius:28px;
+      border:1px solid #4d3b5d;
+      background:
+        radial-gradient(circle at 82% 18%,rgba(255,215,95,.16),transparent 23%),
+        radial-gradient(circle at 94% 82%,rgba(255,184,213,.14),transparent 24%),
+        linear-gradient(135deg,#21172b 0%,#15101c 58%,#100c16 100%);
+      box-shadow:0 24px 70px rgba(0,0,0,.3)
+    }
+    .heroBox:before{
+      content:"";position:absolute;inset:0;pointer-events:none;
+      background-image:radial-gradient(circle,rgba(255,255,255,.14) 1px,transparent 1px);
+      background-size:26px 26px;
+      mask-image:linear-gradient(90deg,transparent,rgba(0,0,0,.55),transparent)
+    }
+    .heroCopy{position:relative;z-index:2}
+    .eyebrow{font-size:12px;font-weight:950;color:var(--accent);letter-spacing:.16em}
+    .hero h1{
+      max-width:720px;margin:9px 0 10px;font-size:clamp(28px,4.5vw,52px);
+      line-height:1.09;letter-spacing:-.025em
+    }
+    .heroLead{max-width:640px;margin:0;color:#d1c4da;font-size:15px;line-height:1.8}
+    .stats{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+    .stat{
+      padding:9px 13px;background:rgba(9,7,13,.58);border:1px solid #493958;
+      border-radius:999px;font-size:12px;color:#d9cfe2
+    }
+    .stat b{color:var(--accent)}
+    .heroMascot{
+      position:relative;z-index:2;min-height:190px;
+      display:flex;flex-direction:column;align-items:center;justify-content:center
+    }
+    .mascotBubble{
+      width:148px;height:148px;border-radius:38px;display:grid;place-items:center;
+      background:linear-gradient(145deg,#fffaf1,#f6efff);
+      box-shadow:0 18px 44px rgba(0,0,0,.32),0 0 0 8px rgba(255,255,255,.05);
+      transform:rotate(2deg)
+    }
+    .mascotBubble img{width:126px;height:126px;object-fit:contain}
+    .mascotSay{
+      margin-top:-8px;padding:8px 13px;border-radius:999px;background:#fff;color:#2b2133;
+      font-size:12px;font-weight:950;box-shadow:0 8px 22px rgba(0,0,0,.2)
+    }
+    .mascotStar{position:absolute;color:var(--accent);font-weight:900}
+    .mascotStar.s1{font-size:24px;left:6%;top:14%}
+    .mascotStar.s2{font-size:18px;right:7%;top:28%;color:var(--pink)}
+    .mascotStar.s3{font-size:12px;right:14%;bottom:19%;color:var(--mint)}
+
+    .trustRow{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 18px
+    }
+    .trustItem{
+      border:1px solid #3d3048;background:rgba(21,16,28,.8);border-radius:16px;padding:12px 13px;
+      display:flex;align-items:center;gap:10px;color:#d9cde1
+    }
+    .trustIcon{
+      width:36px;height:36px;flex:0 0 auto;border-radius:12px;display:grid;place-items:center;
+      background:#24192f;font-size:18px
+    }
+    .trustItem strong{display:block;font-size:12px;color:#fff}
+    .trustItem span{display:block;font-size:10px;color:#9f90ab;margin-top:2px}
+
+    .featuredTop{
+      margin:12px 0 18px;padding:18px;border:1px solid #473753;border-radius:24px;
+      background:linear-gradient(145deg,rgba(30,23,39,.98),rgba(15,11,20,.98));
+      box-shadow:0 16px 44px rgba(0,0,0,.18)
+    }
+    .featuredHead{
+      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px
+    }
+    .featuredHead strong{font-size:21px}
+    .featuredHead span{font-size:11px;color:var(--sub);text-align:right;line-height:1.5}
+
+    .toolbar{z-index:16;padding:14px 0 10px}
+    .typeTabs{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:9px
+    }
+    .typeTab{
+      min-height:48px;border:1px solid #443451;background:rgba(25,20,33,.96);color:#c9bbd3;
+      border-radius:16px;padding:11px 8px;font-weight:950;box-shadow:0 5px 18px rgba(0,0,0,.12)
+    }
+    .typeTab.active{
+      background:linear-gradient(135deg,#6f50a3,#493365);color:#fff;border-color:#9c7bc2
+    }
+    .typeTab.pre.active{background:linear-gradient(135deg,#bb8626,#715016);border-color:#e2b858}
+    .typeTab.direct.active{background:linear-gradient(135deg,#2f7898,#1d4c65);border-color:#69b9dc}
+    .typeTab.closed.active{background:linear-gradient(135deg,#9a5d48,#653729);border-color:#ce8b70}
+
+    .toolbox{
+      background:rgba(25,20,33,.96);border:1px solid #443451;border-radius:18px;padding:9px;
+      display:grid;grid-template-columns:1.5fr .7fr;gap:8px;box-shadow:0 10px 28px rgba(0,0,0,.14)
+    }
+    .toolbox input,.toolbox select{
+      width:100%;min-height:46px;border:1px solid #453653;background:#100c15;color:var(--text);
+      border-radius:13px;padding:11px 12px;outline:none
+    }
+    .toolbox input:focus,.toolbox select:focus{
+      border-color:#8f6db0;box-shadow:0 0 0 3px rgba(143,109,176,.13)
+    }
+
+    .ipWrap{
+      margin:10px 0 8px;padding:14px;border:1px solid #4b3a59;border-radius:20px;
+      background:linear-gradient(135deg,rgba(48,37,61,.96),rgba(24,18,32,.96));
+      box-shadow:0 12px 32px rgba(0,0,0,.15)
+    }
+    .ipHead{
+      display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px
+    }
+    .ipHead strong{font-size:13px}
+    .ipHead span{font-size:10px;color:#bfb0ca}
+    .chips{
+      display:flex;gap:7px;overflow:auto;padding:2px 1px;scrollbar-width:none
+    }
+    .chips::-webkit-scrollbar{display:none}
+    .chip{
+      flex:0 0 auto;border:1px solid #554266;background:#17111f;color:#ddd1e6;
+      border-radius:999px;padding:8px 12px;white-space:nowrap;font-weight:850;font-size:12px
+    }
+    .chip.active{
+      background:linear-gradient(135deg,#8664ae,#5c407b);border-color:#ad8acc;color:#fff
+    }
+    .chip .count{
+      display:inline-block;margin-left:4px;padding:1px 5px;border-radius:999px;
+      background:rgba(255,255,255,.1);font-size:9px
+    }
+
+    .categoryLabel{
+      margin:8px 2px 3px;color:#92839e;font-size:11px;font-weight:900
+    }
+
+    .resultHead{
+      display:flex;align-items:center;justify-content:space-between;gap:8px;margin:20px 2px 12px
+    }
+    .resultHead strong{font-size:20px}
+    .resultHead span{color:var(--sub);font-size:12px}
+
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .card{
+      position:relative;overflow:hidden;border:1px solid #3f314b;
+      background:linear-gradient(180deg,#1b1522,#120e18);
+      border-radius:22px;box-shadow:0 14px 36px rgba(0,0,0,.2);
+      display:flex;flex-direction:column;transition:transform .18s ease,border-color .18s ease
+    }
+    .card:hover{transform:translateY(-3px);border-color:#67517a}
+    .card.closed{border-color:#65483c;opacity:.94}
+    .cover{
+      aspect-ratio:1/1;background:linear-gradient(145deg,#fffdf7,#f2ebfb);overflow:hidden;position:relative
+    }
+    .cover img{width:100%;height:100%;object-fit:contain;display:block;padding:5px}
+    .cover[data-zoom-src]{cursor:zoom-in}
+    .cover[data-zoom-src] img{transition:transform .18s ease}
+    .cover[data-zoom-src]:hover img{transform:scale(1.02)}
+    .zoomHint{
+      position:absolute;right:8px;bottom:8px;z-index:3;padding:5px 8px;border-radius:999px;
+      background:rgba(9,7,13,.74);border:1px solid rgba(255,255,255,.18);color:#fff;
+      font-size:10px;font-weight:900;pointer-events:none;backdrop-filter:blur(5px)
+    }
+    .badges{
+      position:absolute;left:8px;top:8px;display:flex;gap:5px;flex-wrap:wrap;max-width:calc(100% - 16px)
+    }
+    .badge{
+      font-size:10px;font-weight:950;border-radius:999px;padding:5px 8px;
+      background:rgba(10,8,13,.84);border:1px solid rgba(255,255,255,.16);
+      backdrop-filter:blur(5px)
+    }
+    .badge.pre{color:#ffdc79}
+    .badge.direct{color:#8bd7ff}
+    .badge.new{color:#8ff0ac}
+    .badge.closed{color:#ffd1b8;border-color:#9a6040;background:rgba(72,36,21,.9)}
+    .badge.ip{color:#e9d7ff;border-color:#75558f;background:rgba(52,34,67,.9)}
+    .badge.closing{color:#1a1205;background:#ffd166;border-color:#ffe59b}
+    .badge.directPick{color:#07151d;background:#8bd7ff;border-color:#c4ebff}
+
+    .body{padding:13px;display:flex;flex:1;flex-direction:column;min-height:0}
+    .cat{font-size:11px;color:#a892b8;font-weight:850}
+    .name{font-size:15px;font-weight:950;line-height:1.42;min-height:44px;margin-top:5px}
+    .price{font-size:22px;font-weight:950;color:var(--accent);margin-top:10px}
+    .closed .price{color:var(--closed)}
+    .meta{font-size:11px;color:#a99ab4;margin-top:6px;min-height:34px;line-height:1.5}
+    .buy{
+      margin-top:auto;border:0;border-radius:14px;color:#fff;padding:11px 12px;font-weight:950;
+      width:100%;min-height:46px;display:flex;align-items:center;justify-content:center;line-height:1.2;
+      background:linear-gradient(135deg,#8b68b6,#614481)
+    }
+    .buy.pre{background:linear-gradient(135deg,#d7a13b,#9b6d1c)}
+    .buy.closed{background:linear-gradient(135deg,#a76349,#75402f)}
+    .buyLink{
+      text-align:center;text-decoration:none;box-sizing:border-box;
+      background:linear-gradient(135deg,#377f9f,#225772)
+    }
+
+    .empty{
+      padding:50px 16px;text-align:center;border:1px dashed #3a2e44;border-radius:20px;
+      color:var(--sub);background:rgba(20,15,27,.72)
+    }
+    .skeleton{
+      min-height:360px;animation:pulse 1.2s ease-in-out infinite alternate;
+      background:linear-gradient(180deg,#18121f,#110d17)
+    }
+    @keyframes pulse{from{opacity:.55}to{opacity:1}}
+
+    .modalMask{
+      position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.74);
+      display:flex;align-items:center;justify-content:center;padding:16px
+    }
+    .modal{
+      width:min(620px,100%);max-height:92vh;overflow:auto;background:#17111e;
+      border:1px solid #554164;border-radius:26px;box-shadow:0 28px 90px rgba(0,0,0,.55)
+    }
+    .modalHead{display:flex;gap:12px;align-items:center;padding:16px;border-bottom:1px solid #34283f}
+    .modalHead img{width:76px;height:76px;object-fit:contain;background:#fffaf3;border-radius:12px}
+    .modalTitle{min-width:0;flex:1}
+    .modalTitle h2{font-size:18px;margin:0;line-height:1.35}
+    .modalTitle .sub{color:var(--sub);font-size:12px;margin-top:5px}
+    .close{
+      width:38px;height:38px;border:1px solid #4a3759;background:#241b2d;color:#fff;
+      border-radius:50%;font-size:22px
+    }
+    .modalBody{padding:16px}
+    .totalBox{
+      display:flex;align-items:end;justify-content:space-between;background:#0d0a11;
+      border:1px solid #382b44;border-radius:14px;padding:12px 14px;margin-bottom:12px
+    }
+    .totalBox span{color:var(--sub);font-size:12px}
+    .totalBox strong{font-size:24px;color:var(--accent)}
+    .bank{
+      background:#20192a;border:1px solid #473957;border-radius:14px;padding:12px;margin-bottom:14px
+    }
+    .bank .account{font-size:20px;font-weight:950;letter-spacing:.06em;color:#fff}
+    .copy{
+      border:1px solid #5a476b;background:#30233b;color:#fff;border-radius:9px;
+      padding:7px 10px;font-weight:850
+    }
+    .closedNotice{
+      background:#2d1c16;border:1px solid #6d422d;border-radius:14px;padding:13px;
+      margin-bottom:14px;color:#f3cfbd;line-height:1.6;font-size:13px
+    }
+    .closedNotice strong{color:#ffbd96}
+    .form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .field label{display:block;font-size:12px;color:#c7b9d1;margin-bottom:5px;font-weight:850}
+    .field input,.field textarea{
+      width:100%;min-height:44px;border:1px solid #453652;background:#0d0a11;color:#fff;
+      border-radius:11px;padding:10px 11px;outline:none
+    }
+    .field.full{grid-column:1/-1}
+    .notice{font-size:11px;color:#b9a9c5;line-height:1.55;margin:10px 0}
+    .error{
+      background:#3a161d;color:#ffb7bf;border:1px solid #71313e;border-radius:10px;
+      padding:9px 10px;font-size:12px
+    }
+    .actions{display:flex;gap:8px;padding:0 16px 16px}
+    .actions button{flex:1;border:0;border-radius:12px;padding:12px;font-weight:950;min-height:46px}
+    .cancel{background:#2a2231;color:#fff}
+    .submit{background:linear-gradient(135deg,#8f69ba,#684889);color:#fff}
+    .success{padding:32px 18px;text-align:center}
+    .success .tick{font-size:46px}
+    .success h2{margin:8px 0}
+    .success p{color:var(--sub);line-height:1.6}
+    .orderId{
+      font-family:ui-monospace,monospace;background:#0e0a12;padding:8px;border-radius:9px;
+      margin:12px 0;color:var(--accent);word-break:break-all
+    }
+
+    .productLightbox{
+      position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.9);
+      display:flex;align-items:center;justify-content:center;padding:18px
+    }
+    .productLightbox.hidden{display:none}
+    .productLightboxInner{position:relative;max-width:min(96vw,980px);max-height:94vh}
+    .productLightbox img{
+      display:block;max-width:94vw;max-height:90vh;object-fit:contain;border-radius:14px;background:#09070d
+    }
+    .productLightboxClose{
+      position:absolute;right:-10px;top:-10px;width:40px;height:40px;border:0;border-radius:999px;
+      background:#fff;color:#111;font-size:25px;font-weight:900;box-shadow:0 8px 30px rgba(0,0,0,.35)
+    }
+
+    @media(min-width:801px){
+      .toolbar{
+        position:sticky;top:72px;
+        background:linear-gradient(rgba(9,7,13,.98) 82%,transparent)
+      }
+    }
+    @media(max-width:900px){
+      .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      #featuredGridV275{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media(max-width:800px){
+      .toolbar{position:relative;top:auto;background:none}
+      .hero{padding-top:12px}
+      .heroBox{grid-template-columns:1fr;gap:14px;padding:20px 18px 18px;border-radius:22px}
+      .hero h1{font-size:clamp(27px,8vw,38px);line-height:1.12}
+      .heroLead{font-size:13px;line-height:1.65}
+      .heroMascot{
+        min-height:auto;display:grid;grid-template-columns:74px 1fr;gap:10px;
+        justify-content:start;align-items:center
+      }
+      .mascotBubble{
+        width:72px;height:72px;border-radius:22px;transform:none;
+        box-shadow:0 10px 28px rgba(0,0,0,.28)
+      }
+      .mascotBubble img{width:62px;height:62px}
+      .mascotSay{margin:0;justify-self:start;font-size:11px}
+      .mascotStar{display:none}
+      .trustRow{grid-template-columns:1fr 1fr 1fr}
+      .typeTabs{grid-template-columns:repeat(2,1fr);gap:7px}
+      .typeTab{min-height:44px;padding:9px 7px;font-size:13px}
+      .toolbox{grid-template-columns:1fr .62fr;padding:8px;gap:7px}
+      .toolbox input,.toolbox select{font-size:13px;padding:10px}
+      .ipWrap{margin-top:8px;padding:11px;border-radius:16px}
+      .resultHead strong{font-size:17px}
+      .modalMask{align-items:flex-end;padding:0}
+      .modal{
+        width:100%;max-height:92dvh;border-radius:24px 24px 0 0;border-bottom:0
+      }
+    }
+    @media(max-width:650px){
+      .wrap{padding:0 10px 66px}
+      .head{
+        display:grid;grid-template-columns:42px minmax(0,1fr) auto;
+        grid-template-rows:auto auto;gap:6px 8px;padding:8px 10px;min-height:unset
+      }
+      .head .logo{grid-column:1;grid-row:1;width:42px;height:42px}
+      .head .brand{grid-column:2;grid-row:1;min-width:0}
+      .head .brand strong{font-size:14px}
+      .head .brand span{font-size:10px}
+      .head .spacer{display:none}
+      #homeBtn{grid-column:3;grid-row:1;font-size:10px;padding:7px 8px}
+      #orderLookupBtnV27136{grid-column:1/2;grid-row:2;width:100%;font-size:11px;padding:7px 6px}
+      #cartBtnV27136{grid-column:2/4;grid-row:2;width:100%;font-size:11px;padding:7px 6px}
+
+      .heroBox{padding:18px 15px 15px}
+      .hero h1{font-size:26px}
+      .stats{margin-top:14px;gap:6px}
+      .stat{font-size:10px;padding:6px 8px}
+      .trustRow{gap:6px;margin:8px 0 14px}
+      .trustItem{padding:8px 7px;border-radius:12px;gap:6px}
+      .trustIcon{width:30px;height:30px;border-radius:9px;font-size:14px}
+      .trustItem strong{font-size:9px}
+      .trustItem span{display:none}
+
+      .featuredTop{padding:11px;border-radius:17px;margin-top:10px}
+      .featuredHead strong{font-size:16px}
+      .featuredHead span{font-size:9px}
+
+      .grid,#featuredGridV275{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+      .card{border-radius:16px}
+      .card:hover{transform:none}
+      .body{padding:9px}
+      .cat{font-size:10px}
+      .name{font-size:12.5px;line-height:1.42;min-height:37px}
+      .price{font-size:17px;margin-top:7px}
+      .meta{font-size:10px;min-height:31px}
+      .buy{font-size:12px;min-height:40px;padding:9px 6px;border-radius:11px}
+      .badge{font-size:9px;padding:4px 6px}
+      .zoomHint{font-size:9px;padding:4px 6px}
+
+      .form{grid-template-columns:1fr}
+      .field.full{grid-column:auto}
+    }
+    @media(max-width:390px){
+      .toolbox{grid-template-columns:1fr}
+      .brand span{display:none}
+      .ipHead span{display:none}
+    }
   </style>
 </head>
 <body>
-<header><div class="head"><img class="logo" src="https://i.ibb.co/dsbV76Hs/4.png" alt="頑夜 TOY"><div class="brand"><strong>頑夜 TOY 線上商城</strong><span>預購・直購商品一次看</span></div><div class="spacer"></div><a id="homeBtn" class="headBtn" href="./index.html">← 頑夜首頁</a></div></header>
+
+<header>
+  <div class="head">
+    <img class="logo" src="./assets/logo.png" alt="頑夜 TOY">
+    <div class="brand">
+      <strong>頑夜 TOY 線上商城</strong>
+      <span>可愛收藏・安心預購</span>
+    </div>
+    <div class="spacer"></div>
+    <a id="homeBtn" class="headBtn" href="./index.html">← 頑夜首頁</a>
+  </div>
+</header>
+
 <div class="wrap">
-  <section class="hero"><div class="heroBox"><div class="eyebrow">PLAY NIGHT TOY</div><h1>新品預購・現貨直購</h1><p>預購與直購分區瀏覽。預購可直接在本站填寫；直購商品點選「我要購買」即可前往購買頁面。預購商品過結單日後仍會保留，價格改為 NT$99,999 並標示「已結單」，有興趣仍可留下資料等待後續報價。</p><div class="stats"><div class="stat">目前商品 <b id="statAll">—</b></div><div class="stat">預購 <b id="statPre">—</b></div><div class="stat">直購 <b id="statDirect">—</b></div></div></div></section>
-  <section id="featuredTopV275" class="featuredTop">
-    <div class="featuredHead"><div><div class="eyebrow">FEATURED</div><strong>精選商品</strong></div></div>
-    <div id="featuredGridV275" class="grid"><div class="empty" style="grid-column:1/-1">精選商品載入中…</div></div>
+  <section class="hero">
+    <div class="heroBox">
+      <div class="heroCopy">
+        <div class="eyebrow">PLAY NIGHT TOY</div>
+        <h1>找到喜歡的角色，把收藏帶回家 ✨</h1>
+        <p class="heroLead">新品預購、熱門作品與現貨收藏，都在頑夜 TOY 一次找到。</p>
+        <div class="stats">
+          <div class="stat">目前商品 <b id="statAll">—</b></div>
+          <div class="stat">預購 <b id="statPre">—</b></div>
+          <div class="stat">直購 <b id="statDirect">—</b></div>
+        </div>
+      </div>
+      <div class="heroMascot" aria-hidden="true">
+        <span class="mascotStar s1">★</span>
+        <span class="mascotStar s2">✦</span>
+        <span class="mascotStar s3">●</span>
+        <div class="mascotBubble"><img src="./assets/logo.png" alt=""></div>
+        <div class="mascotSay">今晚想收藏誰？</div>
+      </div>
+    </div>
   </section>
+
+  <section class="trustRow" aria-label="商城特色">
+    <div class="trustItem"><div class="trustIcon">🏪</div><div><strong>台北實體店</strong><span>線上線下都找得到頑夜</span></div></div>
+    <div class="trustItem"><div class="trustIcon">🔎</div><div><strong>訂單可查詢</strong><span>手機號碼即可查詢紀錄</span></div></div>
+    <div class="trustItem"><div class="trustIcon">💬</div><div><strong>官方 LINE</strong><span>商品問題可以直接聯繫</span></div></div>
+  </section>
+
+  <section id="featuredTopV275" class="featuredTop">
+    <div class="featuredHead">
+      <div><div class="eyebrow">FEATURED</div><strong>頑夜精選</strong></div>
+      <span>現貨精選・快結單商品</span>
+    </div>
+    <div id="featuredGridV275" class="grid">
+      <div class="empty" style="grid-column:1/-1">精選商品載入中…</div>
+    </div>
+  </section>
+
   <div class="toolbar">
-    <div class="typeTabs" id="typeTabs"><button class="typeTab active" data-type="">全部商品</button><button class="typeTab pre" data-type="預購">預購專區</button><button class="typeTab direct" data-type="直購">直購專區</button></div>
-    <div class="toolbox"><input id="search" placeholder="搜尋商品名稱、分類…"><select id="sort"><option value="new">最新上架</option><option value="close">最近結單</option><option value="priceAsc">價格低→高</option><option value="priceDesc">價格高→低</option></select></div>
+    <div class="typeTabs" id="typeTabs">
+      <button class="typeTab active" data-mode="all" type="button">全部商品</button>
+      <button class="typeTab pre" data-mode="preorder" type="button">預購專區</button>
+      <button class="typeTab direct" data-mode="direct" type="button">現貨直購</button>
+      <button class="typeTab closed" data-mode="closed" type="button">已結單</button>
+    </div>
+
+    <div class="toolbox">
+      <input id="search" placeholder="搜尋商品、角色、作品 IP…" autocomplete="off">
+      <select id="sort">
+        <option value="new">最新上架</option>
+        <option value="close">最近結單</option>
+        <option value="priceAsc">價格低 → 高</option>
+        <option value="priceDesc">價格高 → 低</option>
+      </select>
+    </div>
+
+    <div id="ipWrap" class="ipWrap">
+      <div class="ipHead">
+        <strong>🎀 依作品 / IP 找收藏</strong>
+        <span>選擇喜歡的作品快速找商品</span>
+      </div>
+      <div id="ipChips" class="chips">
+        <button class="chip active" type="button">全部 IP</button>
+      </div>
+    </div>
+
+    <div class="categoryLabel">商品類型</div>
     <div id="categoryChips" class="chips"></div>
   </div>
-  <div class="resultHead"><strong id="resultTitle">全部商品</strong><span id="resultCount">載入中…</span></div>
-  <div id="grid" class="grid"><div class="empty" style="grid-column:1/-1">商品載入中…</div></div>
-  <div id="loadMoreWrap" style="display:flex;justify-content:center;padding:22px 0 4px"><button id="loadMoreBtn" class="headBtn" type="button" style="display:none;cursor:pointer">載入更多商品</button></div>
+
+  <div class="resultHead">
+    <strong id="resultTitle">全部商品</strong>
+    <span id="resultCount">載入中…</span>
+  </div>
+
+  <div id="grid" class="grid">
+    <div class="empty" style="grid-column:1/-1">商品載入中…</div>
+  </div>
+
+  <div id="loadMoreWrap" style="display:flex;justify-content:center;padding:22px 0 4px">
+    <button id="loadMoreBtn" class="headBtn" type="button" style="display:none">載入更多商品</button>
+  </div>
 </div>
 
 <div id="productLightboxV275" class="productLightbox hidden" onclick="if(event.target===this) closeProductLightboxV275()">
@@ -55,103 +542,1063 @@
 <div id="orderMask" class="modalMask hidden">
   <div class="modal" id="orderModal">
     <div id="orderFormWrap">
-      <div class="modalHead"><img id="modalImg" alt=""><div class="modalTitle"><h2 id="modalName">商品</h2><div id="modalMeta" class="sub"></div></div><button class="close" type="button" onclick="closeOrder()">×</button></div>
-      <div class="modalBody">
-        <input id="modalProductId" type="hidden"><input id="modalUnitPrice" type="hidden">
-        <div id="closedInquiryNotice" class="closedNotice hidden"><strong>此預購已經結單。</strong><br>目前 NT$99,999 為結單標示價，不是正式報價。你可以留下聯絡資訊，之後若店家能追加或取得正式價格，會再聯絡報價。</div>
-        <div id="purchaseTotalBox" class="totalBox"><div><span>本次應匯款</span><div id="modalQtyHint" style="font-size:11px;color:#9889a4;margin-top:3px"></div></div><strong id="modalTotal">NT$0</strong></div>
-        <div id="purchaseBankBox" class="bank"><div style="font-size:11px;color:#b5a6c0">匯款帳號｜中國信託（822）</div><div style="display:flex;align-items:center;gap:8px;margin-top:5px"><div class="account">783540123887</div><div style="flex:1"></div><button class="copy" type="button" onclick="copyBank()">複製</button></div></div>
-        <div class="form">
-          <div id="orderQtyField" class="field"><label>數量 *</label><input id="orderQty" type="number" min="1" max="99" value="1" inputmode="numeric"></div>
-          <div class="field"><label>姓名 *</label><input id="orderName" autocomplete="name"></div>
-          <div class="field"><label>手機 *</label><input id="orderPhone" autocomplete="tel" inputmode="tel" placeholder="0912345678"></div>
-          <div class="field"><label>LINE ID *</label><input id="orderLine" placeholder="方便店家後續聯絡"></div>
-          <div id="orderLast5Field" class="field"><label>匯款帳號後五碼 *</label><input id="orderLast5" maxlength="5" inputmode="numeric" placeholder="12345"></div>
-          <div id="orderPaidField" class="field"><label>實際匯款金額 *</label><input id="orderPaid" type="number" min="1" inputmode="numeric"></div>
-          <div class="field full"><label>備註</label><textarea id="orderNote" rows="3" maxlength="300" placeholder="想詢問的數量、版本或其他需求都可以寫在這裡"></textarea></div>
+      <div class="modalHead">
+        <img id="modalImg" alt="">
+        <div class="modalTitle">
+          <h2 id="modalName">商品</h2>
+          <div id="modalMeta" class="sub"></div>
         </div>
-        <div id="purchaseNotice" class="notice">送出後會先記錄為「待確認」。店家核對匯款後才正式成立；若商品數量有限，以店家確認結果為準。</div>
-        <div id="inquiryNotice" class="notice hidden">送出後只會建立詢價登記，不會產生訂單、也不需要先匯款。店家取得正式價格後會依你留下的電話／LINE 聯絡。</div>
+        <button class="close" type="button" onclick="closeOrder()">×</button>
+      </div>
+
+      <div class="modalBody">
+        <input id="modalProductId" type="hidden">
+        <input id="modalUnitPrice" type="hidden">
+
+        <div id="closedInquiryNotice" class="closedNotice hidden">
+          <strong>此商品已經結單。</strong><br>
+          目前不接受直接下單，但你可以留下聯絡資訊；若店家能追加或取得正式價格，會再聯絡報價。
+        </div>
+
+        <div id="purchaseTotalBox" class="totalBox">
+          <div>
+            <span>本次應匯款</span>
+            <div id="modalQtyHint" style="font-size:11px;color:#9889a4;margin-top:3px"></div>
+          </div>
+          <strong id="modalTotal">NT$0</strong>
+        </div>
+
+        <div id="purchaseBankBox" class="bank">
+          <div style="font-size:11px;color:#b5a6c0">匯款帳號｜中國信託（822）</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:5px">
+            <div class="account">783540123887</div>
+            <div style="flex:1"></div>
+            <button class="copy" type="button" onclick="copyBank()">複製</button>
+          </div>
+        </div>
+
+        <div class="form">
+          <div id="orderQtyField" class="field">
+            <label>數量 *</label>
+            <input id="orderQty" type="number" min="1" max="99" value="1" inputmode="numeric">
+          </div>
+          <div class="field">
+            <label>姓名 *</label>
+            <input id="orderName" autocomplete="name">
+          </div>
+          <div class="field">
+            <label>手機 *</label>
+            <input id="orderPhone" autocomplete="tel" inputmode="tel" placeholder="0912345678">
+          </div>
+          <div class="field">
+            <label>LINE ID *</label>
+            <input id="orderLine" placeholder="方便店家後續聯絡">
+          </div>
+          <div id="orderLast5Field" class="field">
+            <label>匯款帳號後五碼 *</label>
+            <input id="orderLast5" maxlength="5" inputmode="numeric" placeholder="12345">
+          </div>
+          <div id="orderPaidField" class="field">
+            <label>實際匯款金額 *</label>
+            <input id="orderPaid" type="number" min="1" inputmode="numeric">
+          </div>
+          <div class="field full">
+            <label>備註</label>
+            <textarea id="orderNote" rows="3" maxlength="300" placeholder="想詢問的數量、版本或其他需求都可以寫在這裡"></textarea>
+          </div>
+        </div>
+
+        <div id="purchaseNotice" class="notice">
+          送出後會先記錄為「待確認」。店家核對匯款後才正式成立；若商品數量有限，以店家確認結果為準。
+        </div>
+        <div id="inquiryNotice" class="notice hidden">
+          送出後只會建立詢價登記，不會產生訂單、也不需要先匯款。店家取得正式價格後會依你留下的電話／LINE 聯絡。
+        </div>
         <div id="orderError" class="error hidden"></div>
       </div>
-      <div class="actions"><button class="cancel" type="button" onclick="closeOrder()">取消</button><button id="orderSubmit" class="submit" type="button" onclick="submitAction()">我已匯款，送出訂單</button></div>
+
+      <div class="actions">
+        <button class="cancel" type="button" onclick="closeOrder()">取消</button>
+        <button id="orderSubmit" class="submit" type="button" onclick="submitAction()">我已匯款，送出訂單</button>
+      </div>
     </div>
-    <div id="successWrap" class="success hidden"><div class="tick">✓</div><h2 id="successTitle">已送出</h2><p id="successText"></p><div id="successId" class="orderId"></div><button class="submit" style="border:0;border-radius:12px;padding:12px 18px" type="button" onclick="closeOrder()">繼續逛商品</button></div>
+
+    <div id="successWrap" class="success hidden">
+      <div class="tick">✓</div>
+      <h2 id="successTitle">已送出</h2>
+      <p id="successText"></p>
+      <div id="successId" class="orderId"></div>
+      <button class="submit" style="border:0;border-radius:12px;padding:12px 18px" type="button" onclick="closeOrder()">繼續逛商品</button>
+    </div>
   </div>
 </div>
-<script src="config.js?v=271320"></script>
-<script src="gas-bridge.js?v=2750"></script>
+
+<script src="config.js?v=271400"></script>
+<script src="gas-bridge.js?v=271400"></script>
 <script>
-  var SHOP_DATA={items:[],categories:[],availableCategories:[],counts:{all:0,preorder:0,direct:0},directMarketUrl:'',publicUrl:String(window.WANWAN_SHOP_URL||location.href.split('?')[0]),homeUrl:String(window.WANWAN_HOME_URL||'./index.html')};
-  var ACTIVE_CATEGORY='',ACTIVE_TYPE='',ACTIVE_PRODUCT=null,FOCUS_ITEM=null,SHOP_OFFSET=0,SHOP_TOTAL=0,SHOP_HAS_MORE=false,SHOP_LOADING=false,SHOP_PAGE_SIZE=24,SEARCH_TIMER=null,FIRST_LOAD=true;
-  var FEATURED_V275={direct:[],closing:[]},FEATURED_LOADING_V275=false;
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  function money(n){return 'NT$'+Math.round(Number(n||0)).toLocaleString('zh-TW');}
-  function queryProductId(){try{return (new URL(location.href)).searchParams.get('product')||'';}catch(e){return '';}}
-  function currentQuery(reset){return {type:ACTIVE_TYPE,category:ACTIVE_CATEGORY,q:document.getElementById('search').value.trim(),sort:document.getElementById('sort').value,offset:reset?0:SHOP_OFFSET,limit:SHOP_PAGE_SIZE,focusId:FIRST_LOAD?queryProductId():''};}
-  function showSkeleton(){var g=document.getElementById('grid');g.innerHTML='';for(var i=0;i<8;i++){var d=document.createElement('div');d.className='card skeleton';g.appendChild(d);}}
-  function shuffleV275_(arr){arr=Array.isArray(arr)?arr.slice():[];for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=arr[i];arr[i]=arr[j];arr[j]=t;}return arr;}
-  function itemKeyV275_(x){return String((x&&x.id)||((x&&x.type)||'')+'|'+((x&&x.name)||'')+'|'+((x&&x.imageUrl)||''));}
-  function closeTimeV275_(x){var s=String((x&&x.closeDate)||'').trim().replace(/\//g,'-');if(!s)return Number.MAX_SAFE_INTEGER;var t=new Date(s+'T23:59:59').getTime();return isFinite(t)?t:Number.MAX_SAFE_INTEGER;}
+  var SHOP_DATA={
+    items:[],
+    categories:[],
+    availableCategories:[],
+    counts:{all:0,preorder:0,direct:0},
+    directMarketUrl:'',
+    publicUrl:String(window.WANWAN_SHOP_URL||location.href.split('?')[0]),
+    homeUrl:String(window.WANWAN_HOME_URL||'./index.html')
+  };
+
+  var ACTIVE_CATEGORY='';
+  var ACTIVE_TYPE='';
+  var ACTIVE_MODE='all';
+  var ACTIVE_IP='';
+  var ACTIVE_IP_SEARCH='';
+  var ACTIVE_PRODUCT=null;
+  var FOCUS_ITEM=null;
+  var SHOP_OFFSET=0;
+  var SHOP_TOTAL=0;
+  var SHOP_HAS_MORE=false;
+  var SHOP_LOADING=false;
+  var SHOP_PAGE_SIZE=24;
+  var SEARCH_TIMER=null;
+  var FIRST_LOAD=true;
+  var CLOSED_AUTO_LOADS=0;
+  var MAX_CLOSED_AUTO_LOADS=20;
+
+  var FEATURED_V275={direct:[],closing:[]};
+  var FEATURED_LOADING_V275=false;
+
+  var IP_CATALOG=[];
+  var IP_CATALOG_LOADING=false;
+
+  var IP_RULES=[
+    {label:'航海王',aliases:['航海王','海賊王','ONE PIECE']},
+    {label:'寶可夢',aliases:['寶可夢','神奇寶貝','POKEMON','POKÉMON']},
+    {label:'吉伊卡哇',aliases:['吉伊卡哇','ちいかわ','CHIIKAWA']},
+    {label:'獵人',aliases:['獵人×獵人','獵人X獵人','HUNTER×HUNTER','HUNTER X HUNTER']},
+    {label:'七龍珠',aliases:['七龍珠','龍珠','DRAGON BALL']},
+    {label:'鬼滅之刃',aliases:['鬼滅之刃','鬼滅','DEMON SLAYER']},
+    {label:'咒術迴戰',aliases:['咒術迴戰','JUJUTSU KAISEN']},
+    {label:'進擊的巨人',aliases:['進擊的巨人','ATTACK ON TITAN']},
+    {label:'火影忍者',aliases:['火影忍者','NARUTO']},
+    {label:'鋼彈',aliases:['鋼彈','高達','GUNDAM']},
+    {label:'遊戲王',aliases:['遊戲王','YU-GI-OH','YUGIOH']},
+    {label:'光之美少女',aliases:['光之美少女','PRECURE','PRETTY CURE','プリキュア']},
+    {label:'Hololive',aliases:['HOLOLIVE','ホロライブ']},
+    {label:'原神',aliases:['原神','GENSHIN']},
+    {label:'鳴潮',aliases:['鳴潮','WUTHERING WAVES']},
+    {label:'崩壞：星穹鐵道',aliases:['崩壞：星穹鐵道','崩壞 星穹鐵道','星穹鐵道','HONKAI STAR RAIL']},
+    {label:'葬送的芙莉蓮',aliases:['葬送的芙莉蓮','芙莉蓮','FRIEREN']},
+    {label:'藥師少女的獨語',aliases:['藥師少女的獨語','藥師少女','APOTHECARY DIARIES']},
+    {label:'膽大黨',aliases:['膽大黨','DANDADAN']},
+    {label:'SPY×FAMILY',aliases:['SPY×FAMILY','SPY X FAMILY','SPY FAMILY','間諜家家酒']},
+    {label:'Re:從零開始',aliases:['RE:從零開始','RE:ZERO','RE ZERO','從零開始的異世界生活']},
+    {label:'Fate',aliases:['FATE/','FATE ','FGO','FATE GRAND ORDER']},
+    {label:'新世紀福音戰士',aliases:['新世紀福音戰士','EVANGELION','EVA']},
+    {label:'初音未來',aliases:['初音未來','初音ミク','HATSUNE MIKU']},
+    {label:'藍色監獄',aliases:['藍色監獄','BLUE LOCK']},
+    {label:'我的英雄學院',aliases:['我的英雄學院','我英','MY HERO ACADEMIA']},
+    {label:'轉生史萊姆',aliases:['關於我轉生變成史萊姆這檔事','轉生史萊姆','TENSURA']},
+    {label:'五等分的新娘',aliases:['五等分的新娘','QUINTESSENTIAL QUINTUPLETS']},
+    {label:'戀上換裝娃娃',aliases:['戀上換裝娃娃','更衣人偶墜入愛河','MY DRESS-UP DARLING']},
+    {label:'烙印勇士',aliases:['烙印勇士','BERSERK']},
+    {label:'決勝時刻',aliases:['決勝時刻','CALL OF DUTY']},
+    {label:'超級索尼子',aliases:['超級索尼子','索尼子','SUPER SONICO']},
+    {label:'CLANNAD',aliases:['CLANNAD']},
+    {label:'少女樂團 吶喊吧',aliases:['少女樂團 吶喊吧','GIRLS BAND CRY']},
+    {label:'碧藍航線',aliases:['碧藍航線','AZUR LANE']},
+    {label:'裝甲騎兵',aliases:['裝甲騎兵','VOTOMS','X‧ATH','X-ATH','X ATH']},
+    {label:'精靈村',aliases:['精靈村','ELF VILLAGE']},
+    {label:'刀劍神域',aliases:['刀劍神域','SWORD ART ONLINE','SAO']},
+    {label:'無職轉生',aliases:['無職轉生','MUSHOKU TENSEI']},
+    {label:'孤獨搖滾',aliases:['孤獨搖滾','BOCCHI THE ROCK']},
+    {label:'鏈鋸人',aliases:['鏈鋸人','電鋸人','CHAINSAW MAN']},
+    {label:'約會大作戰',aliases:['約會大作戰','DATE A LIVE']},
+    {label:'為美好的世界獻上祝福',aliases:['為美好的世界獻上祝福','美好世界','KONOSUBA']},
+    {label:'尼爾',aliases:['尼爾','NIER']},
+    {label:'勝利女神：妮姬',aliases:['勝利女神：妮姬','勝利女神 妮姬','NIKKE']},
+    {label:'蔚藍檔案',aliases:['蔚藍檔案','BLUE ARCHIVE']},
+    {label:'賽馬娘',aliases:['賽馬娘','UMAMUSUME','UMA MUSUME']},
+    {label:'JoJo的奇妙冒險',aliases:['JOJO','奇妙冒險']},
+    {label:'幽遊白書',aliases:['幽遊白書','YU YU HAKUSHO']},
+    {label:'灌籃高手',aliases:['灌籃高手','SLAM DUNK']},
+    {label:'排球少年',aliases:['排球少年','HAIKYU']},
+    {label:'名偵探柯南',aliases:['名偵探柯南','柯南','DETECTIVE CONAN']},
+    {label:'蠟筆小新',aliases:['蠟筆小新','CRAYON SHIN-CHAN']},
+    {label:'三麗鷗',aliases:['三麗鷗','SANRIO','HELLO KITTY','酷洛米','KUROMI','美樂蒂','MY MELODY']}
+  ];
+
+  function esc(s){
+    return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function money(n){
+    return 'NT$'+Math.round(Number(n||0)).toLocaleString('zh-TW');
+  }
+
+  function queryProductId(){
+    try{return (new URL(location.href)).searchParams.get('product')||'';}
+    catch(e){return '';}
+  }
+
+  function inferIp(name){
+    var raw=String(name||'');
+    var upper=raw.toUpperCase();
+
+    for(var i=0;i<IP_RULES.length;i++){
+      var rule=IP_RULES[i];
+      for(var j=0;j<rule.aliases.length;j++){
+        var alias=String(rule.aliases[j]||'');
+        if(alias && upper.indexOf(alias.toUpperCase())>=0){
+          return {label:rule.label,search:alias,known:true};
+        }
+      }
+    }
+
+    var s=raw
+      .replace(/GOOD\s*SMILE\s*COMPANY|GOOD\s*SMILE|GSC|VERTEX|ALTER|BANDAI(?:\s*SPIRITS)?|BANPRESTO|SEGA|FURYU|TAITO|KOTOBUKIYA|MEGAHOUSE|MAX\s*FACTORY|ANIPLEX|KADOKAWA|MEDICOS|ORANGE\s*ROUGE|PLUM|APEX|HOBBY\s*MAX|HOBBYMAX/ig,' ')
+      .replace(/POP\s*UP\s*PARADE|黏土人\s*\d*|黏土娃|NENDOROID(?:\s*DOLL)?|PVC|GK|景品|公仔|模型|雕像|FIGURE|FIGMA|PLAMAX|MODEROID|HELLO!?\s*GOOD\s*SMILE|再販|預購|限定|無比例|比例|L\s*SIZE|DX|SP|VER\.?|VERSION/ig,' ')
+      .replace(/\b\d+\s*\/\s*\d+\b/g,' ')
+      .replace(/\bSV-\d+\b/ig,' ')
+      .replace(/[【】\[\]（）()・‧·／/｜|,:：]/g,' ')
+      .replace(/\s+/g,' ')
+      .trim();
+
+    if(!s) return null;
+
+    var parts=s.split(' ').filter(Boolean);
+    if(!parts.length) return null;
+
+    var label=parts[0];
+    if(label.length<=2 && parts[1]) label+=' '+parts[1];
+    if(label.length>18) label=label.slice(0,18);
+
+    return {label:label,search:label,known:false};
+  }
+
+  function itemKeyV275_(x){
+    return String((x&&x.id)||((x&&x.type)||'')+'|'+((x&&x.name)||'')+'|'+((x&&x.imageUrl)||''));
+  }
+
+  function closeTimeV275_(x){
+    var s=String((x&&x.closeDate)||'').trim().replace(/\//g,'-');
+    if(!s) return Number.MAX_SAFE_INTEGER;
+    var t=new Date(s+'T23:59:59').getTime();
+    return isFinite(t)?t:Number.MAX_SAFE_INTEGER;
+  }
+
+  function shuffleV275_(arr){
+    arr=Array.isArray(arr)?arr.slice():[];
+    for(var i=arr.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1)),t=arr[i];
+      arr[i]=arr[j];arr[j]=t;
+    }
+    return arr;
+  }
+
   function pickQuickClosingV275_(items){
-    var open=(Array.isArray(items)?items:[]).filter(function(x){return x&&x.type==='預購'&&!x.isClosed;});
-    var dated=open.filter(function(x){return closeTimeV275_(x)!==Number.MAX_SAFE_INTEGER;}).sort(function(a,b){return closeTimeV275_(a)-closeTimeV275_(b);});
+    var open=(Array.isArray(items)?items:[]).filter(function(x){
+      return x&&x.type==='預購'&&!x.isClosed;
+    });
+    var dated=open
+      .filter(function(x){return closeTimeV275_(x)!==Number.MAX_SAFE_INTEGER;})
+      .sort(function(a,b){return closeTimeV275_(a)-closeTimeV275_(b);});
+
     var pool=dated.slice(0,Math.min(6,dated.length));
-    var picked=shuffleV275_(pool).slice(0,2),used={};picked.forEach(function(x){used[itemKeyV275_(x)]=1;});
-    if(picked.length<2){shuffleV275_(open).forEach(function(x){var k=itemKeyV275_(x);if(picked.length<2&&!used[k]){used[k]=1;picked.push(x);}});}
+    var picked=shuffleV275_(pool).slice(0,2),used={};
+
+    picked.forEach(function(x){used[itemKeyV275_(x)]=1;});
+
+    if(picked.length<2){
+      shuffleV275_(open).forEach(function(x){
+        var k=itemKeyV275_(x);
+        if(picked.length<2&&!used[k]){
+          used[k]=1;
+          picked.push(x);
+        }
+      });
+    }
     return picked.slice(0,2);
   }
-  function showFeaturedV275_(){return !ACTIVE_TYPE&&!ACTIVE_CATEGORY&&!document.getElementById('search').value.trim()&&document.getElementById('sort').value==='new';}
-  function openProductLightboxV275(url){url=String(url||'').trim();if(!url)return;document.getElementById('productLightboxImageV275').src=url;document.getElementById('productLightboxV275').classList.remove('hidden');document.body.style.overflow='hidden';}
-  function closeProductLightboxV275(){document.getElementById('productLightboxV275').classList.add('hidden');document.getElementById('productLightboxImageV275').src='';document.body.style.overflow='';}
-  function bindZoomV275_(root){if(!root)return;root.querySelectorAll('[data-zoom-src]').forEach(function(el){if(el.dataset.zoomBoundV275==='1')return;el.dataset.zoomBoundV275='1';el.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();openProductLightboxV275(el.getAttribute('data-zoom-src'));});});}
-  function featuredItemsV275_(){return (FEATURED_V275.direct||[]).concat(FEATURED_V275.closing||[]);}
-  function renderFeaturedV275_(){
-    var section=document.getElementById('featuredTopV275'),g=document.getElementById('featuredGridV275');if(!section||!g)return;
-    var visible=showFeaturedV275_();section.classList.toggle('hidden',!visible);if(!visible)return;
-    var arr=[];(FEATURED_V275.direct||[]).forEach(function(x){arr.push({item:x,tag:'直購精選'});});(FEATURED_V275.closing||[]).forEach(function(x){arr.push({item:x,tag:'快結單'});});
-    if(!arr.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">目前沒有可顯示的精選商品。</div>';return;}
-    g.innerHTML=arr.map(function(o,i){return cardHtml(o.item,i,o.tag);}).join('');
-    g.querySelectorAll('[data-open]').forEach(function(b){b.onclick=function(){openOrder(b.getAttribute('data-open'));};});bindZoomV275_(g);
+
+  function featuredItemsV275_(){
+    return (FEATURED_V275.direct||[]).concat(FEATURED_V275.closing||[]);
   }
+
+  function showFeaturedV275_(){
+    return ACTIVE_MODE==='all' &&
+      !ACTIVE_CATEGORY &&
+      !ACTIVE_IP &&
+      !document.getElementById('search').value.trim() &&
+      document.getElementById('sort').value==='new';
+  }
+
+  function currentQuery(reset){
+    return {
+      type:ACTIVE_TYPE,
+      category:ACTIVE_CATEGORY,
+      q:document.getElementById('search').value.trim(),
+      sort:document.getElementById('sort').value,
+      offset:reset?0:SHOP_OFFSET,
+      limit:SHOP_PAGE_SIZE,
+      focusId:FIRST_LOAD?queryProductId():''
+    };
+  }
+
+  function showSkeleton(){
+    var g=document.getElementById('grid');
+    g.innerHTML='';
+    for(var i=0;i<8;i++){
+      var d=document.createElement('div');
+      d.className='card skeleton';
+      g.appendChild(d);
+    }
+  }
+
+  function openProductLightboxV275(url){
+    url=String(url||'').trim();
+    if(!url)return;
+    document.getElementById('productLightboxImageV275').src=url;
+    document.getElementById('productLightboxV275').classList.remove('hidden');
+    document.body.style.overflow='hidden';
+  }
+
+  function closeProductLightboxV275(){
+    document.getElementById('productLightboxV275').classList.add('hidden');
+    document.getElementById('productLightboxImageV275').src='';
+    document.body.style.overflow='';
+  }
+
+  function bindZoomV275_(root){
+    if(!root)return;
+    root.querySelectorAll('[data-zoom-src]').forEach(function(el){
+      if(el.dataset.zoomBoundV275==='1')return;
+      el.dataset.zoomBoundV275='1';
+      el.addEventListener('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        openProductLightboxV275(el.getAttribute('data-zoom-src'));
+      });
+    });
+  }
+
   function loadFeaturedV275_(){
-    if(FEATURED_LOADING_V275)return;FEATURED_LOADING_V275=true;var done=0;
-    function finish(){done++;if(done<2)return;FEATURED_LOADING_V275=false;renderFeaturedV275_();render();}
-    google.script.run.withSuccessHandler(function(res){var a=(res&&Array.isArray(res.items))?res.items:[];FEATURED_V275.direct=shuffleV275_(a.filter(function(x){return x&&x.type==='直購'&&!x.isClosed;})).slice(0,2);finish();}).withFailureHandler(function(){FEATURED_V275.direct=[];finish();}).getPublicShopPageV270({type:'直購',category:'',q:'',sort:'new',offset:0,limit:24,focusId:''});
-    google.script.run.withSuccessHandler(function(res){var a=(res&&Array.isArray(res.items))?res.items:[];FEATURED_V275.closing=pickQuickClosingV275_(a);finish();}).withFailureHandler(function(){FEATURED_V275.closing=[];finish();}).getPublicShopPageV270({type:'預購',category:'',q:'',sort:'close',offset:0,limit:24,focusId:''});
+    if(FEATURED_LOADING_V275)return;
+    FEATURED_LOADING_V275=true;
+    var done=0;
+
+    function finish(){
+      done++;
+      if(done<2)return;
+      FEATURED_LOADING_V275=false;
+      renderFeaturedV275_();
+      render();
+    }
+
+    google.script.run
+      .withSuccessHandler(function(res){
+        var a=(res&&Array.isArray(res.items))?res.items:[];
+        FEATURED_V275.direct=shuffleV275_(a.filter(function(x){
+          return x&&x.type==='直購'&&!x.isClosed;
+        })).slice(0,2);
+        finish();
+      })
+      .withFailureHandler(function(){
+        FEATURED_V275.direct=[];
+        finish();
+      })
+      .getPublicShopPageV270({
+        type:'直購',category:'',q:'',sort:'new',offset:0,limit:24,focusId:''
+      });
+
+    google.script.run
+      .withSuccessHandler(function(res){
+        var a=(res&&Array.isArray(res.items))?res.items:[];
+        FEATURED_V275.closing=pickQuickClosingV275_(a);
+        finish();
+      })
+      .withFailureHandler(function(){
+        FEATURED_V275.closing=[];
+        finish();
+      })
+      .getPublicShopPageV270({
+        type:'預購',category:'',q:'',sort:'close',offset:0,limit:24,focusId:''
+      });
   }
-  function loadShop(reset){if(SHOP_LOADING)return;SHOP_LOADING=true;if(reset){SHOP_OFFSET=0;SHOP_HAS_MORE=false;if(FIRST_LOAD)showSkeleton();}var btn=document.getElementById('loadMoreBtn');if(btn){btn.disabled=true;btn.textContent='載入中…';}
-    google.script.run.withSuccessHandler(function(res){SHOP_LOADING=false;res=res||{};var incoming=Array.isArray(res.items)?res.items:[];if(reset)SHOP_DATA.items=incoming;else SHOP_DATA.items=(SHOP_DATA.items||[]).concat(incoming);SHOP_OFFSET=Number(res.offset||0)+incoming.length;SHOP_TOTAL=Number(res.total||0);SHOP_HAS_MORE=!!res.hasMore;SHOP_DATA.categories=res.categories||[];SHOP_DATA.availableCategories=res.availableCategories||[];SHOP_DATA.counts=res.counts||SHOP_DATA.counts;SHOP_DATA.directMarketUrl=res.directMarketUrl||SHOP_DATA.directMarketUrl;SHOP_DATA.publicUrl=String(window.WANWAN_SHOP_URL||res.publicUrl||SHOP_DATA.publicUrl);SHOP_DATA.homeUrl=String(window.WANWAN_HOME_URL||res.homeUrl||SHOP_DATA.homeUrl);FOCUS_ITEM=res.focusItem||FOCUS_ITEM;if(SHOP_DATA.homeUrl)document.getElementById('homeBtn').href=SHOP_DATA.homeUrl;document.getElementById('statAll').textContent=SHOP_DATA.counts.all||0;document.getElementById('statPre').textContent=SHOP_DATA.counts.preorder||0;document.getElementById('statDirect').textContent=SHOP_DATA.counts.direct||0;renderTypeTabs();renderChips();render();if(FIRST_LOAD){FIRST_LOAD=false;openHashProduct();}}).withFailureHandler(function(e){SHOP_LOADING=false;document.getElementById('grid').innerHTML='<div class="empty" style="grid-column:1/-1">目前無法讀取商品：'+esc(e&&e.message?e.message:e)+'</div>';if(btn){btn.style.display='none';}}).getPublicShopPageV270(currentQuery(!!reset));
+
+  function renderFeaturedV275_(){
+    var section=document.getElementById('featuredTopV275');
+    var g=document.getElementById('featuredGridV275');
+    if(!section||!g)return;
+
+    var visible=showFeaturedV275_();
+    section.classList.toggle('hidden',!visible);
+    if(!visible)return;
+
+    var arr=[];
+    (FEATURED_V275.direct||[]).forEach(function(x){
+      arr.push({item:x,tag:'現貨精選'});
+    });
+    (FEATURED_V275.closing||[]).forEach(function(x){
+      arr.push({item:x,tag:'快結單'});
+    });
+
+    if(!arr.length){
+      g.innerHTML='<div class="empty" style="grid-column:1/-1">目前沒有可顯示的精選商品。</div>';
+      return;
+    }
+
+    g.innerHTML=arr.map(function(o,i){
+      return cardHtml(o.item,i,o.tag);
+    }).join('');
+
+    g.querySelectorAll('[data-open]').forEach(function(b){
+      b.onclick=function(){openOrder(b.getAttribute('data-open'));};
+    });
+
+    bindZoomV275_(g);
   }
-  function renderTypeTabs(){document.querySelectorAll('[data-type]').forEach(function(b){b.classList.toggle('active',(b.getAttribute('data-type')||'')===ACTIVE_TYPE);b.onclick=function(){ACTIVE_TYPE=b.getAttribute('data-type')||'';ACTIVE_CATEGORY='';renderTypeTabs();loadShop(true);};});}
-  function renderChips(){var cats=[''].concat(SHOP_DATA.availableCategories||[]);document.getElementById('categoryChips').innerHTML=cats.map(function(c){return '<button class="chip '+(c===ACTIVE_CATEGORY?'active':'')+'" data-cat="'+esc(c)+'">'+(c||'全部分類')+'</button>';}).join('');document.querySelectorAll('[data-cat]').forEach(function(b){b.onclick=function(){ACTIVE_CATEGORY=b.getAttribute('data-cat')||'';renderChips();loadShop(true);};});}
-  function render(){document.getElementById('resultTitle').textContent=ACTIVE_TYPE?(ACTIVE_TYPE+'商品'):'全部商品';document.getElementById('resultCount').textContent=SHOP_TOTAL+' 項';var g=document.getElementById('grid');var arr=(SHOP_DATA.items||[]).slice();if(showFeaturedV275_()){var used={};featuredItemsV275_().forEach(function(x){used[itemKeyV275_(x)]=1;});arr=arr.filter(function(x){return !used[itemKeyV275_(x)];});}if(!arr.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">目前沒有符合條件的商品。</div>';}else{g.innerHTML=arr.map(function(x,i){return cardHtml(x,i);}).join('');g.querySelectorAll('[data-open]').forEach(function(b){b.onclick=function(){openOrder(b.getAttribute('data-open'));};});bindZoomV275_(g);}renderFeaturedV275_();var btn=document.getElementById('loadMoreBtn');if(btn){btn.disabled=false;btn.textContent='載入更多商品';btn.style.display=SHOP_HAS_MORE?'':'none';}}
-  function cardHtml(x,i,featureTag){var closed=!!x.isClosed;var meta='';if(x.type==='預購')meta=closed?'已結單｜有興趣可留下資料等待正式報價':(x.closeDate?'結單 '+x.closeDate.replace(/-/g,'/'):'預購中');else if(x.availableStock!==null)meta='賣貨便現貨｜網站庫存參考 '+x.availableStock+' 件';else meta='現貨直購';var action=x.type==='直購'?'<a class="buy buyLink" href="'+esc((SHOP_DATA&&SHOP_DATA.directMarketUrl)||x.purchaseUrl||'https://myship.7-11.com.tw/general/detail/GM2609236881260')+'" target="_blank" rel="noopener noreferrer">我要購買</a>':'<button class="buy '+(closed?'closed':'pre')+'" data-open="'+esc(x.id)+'">'+(closed?'有興趣，留下資料':'線上預購')+'</button>';var eager=i<4?' eager fetchpriority="high"':' loading="lazy" fetchpriority="low"';var feature=featureTag?'<span class="badge '+(featureTag==='快結單'?'closing':'directPick')+'">'+esc(featureTag)+'</span>':'';var zoom=x.imageUrl?' data-zoom-src="'+esc(x.imageUrl)+'"':'';var img=x.imageUrl?'<img src="'+esc(x.imageUrl)+'" alt="'+esc(x.name)+'" decoding="async"'+eager+'>':'<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#8f8299">暫無圖片</div>';return '<article class="card '+(closed?'closed':'')+'"><div class="cover"'+zoom+'>'+img+(x.imageUrl?'<span class="zoomHint">🔍 點圖放大</span>':'')+'<div class="badges">'+feature+'<span class="badge '+(x.type==='預購'?'pre':'direct')+'">'+esc(x.type)+'</span>'+(x.isNew?'<span class="badge new">NEW</span>':'')+(closed?'<span class="badge closed">已結單</span>':'')+'</div></div><div class="body"><div class="cat">'+esc(x.category||'其他')+'</div><div class="name">'+esc(x.name)+'</div><div class="price">'+money(x.price)+'</div><div class="meta">'+esc(meta)+'</div>'+action+'</div></article>';}
-  function setInquiryMode(on){document.getElementById('closedInquiryNotice').classList.toggle('hidden',!on);document.getElementById('purchaseTotalBox').classList.toggle('hidden',on);document.getElementById('purchaseBankBox').classList.toggle('hidden',on);document.getElementById('orderQtyField').classList.toggle('hidden',on);document.getElementById('orderLast5Field').classList.toggle('hidden',on);document.getElementById('orderPaidField').classList.toggle('hidden',on);document.getElementById('purchaseNotice').classList.toggle('hidden',on);document.getElementById('inquiryNotice').classList.toggle('hidden',!on);document.getElementById('orderSubmit').textContent=on?'留下資料，等候報價':'我已匯款，送出訂單';}
-  function findProduct(id){return (SHOP_DATA.items||[]).find(function(p){return p.id===id;})||featuredItemsV275_().find(function(p){return p&&p.id===id;})||((FOCUS_ITEM&&FOCUS_ITEM.id===id)?FOCUS_ITEM:null);}
-  function openOrder(id){var x=findProduct(id);if(!x)return;if(x.type==='直購'){window.open((SHOP_DATA&&SHOP_DATA.directMarketUrl)||x.purchaseUrl||'https://myship.7-11.com.tw/general/detail/GM2609236881260','_blank','noopener');return;}ACTIVE_PRODUCT=x;document.getElementById('modalProductId').value=x.id;document.getElementById('modalUnitPrice').value=x.price;document.getElementById('modalImg').src=x.imageUrl;document.getElementById('modalName').textContent=x.name;document.getElementById('modalMeta').textContent=x.type+'｜'+x.category+(x.closeDate?'｜結單 '+x.closeDate.replace(/-/g,'/'):'')+(x.isClosed?'｜已結單':'');var qty=document.getElementById('orderQty');qty.value='1';qty.max=x.availableStock===null?99:Math.max(1,x.availableStock);['orderName','orderPhone','orderLine','orderLast5','orderPaid','orderNote'].forEach(function(i){document.getElementById(i).value='';});document.getElementById('orderError').classList.add('hidden');document.getElementById('orderFormWrap').classList.remove('hidden');document.getElementById('successWrap').classList.add('hidden');setInquiryMode(!!x.isClosed);updateTotal();document.getElementById('orderMask').classList.remove('hidden');document.body.style.overflow='hidden';try{var u=new URL(location.href);u.searchParams.set('product',id);history.replaceState(null,'',u.pathname+'?'+u.searchParams.toString());}catch(e){}}
-  function clearProductRoute(){try{var u=new URL(location.href);u.searchParams.delete('product');u.hash='';history.replaceState(null,'',u.pathname+(u.searchParams.toString()?'?'+u.searchParams.toString():''));}catch(e){}}
-  function closeOrder(){document.getElementById('orderMask').classList.add('hidden');document.body.style.overflow='';ACTIVE_PRODUCT=null;clearProductRoute();}
-  function updateTotal(){if(!ACTIVE_PRODUCT||ACTIVE_PRODUCT.isClosed)return;var q=Math.max(1,Number(document.getElementById('orderQty').value||1));var p=Number(document.getElementById('modalUnitPrice').value||0);var t=Math.round(q*p*100)/100;document.getElementById('modalTotal').textContent=money(t);document.getElementById('modalQtyHint').textContent=q+' 件 × '+money(p);document.getElementById('orderPaid').placeholder='應匯款 '+money(t);}
-  function copyBank(){var v='783540123887';if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(v).then(function(){alert('已複製匯款帳號');});else{var t=document.createElement('textarea');t.value=v;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();alert('已複製匯款帳號');}}
-  function contactPayload(){return {name:document.getElementById('orderName').value.trim(),phone:document.getElementById('orderPhone').value.trim(),lineId:document.getElementById('orderLine').value.trim(),note:document.getElementById('orderNote').value.trim()};}
-  function validateContact(p){if(!p.name)return '請輸入姓名';if(p.phone.replace(/\D/g,'').length<8)return '請輸入正確手機號碼';if(!p.lineId)return '請輸入 LINE ID，方便後續聯絡';return '';}
-  function submitAction(){if(!ACTIVE_PRODUCT)return;if(ACTIVE_PRODUCT.isClosed)return submitInquiry();return submitOrder();}
-  function submitInquiry(){var p=contactPayload(),msg=validateContact(p);if(msg)return showErr(msg);var btn=document.getElementById('orderSubmit');btn.disabled=true;btn.textContent='登記中…';p.requestId='INQ-'+Date.now()+'-'+Math.random().toString(36).slice(2,10);google.script.run.withSuccessHandler(function(res){btn.disabled=false;btn.textContent='留下資料，等候報價';document.getElementById('orderFormWrap').classList.add('hidden');document.getElementById('successWrap').classList.remove('hidden');document.getElementById('successTitle').textContent='詢價資料已留下';document.getElementById('successText').textContent=(res&&res.message)||'之後有正式價格時，店家會再聯絡你。';document.getElementById('successId').textContent=(res&&res.inquiryId)||'';clearProductRoute();}).withFailureHandler(function(e){btn.disabled=false;btn.textContent='留下資料，等候報價';showErr(e&&e.message?e.message:String(e||'送出失敗'));}).submitShopInquiryV267(ACTIVE_PRODUCT.id,p);}
-  function submitOrder(){var err=document.getElementById('orderError');err.classList.add('hidden');if(!ACTIVE_PRODUCT)return;if(ACTIVE_PRODUCT.type==='直購'){window.open((SHOP_DATA&&SHOP_DATA.directMarketUrl)||ACTIVE_PRODUCT.purchaseUrl||'https://myship.7-11.com.tw/general/detail/GM2609236881260','_blank','noopener');return;}var base=contactPayload(),contactErr=validateContact(base);if(contactErr)return showErr(contactErr);var qty=Number(document.getElementById('orderQty').value||1),last5=document.getElementById('orderLast5').value.trim(),paid=Number(document.getElementById('orderPaid').value||0),expected=Math.round(qty*ACTIVE_PRODUCT.price*100)/100;if(!Number.isInteger(qty)||qty<1||qty>99)return showErr('數量請輸入 1～99');if(ACTIVE_PRODUCT.availableStock!==null&&qty>ACTIVE_PRODUCT.availableStock)return showErr('目前可購買數量不足');if(!/^\d{5}$/.test(last5))return showErr('請輸入匯款帳號後五碼');if(Math.abs(paid-expected)>0.009)return showErr('實際匯款金額需等於 '+money(expected));var btn=document.getElementById('orderSubmit');btn.disabled=true;btn.textContent='送出中…';google.script.run.withSuccessHandler(function(res){btn.disabled=false;btn.textContent='我已匯款，送出訂單';document.getElementById('orderFormWrap').classList.add('hidden');document.getElementById('successWrap').classList.remove('hidden');document.getElementById('successTitle').textContent='訂單已送出';document.getElementById('successText').textContent=(res&&res.message)||'訂單已送出。';document.getElementById('successId').textContent=(res&&res.orderId)||'';clearProductRoute();loadShop(true);}).withFailureHandler(function(e){btn.disabled=false;btn.textContent='我已匯款，送出訂單';showErr(e&&e.message?e.message:String(e||'送出失敗'));}).submitShopOrderV266(ACTIVE_PRODUCT.id,{name:base.name,phone:base.phone,lineId:base.lineId,qty:qty,bankLast5:last5,paidAmount:paid,note:base.note,requestId:'SHOP-'+Date.now()+'-'+Math.random().toString(36).slice(2,10)});}
-  function showErr(s){var e=document.getElementById('orderError');e.textContent=s;e.classList.remove('hidden');}
-  function openHashProduct(){var id=queryProductId();if(id&&findProduct(id))openOrder(id);}
-  document.getElementById('search').addEventListener('input',function(){clearTimeout(SEARCH_TIMER);SEARCH_TIMER=setTimeout(function(){loadShop(true);},280);});
-  document.getElementById('sort').addEventListener('change',function(){loadShop(true);});
+
+  function mergeIpCatalog(items){
+    var map={};
+
+    IP_CATALOG.forEach(function(x){
+      map[x.label]={label:x.label,search:x.search,known:x.known,count:x.count||0};
+    });
+
+    (Array.isArray(items)?items:[]).forEach(function(item){
+      if(!item||!item.name)return;
+      var ip=inferIp(item.name);
+      if(!ip)return;
+
+      if(!map[ip.label]){
+        map[ip.label]={label:ip.label,search:ip.search,known:ip.known,count:0};
+      }
+      map[ip.label].count++;
+    });
+
+    IP_CATALOG=Object.keys(map).map(function(k){return map[k];}).sort(function(a,b){
+      if(a.known!==b.known)return a.known?-1:1;
+      if((b.count||0)!==(a.count||0))return (b.count||0)-(a.count||0);
+      return String(a.label).localeCompare(String(b.label),'zh-Hant');
+    });
+
+    renderIpChips();
+  }
+
+  function loadIpCatalog(){
+    if(IP_CATALOG_LOADING)return;
+    IP_CATALOG_LOADING=true;
+
+    var offset=0;
+    var page=0;
+    var all=[];
+    var limit=200;
+
+    function next(){
+      google.script.run
+        .withSuccessHandler(function(res){
+          res=res||{};
+          var items=Array.isArray(res.items)?res.items:[];
+          all=all.concat(items);
+
+          offset=Number(res.offset||offset)+items.length;
+          page++;
+
+          if(res.hasMore && items.length && page<5){
+            next();
+            return;
+          }
+
+          IP_CATALOG_LOADING=false;
+          mergeIpCatalog(all);
+        })
+        .withFailureHandler(function(){
+          IP_CATALOG_LOADING=false;
+          mergeIpCatalog(SHOP_DATA.items||[]);
+        })
+        .getPublicShopPageV270({
+          type:'',category:'',q:'',sort:'new',offset:offset,limit:limit,focusId:''
+        });
+    }
+
+    next();
+  }
+
+  function renderIpChips(){
+    var box=document.getElementById('ipChips');
+    if(!box)return;
+
+    var html='<button class="chip '+(!ACTIVE_IP?'active':'')+'" type="button" data-ip="">全部 IP</button>';
+
+    html+=(IP_CATALOG||[]).map(function(x){
+      return '<button class="chip '+(ACTIVE_IP===x.label?'active':'')+'" type="button" '+
+        'data-ip="'+esc(x.label)+'" data-search="'+esc(x.search)+'">'+
+        esc(x.label)+(x.count?'<span class="count">'+x.count+'</span>':'')+
+        '</button>';
+    }).join('');
+
+    box.innerHTML=html;
+
+    box.querySelectorAll('[data-ip]').forEach(function(b){
+      b.onclick=function(){
+        var label=b.getAttribute('data-ip')||'';
+        var searchTerm=b.getAttribute('data-search')||'';
+
+        ACTIVE_IP=label;
+        ACTIVE_IP_SEARCH=searchTerm;
+        ACTIVE_CATEGORY='';
+        ACTIVE_MODE='all';
+        ACTIVE_TYPE='';
+        CLOSED_AUTO_LOADS=0;
+
+        document.getElementById('search').value=searchTerm;
+        document.getElementById('sort').value='new';
+
+        renderModeTabs();
+        renderIpChips();
+        loadShop(true);
+      };
+    });
+  }
+
+  function renderModeTabs(){
+    document.querySelectorAll('[data-mode]').forEach(function(b){
+      b.classList.toggle('active',(b.getAttribute('data-mode')||'')===ACTIVE_MODE);
+
+      b.onclick=function(){
+        ACTIVE_MODE=b.getAttribute('data-mode')||'all';
+        ACTIVE_CATEGORY='';
+        ACTIVE_IP='';
+        ACTIVE_IP_SEARCH='';
+        CLOSED_AUTO_LOADS=0;
+        document.getElementById('search').value='';
+
+        if(ACTIVE_MODE==='preorder'){
+          ACTIVE_TYPE='預購';
+          document.getElementById('sort').value='new';
+        }else if(ACTIVE_MODE==='direct'){
+          ACTIVE_TYPE='直購';
+          document.getElementById('sort').value='new';
+        }else if(ACTIVE_MODE==='closed'){
+          ACTIVE_TYPE='預購';
+          document.getElementById('sort').value='close';
+        }else{
+          ACTIVE_TYPE='';
+          document.getElementById('sort').value='new';
+        }
+
+        renderModeTabs();
+        renderIpChips();
+        loadShop(true);
+      };
+    });
+  }
+
+  function renderChips(){
+    var cats=[''].concat(SHOP_DATA.availableCategories||[]);
+    document.getElementById('categoryChips').innerHTML=cats.map(function(c){
+      return '<button class="chip '+(c===ACTIVE_CATEGORY?'active':'')+'" data-cat="'+esc(c)+'">'+
+        (c||'全部類型')+'</button>';
+    }).join('');
+
+    document.querySelectorAll('[data-cat]').forEach(function(b){
+      b.onclick=function(){
+        ACTIVE_CATEGORY=b.getAttribute('data-cat')||'';
+        ACTIVE_IP='';
+        ACTIVE_IP_SEARCH='';
+        document.getElementById('search').value='';
+        renderChips();
+        renderIpChips();
+        loadShop(true);
+      };
+    });
+  }
+
+  function loadShop(reset){
+    if(SHOP_LOADING)return;
+    SHOP_LOADING=true;
+
+    if(reset){
+      SHOP_OFFSET=0;
+      SHOP_HAS_MORE=false;
+      if(FIRST_LOAD)showSkeleton();
+    }
+
+    var btn=document.getElementById('loadMoreBtn');
+    if(btn){
+      btn.disabled=true;
+      btn.textContent='載入中…';
+    }
+
+    google.script.run
+      .withSuccessHandler(function(res){
+        SHOP_LOADING=false;
+        res=res||{};
+
+        var incoming=Array.isArray(res.items)?res.items:[];
+
+        if(reset)SHOP_DATA.items=incoming;
+        else SHOP_DATA.items=(SHOP_DATA.items||[]).concat(incoming);
+
+        SHOP_OFFSET=Number(res.offset||0)+incoming.length;
+        SHOP_TOTAL=Number(res.total||0);
+        SHOP_HAS_MORE=!!res.hasMore;
+        SHOP_DATA.categories=res.categories||[];
+        SHOP_DATA.availableCategories=res.availableCategories||[];
+        SHOP_DATA.counts=res.counts||SHOP_DATA.counts;
+        SHOP_DATA.directMarketUrl=res.directMarketUrl||SHOP_DATA.directMarketUrl;
+        SHOP_DATA.publicUrl=String(window.WANWAN_SHOP_URL||res.publicUrl||SHOP_DATA.publicUrl);
+        SHOP_DATA.homeUrl=String(window.WANWAN_HOME_URL||res.homeUrl||SHOP_DATA.homeUrl);
+        FOCUS_ITEM=res.focusItem||FOCUS_ITEM;
+
+        if(SHOP_DATA.homeUrl)document.getElementById('homeBtn').href=SHOP_DATA.homeUrl;
+
+        document.getElementById('statAll').textContent=SHOP_DATA.counts.all||0;
+        document.getElementById('statPre').textContent=SHOP_DATA.counts.preorder||0;
+        document.getElementById('statDirect').textContent=SHOP_DATA.counts.direct||0;
+
+        mergeIpCatalog(incoming);
+        renderChips();
+        render();
+
+        if(FIRST_LOAD){
+          FIRST_LOAD=false;
+          openHashProduct();
+        }
+      })
+      .withFailureHandler(function(e){
+        SHOP_LOADING=false;
+        document.getElementById('grid').innerHTML=
+          '<div class="empty" style="grid-column:1/-1">目前無法讀取商品：'+
+          esc(e&&e.message?e.message:e)+'</div>';
+
+        if(btn)btn.style.display='none';
+      })
+      .getPublicShopPageV270(currentQuery(!!reset));
+  }
+
+  function applyClosedMode(arr){
+    if(ACTIVE_MODE!=='closed')return arr;
+    return arr.filter(function(x){return !!(x&&x.isClosed);});
+  }
+
+  function render(){
+    var title='全部商品';
+
+    if(ACTIVE_MODE==='preorder')title='預購專區';
+    else if(ACTIVE_MODE==='direct')title='現貨直購';
+    else if(ACTIVE_MODE==='closed')title='已結單商品';
+
+    if(ACTIVE_IP)title='IP｜'+ACTIVE_IP;
+    if(ACTIVE_CATEGORY)title=ACTIVE_CATEGORY;
+
+    document.getElementById('resultTitle').textContent=title;
+
+    var g=document.getElementById('grid');
+    var arr=(SHOP_DATA.items||[]).slice();
+
+    if(showFeaturedV275_()){
+      var used={};
+      featuredItemsV275_().forEach(function(x){used[itemKeyV275_(x)]=1;});
+      arr=arr.filter(function(x){return !used[itemKeyV275_(x)];});
+    }
+
+    arr=applyClosedMode(arr);
+
+    document.getElementById('resultCount').textContent=
+      (ACTIVE_MODE==='closed'?arr.length:SHOP_TOTAL)+' 項'+
+      ((ACTIVE_MODE==='closed'&&SHOP_HAS_MORE)?'・載入更多歷史商品中':'');
+
+    if(!arr.length){
+      g.innerHTML='<div class="empty" style="grid-column:1/-1">'+
+        (ACTIVE_MODE==='closed'?'目前沒有已結單商品。':'目前沒有符合條件的商品。')+
+        '</div>';
+    }else{
+      g.innerHTML=arr.map(function(x,i){return cardHtml(x,i);}).join('');
+
+      g.querySelectorAll('[data-open]').forEach(function(b){
+        b.onclick=function(){openOrder(b.getAttribute('data-open'));};
+      });
+
+      bindZoomV275_(g);
+    }
+
+    renderFeaturedV275_();
+
+    var btn=document.getElementById('loadMoreBtn');
+    if(btn){
+      btn.disabled=false;
+      btn.textContent='載入更多商品';
+      btn.style.display=SHOP_HAS_MORE?'':'none';
+    }
+
+    if(ACTIVE_MODE==='closed' && SHOP_HAS_MORE && !SHOP_LOADING && CLOSED_AUTO_LOADS<MAX_CLOSED_AUTO_LOADS){
+      CLOSED_AUTO_LOADS++;
+      setTimeout(function(){
+        if(ACTIVE_MODE==='closed' && SHOP_HAS_MORE && !SHOP_LOADING){
+          loadShop(false);
+        }
+      },90);
+    }
+  }
+
+  function cardHtml(x,i,featureTag){
+    var closed=!!x.isClosed;
+    var ip=inferIp(x.name);
+    var meta='';
+
+    if(x.type==='預購'){
+      meta=closed
+        ? '已結單｜可留下資料等待追加報價'
+        : (x.closeDate?'結單 '+x.closeDate.replace(/-/g,'/'):'預購中');
+    }else if(x.availableStock!==null){
+      meta='現貨｜庫存參考 '+x.availableStock+' 件';
+    }else{
+      meta='現貨直購';
+    }
+
+    var action='';
+
+    if(x.type==='直購'){
+      action='<a class="buy buyLink" href="'+
+        esc((SHOP_DATA&&SHOP_DATA.directMarketUrl)||x.purchaseUrl||'https://myship.7-11.com.tw/general/detail/GM2609236881260')+
+        '" target="_blank" rel="noopener noreferrer">我要購買</a>';
+    }else{
+      action='<button class="buy '+(closed?'closed':'pre')+'" data-open="'+esc(x.id)+'">'+
+        (closed?'有興趣，登記詢價':'線上預購')+'</button>';
+    }
+
+    var eager=i<4?' eager fetchpriority="high"':' loading="lazy" fetchpriority="low"';
+    var feature=featureTag
+      ? '<span class="badge '+(featureTag==='快結單'?'closing':'directPick')+'">'+esc(featureTag)+'</span>'
+      : '';
+
+    var zoom=x.imageUrl?' data-zoom-src="'+esc(x.imageUrl)+'"':'';
+    var img=x.imageUrl
+      ? '<img src="'+esc(x.imageUrl)+'" alt="'+esc(x.name)+'" decoding="async"'+eager+'>'
+      : '<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#8f8299">暫無圖片</div>';
+
+    var priceText=closed?'已結單':money(x.price);
+
+    return '<article class="card '+(closed?'closed':'')+'">'+
+      '<div class="cover"'+zoom+'>'+img+
+      (x.imageUrl?'<span class="zoomHint">🔍 點圖放大</span>':'')+
+      '<div class="badges">'+
+      feature+
+      '<span class="badge '+(x.type==='預購'?'pre':'direct')+'">'+esc(x.type)+'</span>'+
+      (ip?'<span class="badge ip">'+esc(ip.label)+'</span>':'')+
+      (x.isNew?'<span class="badge new">NEW</span>':'')+
+      (closed?'<span class="badge closed">已結單</span>':'')+
+      '</div></div>'+
+      '<div class="body">'+
+      '<div class="cat">'+esc(x.category||'其他')+'</div>'+
+      '<div class="name">'+esc(x.name)+'</div>'+
+      '<div class="price">'+priceText+'</div>'+
+      '<div class="meta">'+esc(meta)+'</div>'+
+      action+
+      '</div></article>';
+  }
+
+  function setInquiryMode(on){
+    document.getElementById('closedInquiryNotice').classList.toggle('hidden',!on);
+    document.getElementById('purchaseTotalBox').classList.toggle('hidden',on);
+    document.getElementById('purchaseBankBox').classList.toggle('hidden',on);
+    document.getElementById('orderQtyField').classList.toggle('hidden',on);
+    document.getElementById('orderLast5Field').classList.toggle('hidden',on);
+    document.getElementById('orderPaidField').classList.toggle('hidden',on);
+    document.getElementById('purchaseNotice').classList.toggle('hidden',on);
+    document.getElementById('inquiryNotice').classList.toggle('hidden',!on);
+    document.getElementById('orderSubmit').textContent=on?'留下資料，等候報價':'我已匯款，送出訂單';
+  }
+
+  function findProduct(id){
+    return (SHOP_DATA.items||[]).find(function(p){return p.id===id;}) ||
+      featuredItemsV275_().find(function(p){return p&&p.id===id;}) ||
+      ((FOCUS_ITEM&&FOCUS_ITEM.id===id)?FOCUS_ITEM:null);
+  }
+
+  function openOrder(id){
+    var x=findProduct(id);
+    if(!x)return;
+
+    if(x.type==='直購'){
+      window.open(
+        (SHOP_DATA&&SHOP_DATA.directMarketUrl)||x.purchaseUrl||'https://myship.7-11.com.tw/general/detail/GM2609236881260',
+        '_blank','noopener'
+      );
+      return;
+    }
+
+    ACTIVE_PRODUCT=x;
+
+    document.getElementById('modalProductId').value=x.id;
+    document.getElementById('modalUnitPrice').value=x.price;
+    document.getElementById('modalImg').src=x.imageUrl;
+    document.getElementById('modalName').textContent=x.name;
+    document.getElementById('modalMeta').textContent=
+      x.type+'｜'+x.category+
+      (x.closeDate?'｜結單 '+x.closeDate.replace(/-/g,'/'):'')+
+      (x.isClosed?'｜已結單':'');
+
+    var qty=document.getElementById('orderQty');
+    qty.value='1';
+    qty.max=x.availableStock===null?99:Math.max(1,x.availableStock);
+
+    ['orderName','orderPhone','orderLine','orderLast5','orderPaid','orderNote'].forEach(function(i){
+      document.getElementById(i).value='';
+    });
+
+    document.getElementById('orderError').classList.add('hidden');
+    document.getElementById('orderFormWrap').classList.remove('hidden');
+    document.getElementById('successWrap').classList.add('hidden');
+
+    setInquiryMode(!!x.isClosed);
+    updateTotal();
+
+    document.getElementById('orderMask').classList.remove('hidden');
+    document.body.style.overflow='hidden';
+
+    try{
+      var u=new URL(location.href);
+      u.searchParams.set('product',id);
+      history.replaceState(null,'',u.pathname+'?'+u.searchParams.toString());
+    }catch(e){}
+  }
+
+  function clearProductRoute(){
+    try{
+      var u=new URL(location.href);
+      u.searchParams.delete('product');
+      u.hash='';
+      history.replaceState(null,'',u.pathname+(u.searchParams.toString()?'?'+u.searchParams.toString():''));
+    }catch(e){}
+  }
+
+  function closeOrder(){
+    document.getElementById('orderMask').classList.add('hidden');
+    document.body.style.overflow='';
+    ACTIVE_PRODUCT=null;
+    clearProductRoute();
+  }
+
+  function updateTotal(){
+    if(!ACTIVE_PRODUCT||ACTIVE_PRODUCT.isClosed)return;
+
+    var q=Math.max(1,Number(document.getElementById('orderQty').value||1));
+    var p=Number(document.getElementById('modalUnitPrice').value||0);
+    var t=Math.round(q*p*100)/100;
+
+    document.getElementById('modalTotal').textContent=money(t);
+    document.getElementById('modalQtyHint').textContent=q+' 件 × '+money(p);
+    document.getElementById('orderPaid').placeholder='應匯款 '+money(t);
+  }
+
+  function copyBank(){
+    var v='783540123887';
+
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(v).then(function(){alert('已複製匯款帳號');});
+    }else{
+      var t=document.createElement('textarea');
+      t.value=v;
+      document.body.appendChild(t);
+      t.select();
+      document.execCommand('copy');
+      t.remove();
+      alert('已複製匯款帳號');
+    }
+  }
+
+  function contactPayload(){
+    return {
+      name:document.getElementById('orderName').value.trim(),
+      phone:document.getElementById('orderPhone').value.trim(),
+      lineId:document.getElementById('orderLine').value.trim(),
+      note:document.getElementById('orderNote').value.trim()
+    };
+  }
+
+  function validateContact(p){
+    if(!p.name)return '請輸入姓名';
+    if(p.phone.replace(/\D/g,'').length<8)return '請輸入正確手機號碼';
+    if(!p.lineId)return '請輸入 LINE ID，方便後續聯絡';
+    return '';
+  }
+
+  function submitAction(){
+    if(!ACTIVE_PRODUCT)return;
+    if(ACTIVE_PRODUCT.isClosed)return submitInquiry();
+    return submitOrder();
+  }
+
+  function submitInquiry(){
+    var p=contactPayload();
+    var msg=validateContact(p);
+    if(msg)return showErr(msg);
+
+    var btn=document.getElementById('orderSubmit');
+    btn.disabled=true;
+    btn.textContent='登記中…';
+
+    p.requestId='INQ-'+Date.now()+'-'+Math.random().toString(36).slice(2,10);
+
+    google.script.run
+      .withSuccessHandler(function(res){
+        btn.disabled=false;
+        btn.textContent='留下資料，等候報價';
+
+        document.getElementById('orderFormWrap').classList.add('hidden');
+        document.getElementById('successWrap').classList.remove('hidden');
+        document.getElementById('successTitle').textContent='詢價資料已留下';
+        document.getElementById('successText').textContent=(res&&res.message)||'之後有正式價格時，店家會再聯絡你。';
+        document.getElementById('successId').textContent=(res&&res.inquiryId)||'';
+        clearProductRoute();
+      })
+      .withFailureHandler(function(e){
+        btn.disabled=false;
+        btn.textContent='留下資料，等候報價';
+        showErr(e&&e.message?e.message:String(e||'送出失敗'));
+      })
+      .submitShopInquiryV267(ACTIVE_PRODUCT.id,p);
+  }
+
+  function submitOrder(){
+    var err=document.getElementById('orderError');
+    err.classList.add('hidden');
+
+    if(!ACTIVE_PRODUCT)return;
+
+    if(ACTIVE_PRODUCT.type==='直購'){
+      window.open(
+        (SHOP_DATA&&SHOP_DATA.directMarketUrl)||ACTIVE_PRODUCT.purchaseUrl||'https://myship.7-11.com.tw/general/detail/GM2609236881260',
+        '_blank','noopener'
+      );
+      return;
+    }
+
+    var base=contactPayload();
+    var contactErr=validateContact(base);
+    if(contactErr)return showErr(contactErr);
+
+    var qty=Number(document.getElementById('orderQty').value||1);
+    var last5=document.getElementById('orderLast5').value.trim();
+    var paid=Number(document.getElementById('orderPaid').value||0);
+    var expected=Math.round(qty*ACTIVE_PRODUCT.price*100)/100;
+
+    if(!Number.isInteger(qty)||qty<1||qty>99)return showErr('數量請輸入 1～99');
+    if(ACTIVE_PRODUCT.availableStock!==null&&qty>ACTIVE_PRODUCT.availableStock)return showErr('目前可購買數量不足');
+    if(!/^\d{5}$/.test(last5))return showErr('請輸入匯款帳號後五碼');
+    if(Math.abs(paid-expected)>0.009)return showErr('實際匯款金額需等於 '+money(expected));
+
+    var btn=document.getElementById('orderSubmit');
+    btn.disabled=true;
+    btn.textContent='送出中…';
+
+    google.script.run
+      .withSuccessHandler(function(res){
+        btn.disabled=false;
+        btn.textContent='我已匯款，送出訂單';
+
+        document.getElementById('orderFormWrap').classList.add('hidden');
+        document.getElementById('successWrap').classList.remove('hidden');
+        document.getElementById('successTitle').textContent='訂單已送出';
+        document.getElementById('successText').textContent=(res&&res.message)||'訂單已送出。';
+        document.getElementById('successId').textContent=(res&&res.orderId)||'';
+
+        clearProductRoute();
+        loadShop(true);
+      })
+      .withFailureHandler(function(e){
+        btn.disabled=false;
+        btn.textContent='我已匯款，送出訂單';
+        showErr(e&&e.message?e.message:String(e||'送出失敗'));
+      })
+      .submitShopOrderV266(ACTIVE_PRODUCT.id,{
+        name:base.name,
+        phone:base.phone,
+        lineId:base.lineId,
+        qty:qty,
+        bankLast5:last5,
+        paidAmount:paid,
+        note:base.note,
+        requestId:'SHOP-'+Date.now()+'-'+Math.random().toString(36).slice(2,10)
+      });
+  }
+
+  function showErr(s){
+    var e=document.getElementById('orderError');
+    e.textContent=s;
+    e.classList.remove('hidden');
+  }
+
+  function openHashProduct(){
+    var id=queryProductId();
+    if(id&&findProduct(id))openOrder(id);
+  }
+
+  document.getElementById('search').addEventListener('input',function(){
+    clearTimeout(SEARCH_TIMER);
+
+    var v=document.getElementById('search').value.trim();
+    if(ACTIVE_IP && v!==ACTIVE_IP_SEARCH){
+      ACTIVE_IP='';
+      ACTIVE_IP_SEARCH='';
+      renderIpChips();
+    }
+
+    ACTIVE_MODE='all';
+    ACTIVE_TYPE='';
+    ACTIVE_CATEGORY='';
+    CLOSED_AUTO_LOADS=0;
+    renderModeTabs();
+
+    SEARCH_TIMER=setTimeout(function(){
+      loadShop(true);
+    },280);
+  });
+
+  document.getElementById('sort').addEventListener('change',function(){
+    CLOSED_AUTO_LOADS=0;
+    loadShop(true);
+  });
+
   document.getElementById('orderQty').addEventListener('input',updateTotal);
-  document.getElementById('loadMoreBtn').addEventListener('click',function(){if(SHOP_HAS_MORE)loadShop(false);});
-  document.getElementById('orderMask').addEventListener('click',function(e){if(e.target===this)closeOrder();});document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(!document.getElementById('productLightboxV275').classList.contains('hidden'))closeProductLightboxV275();else if(!document.getElementById('orderMask').classList.contains('hidden'))closeOrder();}});
-  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(entries){if(entries[0]&&entries[0].isIntersecting&&SHOP_HAS_MORE&&!SHOP_LOADING)loadShop(false);},{rootMargin:'500px'});io.observe(document.getElementById('loadMoreWrap'));}
+
+  document.getElementById('loadMoreBtn').addEventListener('click',function(){
+    if(SHOP_HAS_MORE)loadShop(false);
+  });
+
+  document.getElementById('orderMask').addEventListener('click',function(e){
+    if(e.target===this)closeOrder();
+  });
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
+      if(!document.getElementById('productLightboxV275').classList.contains('hidden')){
+        closeProductLightboxV275();
+      }else if(!document.getElementById('orderMask').classList.contains('hidden')){
+        closeOrder();
+      }
+    }
+  });
+
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      if(entries[0]&&entries[0].isIntersecting&&SHOP_HAS_MORE&&!SHOP_LOADING){
+        loadShop(false);
+      }
+    },{rootMargin:'500px'});
+    io.observe(document.getElementById('loadMoreWrap'));
+  }
+
+  renderModeTabs();
+  renderIpChips();
   loadFeaturedV275_();
   loadShop(true);
+  loadIpCatalog();
 </script>
 
-<script src="shop-enhancements-v27.13.6.js?v=271315"></script>
-<script id="wanyeShopIpScriptV271319" src="shop-ip-filter-v27.13.19.js?v=271320"></script>
+<script src="shop-enhancements-v27.13.6.js?v=271400"></script>
 </body>
 </html>
