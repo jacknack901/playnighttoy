@@ -3,533 +3,525 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#120d18">
-  <title>頑夜 TOY｜角色收藏商城</title>
+  <meta name="theme-color" content="#ffffff">
+  <title>頑夜 TOY｜線上商城</title>
   <style>
+
     :root{
-      --bg:#09070d;
-      --panel:#17121d;
-      --panel2:#21182a;
-      --line:#42324f;
-      --text:#f8f4fb;
-      --sub:#b7a8c2;
-      --accent:#ffd75f;
-      --purple:#9a78c5;
-      --purple2:#6c4c91;
-      --pink:#ffb8d5;
-      --mint:#9de3c3;
-      --good:#7edca5;
-      --danger:#ff8b9b;
-      --blue:#86d3ff;
-      --closed:#ffb494;
-      --cream:#fffaf0;
+      --brand-blue:#4d91e6;
+      --brand-blue-deep:#2768b6;
+      --brand-sky:#dff1ff;
+      --brand-yellow:#ffd75d;
+      --brand-yellow-soft:#fff5c9;
+      --brand-lilac:#b9a9e8;
+      --brand-lilac-soft:#f1edff;
+      --brand-pink:#f6bdd7;
+      --brand-cream:#fffdf7;
+      --page:#f6f8fc;
+      --card:#ffffff;
+      --ink:#24324a;
+      --muted:#758097;
+      --line:#e5e9f0;
+      --line-strong:#d9deea;
+      --success:#3ca979;
+      --closed:#b56c5c;
+      --shadow:0 12px 34px rgba(40,61,93,.08);
     }
     *{box-sizing:border-box}
-    html{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
-    body{
-      margin:0;min-height:100vh;
-      background:
-        radial-gradient(circle at 8% -5%,rgba(154,120,197,.19),transparent 29%),
-        radial-gradient(circle at 98% 9%,rgba(255,184,213,.12),transparent 24%),
-        linear-gradient(180deg,#0e0a14 0,#09070d 72%);
+    html{
+      background:var(--page);color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+      scroll-behavior:smooth
     }
+    body{margin:0;min-height:100vh;background:var(--page)}
     button,input,select,textarea{font:inherit}
     button{cursor:pointer}
     .hidden{display:none!important}
-    .wrap{width:min(1180px,100%);margin:auto;padding:0 16px 78px}
+    .wrap{width:min(1200px,100%);margin:auto;padding:0 18px 96px}
 
     header{
-      position:sticky;top:0;z-index:30;
-      background:rgba(13,9,18,.91);
-      backdrop-filter:blur(16px);
-      border-bottom:1px solid rgba(255,255,255,.08)
+      position:sticky;top:0;z-index:40;background:rgba(255,255,255,.96);
+      backdrop-filter:blur(16px);border-bottom:1px solid var(--line)
     }
     .head{
-      width:min(1180px,100%);margin:auto;padding:10px 16px;
-      min-height:72px;display:flex;align-items:center;gap:12px
+      width:min(1200px,100%);margin:auto;padding:12px 18px 10px;
+      display:grid;grid-template-columns:auto minmax(280px,1fr) auto;align-items:center;gap:20px
     }
+    .brandBlock{display:flex;align-items:center;gap:10px;min-width:230px}
     .logo{
-      width:52px;height:52px;object-fit:contain;border-radius:16px;background:#fff;padding:3px;
-      box-shadow:0 8px 24px rgba(0,0,0,.2)
+      width:52px;height:52px;object-fit:contain;border-radius:16px;background:#fff;padding:2px;
+      border:1px solid #eef1f6
     }
     .brand{min-width:0}
-    .brand strong{display:block;font-size:18px;letter-spacing:.02em;font-weight:950}
-    .brand span{display:block;color:#cbbdd5;font-size:12px;margin-top:2px}
-    .spacer{flex:1}
+    .brand strong{display:block;font-size:18px;font-weight:950;color:#22314a;letter-spacing:.01em}
+    .brand span{display:block;font-size:11px;color:#8190a6;margin-top:2px}
+    .headerSearch{position:relative;min-width:0}
+    .headerSearch:before{
+      content:"⌕";position:absolute;left:15px;top:50%;transform:translateY(-51%);
+      font-size:24px;color:#8290a3;pointer-events:none
+    }
+    .headerSearch input{
+      width:100%;height:48px;border:1px solid var(--line-strong);background:#f8fafc;color:var(--ink);
+      border-radius:16px;padding:0 16px 0 44px;outline:none;transition:.18s ease
+    }
+    .headerSearch input:focus{
+      border-color:#8ab8ef;background:#fff;box-shadow:0 0 0 4px rgba(77,145,230,.11)
+    }
+    .headerActions{display:flex;align-items:center;gap:8px;justify-content:flex-end}
     .headBtn{
-      border:1px solid #4b3a58;background:rgba(29,23,38,.92);color:var(--text);
-      border-radius:999px;padding:9px 13px;font-weight:850;text-decoration:none;white-space:nowrap;
-      transition:.18s ease
+      border:1px solid var(--line-strong);background:#fff;color:#41506a;border-radius:14px;
+      padding:10px 12px;font-weight:850;text-decoration:none;white-space:nowrap;transition:.16s ease
     }
-    .headBtn:hover{transform:translateY(-1px);border-color:#7e6393}
+    .headBtn:hover{border-color:#aac7ea;background:#f7fbff}
 
-    .hero{padding:22px 0 12px}
-    .heroBox{
-      position:relative;overflow:hidden;display:grid;
-      grid-template-columns:minmax(0,1.55fr) minmax(220px,.65fr);
-      gap:22px;align-items:center;padding:28px 30px;border-radius:28px;
-      border:1px solid #4d3b5d;
-      background:
-        radial-gradient(circle at 82% 18%,rgba(255,215,95,.16),transparent 23%),
-        radial-gradient(circle at 94% 82%,rgba(255,184,213,.14),transparent 24%),
-        linear-gradient(135deg,#21172b 0%,#15101c 58%,#100c16 100%);
-      box-shadow:0 24px 70px rgba(0,0,0,.3)
+    .shopNav{border-top:1px solid #f2f4f7}
+    .navInner{width:min(1200px,100%);margin:auto;padding:0 18px}
+    .typeTabs{
+      display:flex;gap:4px;overflow:auto;scrollbar-width:none;padding:3px 0
     }
-    .heroBox:before{
-      content:"";position:absolute;inset:0;pointer-events:none;
-      background-image:radial-gradient(circle,rgba(255,255,255,.14) 1px,transparent 1px);
-      background-size:26px 26px;
-      mask-image:linear-gradient(90deg,transparent,rgba(0,0,0,.55),transparent)
+    .typeTabs::-webkit-scrollbar{display:none}
+    .typeTab{
+      border:0;background:transparent;color:#5f6d82;border-radius:12px;padding:10px 15px;
+      font-weight:900;white-space:nowrap;position:relative
     }
-    .heroCopy{position:relative;z-index:2}
-    .eyebrow{font-size:12px;font-weight:950;color:var(--accent);letter-spacing:.16em}
-    .hero h1{
-      max-width:720px;margin:9px 0 10px;font-size:clamp(28px,4.5vw,52px);
-      line-height:1.09;letter-spacing:-.025em
+    .typeTab:hover{background:#f5f8fc;color:#2e4d74}
+    .typeTab.active{background:#eef6ff;color:var(--brand-blue-deep)}
+    .typeTab.active:after{
+      content:"";position:absolute;left:18px;right:18px;bottom:2px;height:3px;border-radius:99px;
+      background:var(--brand-yellow)
     }
-    .heroLead{max-width:640px;margin:0;color:#d1c4da;font-size:15px;line-height:1.8}
-    .stats{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+    .typeTab.closed.active{background:#fff2ed;color:#a05242}
+
+    .shopIntro{
+      padding:24px 0 16px;display:flex;align-items:flex-end;justify-content:space-between;gap:18px
+    }
+    .shopIntro h1{margin:0;color:#22314a;font-size:clamp(25px,3.4vw,38px);line-height:1.15;letter-spacing:-.025em}
+    .shopIntro p{margin:7px 0 0;color:#7d899b;font-size:13px;line-height:1.65}
+    .stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
     .stat{
-      padding:9px 13px;background:rgba(9,7,13,.58);border:1px solid #493958;
-      border-radius:999px;font-size:12px;color:#d9cfe2
+      padding:8px 11px;background:#fff;border:1px solid var(--line);border-radius:12px;
+      color:#7a8799;font-size:11px;box-shadow:0 4px 14px rgba(40,61,93,.04)
     }
-    .stat b{color:var(--accent)}
-    .heroMascot{
-      position:relative;z-index:2;min-height:190px;
-      display:flex;flex-direction:column;align-items:center;justify-content:center
-    }
-    .mascotBubble{
-      width:148px;height:148px;border-radius:38px;display:grid;place-items:center;
-      background:linear-gradient(145deg,#fffaf1,#f6efff);
-      box-shadow:0 18px 44px rgba(0,0,0,.32),0 0 0 8px rgba(255,255,255,.05);
-      transform:rotate(2deg)
-    }
-    .mascotBubble img{width:126px;height:126px;object-fit:contain}
-    .mascotSay{
-      margin-top:-8px;padding:8px 13px;border-radius:999px;background:#fff;color:#2b2133;
-      font-size:12px;font-weight:950;box-shadow:0 8px 22px rgba(0,0,0,.2)
-    }
-    .mascotStar{position:absolute;color:var(--accent);font-weight:900}
-    .mascotStar.s1{font-size:24px;left:6%;top:14%}
-    .mascotStar.s2{font-size:18px;right:7%;top:28%;color:var(--pink)}
-    .mascotStar.s3{font-size:12px;right:14%;bottom:19%;color:var(--mint)}
+    .stat b{color:#305f95;font-size:13px}
 
-    .trustRow{
-      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 18px
+    .section{margin-top:20px}
+    .sectionCard{
+      background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;
+      box-shadow:var(--shadow)
     }
-    .trustItem{
-      border:1px solid #3d3048;background:rgba(21,16,28,.8);border-radius:16px;padding:12px 13px;
-      display:flex;align-items:center;gap:10px;color:#d9cde1
+    .sectionHead{
+      display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:14px
     }
-    .trustIcon{
-      width:36px;height:36px;flex:0 0 auto;border-radius:12px;display:grid;place-items:center;
-      background:#24192f;font-size:18px
+    .sectionTitle strong{display:block;font-size:21px;color:#24324a}
+    .sectionTitle span{display:block;margin-top:4px;font-size:11px;color:#8994a5}
+    .sectionMore{
+      border:0;background:#eef6ff;color:#356da8;border-radius:12px;padding:8px 11px;font-size:11px;font-weight:900
     }
-    .trustItem strong{display:block;font-size:12px;color:#fff}
-    .trustItem span{display:block;font-size:10px;color:#9f90ab;margin-top:2px}
 
-    .featuredTop{
-      margin:12px 0 18px;padding:18px;border:1px solid #473753;border-radius:24px;
-      background:linear-gradient(145deg,rgba(30,23,39,.98),rgba(15,11,20,.98));
-      box-shadow:0 16px 44px rgba(0,0,0,.18)
+    .ipGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+    .ipCard{
+      min-width:0;border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px;
+      display:flex;align-items:center;gap:10px;text-align:left;transition:.16s ease
+    }
+    .ipCard:hover{transform:translateY(-1px);border-color:#bfd4eb;box-shadow:0 8px 18px rgba(56,94,137,.07)}
+    .ipCard.active{border-color:#84b6eb;background:#f3f8ff;box-shadow:0 0 0 3px rgba(77,145,230,.08)}
+    .ipOrb{
+      width:38px;height:38px;flex:0 0 auto;border-radius:12px;display:grid;place-items:center;
+      font-size:14px;font-weight:950;color:#365170;background:#eaf4ff
+    }
+    .ipOrb.all{font-size:10px;background:var(--brand-yellow-soft);color:#806817}
+    .ipOrb.tone0{background:#e8f4ff}
+    .ipOrb.tone1{background:#fff2be;color:#816719}
+    .ipOrb.tone2{background:#f1edff;color:#68569a}
+    .ipOrb.tone3{background:#ffeaf3;color:#a05d7a}
+    .ipOrb.tone4{background:#e7f8ef;color:#477d61}
+    .ipText{min-width:0}
+    .ipText strong{
+      display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#2e3c54;font-size:12px
+    }
+    .ipText small{display:block;margin-top:3px;color:#9aa4b1;font-size:9px}
+    .ipEmpty{grid-column:1/-1;text-align:center;padding:20px;color:#96a0ad;font-size:12px}
+
+    .featuredTop{margin-top:20px}
+    .featuredFrame{
+      background:linear-gradient(135deg,#f7fbff,#fffdf4);border:1px solid #e4eaf1;
+      border-radius:22px;padding:20px;box-shadow:var(--shadow)
     }
     .featuredHead{
-      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px
+      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px
     }
-    .featuredHead strong{font-size:21px}
-    .featuredHead span{font-size:11px;color:var(--sub);text-align:right;line-height:1.5}
+    .featuredHead strong{display:block;color:#26354e;font-size:21px}
+    .featuredHead span{font-size:11px;color:#8994a5}
 
-    .toolbar{z-index:16;padding:14px 0 10px}
-    .typeTabs{
-      display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:9px
+    .catalogSection{scroll-margin-top:130px;margin-top:20px}
+    .catalogPanel{
+      background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;
+      box-shadow:var(--shadow)
     }
-    .typeTab{
-      min-height:48px;border:1px solid #443451;background:rgba(25,20,33,.96);color:#c9bbd3;
-      border-radius:16px;padding:11px 8px;font-weight:950;box-shadow:0 5px 18px rgba(0,0,0,.12)
+    .catalogTop{
+      display:grid;grid-template-columns:1fr auto;align-items:end;gap:14px;margin-bottom:13px
     }
-    .typeTab.active{
-      background:linear-gradient(135deg,#6f50a3,#493365);color:#fff;border-color:#9c7bc2
+    .catalogTitle strong{display:block;font-size:22px;color:#24324a}
+    .catalogTitle span{display:block;font-size:11px;color:#8b96a6;margin-top:4px}
+    .sortBox select{
+      min-width:150px;height:40px;border:1px solid var(--line-strong);background:#fff;color:#4c596d;
+      border-radius:12px;padding:0 12px;outline:none
     }
-    .typeTab.pre.active{background:linear-gradient(135deg,#bb8626,#715016);border-color:#e2b858}
-    .typeTab.direct.active{background:linear-gradient(135deg,#2f7898,#1d4c65);border-color:#69b9dc}
-    .typeTab.closed.active{background:linear-gradient(135deg,#9a5d48,#653729);border-color:#ce8b70}
-
-    .toolbox{
-      background:rgba(25,20,33,.96);border:1px solid #443451;border-radius:18px;padding:9px;
-      display:grid;grid-template-columns:1.5fr .7fr;gap:8px;box-shadow:0 10px 28px rgba(0,0,0,.14)
+    .filterRow{
+      display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:11px;
+      padding:12px 0;border-top:1px solid #f0f2f5;border-bottom:1px solid #f0f2f5
     }
-    .toolbox input,.toolbox select{
-      width:100%;min-height:46px;border:1px solid #453653;background:#100c15;color:var(--text);
-      border-radius:13px;padding:11px 12px;outline:none
-    }
-    .toolbox input:focus,.toolbox select:focus{
-      border-color:#8f6db0;box-shadow:0 0 0 3px rgba(143,109,176,.13)
-    }
-
-    .ipWrap{
-      margin:10px 0 8px;padding:14px;border:1px solid #4b3a59;border-radius:20px;
-      background:linear-gradient(135deg,rgba(48,37,61,.96),rgba(24,18,32,.96));
-      box-shadow:0 12px 32px rgba(0,0,0,.15)
-    }
-    .ipHead{
-      display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px
-    }
-    .ipHead strong{font-size:13px}
-    .ipHead span{font-size:10px;color:#bfb0ca}
-    .chips{
-      display:flex;gap:7px;overflow:auto;padding:2px 1px;scrollbar-width:none
-    }
+    .filterLabel{font-size:11px;color:#8994a5;font-weight:900;white-space:nowrap}
+    .chips{display:flex;gap:7px;overflow:auto;scrollbar-width:none;padding:1px}
     .chips::-webkit-scrollbar{display:none}
     .chip{
-      flex:0 0 auto;border:1px solid #554266;background:#17111f;color:#ddd1e6;
-      border-radius:999px;padding:8px 12px;white-space:nowrap;font-weight:850;font-size:12px
+      flex:0 0 auto;border:1px solid var(--line);background:#fff;color:#637086;border-radius:999px;
+      padding:7px 11px;font-size:11px;font-weight:850;white-space:nowrap
     }
-    .chip.active{
-      background:linear-gradient(135deg,#8664ae,#5c407b);border-color:#ad8acc;color:#fff
-    }
-    .chip .count{
-      display:inline-block;margin-left:4px;padding:1px 5px;border-radius:999px;
-      background:rgba(255,255,255,.1);font-size:9px
-    }
-
-    .categoryLabel{
-      margin:8px 2px 3px;color:#92839e;font-size:11px;font-weight:900
-    }
+    .chip.active{border-color:#83b4e6;background:#eef6ff;color:#326aa5}
 
     .resultHead{
-      display:flex;align-items:center;justify-content:space-between;gap:8px;margin:20px 2px 12px
+      display:flex;align-items:center;justify-content:space-between;gap:8px;margin:16px 2px 12px
     }
-    .resultHead strong{font-size:20px}
-    .resultHead span{color:var(--sub);font-size:12px}
+    .resultHead strong{font-size:16px;color:#344158}
+    .resultHead span{color:#929cab;font-size:11px}
 
-    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
     .card{
-      position:relative;overflow:hidden;border:1px solid #3f314b;
-      background:linear-gradient(180deg,#1b1522,#120e18);
-      border-radius:22px;box-shadow:0 14px 36px rgba(0,0,0,.2);
-      display:flex;flex-direction:column;transition:transform .18s ease,border-color .18s ease
+      position:relative;overflow:hidden;border:1px solid var(--line);background:#fff;border-radius:18px;
+      display:flex;flex-direction:column;box-shadow:0 5px 18px rgba(35,57,86,.05);transition:.16s ease
     }
-    .card:hover{transform:translateY(-3px);border-color:#67517a}
-    .card.closed{border-color:#65483c;opacity:.94}
-    .cover{
-      aspect-ratio:1/1;background:linear-gradient(145deg,#fffdf7,#f2ebfb);overflow:hidden;position:relative
-    }
-    .cover img{width:100%;height:100%;object-fit:contain;display:block;padding:5px}
+    .card:hover{transform:translateY(-2px);border-color:#bfd2e6;box-shadow:0 12px 26px rgba(35,57,86,.09)}
+    .card.closed{background:#fffdfb}
+    .cover{aspect-ratio:1/1;background:#f7f8fb;overflow:hidden;position:relative;border-bottom:1px solid #f0f2f5}
+    .cover img{width:100%;height:100%;object-fit:contain;display:block;padding:7px}
     .cover[data-zoom-src]{cursor:zoom-in}
-    .cover[data-zoom-src] img{transition:transform .18s ease}
-    .cover[data-zoom-src]:hover img{transform:scale(1.02)}
-    .zoomHint{
-      position:absolute;right:8px;bottom:8px;z-index:3;padding:5px 8px;border-radius:999px;
-      background:rgba(9,7,13,.74);border:1px solid rgba(255,255,255,.18);color:#fff;
-      font-size:10px;font-weight:900;pointer-events:none;backdrop-filter:blur(5px)
-    }
-    .badges{
-      position:absolute;left:8px;top:8px;display:flex;gap:5px;flex-wrap:wrap;max-width:calc(100% - 16px)
-    }
+    .badges{position:absolute;left:8px;top:8px;display:flex;gap:5px;flex-wrap:wrap;max-width:calc(100% - 16px)}
     .badge{
-      font-size:10px;font-weight:950;border-radius:999px;padding:5px 8px;
-      background:rgba(10,8,13,.84);border:1px solid rgba(255,255,255,.16);
-      backdrop-filter:blur(5px)
+      font-size:9px;font-weight:900;border-radius:999px;padding:4px 7px;
+      background:rgba(255,255,255,.94);border:1px solid #e0e5ec;color:#5f6f85;
+      box-shadow:0 3px 10px rgba(36,50,74,.06)
     }
-    .badge.pre{color:#ffdc79}
-    .badge.direct{color:#8bd7ff}
-    .badge.new{color:#8ff0ac}
-    .badge.closed{color:#ffd1b8;border-color:#9a6040;background:rgba(72,36,21,.9)}
-    .badge.ip{color:#e9d7ff;border-color:#75558f;background:rgba(52,34,67,.9)}
-    .badge.closing{color:#1a1205;background:#ffd166;border-color:#ffe59b}
-    .badge.directPick{color:#07151d;background:#8bd7ff;border-color:#c4ebff}
-
-    .body{padding:13px;display:flex;flex:1;flex-direction:column;min-height:0}
-    .cat{font-size:11px;color:#a892b8;font-weight:850}
-    .name{font-size:15px;font-weight:950;line-height:1.42;min-height:44px;margin-top:5px}
-    .price{font-size:22px;font-weight:950;color:var(--accent);margin-top:10px}
-    .closed .price{color:var(--closed)}
-    .meta{font-size:11px;color:#a99ab4;margin-top:6px;min-height:34px;line-height:1.5}
+    .badge.pre{background:#fff8dc;border-color:#f0df8c;color:#826b14}
+    .badge.direct{background:#eaf6ff;border-color:#b9dbf4;color:#2c6f9f}
+    .badge.new{background:#eaf8f0;border-color:#c2e8d1;color:#347b57}
+    .badge.closed{background:#fff0eb;border-color:#efc6ba;color:#9d5747}
+    .badge.ip{background:#f2efff;border-color:#d8cdf6;color:#65548d}
+    .badge.closing{background:#fff0b3;border-color:#ead16a;color:#725b05}
+    .badge.directPick{background:#dff3ff;border-color:#b3dcf2;color:#276c92}
+    .zoomHint{
+      position:absolute;right:8px;bottom:8px;padding:4px 7px;border-radius:999px;
+      background:rgba(42,55,75,.72);color:#fff;font-size:9px;font-weight:850
+    }
+    .body{padding:12px;display:flex;flex:1;flex-direction:column;min-height:0}
+    .cat{font-size:10px;color:#8b96a6;font-weight:800}
+    .name{font-size:14px;font-weight:900;line-height:1.45;min-height:42px;margin-top:5px;color:#2b3950}
+    .price{font-size:20px;font-weight:950;color:#2c67a2;margin-top:9px}
+    .closed .price{color:#a65e50}
+    .meta{font-size:10px;color:#8d97a5;margin-top:5px;min-height:31px;line-height:1.5}
     .buy{
-      margin-top:auto;border:0;border-radius:14px;color:#fff;padding:11px 12px;font-weight:950;
-      width:100%;min-height:46px;display:flex;align-items:center;justify-content:center;line-height:1.2;
-      background:linear-gradient(135deg,#8b68b6,#614481)
+      margin-top:auto;border:0;border-radius:12px;background:var(--brand-blue);color:#fff;padding:10px 10px;
+      font-weight:900;width:100%;min-height:42px;display:flex;align-items:center;justify-content:center;line-height:1.2
     }
-    .buy.pre{background:linear-gradient(135deg,#d7a13b,#9b6d1c)}
-    .buy.closed{background:linear-gradient(135deg,#a76349,#75402f)}
-    .buyLink{
-      text-align:center;text-decoration:none;box-sizing:border-box;
-      background:linear-gradient(135deg,#377f9f,#225772)
-    }
-
+    .buy:hover{background:#3c82d5}
+    .buy.pre{background:#3e89dc}
+    .buy.closed{background:#b57363}
+    .buyLink{background:#4a9bc7;text-decoration:none;text-align:center}
     .empty{
-      padding:50px 16px;text-align:center;border:1px dashed #3a2e44;border-radius:20px;
-      color:var(--sub);background:rgba(20,15,27,.72)
+      padding:48px 16px;text-align:center;border:1px dashed #d8dee7;border-radius:16px;
+      color:#8f9aa9;background:#fafbfc
     }
-    .skeleton{
-      min-height:360px;animation:pulse 1.2s ease-in-out infinite alternate;
-      background:linear-gradient(180deg,#18121f,#110d17)
-    }
+    .skeleton{min-height:330px;animation:pulse 1.2s ease-in-out infinite alternate;background:#f5f6f8}
     @keyframes pulse{from{opacity:.55}to{opacity:1}}
 
+    .trustRow{
+      margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px
+    }
+    .trustItem{
+      border:1px solid var(--line);background:#fff;border-radius:16px;padding:13px;
+      display:flex;align-items:center;gap:10px
+    }
+    .trustIcon{
+      width:38px;height:38px;flex:0 0 auto;border-radius:12px;display:grid;place-items:center;
+      background:#f1f6fc;font-size:17px
+    }
+    .trustItem strong{display:block;font-size:11px;color:#344158}
+    .trustItem span{display:block;font-size:9px;color:#929cab;margin-top:2px}
+
+    footer{margin-top:22px;padding:24px 0 10px;text-align:center;color:#929cab;font-size:10px}
+    footer a{color:#527eaa;text-decoration:none;margin:0 6px}
+
     .modalMask{
-      position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.74);
+      position:fixed;inset:0;z-index:80;background:rgba(29,37,50,.62);
       display:flex;align-items:center;justify-content:center;padding:16px
     }
     .modal{
-      width:min(620px,100%);max-height:92vh;overflow:auto;background:#17111e;
-      border:1px solid #554164;border-radius:26px;box-shadow:0 28px 90px rgba(0,0,0,.55)
+      width:min(620px,100%);max-height:92vh;overflow:auto;background:#fff;border:1px solid #dfe4eb;
+      border-radius:22px;box-shadow:0 28px 80px rgba(30,45,70,.22);color:var(--ink)
     }
-    .modalHead{display:flex;gap:12px;align-items:center;padding:16px;border-bottom:1px solid #34283f}
-    .modalHead img{width:76px;height:76px;object-fit:contain;background:#fffaf3;border-radius:12px}
+    .modalHead{display:flex;gap:12px;align-items:center;padding:16px;border-bottom:1px solid #edf0f3}
+    .modalHead img{width:76px;height:76px;object-fit:contain;background:#f7f8fa;border-radius:12px}
     .modalTitle{min-width:0;flex:1}
     .modalTitle h2{font-size:18px;margin:0;line-height:1.35}
-    .modalTitle .sub{color:var(--sub);font-size:12px;margin-top:5px}
-    .close{
-      width:38px;height:38px;border:1px solid #4a3759;background:#241b2d;color:#fff;
-      border-radius:50%;font-size:22px
-    }
+    .modalTitle .sub{color:#8791a0;font-size:11px;margin-top:5px}
+    .close{width:38px;height:38px;border:1px solid #dfe4eb;background:#f7f8fa;color:#667286;border-radius:50%;font-size:22px}
     .modalBody{padding:16px}
     .totalBox{
-      display:flex;align-items:end;justify-content:space-between;background:#0d0a11;
-      border:1px solid #382b44;border-radius:14px;padding:12px 14px;margin-bottom:12px
+      display:flex;align-items:end;justify-content:space-between;background:#f7fbff;border:1px solid #dceaf8;
+      border-radius:14px;padding:12px 14px;margin-bottom:12px
     }
-    .totalBox span{color:var(--sub);font-size:12px}
-    .totalBox strong{font-size:24px;color:var(--accent)}
-    .bank{
-      background:#20192a;border:1px solid #473957;border-radius:14px;padding:12px;margin-bottom:14px
-    }
-    .bank .account{font-size:20px;font-weight:950;letter-spacing:.06em;color:#fff}
-    .copy{
-      border:1px solid #5a476b;background:#30233b;color:#fff;border-radius:9px;
-      padding:7px 10px;font-weight:850
-    }
-    .closedNotice{
-      background:#2d1c16;border:1px solid #6d422d;border-radius:14px;padding:13px;
-      margin-bottom:14px;color:#f3cfbd;line-height:1.6;font-size:13px
-    }
-    .closedNotice strong{color:#ffbd96}
+    .totalBox span{color:#7c8798;font-size:11px}
+    .totalBox strong{font-size:23px;color:#2e70b4}
+    .bank{background:#fff9df;border:1px solid #f0df95;border-radius:14px;padding:12px;margin-bottom:14px}
+    .bank .account{font-size:20px;font-weight:950;letter-spacing:.06em;color:#405068}
+    .copy{border:1px solid #d7c46f;background:#fff;color:#6c5b1a;border-radius:9px;padding:7px 10px;font-weight:850}
+    .closedNotice{background:#fff4ef;border:1px solid #efcbbf;border-radius:14px;padding:13px;margin-bottom:14px;color:#8e594d;line-height:1.6;font-size:12px}
+    .closedNotice strong{color:#a55443}
     .form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .field label{display:block;font-size:12px;color:#c7b9d1;margin-bottom:5px;font-weight:850}
+    .field label{display:block;font-size:11px;color:#68758a;margin-bottom:5px;font-weight:850}
     .field input,.field textarea{
-      width:100%;min-height:44px;border:1px solid #453652;background:#0d0a11;color:#fff;
-      border-radius:11px;padding:10px 11px;outline:none
+      width:100%;min-height:44px;border:1px solid #dce1e8;background:#fff;color:#2d3a50;border-radius:11px;padding:10px 11px;outline:none
     }
+    .field input:focus,.field textarea:focus{border-color:#8db7e4;box-shadow:0 0 0 3px rgba(77,145,230,.08)}
     .field.full{grid-column:1/-1}
-    .notice{font-size:11px;color:#b9a9c5;line-height:1.55;margin:10px 0}
-    .error{
-      background:#3a161d;color:#ffb7bf;border:1px solid #71313e;border-radius:10px;
-      padding:9px 10px;font-size:12px
-    }
+    .notice{font-size:10px;color:#8994a5;line-height:1.55;margin:10px 0}
+    .error{background:#fff1f3;color:#b34d61;border:1px solid #efc3cc;border-radius:10px;padding:9px 10px;font-size:11px}
     .actions{display:flex;gap:8px;padding:0 16px 16px}
-    .actions button{flex:1;border:0;border-radius:12px;padding:12px;font-weight:950;min-height:46px}
-    .cancel{background:#2a2231;color:#fff}
-    .submit{background:linear-gradient(135deg,#8f69ba,#684889);color:#fff}
+    .actions button{flex:1;border:0;border-radius:12px;padding:12px;font-weight:900;min-height:46px}
+    .cancel{background:#edf0f4;color:#5f6a7a}
+    .submit{background:var(--brand-blue);color:#fff}
     .success{padding:32px 18px;text-align:center}
     .success .tick{font-size:46px}
     .success h2{margin:8px 0}
-    .success p{color:var(--sub);line-height:1.6}
-    .orderId{
-      font-family:ui-monospace,monospace;background:#0e0a12;padding:8px;border-radius:9px;
-      margin:12px 0;color:var(--accent);word-break:break-all
-    }
+    .success p{color:#7f8a9b;line-height:1.6}
+    .orderId{font-family:ui-monospace,monospace;background:#f5f7fa;padding:8px;border-radius:9px;margin:12px 0;color:#356fa8;word-break:break-all}
 
     .productLightbox{
-      position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.9);
+      position:fixed;inset:0;z-index:90;background:rgba(24,31,42,.88);
       display:flex;align-items:center;justify-content:center;padding:18px
     }
     .productLightbox.hidden{display:none}
     .productLightboxInner{position:relative;max-width:min(96vw,980px);max-height:94vh}
-    .productLightbox img{
-      display:block;max-width:94vw;max-height:90vh;object-fit:contain;border-radius:14px;background:#09070d
-    }
+    .productLightbox img{display:block;max-width:94vw;max-height:90vh;object-fit:contain;border-radius:14px;background:#fff}
     .productLightboxClose{
       position:absolute;right:-10px;top:-10px;width:40px;height:40px;border:0;border-radius:999px;
-      background:#fff;color:#111;font-size:25px;font-weight:900;box-shadow:0 8px 30px rgba(0,0,0,.35)
+      background:#fff;color:#333;font-size:25px;font-weight:900;box-shadow:0 8px 30px rgba(0,0,0,.22)
     }
 
-    @media(min-width:801px){
-      .toolbar{
-        position:sticky;top:72px;
-        background:linear-gradient(rgba(9,7,13,.98) 82%,transparent)
-      }
-    }
-    @media(max-width:900px){
+    @media(max-width:980px){
+      .head{grid-template-columns:auto minmax(220px,1fr) auto;gap:12px}
+      .brandBlock{min-width:auto}
+      .brand span{display:none}
+      .ipGrid{grid-template-columns:repeat(4,minmax(0,1fr))}
       .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-      #featuredGridV275{grid-template-columns:repeat(2,minmax(0,1fr))}
     }
-    @media(max-width:800px){
-      .toolbar{position:relative;top:auto;background:none}
-      .hero{padding-top:12px}
-      .heroBox{grid-template-columns:1fr;gap:14px;padding:20px 18px 18px;border-radius:22px}
-      .hero h1{font-size:clamp(27px,8vw,38px);line-height:1.12}
-      .heroLead{font-size:13px;line-height:1.65}
-      .heroMascot{
-        min-height:auto;display:grid;grid-template-columns:74px 1fr;gap:10px;
-        justify-content:start;align-items:center
-      }
-      .mascotBubble{
-        width:72px;height:72px;border-radius:22px;transform:none;
-        box-shadow:0 10px 28px rgba(0,0,0,.28)
-      }
-      .mascotBubble img{width:62px;height:62px}
-      .mascotSay{margin:0;justify-self:start;font-size:11px}
-      .mascotStar{display:none}
-      .trustRow{grid-template-columns:1fr 1fr 1fr}
-      .typeTabs{grid-template-columns:repeat(2,1fr);gap:7px}
-      .typeTab{min-height:44px;padding:9px 7px;font-size:13px}
-      .toolbox{grid-template-columns:1fr .62fr;padding:8px;gap:7px}
-      .toolbox input,.toolbox select{font-size:13px;padding:10px}
-      .ipWrap{margin-top:8px;padding:11px;border-radius:16px}
-      .resultHead strong{font-size:17px}
-      .modalMask{align-items:flex-end;padding:0}
-      .modal{
-        width:100%;max-height:92dvh;border-radius:24px 24px 0 0;border-bottom:0
-      }
-    }
-    @media(max-width:650px){
-      .wrap{padding:0 10px 66px}
-      .head{
-        display:grid;grid-template-columns:42px minmax(0,1fr) auto;
-        grid-template-rows:auto auto;gap:6px 8px;padding:8px 10px;min-height:unset
-      }
-      .head .logo{grid-column:1;grid-row:1;width:42px;height:42px}
-      .head .brand{grid-column:2;grid-row:1;min-width:0}
-      .head .brand strong{font-size:14px}
-      .head .brand span{font-size:10px}
-      .head .spacer{display:none}
-      #homeBtn{grid-column:3;grid-row:1;font-size:10px;padding:7px 8px}
-      #orderLookupBtnV27136{grid-column:1/2;grid-row:2;width:100%;font-size:11px;padding:7px 6px}
-      #cartBtnV27136{grid-column:2/4;grid-row:2;width:100%;font-size:11px;padding:7px 6px}
 
-      .heroBox{padding:18px 15px 15px}
-      .hero h1{font-size:26px}
-      .stats{margin-top:14px;gap:6px}
-      .stat{font-size:10px;padding:6px 8px}
-      .trustRow{gap:6px;margin:8px 0 14px}
-      .trustItem{padding:8px 7px;border-radius:12px;gap:6px}
-      .trustIcon{width:30px;height:30px;border-radius:9px;font-size:14px}
-      .trustItem strong{font-size:9px}
+    @media(max-width:720px){
+      body{padding-bottom:68px}
+      .wrap{padding:0 10px 90px}
+      .head{
+        grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;
+        gap:8px;padding:9px 10px 8px
+      }
+      .brandBlock{grid-column:1;grid-row:1}
+      .logo{width:43px;height:43px;border-radius:13px}
+      .brand strong{font-size:14px}
+      .headerSearch{grid-column:1/3;grid-row:2}
+      .headerSearch input{height:43px;border-radius:13px;font-size:13px}
+      .headerActions{grid-column:2;grid-row:1}
+      #homeBtn,#cartBtnV27136{display:none!important}
+      #orderLookupBtnV27136{
+        display:inline-flex!important;align-items:center;justify-content:center;
+        height:38px;padding:0 10px!important;border-radius:12px!important;font-size:10px!important
+      }
+
+      .navInner{padding:0 8px}
+      .typeTab{padding:9px 12px;font-size:12px}
+
+      .shopIntro{padding:18px 2px 12px;align-items:flex-start}
+      .shopIntro h1{font-size:25px}
+      .shopIntro p{font-size:11px}
+      .stats{display:none}
+
+      .section{margin-top:12px}
+      .sectionCard,.featuredFrame,.catalogPanel{border-radius:17px;padding:13px;box-shadow:none}
+      .sectionHead,.featuredHead{margin-bottom:11px}
+      .sectionTitle strong,.featuredHead strong{font-size:16px}
+      .sectionTitle span,.featuredHead span{font-size:9px}
+
+      .ipGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+      .ipCard{padding:9px;border-radius:13px}
+      .ipOrb{width:32px;height:32px;border-radius:10px;font-size:12px}
+      .ipText strong{font-size:11px}
+      .ipText small{font-size:8px}
+
+      .catalogTop{grid-template-columns:1fr auto;gap:8px}
+      .catalogTitle strong{font-size:17px}
+      .sortBox select{min-width:118px;height:36px;font-size:10px;padding:0 8px}
+      .filterRow{grid-template-columns:1fr;gap:6px;padding:10px 0}
+      .filterLabel{font-size:9px}
+      .chip{font-size:10px;padding:6px 10px}
+      .resultHead{margin:13px 1px 9px}
+      .resultHead strong{font-size:13px}
+
+      .grid,#featuredGridV275{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+      .card{border-radius:14px;box-shadow:none}
+      .body{padding:8px}
+      .cat{font-size:9px}
+      .name{font-size:12px;line-height:1.42;min-height:35px}
+      .price{font-size:16px;margin-top:6px}
+      .meta{font-size:9px;min-height:28px}
+      .buy{font-size:11px;min-height:38px;padding:8px 5px;border-radius:10px}
+      .badge{font-size:8px;padding:3px 5px}
+      .zoomHint{font-size:8px;padding:3px 5px}
+      .cover img{padding:4px}
+
+      .trustRow{grid-template-columns:1fr 1fr 1fr;gap:6px}
+      .trustItem{padding:8px 6px;border-radius:12px;gap:5px}
+      .trustIcon{width:29px;height:29px;border-radius:9px;font-size:13px}
+      .trustItem strong{font-size:8px}
       .trustItem span{display:none}
 
-      .featuredTop{padding:11px;border-radius:17px;margin-top:10px}
-      .featuredHead strong{font-size:16px}
-      .featuredHead span{font-size:9px}
-
-      .grid,#featuredGridV275{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-      .card{border-radius:16px}
-      .card:hover{transform:none}
-      .body{padding:9px}
-      .cat{font-size:10px}
-      .name{font-size:12.5px;line-height:1.42;min-height:37px}
-      .price{font-size:17px;margin-top:7px}
-      .meta{font-size:10px;min-height:31px}
-      .buy{font-size:12px;min-height:40px;padding:9px 6px;border-radius:11px}
-      .badge{font-size:9px;padding:4px 6px}
-      .zoomHint{font-size:9px;padding:4px 6px}
-
+      .modalMask{align-items:flex-end;padding:0}
+      .modal{width:100%;max-height:92dvh;border-radius:22px 22px 0 0;border-bottom:0}
       .form{grid-template-columns:1fr}
       .field.full{grid-column:auto}
     }
-    @media(max-width:390px){
-      .toolbox{grid-template-columns:1fr}
-      .brand span{display:none}
-      .ipHead span{display:none}
-    }
+
   </style>
 </head>
 <body>
 
 <header>
   <div class="head">
-    <img class="logo" src="./assets/logo.png" alt="頑夜 TOY">
-    <div class="brand">
-      <strong>頑夜 TOY 線上商城</strong>
-      <span>可愛收藏・安心預購</span>
+    <div class="brandBlock">
+      <img class="logo" src="./assets/logo.png" alt="頑夜 TOY">
+      <div class="brand">
+        <strong>頑夜 TOY</strong>
+        <span>角色收藏線上商城</span>
+      </div>
     </div>
-    <div class="spacer"></div>
-    <a id="homeBtn" class="headBtn" href="./index.html">← 頑夜首頁</a>
+
+    <div class="headerSearch">
+      <input id="search" type="search" placeholder="搜尋商品、角色、作品…" autocomplete="off">
+    </div>
+
+    <div class="headerActions">
+      <a id="homeBtn" class="headBtn" href="./index.html">回首頁</a>
+    </div>
   </div>
+
+  <nav class="shopNav" aria-label="商城分類">
+    <div class="navInner">
+      <div class="typeTabs" id="typeTabs">
+        <button class="typeTab active" data-mode="all" type="button">全部商品</button>
+        <button class="typeTab pre" data-mode="preorder" type="button">開放預購</button>
+        <button class="typeTab direct" data-mode="direct" type="button">現貨商品</button>
+        <button class="typeTab closed" data-mode="closed" type="button">已結單</button>
+      </div>
+    </div>
+  </nav>
 </header>
 
 <div class="wrap">
-  <section class="hero">
-    <div class="heroBox">
-      <div class="heroCopy">
-        <div class="eyebrow">PLAY NIGHT TOY</div>
-        <h1>找到喜歡的角色，把收藏帶回家 ✨</h1>
-        <p class="heroLead">新品預購、熱門作品與現貨收藏，都在頑夜 TOY 一次找到。</p>
-        <div class="stats">
-          <div class="stat">目前商品 <b id="statAll">—</b></div>
-          <div class="stat">預購 <b id="statPre">—</b></div>
-          <div class="stat">直購 <b id="statDirect">—</b></div>
-        </div>
-      </div>
-      <div class="heroMascot" aria-hidden="true">
-        <span class="mascotStar s1">★</span>
-        <span class="mascotStar s2">✦</span>
-        <span class="mascotStar s3">●</span>
-        <div class="mascotBubble"><img src="./assets/logo.png" alt=""></div>
-        <div class="mascotSay">今晚想收藏誰？</div>
-      </div>
+  <section class="shopIntro">
+    <div>
+      <h1>找到你想收藏的角色</h1>
+      <p>從作品、商品類型或關鍵字快速找到預購與現貨商品。</p>
+    </div>
+    <div class="stats">
+      <div class="stat">全部 <b id="statAll">—</b></div>
+      <div class="stat">預購 <b id="statPre">—</b></div>
+      <div class="stat">現貨 <b id="statDirect">—</b></div>
     </div>
   </section>
 
-  <section class="trustRow" aria-label="商城特色">
-    <div class="trustItem"><div class="trustIcon">🏪</div><div><strong>台北實體店</strong><span>線上線下都找得到頑夜</span></div></div>
-    <div class="trustItem"><div class="trustIcon">🔎</div><div><strong>訂單可查詢</strong><span>手機號碼即可查詢紀錄</span></div></div>
-    <div class="trustItem"><div class="trustIcon">💬</div><div><strong>官方 LINE</strong><span>商品問題可以直接聯繫</span></div></div>
+  <section id="shopDiscover" class="section">
+    <div class="sectionCard">
+      <div class="sectionHead">
+        <div class="sectionTitle">
+          <strong>熱門作品</strong>
+          <span>依作品 / IP 快速找收藏</span>
+        </div>
+        <button id="ipMoreBtn" class="sectionMore" type="button" style="display:none">查看更多作品</button>
+      </div>
+      <div id="ipChips" class="ipGrid">
+        <div class="ipEmpty">作品分類載入中…</div>
+      </div>
+    </div>
   </section>
 
   <section id="featuredTopV275" class="featuredTop">
-    <div class="featuredHead">
-      <div><div class="eyebrow">FEATURED</div><strong>頑夜精選</strong></div>
-      <span>現貨精選・快結單商品</span>
-    </div>
-    <div id="featuredGridV275" class="grid">
-      <div class="empty" style="grid-column:1/-1">精選商品載入中…</div>
+    <div class="featuredFrame">
+      <div class="featuredHead">
+        <div>
+          <strong>近期推薦</strong>
+          <span>現貨精選與即將結單商品</span>
+        </div>
+      </div>
+      <div id="featuredGridV275" class="grid">
+        <div class="empty" style="grid-column:1/-1">推薦商品載入中…</div>
+      </div>
     </div>
   </section>
 
-  <div class="toolbar">
-    <div class="typeTabs" id="typeTabs">
-      <button class="typeTab active" data-mode="all" type="button">全部商品</button>
-      <button class="typeTab pre" data-mode="preorder" type="button">預購專區</button>
-      <button class="typeTab direct" data-mode="direct" type="button">現貨直購</button>
-      <button class="typeTab closed" data-mode="closed" type="button">已結單</button>
-    </div>
-
-    <div class="toolbox">
-      <input id="search" placeholder="搜尋商品、角色、作品 IP…" autocomplete="off">
-      <select id="sort">
-        <option value="new">最新上架</option>
-        <option value="close">最近結單</option>
-        <option value="priceAsc">價格低 → 高</option>
-        <option value="priceDesc">價格高 → 低</option>
-      </select>
-    </div>
-
-    <div id="ipWrap" class="ipWrap">
-      <div class="ipHead">
-        <strong>🎀 依作品 / IP 找收藏</strong>
-        <span>選擇喜歡的作品快速找商品</span>
+  <section id="catalogSection" class="catalogSection">
+    <div class="catalogPanel">
+      <div class="catalogTop">
+        <div class="catalogTitle">
+          <strong>商品總覽</strong>
+          <span>可依商品類型與排序方式快速篩選</span>
+        </div>
+        <div class="sortBox">
+          <select id="sort" aria-label="商品排序">
+            <option value="new">最新上架</option>
+            <option value="close">最近結單</option>
+            <option value="priceAsc">價格低 → 高</option>
+            <option value="priceDesc">價格高 → 低</option>
+          </select>
+        </div>
       </div>
-      <div id="ipChips" class="chips">
-        <button class="chip active" type="button">全部 IP</button>
+
+      <div class="filterRow">
+        <div class="filterLabel">商品類型</div>
+        <div id="categoryChips" class="chips"></div>
+      </div>
+
+      <div class="resultHead">
+        <strong id="resultTitle">全部商品</strong>
+        <span id="resultCount">載入中…</span>
+      </div>
+
+      <div id="grid" class="grid">
+        <div class="empty" style="grid-column:1/-1">商品載入中…</div>
+      </div>
+
+      <div id="loadMoreWrap" style="display:flex;justify-content:center;padding:22px 0 2px">
+        <button id="loadMoreBtn" class="headBtn" type="button" style="display:none">載入更多商品</button>
       </div>
     </div>
+  </section>
 
-    <div class="categoryLabel">商品類型</div>
-    <div id="categoryChips" class="chips"></div>
-  </div>
+  <section class="trustRow">
+    <div class="trustItem">
+      <div class="trustIcon">🏪</div>
+      <div><strong>台北實體店</strong><span>線上線下都找得到頑夜</span></div>
+    </div>
+    <div class="trustItem">
+      <div class="trustIcon">🔎</div>
+      <div><strong>訂單可查詢</strong><span>手機號碼即可查詢紀錄</span></div>
+    </div>
+    <div class="trustItem">
+      <div class="trustIcon">💬</div>
+      <div><strong>官方 LINE</strong><span>商品問題可直接聯繫</span></div>
+    </div>
+  </section>
 
-  <div class="resultHead">
-    <strong id="resultTitle">全部商品</strong>
-    <span id="resultCount">載入中…</span>
-  </div>
-
-  <div id="grid" class="grid">
-    <div class="empty" style="grid-column:1/-1">商品載入中…</div>
-  </div>
-
-  <div id="loadMoreWrap" style="display:flex;justify-content:center;padding:22px 0 4px">
-    <button id="loadMoreBtn" class="headBtn" type="button" style="display:none">載入更多商品</button>
-  </div>
+  <footer>
+    PLAY NIGHT TOY・頑夜 TOY
+    <a href="https://www.instagram.com/playnighttoy/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.youtube.com/@NightStore901" target="_blank" rel="noopener">YouTube</a>
+  </footer>
 </div>
 
 <div id="productLightboxV275" class="productLightbox hidden" onclick="if(event.target===this) closeProductLightboxV275()">
@@ -633,8 +625,8 @@
   </div>
 </div>
 
-<script src="config.js?v=271400"></script>
-<script src="gas-bridge.js?v=271400"></script>
+<script src="config.js?v=271500"></script>
+<script src="gas-bridge.js?v=271500"></script>
 <script>
   var SHOP_DATA={
     items:[],
@@ -668,6 +660,7 @@
 
   var IP_CATALOG=[];
   var IP_CATALOG_LOADING=false;
+  var IP_EXPANDED=false;
 
   var IP_RULES=[
     {label:'航海王',aliases:['航海王','海賊王','ONE PIECE']},
@@ -754,26 +747,7 @@
         }
       }
     }
-
-    var s=raw
-      .replace(/GOOD\s*SMILE\s*COMPANY|GOOD\s*SMILE|GSC|VERTEX|ALTER|BANDAI(?:\s*SPIRITS)?|BANPRESTO|SEGA|FURYU|TAITO|KOTOBUKIYA|MEGAHOUSE|MAX\s*FACTORY|ANIPLEX|KADOKAWA|MEDICOS|ORANGE\s*ROUGE|PLUM|APEX|HOBBY\s*MAX|HOBBYMAX/ig,' ')
-      .replace(/POP\s*UP\s*PARADE|黏土人\s*\d*|黏土娃|NENDOROID(?:\s*DOLL)?|PVC|GK|景品|公仔|模型|雕像|FIGURE|FIGMA|PLAMAX|MODEROID|HELLO!?\s*GOOD\s*SMILE|再販|預購|限定|無比例|比例|L\s*SIZE|DX|SP|VER\.?|VERSION/ig,' ')
-      .replace(/\b\d+\s*\/\s*\d+\b/g,' ')
-      .replace(/\bSV-\d+\b/ig,' ')
-      .replace(/[【】\[\]（）()・‧·／/｜|,:：]/g,' ')
-      .replace(/\s+/g,' ')
-      .trim();
-
-    if(!s) return null;
-
-    var parts=s.split(' ').filter(Boolean);
-    if(!parts.length) return null;
-
-    var label=parts[0];
-    if(label.length<=2 && parts[1]) label+=' '+parts[1];
-    if(label.length>18) label=label.slice(0,18);
-
-    return {label:label,search:label,known:false};
+    return null;
   }
 
   function itemKeyV275_(x){
@@ -1027,18 +1001,37 @@
 
   function renderIpChips(){
     var box=document.getElementById('ipChips');
+    var more=document.getElementById('ipMoreBtn');
     if(!box)return;
 
-    var html='<button class="chip '+(!ACTIVE_IP?'active':'')+'" type="button" data-ip="">全部 IP</button>';
+    var all=(IP_CATALOG||[]).filter(function(x){return x&&x.label;});
+    var visible=IP_EXPANDED?all:all.slice(0,10);
 
-    html+=(IP_CATALOG||[]).map(function(x){
-      return '<button class="chip '+(ACTIVE_IP===x.label?'active':'')+'" type="button" '+
+    var html='<button class="ipCard '+(!ACTIVE_IP?'active':'')+'" type="button" data-ip="">'+
+      '<span class="ipOrb all">ALL</span><span class="ipText"><strong>全部作品</strong><small>查看所有商品</small></span></button>';
+
+    html+=visible.map(function(x,i){
+      return '<button class="ipCard '+(ACTIVE_IP===x.label?'active':'')+'" type="button" '+
         'data-ip="'+esc(x.label)+'" data-search="'+esc(x.search)+'">'+
-        esc(x.label)+(x.count?'<span class="count">'+x.count+'</span>':'')+
+        '<span class="ipOrb tone'+(i%5)+'">'+esc(String(x.label).slice(0,1))+'</span>'+
+        '<span class="ipText"><strong>'+esc(x.label)+'</strong><small>'+(x.count?x.count+' 件商品':'查看商品')+'</small></span>'+
         '</button>';
     }).join('');
 
+    if(!all.length){
+      html='<div class="ipEmpty">作品分類載入中…</div>';
+    }
+
     box.innerHTML=html;
+
+    if(more){
+      more.style.display=all.length>10?'':'none';
+      more.textContent=IP_EXPANDED?'收合作品':'查看更多作品';
+      more.onclick=function(){
+        IP_EXPANDED=!IP_EXPANDED;
+        renderIpChips();
+      };
+    }
 
     box.querySelectorAll('[data-ip]').forEach(function(b){
       b.onclick=function(){
@@ -1058,6 +1051,9 @@
         renderModeTabs();
         renderIpChips();
         loadShop(true);
+
+        var catalog=document.getElementById('catalogSection');
+        if(catalog)catalog.scrollIntoView({behavior:'smooth',block:'start'});
       };
     });
   }
@@ -1186,9 +1182,9 @@
   function render(){
     var title='全部商品';
 
-    if(ACTIVE_MODE==='preorder')title='預購專區';
-    else if(ACTIVE_MODE==='direct')title='現貨直購';
-    else if(ACTIVE_MODE==='closed')title='已結單商品';
+    if(ACTIVE_MODE==='preorder')title='開放預購';
+    else if(ACTIVE_MODE==='direct')title='現貨商品';
+    else if(ACTIVE_MODE==='closed')title='已結單／歷史商品';
 
     if(ACTIVE_IP)title='IP｜'+ACTIVE_IP;
     if(ACTIVE_CATEGORY)title=ACTIVE_CATEGORY;
@@ -1599,6 +1595,7 @@
   loadIpCatalog();
 </script>
 
-<script src="shop-enhancements-v27.13.6.js?v=271400"></script>
+<script src="shop-enhancements-v27.13.6.js?v=271500"></script>
+<script src="shop-ui-v27.15.0.js?v=271500"></script>
 </body>
 </html>
