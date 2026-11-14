@@ -112,10 +112,10 @@
       box-shadow:0 5px 18px rgba(35,57,86,.04);display:flex;flex-direction:column
     }
     .eventPoster{
-      width:100%;aspect-ratio:4/3;object-fit:cover;background:#f3f5f8;display:block
+      width:100%;height:100%;object-fit:contain;background:transparent;display:block
     }
     .eventPosterPh{
-      width:100%;aspect-ratio:4/3;display:grid;place-items:center;background:linear-gradient(135deg,#eef6ff,#fff5cb);
+      width:100%;aspect-ratio:4/5;display:grid;place-items:center;background:linear-gradient(135deg,#eef6ff,#fff5cb);
       color:#5580ad;font-size:30px
     }
     .eventBody{padding:13px;display:flex;flex-direction:column;flex:1}
@@ -274,11 +274,9 @@
       .sectionTitle span{display:none}
       .sectionAction{font-size:9px;padding:7px 9px}
 
-      .eventGrid{grid-template-columns:1fr;gap:9px}
-      .eventCard{display:grid;grid-template-columns:120px 1fr;border-radius:14px}
-      .eventPoster,.eventPosterPh{height:100%;aspect-ratio:auto;min-height:128px}
+      .eventGrid{grid-template-columns:1fr;gap:10px}
+      .eventCard{border-radius:14px}
       .eventBody{padding:10px}
-      .eventDesc{display:none}
       .eventTitle{font-size:13px}
       .eventMeta{margin-bottom:5px}
       .eventActions{padding-top:8px}
@@ -331,6 +329,174 @@
       }
       .mobileNav .ico{font-size:17px;line-height:1}
     }
+
+    /* v27.16.1｜官網視覺層次強化 */
+    body{
+      position:relative;
+      background:
+        radial-gradient(circle at 8% 8%,rgba(77,145,230,.10),transparent 25%),
+        radial-gradient(circle at 92% 16%,rgba(255,215,93,.13),transparent 22%),
+        radial-gradient(circle at 82% 72%,rgba(185,169,232,.11),transparent 24%),
+        linear-gradient(180deg,#fbfcff 0%,#f6f8fc 48%,#fbfcff 100%);
+    }
+    body::before{
+      content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.32;
+      background-image:
+        radial-gradient(circle at 1px 1px,rgba(72,101,139,.16) 1px,transparent 0);
+      background-size:26px 26px;
+      mask-image:linear-gradient(180deg,rgba(0,0,0,.45),transparent 70%);
+    }
+    .siteHeader{box-shadow:0 7px 22px rgba(44,67,98,.05)}
+    .siteHeader::before{
+      content:"";display:block;height:3px;
+      background:linear-gradient(90deg,var(--blue) 0 42%,var(--yellow) 42% 68%,var(--lilac) 68% 100%);
+    }
+    .brandLogo{box-shadow:0 7px 20px rgba(40,72,108,.08)}
+    .headerBtn,.sectionAction,.btn{transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,background .16s ease}
+    .headerBtn:hover,.sectionAction:hover,.btn:hover{transform:translateY(-1px)}
+    .headerBtn.shop:hover,.btn.primary:hover{box-shadow:0 8px 18px rgba(77,145,230,.20)}
+
+    .sectionCard{
+      position:relative;overflow:hidden;
+      border-color:#e1e7ef;
+      box-shadow:0 14px 38px rgba(47,68,98,.075);
+    }
+    .sectionCard::before{
+      content:"";position:absolute;left:0;right:0;top:0;height:4px;pointer-events:none;
+      background:linear-gradient(90deg,var(--blue),var(--yellow),var(--lilac));
+      opacity:.9
+    }
+    .sectionCard::after{
+      content:"";position:absolute;right:-60px;top:-70px;width:180px;height:180px;border-radius:50%;
+      background:radial-gradient(circle,rgba(77,145,230,.08),transparent 68%);pointer-events:none
+    }
+    #latestEvents .sectionCard{background:linear-gradient(145deg,#ffffff 0%,#f7fbff 100%)}
+    #latestProducts .sectionCard{background:linear-gradient(145deg,#ffffff 0%,#fffdf4 100%)}
+    #latestKuji .sectionCard{background:linear-gradient(145deg,#ffffff 0%,#f9f7ff 100%)}
+    #directProducts .sectionCard{background:linear-gradient(145deg,#ffffff 0%,#f6fbff 100%)}
+    #storeInfo .sectionCard{background:linear-gradient(145deg,#ffffff 0%,#fffaf1 100%)}
+
+    .sectionTitle{position:relative;padding-left:48px;min-height:40px}
+    .sectionTitle::before{
+      position:absolute;left:0;top:0;width:36px;height:36px;border-radius:12px;
+      display:grid;place-items:center;font-size:16px;font-weight:900;
+      border:1px solid rgba(77,145,230,.14);box-shadow:0 5px 14px rgba(44,74,112,.06)
+    }
+    #latestEvents .sectionTitle::before{content:"✦";background:#eaf4ff;color:#3974ad}
+    #latestProducts .sectionTitle::before{content:"▦";background:#fff5c9;color:#8b7117}
+    #latestKuji .sectionTitle::before{content:"🎟";background:#f1edff;color:#695994}
+    #directProducts .sectionTitle::before{content:"◎";background:#eaf8f0;color:#39795a}
+    #storeInfo .sectionTitle::before{content:"⌂";background:#fff0e8;color:#9a624b}
+
+    .eventCard,.productCard,.kujiCard,.storePanel{
+      transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+    }
+    .eventCard:hover,.productCard:hover,.kujiCard:hover,.storePanel:hover{
+      transform:translateY(-2px);border-color:#c9d8e8;box-shadow:0 13px 28px rgba(38,62,93,.09)
+    }
+
+    /* 活動完整海報 */
+    .eventPosterBtn{
+      display:block;width:100%;padding:0;border:0;background:
+        linear-gradient(145deg,#edf4fb,#faf7ff);cursor:zoom-in;overflow:hidden
+    }
+    .eventPosterStage{
+      width:100%;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;
+      padding:10px;background:
+        linear-gradient(135deg,rgba(77,145,230,.06),rgba(255,215,93,.08));
+      border-bottom:1px solid #eef1f5
+    }
+    .eventPoster{
+      width:100%;height:100%;object-fit:contain;display:block;background:transparent
+    }
+    .eventPosterPh{
+      width:100%;aspect-ratio:4/5;display:grid;place-items:center;background:
+        linear-gradient(135deg,#edf6ff,#fff4c6);color:#5580ad;font-size:30px
+    }
+    .eventZoomHint{
+      position:absolute;right:10px;bottom:10px;padding:5px 8px;border-radius:999px;
+      background:rgba(39,52,73,.72);color:#fff;font-size:8px;font-weight:900;pointer-events:none
+    }
+    .eventMediaWrap{position:relative;background:#f5f7fa}
+
+    .eventBody{background:rgba(255,255,255,.88)}
+    .eventTitle{font-size:16px}
+    .eventActions .btn{flex:1}
+
+    .productImageWrap,.kujiCoverWrap{background:linear-gradient(145deg,#f8fafc,#f3f6fa)}
+    .productImage{transition:transform .2s ease}
+    .productCard:hover .productImage{transform:scale(1.025)}
+    .kujiCover{transition:transform .2s ease}
+    .kujiCard:hover .kujiCover{transform:scale(1.02)}
+
+    /* 圖片燈箱 */
+    .imageLightbox{
+      position:fixed;inset:0;z-index:99990;display:flex;align-items:center;justify-content:center;
+      padding:22px;background:rgba(22,28,38,.90);backdrop-filter:blur(7px)
+    }
+    .imageLightbox.hidden{display:none}
+    .imageLightboxInner{
+      position:relative;display:flex;align-items:center;justify-content:center;
+      max-width:min(96vw,1100px);max-height:94vh
+    }
+    .imageLightbox img{
+      display:block;max-width:94vw;max-height:90vh;width:auto;height:auto;object-fit:contain;
+      border-radius:14px;background:#fff;box-shadow:0 28px 80px rgba(0,0,0,.34)
+    }
+    .imageLightboxClose{
+      position:absolute;right:-10px;top:-10px;width:42px;height:42px;border:0;border-radius:999px;
+      background:#fff;color:#334158;font-size:24px;font-weight:900;box-shadow:0 8px 24px rgba(0,0,0,.24)
+    }
+
+    @media(max-width:680px){
+      body::before{opacity:.20;background-size:22px 22px}
+      .sectionCard::after{width:130px;height:130px;right:-52px;top:-58px}
+      .sectionTitle{padding-left:40px;min-height:32px}
+      .sectionTitle::before{width:31px;height:31px;border-radius:10px;font-size:13px}
+
+      /* 手機活動改為完整海報置上，不再左右切圖 */
+      .eventGrid{grid-template-columns:1fr;gap:10px}
+      .eventCard{display:block;border-radius:15px}
+      .eventPosterStage{aspect-ratio:4/5;padding:7px}
+      .eventPoster,.eventPosterPh{width:100%;height:100%;min-height:0;aspect-ratio:auto}
+      .eventBody{padding:11px}
+      .eventTitle{font-size:14px}
+      .eventDesc{
+        display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
+      }
+      .eventActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+      .eventActions .btn:only-child{grid-column:1/-1}
+      .eventZoomHint{font-size:7px;padding:4px 7px}
+
+      .productGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+      .productCard{min-width:0}
+      .productImageWrap{aspect-ratio:1/1}
+      .productName{word-break:break-word}
+
+      .kujiGrid{grid-template-columns:1fr;gap:10px}
+      .kujiCard{display:block}
+      .kujiCoverWrap{aspect-ratio:16/8;min-height:0;height:auto}
+      .kujiBody{padding:11px}
+      .kujiStats{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .kujiStat{min-width:0}
+
+      .imageLightbox{padding:12px}
+      .imageLightboxInner{max-width:100%;max-height:100%}
+      .imageLightbox img{max-width:calc(100vw - 24px);max-height:calc(100dvh - 70px);border-radius:10px}
+      .imageLightboxClose{right:2px;top:-46px;width:38px;height:38px}
+    }
+
+    @media(max-width:380px){
+      .brandText strong{font-size:13px}
+      .headerBtn.shop{padding:0 8px}
+      .productGrid{gap:6px}
+      .productBody{padding:7px}
+      .productName{font-size:10px}
+      .productPrice{font-size:14px}
+      .kujiStats{gap:3px}
+      .kujiStat{padding:5px 2px}
+    }
+
   </style>
 </head>
 <body>
@@ -559,6 +725,14 @@
   </div>
 </div>
 
+
+<div id="imageLightbox" class="imageLightbox hidden" aria-hidden="true">
+  <div class="imageLightboxInner">
+    <img id="imageLightboxImg" src="" alt="">
+    <button class="imageLightboxClose" type="button" onclick="closeImageLightbox()" aria-label="關閉圖片">×</button>
+  </div>
+</div>
+
 <nav class="mobileNav" aria-label="手機導覽">
   <button type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span class="ico">⌂</span><span>首頁</span></button>
   <button type="button" onclick="jump('latestEvents')"><span class="ico">◇</span><span>活動</span></button>
@@ -567,8 +741,8 @@
   <a href="./shop.html"><span class="ico">🛒</span><span>商城</span></a>
 </nav>
 
-<script src="config.js?v=271600"></script>
-<script src="gas-bridge.js?v=271600"></script>
+<script src="config.js?v=271610"></script>
+<script src="gas-bridge.js?v=271610"></script>
 <script>
   var OVERVIEW_CACHE='wanye-official-v27160-overview';
   var COMMERCE_CACHE='wanye-official-v27160-commerce';
@@ -660,7 +834,10 @@
 
     grid.innerHTML=sorted.map(function(a){
       var poster=a.imageUrl
-        ? '<img class="eventPoster" src="'+esc(thumb(a.imageUrl,800))+'" alt="'+esc(a.title||'活動')+'" loading="lazy" decoding="async">'
+        ? '<div class="eventMediaWrap"><button class="eventPosterBtn" type="button" data-event-image="'+esc(thumb(a.imageUrl,1600))+'" aria-label="放大 '+esc(a.title||'活動')+' 海報">'+
+            '<span class="eventPosterStage"><img class="eventPoster" src="'+esc(thumb(a.imageUrl,1000))+'" alt="'+esc(a.title||'活動')+'" loading="lazy" decoding="async"></span>'+
+            '<span class="eventZoomHint">點圖放大</span>'+
+          '</button></div>'
         : '<div class="eventPosterPh">◇</div>';
 
       var meta=[];
@@ -700,6 +877,12 @@
         '</div>'+
       '</article>';
     }).join('');
+
+    grid.querySelectorAll('[data-event-image]').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        openImageLightbox(btn.getAttribute('data-event-image'),btn.getAttribute('aria-label')||'活動海報');
+      });
+    });
   }
 
   function renderProducts(res){
@@ -836,6 +1019,28 @@
         }
       })
       .getPublicCommerceV260();
+  }
+
+
+  function openImageLightbox(url,alt){
+    url=String(url||'').trim();
+    if(!url)return;
+    var box=document.getElementById('imageLightbox');
+    var img=document.getElementById('imageLightboxImg');
+    img.src=url;
+    img.alt=String(alt||'活動海報');
+    box.classList.remove('hidden');
+    box.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+
+  function closeImageLightbox(){
+    var box=document.getElementById('imageLightbox');
+    var img=document.getElementById('imageLightboxImg');
+    box.classList.add('hidden');
+    box.setAttribute('aria-hidden','true');
+    img.src='';
+    document.body.style.overflow='';
   }
 
   function openKuji(code){
@@ -1078,10 +1283,14 @@
   document.getElementById('raffleModal').addEventListener('click',function(e){
     if(e.target===this)closeRaffle();
   });
+  document.getElementById('imageLightbox').addEventListener('click',function(e){
+    if(e.target===this)closeImageLightbox();
+  });
 
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape'){
-      if(!document.getElementById('activityModal').classList.contains('hidden'))closeActivity();
+      if(!document.getElementById('imageLightbox').classList.contains('hidden'))closeImageLightbox();
+      else if(!document.getElementById('activityModal').classList.contains('hidden'))closeActivity();
       else if(!document.getElementById('raffleModal').classList.contains('hidden'))closeRaffle();
     }
   });
