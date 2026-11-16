@@ -32,9 +32,9 @@
 <section class="section"><h2>查詢我的抽賞進度</h2><div style="display:flex;gap:7px;margin-top:9px"><input id="trackToken" placeholder="輸入訂單查詢碼"><button class="btn" onclick="trackOrder()">查詢</button></div><div class="muted" style="margin-top:6px">送出申請後會取得查詢碼，請保留。</div></section>
 <section id="statusBox" class="section hidden"><div class="statusTop"><div><h2 id="statusName"></h2><div id="statusId" class="muted"></div></div><span id="statusBadge" class="statusBadge"></span></div><div id="statusSteps" class="steps"></div><div id="statusMain"></div></section>
 </main>
-<script src="./config.js?v=27201"></script><script src="./gas-bridge.js?v=27201"></script>
+<script src="./config.js?v=27202"></script><script src="./gas-bridge.js?v=27202"></script>
 <script>
-var SETS=[],ACTIVE_SET=null,ACTIVE_DRAW=0,SELECTED=[],CURRENT_TOKEN='',POLL=null,BOARD_POLL=null,SET_LOADING=false,CACHE_KEY='wanye-online-kuji-27201',CACHE_MS=3*60*1000;
+var SETS=[],ACTIVE_SET=null,ACTIVE_DRAW=0,SELECTED=[],CURRENT_TOKEN='',POLL=null,BOARD_POLL=null,SET_LOADING=false,CACHE_KEY='wanye-online-kuji-27202',CACHE_MS=3*60*1000;
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function money(v){return 'NT$'+Math.round(Number(v||0)).toLocaleString();}
 function setMsg(id,text,ok){var x=document.getElementById(id);x.className=text?'message '+(ok?'ok':'bad'):'';x.textContent=text||'';}
