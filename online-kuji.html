@@ -1,441 +1,96 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>頑夜 TOY｜線上抽賞</title>
-<meta name="description" content="頑夜 TOY 線上抽賞：選套、付款、選號、由店家代抽並查看結果。">
+<meta name="description" content="頑夜 TOY 線上抽賞：選套、送出申請、付款確認、選號、代抽與查看結果。">
 <style>
-:root{
-  --brand-blue:#4d91e6;
-  --brand-blue-deep:#2768b6;
-  --brand-sky:#dff1ff;
-  --brand-yellow:#ffd75d;
-  --brand-yellow-soft:#fff5c9;
-  --brand-lilac:#b9a9e8;
-  --brand-lilac-soft:#f1edff;
-  --brand-pink:#f6bdd7;
-  --page:#f7f9fc;
-  --card:#ffffff;
-  --ink:#24324a;
-  --muted:#758097;
-  --line:#e5e9f0;
-  --line-strong:#d9deea;
-  --success:#3ca979;
-  --danger:#b85c62;
-  --shadow:0 14px 38px rgba(40,61,93,.08);
-}
-*{box-sizing:border-box}
-html{background:var(--page);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
-body{
-  margin:0;min-height:100vh;color:var(--ink);
-  background:
-    radial-gradient(circle at 7% 0%,rgba(77,145,230,.13),transparent 27%),
-    radial-gradient(circle at 93% 8%,rgba(255,215,93,.18),transparent 24%),
-    radial-gradient(circle at 78% 72%,rgba(185,169,232,.12),transparent 26%),
-    linear-gradient(180deg,#fbfcff 0%,#f4f7fb 55%,#fbfcff 100%);
-}
-body:before{
-  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.18;
-  background-image:radial-gradient(circle at 1px 1px,rgba(64,95,132,.18) 1px,transparent 0);
-  background-size:28px 28px;
-  mask-image:linear-gradient(180deg,rgba(0,0,0,.38),transparent 78%);
-}
-a{color:inherit}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
-
-.top{
-  position:sticky;top:0;z-index:30;
-  background:rgba(255,255,255,.96);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--line);
-  box-shadow:0 7px 22px rgba(44,67,98,.05);
-}
-.top:before{
-  content:"";position:absolute;left:0;right:0;top:0;height:3px;
-  background:linear-gradient(90deg,#4d91e6 0 42%,#ffd75d 42% 68%,#b9a9e8 68% 100%);
-}
-.topIn{max-width:1180px;margin:auto;padding:12px 18px 10px;display:flex;align-items:center;gap:10px}
-.brandLogo{width:48px;height:48px;object-fit:contain;background:#fff;border:1px solid #eef1f6;border-radius:15px;padding:2px}
-.brandWrap{display:flex;align-items:center;gap:10px}
-.brand strong{display:block;font-size:17px;color:#22314a;font-weight:950}
-.brand small{display:block;margin-top:2px;color:#8190a6;font-size:10px}
-.sp{flex:1}
-.top a{
-  padding:9px 12px;border:1px solid var(--line-strong);border-radius:13px;
-  background:#fff;color:#4b5a70;text-decoration:none;font-size:11px;font-weight:900;
-}
-.top a:hover{background:#f7fbff;border-color:#aac7ea;color:#2f6da9}
-
-.hero{
-  max-width:1180px;margin:20px auto 0;padding:0 18px;
-}
-.heroShell{
-  position:relative;overflow:hidden;
-  border:1px solid #dde6ef;border-radius:26px;padding:28px;
-  background:linear-gradient(135deg,#eef7ff 0%,#ffffff 53%,#fff8d9 100%);
-  box-shadow:var(--shadow);
-}
-.heroShell:before{
-  content:"";position:absolute;left:0;right:0;top:0;height:5px;
-  background:linear-gradient(90deg,#4d91e6,#ffd75d,#b9a9e8);
-}
-.heroShell:after{
-  content:"★";position:absolute;right:34px;top:20px;font-size:72px;color:rgba(77,145,230,.08);
-  transform:rotate(12deg);pointer-events:none;
-}
-.heroKicker{font-size:9px;font-weight:950;letter-spacing:.18em;color:#6e8cab;margin-bottom:6px}
-.hero h1{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:0;color:#22314a;letter-spacing:-.03em}
-.hero p{max-width:760px;margin:9px 0 0;color:#738096;line-height:1.75;font-size:13px}
-.heroBadges{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-.heroBadge{
-  display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;
-  background:#fff;border:1px solid #dfe7ef;color:#55708e;font-size:10px;font-weight:900;
-}
-.heroBadge.yellow{background:#fff8dc;border-color:#f0df8c;color:#806914}
-.heroBadge.purple{background:#f3efff;border-color:#d8cdf6;color:#65548d}
-
-.notice{
-  margin-top:12px;padding:11px 12px;border:1px solid #e6d58c;background:#fff9df;
-  border-radius:13px;color:#74652f;font-size:11px;line-height:1.65;
-}
-
-.wrap{max-width:1180px;margin:auto;padding:0 18px 52px}
-.toolbar{
-  display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:24px 2px 12px
-}
-.toolbarTitle strong{display:block;color:#293950;font-size:22px}
-.toolbarTitle span{display:block;color:#8a95a6;font-size:10px;margin-top:3px}
-
-.btn{
-  border:0;border-radius:12px;padding:10px 14px;font-weight:900;cursor:pointer;
-  background:var(--brand-blue);color:#fff;min-height:42px;
-  box-shadow:0 7px 18px rgba(77,145,230,.14);
-}
-.btn:hover{background:#4085d3}
-.btn.secondary{
-  background:#fff;color:#55708e;border:1px solid #d7e0e8;box-shadow:none
-}
-.btn.secondary:hover{background:#f4f8fc}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.card{
-  position:relative;overflow:hidden;border:1px solid #dfe6ed;border-radius:22px;background:#fff;
-  box-shadow:0 10px 28px rgba(39,61,90,.07);transition:.18s ease
-}
-.card:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(39,61,90,.10);border-color:#bfd4eb}
-.card:before{
-  content:"ONLINE KUJI";position:absolute;left:12px;top:12px;z-index:4;
-  padding:5px 8px;border-radius:999px;background:rgba(255,255,255,.93);
-  border:1px solid rgba(220,228,237,.95);color:#4e7aa7;font-size:8px;font-weight:950;letter-spacing:.08em
-}
-.cover{
-  aspect-ratio:16/8.7;background:linear-gradient(135deg,#f6f9fc,#eef4fa);
-  overflow:hidden;border-bottom:1px solid #edf0f4
-}
-.cover img{width:100%;height:100%;object-fit:contain;padding:8px;display:block}
-.body{padding:16px}
-.name{font-size:17px;font-weight:950;line-height:1.42;color:#2b3950;min-height:48px}
-
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}
-.stat{
-  background:#f8fafc;border:1px solid #edf0f4;border-radius:12px;padding:9px 7px;text-align:center
-}
-.stat:nth-child(1){background:#eef7ff;border-color:#d8eafa}
-.stat:nth-child(2){background:#fff9df;border-color:#f1e3a2}
-.stat:nth-child(3){background:#f4f0ff;border-color:#ddd2f5}
-.stat b{display:block;color:#30445f;font-size:15px}
-.stat span{display:block;color:#8b96a6;font-size:8px;margin-top:2px}
-
-.source{
-  display:inline-flex;align-items:center;gap:5px;margin:0 0 9px;
-  font-size:9px;color:#6d849c;background:#f2f7fb;border:1px solid #e0e9f1;
-  border-radius:999px;padding:5px 8px
-}
-.source:before{content:"●";color:#58aa7c;font-size:7px}
-.source.warn{color:#956b26;background:#fff8df;border-color:#ead89c}
-.source.warn:before{color:#d39d39}
-
-.prizeShowcase{
-  margin:10px 0 12px;padding:10px;border-radius:15px;background:#fafbfc;border:1px solid #edf0f3
-}
-.prizeShowcaseTitle{
-  display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;
-  font-size:9px;color:#8a95a6;font-weight:900
-}
-.prizeStrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
-.prizeMini{
-  min-width:0;border-radius:10px;background:#fff;border:1px solid #e6eaf0;padding:5px;text-align:center
-}
-.prizeMiniImg{
-  width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
-  border-radius:8px;background:#f5f7fa;overflow:hidden
-}
-.prizeMiniImg img{width:100%;height:100%;object-fit:contain;padding:2px}
-.prizeMiniFallback{
-  width:100%;height:100%;display:grid;place-items:center;font-size:16px;font-weight:950;color:#5a78a0;
-  background:linear-gradient(135deg,#edf6ff,#f6f2ff)
-}
-.prizeMini b{display:block;margin-top:4px;font-size:9px;color:#42516a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.prizeMini small{display:block;color:#8995a6;font-size:7px;margin-top:1px}
-
-.drawTitle{font-size:10px;color:#78869a;font-weight:900;margin:8px 0 6px}
-.draws{display:flex;gap:7px;flex-wrap:wrap}
-.drawBtn{
-  min-width:64px;border:1px solid #cfd9e5;background:#fff;color:#49647f;border-radius:11px;
-  padding:8px 10px;font-weight:950;cursor:pointer;transition:.16s ease
-}
-.drawBtn:hover{border-color:#95bbe1;background:#f4f9ff}
-.drawBtn.active{
-  background:linear-gradient(135deg,#5a9fe9,#7b78dc);border-color:transparent;color:#fff;
-  box-shadow:0 7px 16px rgba(77,145,230,.20)
-}
-.cardActions{display:flex;gap:8px;margin-top:12px}.cardActions .btn{flex:1}
-
-.empty{
-  padding:38px 16px;text-align:center;color:#8f9aa9;border:1px dashed #d6dee7;
-  border-radius:18px;background:rgba(255,255,255,.72)
-}
-
-.sectionBox{
-  margin-top:18px;border:1px solid #dfe6ed;border-radius:20px;background:#fff;padding:17px;
-  box-shadow:0 9px 25px rgba(39,61,90,.055)
-}
-.sectionBox h2{margin:0 0 10px;color:#2d3d54;font-size:18px}
-.sectionBoxKicker{color:#7f96ad;font-size:8px;font-weight:950;letter-spacing:.12em;margin-bottom:4px}
-label{display:block;font-size:10px;color:#68758a;margin:9px 0 5px;font-weight:850}
-input,textarea,select{
-  width:100%;border:1px solid #dce3eb;background:#fff;color:#2d3a50;border-radius:11px;padding:11px;font:inherit;outline:none
-}
-input:focus,textarea:focus,select:focus{border-color:#8db7e4;box-shadow:0 0 0 3px rgba(77,145,230,.08)}
-.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.full{grid-column:1/-1}
-
-.orderSummary{
-  padding:12px;border-radius:13px;background:linear-gradient(135deg,#eef7ff,#fff);
-  border:1px solid #d9e7f4;margin:10px 0;font-size:12px;line-height:1.65;color:#50627b
-}
-.orderSummary b{color:#2c6fae}
-.statusTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.statusBadge{
-  padding:6px 9px;border-radius:999px;background:#eef6ff;border:1px solid #d6e8f8;
-  color:#376e9f;font-size:9px;font-weight:950
-}
-
-.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:14px 0}
-.step{
-  position:relative;padding:8px 4px;text-align:center;border-radius:10px;background:#f3f5f8;
-  border:1px solid #e4e8ed;color:#9aa3b0;font-size:8px;font-weight:900
-}
-.step.on{
-  background:linear-gradient(135deg,#eef7ff,#f4f0ff);border-color:#bfd5eb;color:#356fa7
-}
-
-.bank{
-  padding:12px;border-radius:13px;background:#fff9df;border:1px solid #efdf98;margin:10px 0;color:#5d542d
-}
-.bank b{display:block;margin-top:2px;font-size:17px;letter-spacing:.5px;color:#384b63}
-
-.ticketLegend{
-  display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 4px
-}
-.ticketLegend span{
-  display:inline-flex;align-items:center;gap:5px;font-size:9px;color:#718096
-}
-.ticketLegend i{width:10px;height:10px;border-radius:3px;display:inline-block;background:#fff;border:1px solid #cfd9e5}
-.ticketLegend .lgSelected i{background:#5b96df;border-color:#5b96df}
-.ticketLegend .lgOpened i{background:#fff0ef;border-color:#dfaba7}
-.ticketLegend .lgReserved i{background:#fff8dc;border-color:#e4d08a}
-
-.numbers{
-  display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:7px;margin-top:10px;
-  padding:12px;border-radius:17px;background:#f7f9fc;border:1px solid #e4e9ef
-}
-.num{
-  position:relative;min-width:0;aspect-ratio:1.08/1;border:1px dashed #bfcbd8;background:#fff;color:#42526a;
-  border-radius:10px;padding:6px 2px;text-align:center;font-weight:950;
-  box-shadow:0 3px 8px rgba(37,56,82,.035);transition:.14s ease
-}
-.num:before,.num:after{
-  content:"";position:absolute;top:50%;width:7px;height:7px;border-radius:50%;background:#f7f9fc;
-  border:1px solid #d8e0e8;transform:translateY(-50%)
-}
-.num:before{left:-4px}.num:after{right:-4px}
-.num:hover:not(:disabled){transform:translateY(-1px);border-color:#83b3df;background:#f4f9ff}
-.num.sel{
-  background:linear-gradient(135deg,#5b9ee8,#7c78dc);border-color:transparent;color:#fff;box-shadow:0 6px 13px rgba(77,145,230,.18)
-}
-.num.opened{background:#fff2f1;border:1px solid #e0b1ad;color:#9b4f52;cursor:not-allowed}
-.num.reserved{background:#fff8df;border:1px solid #e4d18c;color:#8b7229;cursor:not-allowed}
-.num[data-grade^="A"]{background:#fff4d6;border-color:#e7c665;color:#806310}
-.num[data-grade^="B"]{background:#edf6ff;border-color:#9fc7ec;color:#356fa7}
-.num[data-grade^="C"]{background:#eef9f2;border-color:#a9d8bb;color:#3e8058}
-.num[data-grade^="LAST"]{background:#f7efff;border-color:#c9acec;color:#7651a0}
-.num b,.num small{display:block}.num b{font-size:12px}.num small{font-size:7px;line-height:1.2;margin-top:2px;font-weight:850}
-
-.resultGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-.result{
-  padding:10px;border:1px solid #e0e6ed;border-radius:13px;background:#fff;
-  display:grid;grid-template-columns:62px 1fr;gap:9px;align-items:center;
-  box-shadow:0 5px 14px rgba(39,61,90,.045)
-}
-.result img{width:62px;height:62px;object-fit:contain;border-radius:9px;background:#f7f8fa;border:1px solid #edf0f3}
-.result b{display:block;color:#30445f}.result span{font-size:10px;color:#78869a}
-.muted{color:#8793a5;font-size:10px;line-height:1.6}
-.error{color:#a94d61;margin-top:8px;font-size:10px;background:#fff1f3;border:1px solid #efc7cf;border-radius:10px;padding:9px}
-.success{color:#347b57;margin-top:8px;font-size:10px;background:#edf9f2;border:1px solid #c9ead6;border-radius:10px;padding:9px}
-
-@media(max-width:900px){
-  .grid{grid-template-columns:1fr}
-  .numbers{grid-template-columns:repeat(8,minmax(0,1fr))}
-}
-@media(max-width:680px){
-  .topIn{padding:10px}.brandLogo{width:42px;height:42px}.brand strong{font-size:14px}.brand small{display:none}.top a{padding:8px 9px;font-size:9px}
-  .hero{padding:0 10px;margin-top:12px}.heroShell{padding:20px 16px;border-radius:20px}.heroShell:after{font-size:48px;right:18px}
-  .hero h1{font-size:27px}.hero p{font-size:11px}
-  .wrap{padding:0 10px 84px}.toolbar{margin-top:17px}.toolbarTitle strong{font-size:18px}
-  .card{border-radius:18px}.cover{aspect-ratio:16/9}.body{padding:12px}.name{font-size:15px;min-height:auto}
-  .prizeStrip{grid-template-columns:repeat(5,minmax(54px,1fr));overflow:auto;padding-bottom:2px}
-  .sectionBox{border-radius:17px;padding:13px}
-  .formGrid{grid-template-columns:1fr}.full{grid-column:auto}
-  .steps{grid-template-columns:repeat(3,1fr)}
-  .numbers{grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;padding:9px}
-  .resultGrid{grid-template-columns:1fr}
-}
+:root{--blue:#4d91e6;--blue2:#2768b6;--sky:#eef7ff;--yellow:#ffd75d;--ys:#fff8db;--purple:#8d79d8;--ps:#f4f0ff;--page:#f6f8fc;--ink:#24324a;--muted:#78869a;--line:#dde5ee;--card:#fff;--good:#3c9b72;--warn:#b68124;--bad:#b65b62;--shadow:0 14px 38px rgba(40,61,93,.08)}
+*{box-sizing:border-box}html{background:var(--page);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}body{margin:0;min-height:100vh;background:radial-gradient(circle at 7% 0%,rgba(77,145,230,.13),transparent 27%),radial-gradient(circle at 94% 7%,rgba(255,215,93,.18),transparent 24%),linear-gradient(180deg,#fbfcff,#f4f7fb 55%,#fbfcff)}button,input,textarea{font:inherit}.hidden{display:none!important}
+.top{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);box-shadow:0 7px 22px rgba(44,67,98,.05)}.top:before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,#4d91e6 0 42%,#ffd75d 42% 68%,#b9a9e8 68%)}.topIn{max-width:1180px;margin:auto;padding:11px 18px 9px;display:flex;align-items:center;gap:10px}.logo{width:48px;height:48px;object-fit:contain;border-radius:14px;background:#fff;border:1px solid #edf1f5}.brand{display:flex;align-items:center;gap:10px}.brand strong{display:block;font-size:17px;font-weight:950}.brand small{display:block;color:#8895a7;font-size:10px}.sp{flex:1}.top a{padding:8px 11px;border:1px solid var(--line);border-radius:12px;background:#fff;color:#526176;text-decoration:none;font-size:11px;font-weight:900}
+.hero{max-width:1180px;margin:18px auto 0;padding:0 18px}.heroBox{position:relative;overflow:hidden;padding:25px;border:1px solid #dce6ef;border-radius:24px;background:linear-gradient(135deg,#eef7ff,#fff 54%,#fff8dc);box-shadow:var(--shadow)}.heroBox:before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:linear-gradient(90deg,#4d91e6,#ffd75d,#b9a9e8)}.kicker{font-size:9px;font-weight:950;letter-spacing:.15em;color:#6e8cab}.hero h1{margin:5px 0 0;font-size:clamp(28px,4vw,43px);letter-spacing:-.03em}.hero p{max-width:770px;color:#718096;font-size:13px;line-height:1.7;margin:8px 0 0}.badges{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.badge{padding:6px 9px;border:1px solid #e0e7ef;border-radius:999px;background:#fff;font-size:9px;font-weight:900;color:#5a708a}.badge.y{background:var(--ys);border-color:#efdfa0}.badge.p{background:var(--ps);border-color:#dbd0f4}.notice{margin-top:11px;padding:10px 11px;border-radius:12px;background:#fff9df;border:1px solid #ebdda0;color:#76652e;font-size:10px;line-height:1.6}
+.wrap{max-width:1180px;margin:auto;padding:0 18px 60px}.toolbar{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:22px 2px 12px}.toolbar strong{font-size:21px}.toolbar small{display:block;color:#8995a6;margin-top:3px}.sync{font-size:9px;color:#8b97a7;margin:0 0 10px 2px}.btn{border:0;border-radius:12px;padding:10px 14px;min-height:42px;background:var(--blue);color:#fff;font-weight:950;cursor:pointer;box-shadow:0 7px 18px rgba(77,145,230,.14)}.btn.secondary{background:#fff;color:#55708e;border:1px solid #d7e0e8;box-shadow:none}.btn:disabled{opacity:.45;cursor:not-allowed}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.empty{grid-column:1/-1;padding:36px 16px;text-align:center;border:1px dashed #d6dee7;border-radius:18px;background:rgba(255,255,255,.8);color:#8e99a8}
+.card{overflow:hidden;border:1px solid #dfe6ed;border-radius:22px;background:#fff;box-shadow:0 10px 28px rgba(39,61,90,.07)}.cover{position:relative;aspect-ratio:16/8.7;background:linear-gradient(135deg,#f3f7fb,#eef3f8);border-bottom:1px solid #edf0f4;display:grid;place-items:center;overflow:hidden}.cover:before{content:"ONLINE KUJI";position:absolute;left:11px;top:11px;z-index:2;padding:5px 8px;border-radius:999px;background:rgba(255,255,255,.94);border:1px solid #dce4ec;color:#4d79a6;font-size:8px;font-weight:950}.cover img{width:100%;height:100%;object-fit:contain;padding:8px}.imgFallback{display:grid;place-items:center;width:100%;height:100%;min-height:90px;background:linear-gradient(135deg,#edf6ff,#f5f0ff);color:#55759b;font-weight:950;text-align:center;padding:12px}.body{padding:16px}.name{font-size:17px;font-weight:950;line-height:1.4}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}.stat{border:1px solid #e5eaf0;border-radius:12px;padding:9px 7px;text-align:center;background:#f8fafc}.stat:nth-child(1){background:#eef7ff}.stat:nth-child(2){background:#fff9df}.stat:nth-child(3){background:#f4f0ff}.stat b{display:block;font-size:15px}.stat span{display:block;font-size:8px;color:#8995a6;margin-top:2px}.stateLine{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}.pill{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;border:1px solid #dfe7ef;background:#f4f8fb;color:#637d97;font-size:9px;font-weight:850}.pill.warn{background:#fff8df;border-color:#ead99c;color:#886d27}.pill.good{background:#eff9f4;border-color:#cce8d8;color:#437a5d}
+.prizeBox{margin:11px 0 12px;padding:10px;border-radius:16px;background:#fafbfc;border:1px solid #edf0f3}.prizeHead{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}.prizeHead b{font-size:11px}.prizeHead span{font-size:9px;color:#8b96a6}.prizeGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}.prize{min-width:0;border:1px solid #e5eaf0;border-radius:12px;background:#fff;padding:6px}.prize.last{border-color:#d4c0ef;background:#faf7ff}.pimg{aspect-ratio:1/1;border-radius:9px;background:#f5f7fa;overflow:hidden;display:grid;place-items:center}.pimg img{width:100%;height:100%;object-fit:contain;padding:2px}.pgrade{display:flex;justify-content:space-between;gap:5px;align-items:center;margin-top:5px}.pgrade b{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lastTag{font-size:7px;padding:2px 4px;border-radius:6px;background:#8d79d8;color:#fff}.pname{font-size:8px;color:#69778a;line-height:1.35;margin-top:2px;min-height:22px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.qty{font-size:8px;color:#8692a3;margin-top:4px}.desc{font-size:10px;color:#7a8799;line-height:1.6}.drawTitle{font-size:10px;color:#758499;font-weight:900;margin:10px 0 6px}.draws{display:flex;gap:7px;flex-wrap:wrap}.drawBtn{min-width:65px;border:1px solid #cfd9e5;background:#fff;color:#49647f;border-radius:11px;padding:8px 10px;font-weight:950;cursor:pointer}.drawBtn.active{background:linear-gradient(135deg,#5a9fe9,#7b78dc);border-color:transparent;color:#fff}.cardActions{display:flex;gap:8px;margin-top:12px}.cardActions .btn{flex:1}
+.section{margin-top:18px;border:1px solid #dfe6ed;border-radius:20px;background:#fff;padding:17px;box-shadow:0 9px 25px rgba(39,61,90,.055)}.section h2{margin:0 0 10px;font-size:18px}.sectionK{font-size:8px;color:#7f96ad;font-weight:950;letter-spacing:.12em;margin-bottom:4px}label{display:block;font-size:10px;color:#68758a;margin:9px 0 5px;font-weight:850}input,textarea{width:100%;border:1px solid #dce3eb;background:#fff;color:#2d3a50;border-radius:11px;padding:11px;outline:none}.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.full{grid-column:1/-1}.summary{padding:12px;border:1px solid #d9e7f4;border-radius:13px;background:linear-gradient(135deg,#eef7ff,#fff);font-size:12px;line-height:1.65;color:#50627b}.message{margin-top:9px;padding:9px;border-radius:10px;font-size:10px}.message.good{background:#edf9f2;border:1px solid #c9ead6;color:#347b57}.message.bad{background:#fff1f3;border:1px solid #efc7cf;color:#a94d61}
+.statusTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.statusBadge{padding:6px 9px;border-radius:999px;background:#eef6ff;border:1px solid #d6e8f8;color:#376e9f;font-size:9px;font-weight:950}.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:14px 0}.step{padding:8px 4px;text-align:center;border-radius:10px;background:#f3f5f8;border:1px solid #e4e8ed;color:#9aa3b0;font-size:8px;font-weight:900}.step.on{background:linear-gradient(135deg,#eef7ff,#f4f0ff);border-color:#bfd5eb;color:#356fa7}.bank{padding:12px;border-radius:13px;background:#fff9df;border:1px solid #efdf98;margin:10px 0}.bank b{display:block;margin-top:2px;font-size:17px}.muted{font-size:10px;color:#8793a5;line-height:1.6}.numbers{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:7px;margin-top:10px;padding:12px;border-radius:17px;background:#f7f9fc;border:1px solid #e4e9ef}.num{min-width:0;aspect-ratio:1.08/1;border:1px dashed #bfcbd8;background:#fff;color:#42526a;border-radius:10px;padding:6px 2px;text-align:center;font-weight:950;cursor:pointer}.num.sel{background:linear-gradient(135deg,#5b9ee8,#7c78dc);border-color:transparent;color:#fff}.num.opened{background:#fff2f1;border:1px solid #e0b1ad;color:#9b4f52}.num.reserved{background:#fff8df;border:1px solid #e4d18c;color:#8b7229}.num b,.num small{display:block}.num small{font-size:7px;margin-top:2px}.results{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.result{padding:10px;border:1px solid #e0e6ed;border-radius:13px;background:#fff;display:grid;grid-template-columns:72px 1fr;gap:10px;align-items:center}.resultImg{width:72px;height:72px;border-radius:10px;background:#f7f8fa;overflow:hidden;display:grid;place-items:center}.resultImg img{width:100%;height:100%;object-fit:contain}.result b{display:block}.result span{font-size:10px;color:#78869a}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.numbers{grid-template-columns:repeat(8,minmax(0,1fr))}.prizeGrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:680px){.topIn{padding:9px 10px}.logo{width:42px;height:42px}.brand strong{font-size:14px}.brand small{display:none}.top a{font-size:9px;padding:8px}.hero{padding:0 10px;margin-top:12px}.heroBox{padding:19px 15px;border-radius:20px}.hero h1{font-size:27px}.hero p{font-size:11px}.wrap{padding:0 10px 80px}.toolbar{margin-top:17px}.toolbar strong{font-size:18px}.card{border-radius:18px}.body{padding:12px}.prizeGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.formGrid{grid-template-columns:1fr}.full{grid-column:auto}.steps{grid-template-columns:repeat(3,1fr)}.numbers{grid-template-columns:repeat(5,minmax(0,1fr));padding:9px}.results{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header class="top"><div class="topIn">
-  <div class="brandWrap">
-    <img class="brandLogo" src="./assets/logo.png" alt="頑夜 TOY">
-    <div class="brand"><strong>頑夜 TOY｜線上抽賞</strong><small>PLAY NIGHT TOY · ONLINE KUJI</small></div>
-  </div>
-  <div class="sp"></div>
-  <a href="./index.html">官網</a><a href="./shop.html">商城</a>
-</div></header>
-<section class="hero"><div class="heroShell">
-  <div class="heroKicker">PLAY NIGHT TOY · ONLINE KUJI</div>
-  <h1>挑套組・選籤號・等開賞</h1>
-  <p>選擇想抽的套組與抽數，付款確認後會開放籤號盤。你可以自己挑號碼，頑夜完成代抽後，結果會直接回到訂單頁。</p>
-  <div class="heroBadges">
-    <span class="heroBadge">🎟️ 自己選籤號</span>
-    <span class="heroBadge yellow">🏆 即時看剩餘賞</span>
-    <span class="heroBadge purple">✨ 開獎後直接看結果</span>
-  </div>
-  <div class="notice">賞況可能因其他玩家同時抽取而變動；付款前以管理員最後確認為準。</div>
-</div></section>
+<header class="top"><div class="topIn"><div class="brand"><img class="logo" src="./assets/logo.png" alt="頑夜 TOY"><div><strong>頑夜 TOY｜線上抽賞</strong><small>PLAY NIGHT TOY · ONLINE KUJI</small></div></div><div class="sp"></div><a href="./index.html">官網</a><a href="./shop.html">商城</a></div></header>
+<section class="hero"><div class="heroBox"><div class="kicker">PLAY NIGHT TOY · ONLINE KUJI</div><h1>挑套組・選抽數・自己選籤號</h1><p>先送出抽賞申請，管理員確認最新賞況後再付款；付款完成後開放選號，頑夜代抽後結果直接回到訂單頁。</p><div class="badges"><span class="badge">🎟 自己選籤號</span><span class="badge y">🏆 完整查看所有獎賞</span><span class="badge p">✨ 開獎後直接看結果</span></div><div class="notice">來源賞況若較久未同步，不會直接把「開始抽」鎖死；你可以先送出申請，管理員確認最新賞況後才會通知付款。</div></div></section>
 <main class="wrap">
-<div class="toolbar">
-  <div class="toolbarTitle"><strong>目前可抽套組</strong><span>挑一套喜歡的，再選你想抽幾抽</span></div>
-  <button class="btn secondary" onclick="loadSets()">重新整理</button>
-</div>
-<div id="setGrid" class="grid"><div class="empty" style="grid-column:1/-1">載入中…</div></div>
-
-<section id="requestBox" class="sectionBox hidden">
-<div class="sectionBoxKicker">STEP 1 · REQUEST</div><h2>送出抽賞申請</h2><div id="requestSummary" class="orderSummary"></div>
-<div class="formGrid"><div><label>姓名 *</label><input id="reqName"></div><div><label>手機 *</label><input id="reqPhone" inputmode="tel"></div><div class="full"><label>LINE ID *</label><input id="reqLine"></div><div class="full"><label>備註</label><textarea id="reqNote" rows="2"></textarea></div></div>
-<div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="reqSubmit" onclick="submitRequest()">送出給管理員確認</button><button class="btn secondary" onclick="closeRequest()">取消</button></div><div id="reqMsg"></div>
-</section>
-
-<section class="sectionBox"><div class="sectionBoxKicker">MY KUJI</div><h2>查詢我的抽賞進度</h2><div style="display:flex;gap:7px"><input id="trackToken" placeholder="輸入訂單查詢碼"><button class="btn" onclick="trackOrder()">查詢</button></div><div class="muted" style="margin-top:6px">送出申請後會取得一組查詢碼；請保留該頁面或查詢碼。</div></section>
-<section id="statusBox" class="sectionBox hidden"><div class="statusTop"><div><h2 id="statusName" style="margin:0"></h2><div id="statusId" class="muted"></div></div><span id="statusBadge" class="statusBadge"></span></div><div id="statusSteps" class="steps"></div><div id="statusMain"></div></section>
+<div class="toolbar"><div><strong>目前可抽套組</strong><small>所有獎賞、剩餘數量與 LAST 賞都會完整顯示</small></div><button class="btn secondary" onclick="loadSets(true)">重新整理</button></div>
+<div id="syncState" class="sync"></div>
+<div id="setGrid" class="grid"><div class="empty">載入中…</div></div>
+<section id="requestBox" class="section hidden"><div class="sectionK">STEP 1 · REQUEST</div><h2>送出抽賞申請</h2><div id="requestSummary" class="summary"></div><div class="formGrid"><div><label>姓名 *</label><input id="reqName" autocomplete="name"></div><div><label>手機 *</label><input id="reqPhone" inputmode="tel" autocomplete="tel"></div><div class="full"><label>LINE ID *</label><input id="reqLine"></div><div class="full"><label>備註</label><textarea id="reqNote" rows="2"></textarea></div></div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="reqSubmit" onclick="submitRequest()">送出給管理員確認</button><button class="btn secondary" onclick="closeRequest()">取消</button></div><div id="reqMsg"></div></section>
+<section class="section"><div class="sectionK">MY KUJI</div><h2>查詢我的抽賞進度</h2><div style="display:flex;gap:7px"><input id="trackToken" placeholder="輸入訂單查詢碼"><button class="btn" onclick="trackOrder()">查詢</button></div><div class="muted" style="margin-top:6px">送出申請後會取得查詢碼，請保留。</div></section>
+<section id="statusBox" class="section hidden"><div class="statusTop"><div><h2 id="statusName" style="margin:0"></h2><div id="statusId" class="muted"></div></div><span id="statusBadge" class="statusBadge"></span></div><div id="statusSteps" class="steps"></div><div id="statusMain"></div></section>
 </main>
-<script src="./config.js?v=27191"></script><script src="./gas-bridge.js?v=27191"></script>
+<script src="./config.js?v=27196"></script><script src="./gas-bridge.js?v=27196"></script>
 <script>
 var SETS=[],ACTIVE_SET=null,ACTIVE_DRAW=0,CURRENT_TOKEN='',POLL=null;
+var CACHE_KEY='PNTOY_ONLINE_KUJI_27196';
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function money(v){return 'NT$'+Math.round(Number(v||0)).toLocaleString();}
-function msg(id,text,ok){var x=document.getElementById(id);x.className=ok?'success':'error';x.textContent=text||'';}
-function loadSets(){document.getElementById('setGrid').innerHTML='<div class="empty" style="grid-column:1/-1">載入中…</div>';google.script.run.withSuccessHandler(function(r){SETS=(r&&r.items)||[];renderSets();}).withFailureHandler(function(e){document.getElementById('setGrid').innerHTML='<div class="empty" style="grid-column:1/-1">載入失敗：'+esc((e&&e.message)||'')+'</div>';}).getPublicOnlineKujiListV27180();}
+function setMsg(id,text,ok){var x=document.getElementById(id);x.className='message '+(ok?'good':'bad');x.textContent=text||'';}
+function cachedSets(){try{var x=JSON.parse(localStorage.getItem(CACHE_KEY)||'null');if(x&&Array.isArray(x.items)&&Date.now()-Number(x.t||0)<300000)return x.items;}catch(e){}return null;}
+function saveSetsCache(items){try{localStorage.setItem(CACHE_KEY,JSON.stringify({t:Date.now(),items:items||[]}));}catch(e){}}
+function imgTag(x,cls,alt){x=x||{};var u=String(x.imageUrl||'');if(!u)return '<div class="imgFallback">'+esc(alt||'頑夜 TOY')+'</div>';var fb=String(x.imageFallbackUrl||'');return '<img class="'+(cls||'')+'" src="'+esc(u)+'" data-fallback="'+esc(fb)+'" alt="'+esc(alt||'')+'" onerror="imgError(this)">';}
+function imgError(img){var fb=img.getAttribute('data-fallback')||'';if(fb&&img.src!==fb){img.setAttribute('data-fallback','');img.src=fb;return;}var p=img.parentNode;if(p){p.innerHTML='<div class="imgFallback">圖片載入中<br>可重新整理</div>';}}
+function loadSets(force){
+  var g=document.getElementById('setGrid'),state=document.getElementById('syncState');
+  if(!force){var c=cachedSets();if(c){SETS=c;renderSets();state.textContent='先顯示最近一次賞況，正在背景更新…';}else g.innerHTML='<div class="empty">載入中…</div>';}
+  else{g.innerHTML='<div class="empty">正在更新最新賞況…</div>';state.textContent='';}
+  var start=Date.now();
+  google.script.run.withSuccessHandler(function(r){
+    SETS=(r&&r.items)||[];saveSetsCache(SETS);renderSets();
+    var ms=Date.now()-start;state.textContent='已更新最新賞況｜'+(r&&r.version?r.version:'線上抽賞')+'｜'+ms+' ms';
+  }).withFailureHandler(function(e){
+    if(!SETS.length)g.innerHTML='<div class="empty">載入失敗：'+esc((e&&e.message)||'未知錯誤')+'</div>';
+    state.textContent='更新失敗，已保留最近一次資料。';
+  }).getPublicOnlineKujiListV27180();
+}
 function renderSets(){
   var g=document.getElementById('setGrid');
-  if(!SETS.length){
-    g.innerHTML='<div class="empty" style="grid-column:1/-1">目前沒有開放中的線上抽賞。</div>';
-    return;
-  }
+  if(!SETS.length){g.innerHTML='<div class="empty">目前沒有開放中的線上抽賞。</div>';return;}
   g.innerHTML=SETS.map(function(x){
-    var src=x.sourceLinked
-      ?(Number.isFinite(Number(x.sourceAgeMinutes))?'賞況 '+Math.floor(Number(x.sourceAgeMinutes))+' 分鐘前更新':'賞況已更新')
-      :'頑夜賞池';
-    if(!x.canOrder)src='⚠ '+(x.pauseReason||'暫停接單');
-
-    var options=(x.drawOptions||[]).map(function(n){
-      return '<button class="drawBtn" data-set="'+esc(x.id)+'" data-draw="'+n+'" onclick="pickDraw(this)">'+n+' 抽</button>';
+    var options=(x.drawOptions||[]).map(function(n){return '<button class="drawBtn" data-set="'+esc(x.id)+'" data-draw="'+Number(n)+'" onclick="pickDraw(this)">'+Number(n)+' 抽</button>';}).join('');
+    var prizes=(x.prizes||[]).map(function(p){
+      var q=Number(p.remainingQty||0),o=Number(p.originalQty||0);
+      return '<div class="prize '+(p.lastPrize?'last':'')+'"><div class="pimg">'+imgTag(p,'',p.grade||p.name)+'</div><div class="pgrade"><b>'+esc(p.grade||'獎賞')+'</b>'+(p.lastPrize?'<span class="lastTag">LAST</span>':'')+'</div><div class="pname">'+esc(p.name||p.grade||'')+'</div><div class="qty">剩 '+q+' / '+o+'</div></div>';
     }).join('');
-
-    var prizeItems=(x.prizes||[]).slice(0,5).map(function(p){
-      var img=p.imageUrl
-        ?'<div class="prizeMiniImg"><img src="'+esc(p.imageUrl)+'" alt=""></div>'
-        :'<div class="prizeMiniImg"><div class="prizeMiniFallback">'+esc(p.grade||'?')+'</div></div>';
-      return '<div class="prizeMini">'+img+
-        '<b>'+esc(p.grade||'')+'</b>'+
-        '<small>剩 '+Number(p.remainingQty||0)+' / '+Number(p.originalQty||0)+'</small>'+
-      '</div>';
-    }).join('');
-
-    var showcase=prizeItems
-      ?'<div class="prizeShowcase"><div class="prizeShowcaseTitle"><span>目前賞況</span><span>大賞剩 '+Number(x.majorRemaining||0)+'</span></div><div class="prizeStrip">'+prizeItems+'</div></div>'
-      :'';
-
-    return '<article class="card">'+
-      '<div class="cover">'+(x.imageUrl?'<img src="'+esc(x.imageUrl)+'" alt="">':'')+'</div>'+
-      '<div class="body">'+
-        '<div class="name">'+esc(x.name)+'</div>'+
-        '<div class="stats">'+
-          '<div class="stat"><b>'+money(x.price)+'</b><span>一抽</span></div>'+
-          '<div class="stat"><b>'+Number(x.remaining||0)+'</b><span>剩餘可抽</span></div>'+
-          '<div class="stat"><b>'+Number(x.majorRemaining||0)+'</b><span>大賞剩餘</span></div>'+
-        '</div>'+
-        '<div class="source '+(!x.canOrder?'warn':'')+'">'+esc(src)+'</div>'+
-        showcase+
-        (x.description?'<div class="muted">'+esc(x.description)+'</div>':'')+
-        '<div class="drawTitle">選擇抽數</div>'+
-        '<div class="draws">'+(options||'<span class="muted">目前沒有可選抽數</span>')+'</div>'+
-        '<div class="cardActions"><button class="btn" '+(!x.canOrder?'disabled':'')+' onclick="openRequest(\''+esc(x.id)+'\')">開始抽這套</button></div>'+
-      '</div>'+
-    '</article>';
+    var warning=x.pauseReason?'<span class="pill warn">⚠ '+esc(x.pauseReason)+'</span>':'<span class="pill good">✓ 可送出抽賞申請</span>';
+    return '<article class="card"><div class="cover">'+imgTag(x,'',x.name)+'</div><div class="body"><div class="name">'+esc(x.name)+'</div><div class="stats"><div class="stat"><b>'+money(x.price)+'</b><span>一抽</span></div><div class="stat"><b>'+Number(x.remaining||0)+'</b><span>剩餘可抽</span></div><div class="stat"><b>'+Number(x.totalDraws||0)+'</b><span>原始總抽數</span></div></div><div class="stateLine">'+warning+'</div><div class="prizeBox"><div class="prizeHead"><b>完整獎賞一覽</b><span>共 '+Number((x.prizes||[]).length)+' 種｜含 LAST賞</span></div><div class="prizeGrid">'+(prizes||'<div class="muted">尚未設定獎賞資料</div>')+'</div></div>'+(x.description?'<div class="desc">'+esc(x.description)+'</div>':'')+'<div class="drawTitle">選擇抽數</div><div class="draws">'+(options||'<span class="muted">目前沒有可選抽數</span>')+'</div><div class="cardActions"><button class="btn" '+(!x.canOrder?'disabled':'')+' onclick="openRequest(\''+esc(x.id)+'\')">'+(x.canOrder?'開始抽這套':'目前無法送出')+'</button></div></div></article>';
   }).join('');
 }
 function pickDraw(b){document.querySelectorAll('.drawBtn').forEach(function(x){x.classList.remove('active');});b.classList.add('active');ACTIVE_DRAW=Number(b.getAttribute('data-draw')||0);ACTIVE_SET=SETS.find(function(x){return x.id===b.getAttribute('data-set');})||null;}
-function openRequest(id){var s=SETS.find(function(x){return x.id===id;});if(!s||!s.canOrder)return;ACTIVE_SET=s;if(!ACTIVE_DRAW||!(s.drawOptions||[]).includes(ACTIVE_DRAW))ACTIVE_DRAW=(s.drawOptions||[])[0]||0;if(!ACTIVE_DRAW)return alert('目前沒有可選抽數。');document.getElementById('requestSummary').innerHTML='<b>'+esc(s.name)+'</b><br>'+ACTIVE_DRAW+' 抽 × '+money(s.price)+' ＝ <b>'+money(s.price*ACTIVE_DRAW)+'</b>';document.getElementById('requestBox').classList.remove('hidden');document.getElementById('requestBox').scrollIntoView({behavior:'smooth',block:'start'});}
+function openRequest(id){var s=SETS.find(function(x){return x.id===id;});if(!s||!s.canOrder)return;ACTIVE_SET=s;if(!ACTIVE_DRAW||!(s.drawOptions||[]).includes(ACTIVE_DRAW))ACTIVE_DRAW=(s.drawOptions||[])[0]||0;if(!ACTIVE_DRAW)return alert('目前沒有可選抽數。');document.getElementById('requestSummary').innerHTML='<b>'+esc(s.name)+'</b><br>'+ACTIVE_DRAW+' 抽 × '+money(s.price)+' ＝ <b>'+money(s.price*ACTIVE_DRAW)+'</b>'+(s.needsConfirm?'<br><span style="color:#8b6e25">⚠ 送出後需管理員先確認最新賞況，再進入付款。</span>':'');document.getElementById('requestBox').classList.remove('hidden');document.getElementById('requestBox').scrollIntoView({behavior:'smooth',block:'start'});}
 function closeRequest(){document.getElementById('requestBox').classList.add('hidden');}
-function submitRequest(){if(!ACTIVE_SET||!ACTIVE_DRAW)return;var b=document.getElementById('reqSubmit');b.disabled=true;msg('reqMsg','送出中…',true);google.script.run.withSuccessHandler(function(r){b.disabled=false;msg('reqMsg','申請已送出，查詢碼：'+r.token,true);CURRENT_TOKEN=r.token;document.getElementById('trackToken').value=r.token;history.replaceState(null,'','?order='+encodeURIComponent(r.token));closeRequest();trackOrder();}).withFailureHandler(function(e){b.disabled=false;msg('reqMsg',(e&&e.message)||'送出失敗',false);}).submitOnlineKujiRequestV27180({settingId:ACTIVE_SET.id,drawCount:ACTIVE_DRAW,name:document.getElementById('reqName').value,phone:document.getElementById('reqPhone').value,lineId:document.getElementById('reqLine').value,note:document.getElementById('reqNote').value});}
-function trackOrder(){var t=String(document.getElementById('trackToken').value||CURRENT_TOKEN||'').trim().toUpperCase();if(!t)return alert('請輸入查詢碼。');CURRENT_TOKEN=t;document.getElementById('trackToken').value=t;google.script.run.withSuccessHandler(function(r){renderOrder(r&&r.order);startPoll();}).withFailureHandler(function(e){alert((e&&e.message)||'查詢失敗');}).getPublicOnlineKujiOrderV27180(t);}
+function submitRequest(){if(!ACTIVE_SET||!ACTIVE_DRAW)return;var b=document.getElementById('reqSubmit');b.disabled=true;setMsg('reqMsg','送出中…',true);google.script.run.withSuccessHandler(function(r){b.disabled=false;setMsg('reqMsg','申請已送出，查詢碼：'+r.token,true);CURRENT_TOKEN=r.token;document.getElementById('trackToken').value=r.token;history.replaceState(null,'','?order='+encodeURIComponent(r.token));closeRequest();loadSets(true);trackOrder();}).withFailureHandler(function(e){b.disabled=false;setMsg('reqMsg',(e&&e.message)||'送出失敗',false);}).submitOnlineKujiRequestV27180({settingId:ACTIVE_SET.id,drawCount:ACTIVE_DRAW,name:document.getElementById('reqName').value,phone:document.getElementById('reqPhone').value,lineId:document.getElementById('reqLine').value,note:document.getElementById('reqNote').value});}
 function stage(s){var a=['待管理員確認','待付款','待確認付款','已付款待選號','已選號待代抽','開獎完成'],i=a.indexOf(s);return i<0?0:i;}
-function bankHtml(o){if(!o.bank)return '';return '<div class="bank"><div class="muted">匯款帳號</div><b>'+esc(o.bank.bank)+'（'+esc(o.bank.code)+'） '+esc(o.bank.account)+'</b><div class="muted">請匯款 '+money(o.total)+'，完成後回報後五碼。</div></div>';}
-function numberPicker(o){
-  var p=Number(o.numberPoolSize||0),w=Number(o.drawCount||0),sel=(o.selectedNumbers||[]).slice();
-  var openedMap={},reservedMap={};
-  (o.openedPositions||[]).forEach(function(x){openedMap[Number(x.number)]=x;});
-  (o.reservedNumbers||[]).forEach(function(n){reservedMap[Number(n)]=true;});
-
-  var h='<div class="orderSummary"><b>挑你的籤號</b><br>從 1～'+p+' 選擇 <b>'+w+'</b> 個號碼。<br><span id="pickCount">已選 '+sel.length+'/'+w+'</span></div>'+
-    '<div class="ticketLegend">'+
-      '<span><i></i>未開</span>'+
-      '<span class="lgSelected"><i></i>你選的</span>'+
-      '<span class="lgOpened"><i></i>已開賞</span>'+
-      '<span class="lgReserved"><i></i>已被選</span>'+
-    '</div><div class="numbers">';
-
-  for(var i=1;i<=p;i++){
-    var opened=openedMap[i];
-    if(opened){
-      h+='<button class="num opened" data-grade="'+esc(opened.grade||'')+'" disabled title="'+esc(opened.grade+' '+(opened.name||''))+'">'+
-        '<b>'+i+'</b><small>'+esc(opened.grade||'已開')+'</small></button>';
-    }else if(reservedMap[i]){
-      h+='<button class="num reserved" disabled><b>'+i+'</b><small>已被選</small></button>';
-    }else{
-      h+='<button class="num '+(sel.indexOf(i)>=0?'sel':'')+'" data-n="'+i+'" onclick="toggleNum(this,'+w+')">'+
-        '<b>'+i+'</b><small>'+(sel.indexOf(i)>=0?'已選':'未開')+'</small></button>';
-    }
-  }
-  return h+'</div><button class="btn" style="margin-top:11px;width:100%" onclick="submitNumbers('+w+')">確認這些籤號</button>';
+function stepHtml(status){var names=['管理員確認','付款','核帳','選號','代抽','完成'],i=stage(status);return names.map(function(n,k){return '<div class="step '+(k<=i?'on':'')+'">'+n+'</div>';}).join('');}
+function bankHtml(o){if(!o.bank)return '';return '<div class="bank"><div class="muted">匯款帳號</div><b>'+esc(o.bank.bank)+'（'+esc(o.bank.code)+'） '+esc(o.bank.account)+'</b><div class="muted">應付 '+money(o.total)+'，匯款後請回報後五碼。</div></div>';}
+function numberPicker(o){var p=Number(o.numberPoolSize||0),w=Number(o.drawCount||0),sel=(o.selectedNumbers||[]).slice(),opened={},reserved={};(o.openedPositions||[]).forEach(function(x){opened[Number(x.number)]=x;});(o.reservedNumbers||[]).forEach(function(n){reserved[Number(n)]=true;});var h='<div class="summary"><b>挑你的籤號</b><br>從 1～'+p+' 選擇 <b>'+w+'</b> 個號碼。<br><span id="pickCount">已選 '+sel.length+'/'+w+'</span></div><div class="numbers">';for(var i=1;i<=p;i++){var op=opened[i];if(op)h+='<button class="num opened" disabled><b>'+i+'</b><small>'+esc(op.grade||'已開')+'</small></button>';else if(reserved[i])h+='<button class="num reserved" disabled><b>'+i+'</b><small>已被選</small></button>';else h+='<button class="num '+(sel.indexOf(i)>=0?'sel':'')+'" data-n="'+i+'" onclick="toggleNum(this,'+w+')"><b>'+i+'</b><small>'+(sel.indexOf(i)>=0?'已選':'未開')+'</small></button>';}return h+'</div><button class="btn" style="margin-top:11px;width:100%" onclick="submitNumbers('+w+')">確認這些籤號</button>';}
+function toggleNum(b,w){var s=document.querySelectorAll('.num.sel');if(b.classList.contains('sel'))b.classList.remove('sel');else{if(s.length>=w)return alert('最多只能選 '+w+' 個號碼。');b.classList.add('sel');}document.getElementById('pickCount').textContent='已選 '+document.querySelectorAll('.num.sel').length+'/'+w;}
+function resultHtml(o){if(!o.results||!o.results.length)return '<div class="muted">尚未登記開獎結果。</div>';return '<div class="results">'+o.results.map(function(r){return '<div class="result"><div class="resultImg">'+imgTag(r,'',r.grade)+'</div><div><b>'+Number(r.number||0)+' 號｜'+esc(r.grade||'')+'</b><span>'+esc(r.name||'')+'</span></div></div>';}).join('')+'</div>';}
+function renderOrder(o){if(!o)return;document.getElementById('statusBox').classList.remove('hidden');document.getElementById('statusName').textContent=o.kujiName||'線上抽賞';document.getElementById('statusId').textContent='查詢碼 '+(o.token||'')+'｜'+Number(o.drawCount||0)+' 抽｜'+money(o.total);document.getElementById('statusBadge').textContent=o.status||'';document.getElementById('statusSteps').innerHTML=stepHtml(o.status);var h='<div class="summary">訂單 '+esc(o.orderId||'')+'<br>目前狀態：<b>'+esc(o.status||'')+'</b></div>';
+  if(o.status==='待管理員確認')h+='<div class="muted">申請已送出。管理員會先確認最新賞況，可抽才會通知付款。</div>';
+  else if(o.status==='待付款')h+=bankHtml(o)+'<div class="formGrid"><div><label>匯款後五碼</label><input id="payLast5" inputmode="numeric" maxlength="5"></div><div><label>實際匯款金額</label><input id="payAmount" inputmode="numeric" value="'+Number(o.total||0)+'"></div></div><button class="btn" style="margin-top:10px" onclick="reportPayment()">回報已匯款</button>';
+  else if(o.status==='待確認付款')h+='<div class="muted">已收到你的付款回報，等待管理員核帳。</div>';
+  else if(o.status==='已付款待選號')h+=numberPicker(o);
+  else if(o.status==='已選號待代抽')h+='<div class="summary">你選的號碼：<b>'+esc((o.selectedNumbers||[]).join('、'))+'</b></div><div class="muted">已送出選號，等待頑夜代抽並登記結果。</div>';
+  else if(o.status==='開獎完成')h+='<div class="summary"><b>🎉 開獎完成</b><br>以下是本次實際中獎結果。</div>'+resultHtml(o);
+  else if(o.status==='已取消')h+='<div class="message bad">這筆訂單已取消。'+(o.note?' '+esc(o.note):'')+'</div>';
+  document.getElementById('statusMain').innerHTML=h;document.getElementById('statusBox').scrollIntoView({behavior:'smooth',block:'start'});
 }
-function toggleNum(b,w){var s=document.querySelectorAll('.num.sel');if(b.classList.contains('sel')){b.classList.remove('sel');var sm=b.querySelector('small');if(sm)sm.textContent='未開';}else{if(s.length>=w)return alert('最多只能選 '+w+' 個號碼。');b.classList.add('sel');var sm2=b.querySelector('small');if(sm2)sm2.textContent='已選';}document.getElementById('pickCount').textContent='已選 '+document.querySelectorAll('.num.sel').length+'/'+w;}
-function reportPayment(){google.script.run.withSuccessHandler(trackOrder).withFailureHandler(function(e){alert((e&&e.message)||'送出失敗');}).submitOnlineKujiPaymentV27180(CURRENT_TOKEN,{last5:document.getElementById('payLast5').value,amount:document.getElementById('payAmount').value});}
-function submitNumbers(w){var n=Array.from(document.querySelectorAll('.num.sel')).map(function(b){return Number(b.getAttribute('data-n'));});if(n.length!==w)return alert('請選滿 '+w+' 個號碼。');if(!confirm('確認送出？\\n'+n.join('、')))return;google.script.run.withSuccessHandler(trackOrder).withFailureHandler(function(e){alert((e&&e.message)||'送出失敗');}).submitOnlineKujiNumbersV27180(CURRENT_TOKEN,{numbers:n});}
+function trackOrder(){var t=String(document.getElementById('trackToken').value||CURRENT_TOKEN||'').trim().toUpperCase();if(!t)return alert('請輸入查詢碼。');CURRENT_TOKEN=t;document.getElementById('trackToken').value=t;google.script.run.withSuccessHandler(function(r){renderOrder(r&&r.order);startPoll();}).withFailureHandler(function(e){alert((e&&e.message)||'查詢失敗');}).getPublicOnlineKujiOrderV27180(t);}
+function reportPayment(){google.script.run.withSuccessHandler(function(){trackOrder();}).withFailureHandler(function(e){alert((e&&e.message)||'送出失敗');}).submitOnlineKujiPaymentV27180(CURRENT_TOKEN,{last5:document.getElementById('payLast5').value,amount:document.getElementById('payAmount').value});}
+function submitNumbers(w){var n=Array.from(document.querySelectorAll('.num.sel')).map(function(b){return Number(b.getAttribute('data-n'));});if(n.length!==w)return alert('請選滿 '+w+' 個號碼。');if(!confirm('確認送出？\n'+n.join('、')))return;google.script.run.withSuccessHandler(function(){trackOrder();}).withFailureHandler(function(e){alert((e&&e.message)||'送出失敗');}).submitOnlineKujiNumbersV27180(CURRENT_TOKEN,{numbers:n});}
 function startPoll(){if(POLL)clearInterval(POLL);POLL=setInterval(function(){if(CURRENT_TOKEN)google.script.run.withSuccessHandler(function(r){renderOrder(r&&r.order);}).withFailureHandler(function(){}).getPublicOnlineKujiOrderV27180(CURRENT_TOKEN);},15000);}
-(function(){loadSets();try{var t=new URL(location.href).searchParams.get('order');if(t){CURRENT_TOKEN=t.toUpperCase();document.getElementById('trackToken').value=CURRENT_TOKEN;trackOrder();}}catch(e){}})();
+(function(){loadSets(false);try{var t=new URL(location.href).searchParams.get('order');if(t){CURRENT_TOKEN=t.toUpperCase();document.getElementById('trackToken').value=CURRENT_TOKEN;trackOrder();}}catch(e){}})();
 </script>
 </body></html>
