@@ -2,7 +2,7 @@
 (function(){
   'use strict';
 
-  var VER='27.23.1';
+  var VER='27.24.1';
   var DIRECT_MARKET_URL_V27231='https://myship.7-11.com.tw/general/detail/GM2611179779077';
 
   function sourceTextV27231_(x){
@@ -180,12 +180,13 @@
 
   function bustCache(){
     try{
-      window.ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V27231';
+      window.ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V27241';
       [
         'WANYE_SHOP_ALL_V27157',
         'WANYE_SHOP_ALL_V27211',
         'WANYE_SHOP_ALL_V27220',
-        'WANYE_SHOP_ALL_V27221'
+        'WANYE_SHOP_ALL_V27221',
+        'WANYE_SHOP_ALL_V27231'
       ].forEach(function(k){sessionStorage.removeItem(k);});
     }catch(e){}
   }
