@@ -864,6 +864,7 @@
   var SHOP_LAST_APPLIED_SEQ_V27241=0;
   var SHOP_KNOWN_ITEMS_V27241=[];
   var SHOP_LOADMORE_BUSY_V27241=false;
+  var SHOP_FAST_FILTER_VERSION_V27242='27.24.2';
 
   var FEATURED_V275={direct:[],closing:[]};
   var FEATURED_LOADING_V275=false;
@@ -876,8 +877,9 @@
   var ALL_PRODUCTS_CACHE=[];
   var ALL_PRODUCTS_READY=false;
   var ALL_PRODUCTS_LOADING=false;
-  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V27241';
-  var ALL_PRODUCTS_CACHE_TTL=10*60*1000;
+  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V27242';
+  var ALL_PRODUCTS_CACHE_TTL=24*60*60*1000;
+  var ALL_PRODUCTS_STALE_TTL_V27242=7*24*60*60*1000;
   var ALL_PRODUCTS_REFRESHED_THIS_PAGE=false;
 
   var IP_LOGOS={
@@ -1421,31 +1423,53 @@
   }
 
   function saveAllProductsCache(){
+    var payload=JSON.stringify({t:Date.now(),items:ALL_PRODUCTS_CACHE});
+    try{localStorage.setItem(ALL_PRODUCTS_CACHE_KEY,payload);}catch(e){}
+    try{sessionStorage.setItem(ALL_PRODUCTS_CACHE_KEY,payload);}catch(e){}
+  }
+
+  function readAllProductsCacheV27242_(storage,maxAge){
     try{
-      sessionStorage.setItem(ALL_PRODUCTS_CACHE_KEY,JSON.stringify({
-        t:Date.now(),
-        items:ALL_PRODUCTS_CACHE
-      }));
-    }catch(e){}
+      var raw=storage.getItem(ALL_PRODUCTS_CACHE_KEY);
+      if(!raw)return null;
+      var obj=JSON.parse(raw);
+      if(!obj||!Array.isArray(obj.items)||!obj.items.length)return null;
+      if(Date.now()-Number(obj.t||0)>maxAge)return null;
+      return obj;
+    }catch(e){return null;}
   }
 
   function restoreAllProductsCache(){
-    try{
-      var raw=sessionStorage.getItem(ALL_PRODUCTS_CACHE_KEY);
-      if(!raw)return false;
-      var obj=JSON.parse(raw);
-      if(!obj||!Array.isArray(obj.items)||!obj.items.length)return false;
-      if(Date.now()-Number(obj.t||0)>ALL_PRODUCTS_CACHE_TTL)return false;
-
-      ALL_PRODUCTS_CACHE=obj.items;
-      ALL_PRODUCTS_READY=true;
-      mergeKnownProductsV27241_(ALL_PRODUCTS_CACHE);
-      mergeIpCatalog(ALL_PRODUCTS_CACHE);
-      return true;
-    }catch(e){
-      return false;
+    // 跨分頁／重開瀏覽器仍保留完整商城快取。
+    var obj=null;
+    try{obj=readAllProductsCacheV27242_(localStorage,ALL_PRODUCTS_STALE_TTL_V27242);}catch(e){}
+    if(!obj){
+      try{obj=readAllProductsCacheV27242_(sessionStorage,ALL_PRODUCTS_STALE_TTL_V27242);}catch(e){}
     }
+    if(!obj)return false;
+
+    ALL_PRODUCTS_CACHE=obj.items;
+    ALL_PRODUCTS_READY=true;
+    mergeKnownProductsV27241_(ALL_PRODUCTS_CACHE);
+    mergeIpCatalog(ALL_PRODUCTS_CACHE);
+
+    // 快取即使超過 24 小時仍先顯示，背景會再更新；畫面不等待。
+    var age=Date.now()-Number(obj.t||0);
+    ALL_PRODUCTS_REFRESHED_THIS_PAGE=age<ALL_PRODUCTS_CACHE_TTL;
+    return true;
   }
+
+  function clearLegacyShopCachesV27242_(){
+    var keys=[
+      'WANYE_SHOP_ALL_V27157','WANYE_SHOP_ALL_V27211','WANYE_SHOP_ALL_V27220',
+      'WANYE_SHOP_ALL_V27221','WANYE_SHOP_ALL_V27231','WANYE_SHOP_ALL_V27241'
+    ];
+    keys.forEach(function(k){
+      try{sessionStorage.removeItem(k);}catch(e){}
+      try{localStorage.removeItem(k);}catch(e){}
+    });
+  }
+
 
   function loadIpCatalog(){
     if(ALL_PRODUCTS_LOADING)return;
@@ -1473,7 +1497,7 @@
     var offset=0;
     var page=0;
     var all=[];
-    var limit=200;
+    var limit=800;
 
     function next(){
       google.script.run
@@ -1496,6 +1520,7 @@
 
           ALL_PRODUCTS_CACHE=all;
           ALL_PRODUCTS_READY=true;
+          ALL_PRODUCTS_REFRESHED_THIS_PAGE=true;
           mergeKnownProductsV27241_(all);
           saveAllProductsCache();
           setGridUpdatingV27241_(false);
@@ -1665,8 +1690,8 @@
     if(ALL_PRODUCTS_READY){
       applyClientFilters();
     }else{
+      showInstantSwitchV27241_();
       setGridUpdatingV27241_(true);
-      loadShop(true);
       if(!ALL_PRODUCTS_LOADING)loadIpCatalog();
     }
 
@@ -1801,8 +1826,8 @@
         if(ALL_PRODUCTS_READY){
           applyClientFilters();
         }else{
+          showInstantSwitchV27241_();
           setGridUpdatingV27241_(true);
-          loadShop(true);
           if(!ALL_PRODUCTS_LOADING)loadIpCatalog();
         }
       };
@@ -1935,8 +1960,8 @@
 
           // 首屏完成後立即準備分類資料，不再等 1.1 秒 idle。
           setTimeout(function(){
-            if(!ALL_PRODUCTS_LOADING&&!ALL_PRODUCTS_READY)loadIpCatalog();
-          },80);
+            if(!ALL_PRODUCTS_LOADING&&!ALL_PRODUCTS_REFRESHED_THIS_PAGE)loadIpCatalog();
+          },0);
         }
       })
       .withFailureHandler(function(e){
@@ -2386,14 +2411,18 @@
     io.observe(document.getElementById('loadMoreWrap'));
   }
 
+  clearLegacyShopCachesV27242_();
   renderModeTabs();
   renderIpChips();
   renderIpModal();
 
-  // v27.24.1：若同一分頁已有完整商品快取，分類從第一下就能即時切換。
-  restoreAllProductsCache();
+  // v27.24.2：跨分頁／重開商城都先用完整本機商品庫，分類第一下就立即顯示。
+  var restoredV27242=restoreAllProductsCache();
+  if(restoredV27242){
+    applyClientFilters();
+  }
 
-  // 首屏商品優先；完整分類資料會在首屏成功後立即背景準備。
+  // 首屏仍向後端取得最新資料，但不阻塞分類切換。
   loadShop(true);
 
   var idleV27240=window.WANYE_IDLE||function(fn){return setTimeout(fn,500);};
