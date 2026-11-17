@@ -1459,6 +1459,28 @@
     return true;
   }
 
+  function migrateLegacyShopCacheV27242_(){
+    // 直接承接上一版完整商品快取，避免升版後第一次又要重抓。
+    var legacy=['WANYE_SHOP_ALL_V27241','WANYE_SHOP_ALL_V27231'];
+    for(var i=0;i<legacy.length;i++){
+      var key=legacy[i],raw='';
+      try{raw=localStorage.getItem(key)||'';}catch(e){}
+      if(!raw){try{raw=sessionStorage.getItem(key)||'';}catch(e){}}
+      if(!raw)continue;
+      try{
+        var obj=JSON.parse(raw);
+        if(obj&&Array.isArray(obj.items)&&obj.items.length){
+          localStorage.setItem(ALL_PRODUCTS_CACHE_KEY,JSON.stringify({
+            t:Number(obj.t||Date.now()),
+            items:obj.items
+          }));
+          return true;
+        }
+      }catch(e){}
+    }
+    return false;
+  }
+
   function clearLegacyShopCachesV27242_(){
     var keys=[
       'WANYE_SHOP_ALL_V27157','WANYE_SHOP_ALL_V27211','WANYE_SHOP_ALL_V27220',
@@ -2411,6 +2433,7 @@
     io.observe(document.getElementById('loadMoreWrap'));
   }
 
+  migrateLegacyShopCacheV27242_();
   clearLegacyShopCachesV27242_();
   renderModeTabs();
   renderIpChips();
@@ -2433,7 +2456,7 @@
 
 <script src="shop-enhancements-v27.23.5.js?v=27235"></script>
 <script src="shop-ui-v27.15.8.js?v=271580"></script>
-  <script src="shop-sections-v27.23.1.js?v=27231"></script>
+  <script src="shop-sections-v27.23.1.js?v=27242"></script>
   <script src="./visitor-stats-v27.17.1.js?v=27171" data-page="shop"></script>
 </body>
 </html>
