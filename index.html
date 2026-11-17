@@ -397,8 +397,7 @@
 
     /* 活動完整海報 */
     .eventPosterBtn{
-      display:block;width:100%;padding:0;border:0;background:
-        linear-gradient(145deg,#edf4fb,#faf7ff);cursor:zoom-in;overflow:hidden
+      display:block;width:100%;padding:0;border:0;background:        linear-gradient(145deg,#edf4fb,#faf7ff);cursor:zoom-in;overflow:hidden
     }
     .eventPosterStage{
       width:100%;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;
@@ -621,6 +620,233 @@
     }
 
   </style>
+<style id="wanye-home-ui-v27164">
+/* 頑夜 TOY 官網首頁 v27.16.4｜手機介面完整修正版
+   使用方式：將此段放在 index.html 原有 <style> 的最後，或另以 <link> 載入。
+*/
+
+/* ---------- 基礎 ---------- */
+html,body{max-width:100%;overflow-x:hidden}
+.siteHeader,.officialStrip{width:100%}
+.headerMain,.officialStripInner,.sectionHead,.storeGrid,.detailHero{min-width:0}
+.headerActions,.desktopNav,.officialStripActions{min-width:0}
+
+
+/* ---------- 全站一致性修正 ---------- */
+.kujiStats{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.detailStats{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.kujiCover{object-fit:contain!important;object-position:center!important;background:#f6f8fb!important}
+
+/* ---------- 手機底部導覽：6 個功能永遠同一排 ---------- */
+@media(max-width:680px){
+  body{
+    padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))!important;
+  }
+  main{
+    padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))!important;
+  }
+
+  .mobileNav{
+    position:fixed!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:max(8px,env(safe-area-inset-bottom,0px))!important;
+    z-index:90!important;
+    display:grid!important;
+    grid-template-columns:repeat(6,minmax(0,1fr))!important;
+    grid-auto-flow:column!important;
+    grid-auto-columns:minmax(0,1fr)!important;
+    gap:2px!important;
+    width:auto!important;
+    min-height:60px!important;
+    padding:5px!important;
+    margin:0!important;
+    overflow:hidden!important;
+    background:rgba(255,255,255,.97)!important;
+    backdrop-filter:blur(16px)!important;
+    -webkit-backdrop-filter:blur(16px)!important;
+    border:1px solid #dfe4eb!important;
+    border-radius:18px!important;
+    box-shadow:0 14px 40px rgba(33,50,75,.18)!important;
+  }
+
+  .mobileNav button,
+  .mobileNav a{
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+    min-height:48px!important;
+    padding:4px 1px!important;
+    margin:0!important;
+    border:0!important;
+    border-radius:12px!important;
+    background:transparent!important;
+    color:#718096!important;
+    text-decoration:none!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:3px!important;
+    font-size:7.5px!important;
+    line-height:1!important;
+    font-weight:900!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:clip!important;
+  }
+
+  .mobileNav button:active,
+  .mobileNav a:active{
+    background:#eef6ff!important;
+    color:#2e69a6!important;
+    transform:scale(.97);
+  }
+
+  .mobileNav .ico{
+    display:block!important;
+    flex:0 0 auto!important;
+    font-size:16px!important;
+    line-height:1!important;
+  }
+
+  /* 頂部：避免 Logo + 3 個功能按鈕在窄螢幕互相擠壓 */
+  .headerMain{
+    min-height:64px!important;
+    padding:7px 0!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    gap:7px!important;
+  }
+  .brandWrap{min-width:0!important;gap:8px!important}
+  .brandLogo{width:47px!important;height:47px!important;border-radius:14px!important}
+  .brandText{min-width:0!important}
+  .brandText strong{font-size:15px!important;white-space:nowrap!important}
+  .brandText span{display:none!important}
+  .headerActions{
+    grid-column:2!important;
+    display:grid!important;
+    grid-template-columns:auto auto!important;
+    gap:5px!important;
+  }
+  .headerActions #headerIg{display:none!important}
+  .socialRow .headerBtn:not(.shop){display:inline-flex!important}
+  .headerBtn{
+    min-height:36px!important;
+    padding:0 9px!important;
+    border-radius:10px!important;
+    font-size:9px!important;
+    white-space:nowrap!important;
+  }
+
+  /* 公告細條：手機只保留必要內容 */
+  .officialStripInner{
+    min-height:36px!important;
+    padding:6px 0!important;
+    font-size:9px!important;
+  }
+  .officialStripActions{display:none!important}
+
+  /* 共用內容區 */
+  .container{padding-left:10px!important;padding-right:10px!important}
+  .section{margin-top:12px!important}
+  .sectionCard{
+    padding:13px!important;
+    border-radius:17px!important;
+    box-shadow:0 5px 18px rgba(40,61,93,.05)!important;
+  }
+  .sectionHead{
+    align-items:center!important;
+    gap:8px!important;
+    margin-bottom:11px!important;
+  }
+  .sectionTitle{min-width:0!important}
+  .sectionTitle strong{font-size:17px!important;line-height:1.25!important}
+  .sectionTitle span{font-size:9px!important;line-height:1.4!important}
+  .sectionAction{
+    flex:0 0 auto!important;
+    padding:7px 9px!important;
+    border-radius:10px!important;
+    font-size:9px!important;
+    white-space:nowrap!important;
+  }
+
+  /* 商品與一番賞卡片保持規則一致 */
+  .productGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+  .productCard{border-radius:14px!important;min-width:0!important}
+  .productBody{padding:9px!important}
+  .productName{font-size:11px!important;min-height:32px!important}
+  .productPrice{font-size:15px!important;margin-top:6px!important}
+  .productMeta{font-size:8px!important}
+  .productCard .btn{min-height:35px!important;font-size:9px!important}
+
+  .kujiGrid{grid-template-columns:1fr!important;gap:9px!important}
+  .kujiCard{border-radius:15px!important}
+  .kujiCoverWrap{aspect-ratio:16/9!important}
+  .kujiCover{object-fit:contain!important;background:#f6f8fb!important}
+  .kujiBody{padding:11px!important}
+  .kujiName{font-size:13px!important}
+  .kujiStats{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:4px!important}
+  .kujiStat{padding:6px 3px!important;border-radius:9px!important}
+  .kujiStat strong{font-size:10px!important}
+  .kujiStat span{font-size:6.5px!important}
+  .kujiMajor{font-size:9px!important;padding:8px 9px!important}
+  .kujiActions{gap:6px!important}
+  .kujiActions .btn{min-height:35px!important;font-size:9px!important}
+
+  /* 活動卡避免窄螢幕資訊過滿 */
+  .eventGrid{grid-template-columns:1fr!important;gap:9px!important}
+  .eventCard{border-radius:15px!important}
+  .eventBody{padding:10px!important}
+  .eventTitle{font-size:13px!important}
+  .eventDesc{-webkit-line-clamp:2!important;font-size:9px!important}
+  .eventActions{padding-top:8px!important}
+  .eventActions .btn{min-height:34px!important;font-size:9px!important}
+
+  /* 店鋪資訊 */
+  .storeGrid{grid-template-columns:1fr!important;gap:9px!important}
+  .storePanel{padding:13px!important;border-radius:15px!important}
+  .storeInfoRow{grid-template-columns:72px 1fr!important;font-size:9px!important}
+
+  /* 詳情頁 */
+  .detailView{padding:10px 0 calc(90px + env(safe-area-inset-bottom,0px))!important}
+  .detailCard{padding:13px!important;border-radius:17px!important}
+  .detailHero{grid-template-columns:1fr!important;gap:12px!important}
+  .detailHero img{max-height:260px!important}
+  .detailTitle{font-size:19px!important}
+  .detailPrice{font-size:20px!important}
+  .detailStats{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:4px!important}
+  .detailStat{padding:7px 3px!important}
+  .detailStat strong{font-size:11px!important}
+  .detailStat span{font-size:6.5px!important}
+  .prizeRow{grid-template-columns:52px minmax(0,1fr) 64px!important;padding:8px!important;gap:6px!important}
+  .prizeRate{display:none!important}
+
+  /* 彈窗 */
+  .modalMask{align-items:flex-end!important;padding:0!important}
+  .modal{
+    width:100%!important;
+    max-height:92dvh!important;
+    border-radius:22px 22px 0 0!important;
+    border-bottom:0!important;
+  }
+  .modalHead{padding:13px!important}
+  .modalBody{padding:13px!important}
+  .formGrid{grid-template-columns:1fr!important}
+  .field.full{grid-column:auto!important}
+}
+
+/* 超窄手機：仍保持 6 格，不換行 */
+@media(max-width:360px){
+  .mobileNav{left:5px!important;right:5px!important;padding:4px!important;gap:0!important}
+  .mobileNav button,.mobileNav a{font-size:7px!important;padding:3px 0!important}
+  .mobileNav .ico{font-size:15px!important}
+  .headerBtn{padding:0 7px!important;font-size:8px!important}
+  .brandLogo{width:43px!important;height:43px!important}
+  .brandText strong{font-size:14px!important}
+}
+
+</style>
 </head>
 <body>
 
@@ -798,7 +1024,6 @@
           <option value="onsite">現場付款</option>
         </select>
       </div>
-
       <div id="activityBankBox" class="bankBox hidden">
         <div style="font-size:9px;color:#7f8a99">中國信託（822）</div>
         <div class="bankAccount">783540123887</div>
@@ -1197,8 +1422,7 @@
     refreshCommerceFallback(false);
   }
 
-  function applyHomeBundle(bundle){
-    bundle=bundle||{};
+  function applyHomeBundle(bundle){    bundle=bundle||{};
     var appliedOverview=false;
     var appliedCommerce=false;
 
