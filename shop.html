@@ -859,6 +859,11 @@
   var FIRST_LOAD=true;
   var CLOSED_AUTO_LOADS=0;
   var MAX_CLOSED_AUTO_LOADS=20;
+  // v27.24.1｜分類切換即時化
+  var SHOP_REQUEST_SEQ_V27241=0;
+  var SHOP_LAST_APPLIED_SEQ_V27241=0;
+  var SHOP_KNOWN_ITEMS_V27241=[];
+  var SHOP_LOADMORE_BUSY_V27241=false;
 
   var FEATURED_V275={direct:[],closing:[]};
   var FEATURED_LOADING_V275=false;
@@ -871,7 +876,7 @@
   var ALL_PRODUCTS_CACHE=[];
   var ALL_PRODUCTS_READY=false;
   var ALL_PRODUCTS_LOADING=false;
-  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V27157';
+  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V27241';
   var ALL_PRODUCTS_CACHE_TTL=10*60*1000;
   var ALL_PRODUCTS_REFRESHED_THIS_PAGE=false;
 
@@ -1165,6 +1170,99 @@
       document.getElementById('sort').value==='new';
   }
 
+  function productKeyV27241_(x){
+    return String((x&&(x.id||x.productId))||'');
+  }
+
+  function mergeKnownProductsV27241_(items){
+    var map={},out=[];
+    function add(x){
+      if(!x)return;
+      var k=productKeyV27241_(x);
+      if(!k)k='NAME:'+String(x.name||'')+'|'+String(x.type||'');
+      if(map[k])return;
+      map[k]=1;out.push(x);
+    }
+    (SHOP_KNOWN_ITEMS_V27241||[]).forEach(add);
+    (ALL_PRODUCTS_CACHE||[]).forEach(add);
+    (SHOP_DATA.items||[]).forEach(add);
+    (Array.isArray(items)?items:[]).forEach(add);
+    featuredItemsV275_().forEach(add);
+    SHOP_KNOWN_ITEMS_V27241=out;
+    return out;
+  }
+
+  function knownProductsV27241_(){
+    return mergeKnownProductsV27241_([]);
+  }
+
+  function modeMatchV27241_(x){
+    if(!x)return false;
+    if(ACTIVE_MODE==='preorder')return x.type==='預購'&&!x.isClosed;
+    if(ACTIVE_MODE==='direct')return x.type==='直購'&&!x.isClosed;
+    if(ACTIVE_MODE==='closed')return !!x.isClosed;
+    if(ACTIVE_MODE==='pokemonCenter'){
+      return !x.isClosed && typeof window.isPokemonCenterV27231_==='function'
+        ? !!window.isPokemonCenterV27231_(x)
+        : /POK[ÉE]MON CENTER|寶可夢中心/i.test([x.tags,x.note,x.sourceName,x.sourceWebsite].join(' '));
+    }
+    if(ACTIVE_MODE==='ichibanSet'){
+      return !x.isClosed && typeof window.isIchibanSetV27231_==='function'
+        ? !!window.isIchibanSetV27231_(x)
+        : /一番賞整套|整套一番賞|ICHIBAN SET/i.test([x.tags,x.note,x.name].join(' '));
+    }
+    return true;
+  }
+
+  function instantFilteredKnownV27241_(){
+    var arr=knownProductsV27241_().filter(modeMatchV27241_);
+    var q=String(document.getElementById('search').value||'').trim().toUpperCase();
+
+    if(ACTIVE_CATEGORY){
+      arr=arr.filter(function(x){return categoryOf(x)===ACTIVE_CATEGORY;});
+    }
+
+    if(ACTIVE_IP){
+      arr=arr.filter(function(x){
+        var ip=inferIp(x&&x.name);
+        if(ACTIVE_IP==='寶可夢' && typeof window.isPokemonCenterV27231_==='function' && window.isPokemonCenterV27231_(x)){
+          return true;
+        }
+        return !!(ip&&ip.label===ACTIVE_IP);
+      });
+    }else if(q){
+      arr=arr.filter(function(x){
+        var ip=inferIp(x&&x.name);
+        var hay=[x&&x.name,categoryOf(x),x&&x.category,x&&x.type,ip&&ip.label,x&&x.tags,x&&x.note].join(' ').toUpperCase();
+        return hay.indexOf(q)>=0;
+      });
+    }
+
+    return clientSort(arr,document.getElementById('sort').value);
+  }
+
+  function showInstantSwitchV27241_(){
+    var arr=instantFilteredKnownV27241_();
+    SHOP_DATA.items=arr;
+    SHOP_TOTAL=arr.length;
+    SHOP_HAS_MORE=false;
+    SHOP_OFFSET=arr.length;
+    render();
+
+    var count=document.getElementById('resultCount');
+    if(count){
+      count.textContent=arr.length+' 項'+(ALL_PRODUCTS_READY?'':'・背景更新中');
+    }
+    return arr.length>0;
+  }
+
+  function setGridUpdatingV27241_(on){
+    var g=document.getElementById('grid');
+    if(!g)return;
+    g.classList.toggle('shopGridUpdatingV27241',!!on);
+    g.setAttribute('aria-busy',on?'true':'false');
+  }
+
   function currentQuery(reset){
     return {
       type:ACTIVE_TYPE,
@@ -1339,6 +1437,7 @@
 
       ALL_PRODUCTS_CACHE=obj.items;
       ALL_PRODUCTS_READY=true;
+      mergeKnownProductsV27241_(ALL_PRODUCTS_CACHE);
       mergeIpCatalog(ALL_PRODUCTS_CACHE);
       return true;
     }catch(e){
@@ -1395,7 +1494,9 @@
 
           ALL_PRODUCTS_CACHE=all;
           ALL_PRODUCTS_READY=true;
+          mergeKnownProductsV27241_(all);
           saveAllProductsCache();
+          setGridUpdatingV27241_(false);
 
           mergeIpCatalog(all);
           renderChips();
@@ -1553,9 +1654,17 @@
     renderModeTabs();
     renderIpChips();
     renderIpModal();
+    renderChips();
 
-    if(!applyClientFilters()){
+    // 先立即從已知商品切畫面，再背景補完整結果。
+    showInstantSwitchV27241_();
+
+    if(ALL_PRODUCTS_READY){
+      applyClientFilters();
+    }else{
+      setGridUpdatingV27241_(true);
       loadShop(true);
+      if(!ALL_PRODUCTS_LOADING)loadIpCatalog();
     }
 
     var catalog=document.getElementById('catalogSection');
@@ -1654,7 +1763,10 @@
       b.classList.toggle('active',(b.getAttribute('data-mode')||'')===ACTIVE_MODE);
 
       b.onclick=function(){
-        ACTIVE_MODE=b.getAttribute('data-mode')||'all';
+        var nextMode=b.getAttribute('data-mode')||'all';
+        if(nextMode===ACTIVE_MODE && !SHOP_LOADING)return;
+
+        ACTIVE_MODE=nextMode;
         ACTIVE_CATEGORY='';
         ACTIVE_IP='';
         ACTIVE_IP_SEARCH='';
@@ -1671,15 +1783,24 @@
           ACTIVE_TYPE='預購';
           document.getElementById('sort').value='close';
         }else{
+          // pokemonCenter / ichibanSet 由前台來源標記篩選。
           ACTIVE_TYPE='';
           document.getElementById('sort').value='new';
         }
 
+        // 先立即切換按鈕與目前已知商品，不等網路。
         renderModeTabs();
         renderIpChips();
+        renderChips();
+        showInstantSwitchV27241_();
 
-        if(!applyClientFilters()){
+        // 完整快取已有時完全本機切換；沒有時才背景補資料。
+        if(ALL_PRODUCTS_READY){
+          applyClientFilters();
+        }else{
+          setGridUpdatingV27241_(true);
           loadShop(true);
+          if(!ALL_PRODUCTS_LOADING)loadIpCatalog();
         }
       };
     });
@@ -1713,32 +1834,40 @@
         ACTIVE_IP='';
         ACTIVE_IP_SEARCH='';
         document.getElementById('search').value='';
+
+        // 不再從「上一個分類結果」繼續篩，永遠從已知商品池瞬間重算。
         renderChips();
         renderIpChips();
+        showInstantSwitchV27241_();
 
-        if(!applyClientFilters()){
-          // 快取尚未完成時先用目前已載入商品做即時篩選；
-          // 完整快取完成後 applyClientFilters() 會自動重新補齊結果。
-          var base=(SHOP_DATA.items||[]).slice();
-          if(ACTIVE_CATEGORY){
-            SHOP_DATA.items=base.filter(function(x){return categoryOf(x)===ACTIVE_CATEGORY;});
-          }
-          render();
-          loadIpCatalog();
+        if(ALL_PRODUCTS_READY){
+          applyClientFilters();
+        }else{
+          setGridUpdatingV27241_(true);
+          if(!ALL_PRODUCTS_LOADING)loadIpCatalog();
         }
       };
     });
   }
 
   function loadShop(reset){
-    if(SHOP_LOADING)return;
-    SHOP_LOADING=true;
+    // 載入更多仍避免重複；分類切換(reset=true)允許新請求直接超車舊請求。
+    if(!reset && SHOP_LOADMORE_BUSY_V27241)return;
+
+    var requestSeq=++SHOP_REQUEST_SEQ_V27241;
+    var query=currentQuery(!!reset);
 
     if(reset){
       SHOP_OFFSET=0;
       SHOP_HAS_MORE=false;
-      if(FIRST_LOAD)showSkeleton();
+      if(FIRST_LOAD && !SHOP_DATA.items.length)showSkeleton();
+      else showInstantSwitchV27241_();
+      setGridUpdatingV27241_(true);
+    }else{
+      SHOP_LOADMORE_BUSY_V27241=true;
     }
+
+    SHOP_LOADING=true;
 
     var btn=document.getElementById('loadMoreBtn');
     if(btn){
@@ -1748,10 +1877,17 @@
 
     google.script.run
       .withSuccessHandler(function(res){
+        // reset 請求只接受最後一次分類點擊；舊結果晚回來直接丟掉。
+        if(reset && requestSeq!==SHOP_REQUEST_SEQ_V27241)return;
+
+        SHOP_LAST_APPLIED_SEQ_V27241=requestSeq;
         SHOP_LOADING=false;
+        SHOP_LOADMORE_BUSY_V27241=false;
+        setGridUpdatingV27241_(false);
         res=res||{};
 
         var incoming=Array.isArray(res.items)?res.items:[];
+        mergeKnownProductsV27241_(incoming);
 
         if(reset)SHOP_DATA.items=incoming;
         else SHOP_DATA.items=(SHOP_DATA.items||[]).concat(incoming);
@@ -1776,8 +1912,15 @@
         mergeIpCatalog(incoming);
         renderChips();
 
-        if(ALL_PRODUCTS_READY && ACTIVE_CATEGORY){
-          applyClientFilters();
+        // 特殊專區與品類都要套前台篩選，避免伺服器回來時整包資料閃回。
+        if(
+          ALL_PRODUCTS_READY ||
+          ACTIVE_CATEGORY ||
+          ACTIVE_IP ||
+          ACTIVE_MODE==='pokemonCenter' ||
+          ACTIVE_MODE==='ichibanSet'
+        ){
+          if(!applyClientFilters())showInstantSwitchV27241_();
         }else{
           render();
         }
@@ -1785,17 +1928,31 @@
         if(FIRST_LOAD){
           FIRST_LOAD=false;
           openHashProduct();
+
+          // 首屏完成後立即準備分類資料，不再等 1.1 秒 idle。
+          setTimeout(function(){
+            if(!ALL_PRODUCTS_LOADING&&!ALL_PRODUCTS_READY)loadIpCatalog();
+          },80);
         }
       })
       .withFailureHandler(function(e){
+        if(reset && requestSeq!==SHOP_REQUEST_SEQ_V27241)return;
         SHOP_LOADING=false;
-        document.getElementById('grid').innerHTML=
-          '<div class="empty" style="grid-column:1/-1">目前無法讀取商品：'+
-          esc(e&&e.message?e.message:e)+'</div>';
+        SHOP_LOADMORE_BUSY_V27241=false;
+        setGridUpdatingV27241_(false);
+
+        // 有已知商品時保留畫面，不因 API 暫時失敗把整頁換成錯誤。
+        if(knownProductsV27241_().length){
+          showInstantSwitchV27241_();
+        }else{
+          document.getElementById('grid').innerHTML=
+            '<div class="empty" style="grid-column:1/-1">目前無法讀取商品：'+
+            esc(e&&e.message?e.message:e)+'</div>';
+        }
 
         if(btn)btn.style.display='none';
       })
-      .getPublicShopPageV270(currentQuery(!!reset));
+      .getPublicShopPageV270(query);
   }
 
   function applyClosedMode(arr){
@@ -2229,16 +2386,16 @@
   renderIpChips();
   renderIpModal();
 
-  // v27.24.0：首屏商品優先。避免一進商城同時打 4 組 Apps Script 請求。
+  // v27.24.1：若同一分頁已有完整商品快取，分類從第一下就能即時切換。
+  restoreAllProductsCache();
+
+  // 首屏商品優先；完整分類資料會在首屏成功後立即背景準備。
   loadShop(true);
 
   var idleV27240=window.WANYE_IDLE||function(fn){return setTimeout(fn,500);};
   idleV27240(function(){
     loadFeaturedV275_();
   },700);
-  idleV27240(function(){
-    loadIpCatalog();
-  },1100);
 </script>
 
 <script src="shop-enhancements-v27.23.5.js?v=27235"></script>
