@@ -1202,12 +1202,14 @@
     if(ACTIVE_MODE==='direct')return x.type==='直購'&&!x.isClosed;
     if(ACTIVE_MODE==='closed')return !!x.isClosed;
     if(ACTIVE_MODE==='pokemonCenter'){
-      return !x.isClosed && typeof window.isPokemonCenterV27231_==='function'
+      if(x.isClosed)return false;
+      return typeof window.isPokemonCenterV27231_==='function'
         ? !!window.isPokemonCenterV27231_(x)
         : /POK[ÉE]MON CENTER|寶可夢中心/i.test([x.tags,x.note,x.sourceName,x.sourceWebsite].join(' '));
     }
     if(ACTIVE_MODE==='ichibanSet'){
-      return !x.isClosed && typeof window.isIchibanSetV27231_==='function'
+      if(x.isClosed)return false;
+      return typeof window.isIchibanSetV27231_==='function'
         ? !!window.isIchibanSetV27231_(x)
         : /一番賞整套|整套一番賞|ICHIBAN SET/i.test([x.tags,x.note,x.name].join(' '));
     }
@@ -1511,16 +1513,17 @@
           ALL_PRODUCTS_LOADING=false;
           IP_CATALOG_LOADING=false;
 
-          // 已有快取時維持快取；完全沒有資料時才使用目前頁面商品作 fallback。
+          // 完整商品同步失敗時只保留目前已知商品，不把部分資料誤標成完整快取。
           if(!ALL_PRODUCTS_READY){
-            var fallback=(SHOP_DATA.items||[]).slice();
+            var fallback=knownProductsV27241_();
             if(fallback.length){
-              ALL_PRODUCTS_CACHE=fallback;
-              ALL_PRODUCTS_READY=true;
+              mergeKnownProductsV27241_(fallback);
               mergeIpCatalog(fallback);
               renderChips();
+              showInstantSwitchV27241_();
             }
           }
+          setGridUpdatingV27241_(false);
         })
         .getPublicShopPageV270({
           type:'',category:'',q:'',sort:'new',offset:offset,limit:limit,focusId:''
@@ -1813,7 +1816,8 @@
       sourceCats=clientAvailableCategories();
     }else{
       var seen={};
-      (SHOP_DATA.items||[]).forEach(function(x){
+      knownProductsV27241_().forEach(function(x){
+        if(!modeMatchV27241_(x))return;
         var c=categoryOf(x);
         if(c&&!seen[c]){seen[c]=1;sourceCats.push(c);}
       });
@@ -1878,7 +1882,7 @@
     google.script.run
       .withSuccessHandler(function(res){
         // reset 請求只接受最後一次分類點擊；舊結果晚回來直接丟掉。
-        if(reset && requestSeq!==SHOP_REQUEST_SEQ_V27241)return;
+        if(requestSeq!==SHOP_REQUEST_SEQ_V27241)return;
 
         SHOP_LAST_APPLIED_SEQ_V27241=requestSeq;
         SHOP_LOADING=false;
@@ -1936,7 +1940,7 @@
         }
       })
       .withFailureHandler(function(e){
-        if(reset && requestSeq!==SHOP_REQUEST_SEQ_V27241)return;
+        if(requestSeq!==SHOP_REQUEST_SEQ_V27241)return;
         SHOP_LOADING=false;
         SHOP_LOADMORE_BUSY_V27241=false;
         setGridUpdatingV27241_(false);
