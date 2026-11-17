@@ -1,10 +1,11 @@
-/* 頑夜 TOY 商城前台分類｜v27.22.0
+/* 頑夜 TOY 商城前台分類｜v27.22.1
  * 上方順序：全部商品｜預購商品｜寶可夢中心｜一番賞整套｜現貨商品｜結單商品｜線上抽賞
  * 一番賞整套目前只建立入口與 hook；正式辨識規則待後續提供。
  */
 (function(){
   'use strict';
-  var VER='27.22.0';
+  var VER='27.22.1';
+  var DIRECT_MARKET_URL_V27221='https://myship.7-11.com.tw/general/detail/GM2611179779077';
 
   function isPokemonCenter(item){
     if(!item)return false;
@@ -23,6 +24,23 @@
 
   window.isPokemonCenterItemV27220=isPokemonCenter;
   window.isIchibanSetItemV27220=isIchibanSet;
+
+  function enforceDirectMarketV27221(){
+    if(window.SHOP_DATA)window.SHOP_DATA.directMarketUrl=DIRECT_MARKET_URL_V27221;
+  }
+
+  // 所有直購／現貨商品固定導向同一個 7-ELEVEN 賣貨便賣場。
+  var oldOpenOrderV27221=window.openOrder;
+  if(typeof oldOpenOrderV27221==='function'){
+    window.openOrder=function(id){
+      var x=typeof window.findProduct==='function'?window.findProduct(id):null;
+      if(x&&x.type==='直購'){
+        window.open(DIRECT_MARKET_URL_V27221,'_blank','noopener');
+        return;
+      }
+      return oldOpenOrderV27221.apply(this,arguments);
+    };
+  }
 
   function arrangeTabs(){
     var tabs=document.getElementById('typeTabs');
@@ -118,7 +136,11 @@
   var oldCard=window.cardHtml;
   if(typeof oldCard==='function'){
     window.cardHtml=function(x,i,featureTag){
+      enforceDirectMarketV27221();
       var html=oldCard.apply(this,arguments);
+      if(x&&x.type==='直購'&&html){
+        html=html.replace(/<a class="buy buyLink" href="[^"]*"/g,'<a class="buy buyLink" href="'+DIRECT_MARKET_URL_V27221+'"');
+      }
       if(!html)return html;
       var badges='';
       if(isPokemonCenter(x)){
@@ -145,13 +167,14 @@
 
   function invalidateOldCache(){
     try{
-      window.ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V27220';
+      window.ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V27221';
       sessionStorage.removeItem('WANYE_SHOP_ALL_V27157');
       sessionStorage.removeItem('WANYE_SHOP_ALL_V27211');
     }catch(e){}
   }
 
   function init(){
+    enforceDirectMarketV27221();
     injectCss();
     invalidateOldCache();
     arrangeTabs();
