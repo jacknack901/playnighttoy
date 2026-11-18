@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  var VER='27.23.5', CART_KEY='wanye_shop_cart_v27136', PROFILE_KEY='wanye_shop_profile_v27136';
+  var VER='27.27.1', CART_KEY='wanye_shop_cart_v27136', PROFILE_KEY='wanye_shop_profile_v27136';
   var cart=[],cartValidatingV271315=false,cartValidateSeqV271315=0;
 
   function $(id){return document.getElementById(id);}
@@ -36,9 +36,9 @@
 
   function setModalFieldV27139(id,hidden){var el=$(id);if(el)el.style.display=hidden?'none':'';}
   function pushCartItemV27139(x,v,qty){if(!x)return false;if(x.isClosed){if(typeof window.showErr==='function')window.showErr('此商品已結單，無法加入購物車');return false;}if(x.type!=='預購'||x.category==='GK'){if(typeof window.showErr==='function')window.showErr('此商品不適用一般購物車');return false;}qty=Math.max(1,Math.floor(Number(qty||1)));if(x.availableStock!==null&&x.availableStock!==undefined&&qty>Number(x.availableStock)){if(typeof window.showErr==='function')window.showErr('目前可購買數量不足');return false;}var unit=Number(v?v.price:x.price||0),key=x.id+'|'+(v?String(v.name):'');var old=cart.find(function(it){return it.key===key;});if(old)old.qty=Math.min(99,Number(old.qty||0)+qty);else cart.push({key:key,productId:x.id,name:x.name,variantName:v?String(v.name):'',unitPrice:unit,qty:qty,imageUrl:x.thumbUrl||x.imageUrl||'',availableStock:x.availableStock===null?null:Number(x.availableStock)});saveCart();toast('已加入購物車');return true;}
-  function decorateOrderModal(){var submit=$('orderSubmit'),actions=submit&&submit.parentNode;if(!submit||!actions)return;var btn=$('cartAddBtnV27136');if(!btn){btn=document.createElement('button');btn.id='cartAddBtnV27136';btn.type='button';btn.className='submit cartAddBtnV27136';btn.textContent='🛒 加入購物車';btn.onclick=addActiveProduct;actions.insertBefore(btn,submit);}var x=window.ACTIVE_PRODUCT,normal=!!(x&&x.type==='預購'&&!x.isClosed&&x.category!=='GK');btn.style.display=normal?'':'none';submit.style.display=normal?'none':'';['orderPaymentPlanFieldV271211','orderNameField','orderPhoneField','orderLineField','orderLast5Field','orderPaidField','orderCouponField','purchaseBankBox','purchaseNotice'].forEach(function(id){setModalFieldV27139(id,normal);});var note=$('orderNote');if(note&&note.closest){var nf=note.closest('.field');if(nf)nf.style.display=normal?'none':'';}var total=$('purchaseTotalBox');if(total)total.style.display=normal?'none':'';var notice=$('cartModalNoticeV27139');if(!notice&&normal){notice=document.createElement('div');notice.id='cartModalNoticeV27139';notice.className='cartModalNoticeV27139';notice.textContent='此商品先加入購物車。姓名、手機、LINE 與付款資料會在購物車最後結帳時一次填寫。';var body=$('orderError')&&$('orderError').parentNode;if(body)body.insertBefore(notice,$('orderError'));}if(notice)notice.style.display=normal?'':'none';}
+  function decorateOrderModal(){var submit=$('orderSubmit'),actions=submit&&submit.parentNode;if(!submit||!actions)return;var btn=$('cartAddBtnV27136');if(!btn){btn=document.createElement('button');btn.id='cartAddBtnV27136';btn.type='button';btn.className='submit cartAddBtnV27136';btn.textContent='🛒 加入購物車';btn.onclick=addActiveProduct;actions.insertBefore(btn,submit);}var x=window.ACTIVE_PRODUCT,cat=(x&&typeof window.categoryOf==='function')?window.categoryOf(x):String((x&&x.category)||''),normal=!!(x&&x.type==='預購'&&!x.isClosed&&cat!=='GK');btn.style.display=normal?'':'none';submit.style.display=normal?'none':'';['orderPaymentPlanFieldV271211','orderNameField','orderPhoneField','orderLineField','orderLast5Field','orderPaidField','orderCouponField','purchaseBankBox','purchaseNotice'].forEach(function(id){setModalFieldV27139(id,normal);});var note=$('orderNote');if(note&&note.closest){var nf=note.closest('.field');if(nf)nf.style.display=normal?'none':'';}var total=$('purchaseTotalBox');if(total)total.style.display=normal?'none':'';var notice=$('cartModalNoticeV27139');if(!notice&&normal){notice=document.createElement('div');notice.id='cartModalNoticeV27139';notice.className='cartModalNoticeV27139';notice.textContent='此商品先加入購物車。姓名、手機、LINE 與付款資料會在購物車最後結帳時一次填寫。';var body=$('orderError')&&$('orderError').parentNode;if(body)body.insertBefore(notice,$('orderError'));}if(notice)notice.style.display=normal?'':'none';}
 
-  function addActiveProduct(){var x=window.ACTIVE_PRODUCT;if(!x||x.type!=='預購'||x.isClosed||x.category==='GK')return;var vars=Array.isArray(x.variants)?x.variants:[],v=typeof window.selectedVariantV276==='function'?window.selectedVariantV276():null;if(vars.length&&!v){if(typeof window.showErr==='function')window.showErr('請先選擇商品規格');return;}var qty=Math.max(1,Math.floor(Number(($('orderQty')||{}).value||1)));if(pushCartItemV27139(x,v,qty)&&typeof window.closeOrder==='function')window.closeOrder();}
+  function addActiveProduct(){var x=window.ACTIVE_PRODUCT,cat=(x&&typeof window.categoryOf==='function')?window.categoryOf(x):String((x&&x.category)||'');if(!x||x.type!=='預購'||x.isClosed||cat==='GK')return;var vars=Array.isArray(x.variants)?x.variants:[],v=typeof window.selectedVariantV276==='function'?window.selectedVariantV276():null;if(vars.length&&!v){if(typeof window.showErr==='function')window.showErr('請先選擇商品規格');return;}var qty=Math.max(1,Math.floor(Number(($('orderQty')||{}).value||1)));if(pushCartItemV27139(x,v,qty)&&typeof window.closeOrder==='function')window.closeOrder();}
 
   function directAddFromCardV27139(id){var x=typeof window.findProduct==='function'?window.findProduct(id):null;if(!x||x.type!=='預購'||x.isClosed||x.category==='GK'){if(typeof window.openOrder==='function')window.openOrder(id);return;}var vars=Array.isArray(x.variants)?x.variants:[];if(vars.length){if(typeof window.openOrder==='function')window.openOrder(id);return;}pushCartItemV27139(x,null,1);}
   function decorateProductCardsV27139(){document.querySelectorAll('button.buy.pre[data-open]').forEach(function(b){var id=b.getAttribute('data-open')||'',x=typeof window.findProduct==='function'?window.findProduct(id):null;if(!x||x.type!=='預購'||x.isClosed||x.category==='GK')return;b.classList.add('cartDirectV27139');b.textContent=(Array.isArray(x.variants)&&x.variants.length)?'選規格加入購物車':'🛒 加入購物車';b.onclick=function(e){if(e){e.preventDefault();e.stopPropagation();}directAddFromCardV27139(id);};});}
@@ -272,7 +272,30 @@
       .getPublicShopOrdersByPhoneV27136(phone);
   }
 
-  function watchOrderModal(){var m=$('orderMask');if(!m)return;var obs=new MutationObserver(function(){if(!m.classList.contains('hidden'))setTimeout(decorateOrderModal,0);});obs.observe(m,{attributes:true,attributeFilter:['class']});}
-  function init(){injectStyle();injectLookupImageStyleV27235();injectHeader();injectModals();loadCart();watchOrderModal();watchProductCardsV27139();document.addEventListener('keydown',function(e){if(e.key==='Escape'){if($('cartMaskV27136')&&!$('cartMaskV27136').classList.contains('hidden'))closeCart();if($('lookupMaskV27136')&&!$('lookupMaskV27136').classList.contains('hidden'))closeLookup();}});}
+  function patchOpenOrderV27271(){
+    if(window.__WANYE_CART_OPEN_ORDER_PATCH_V27271)return;
+    var original=window.openOrder;
+    if(typeof original!=='function')return;
+    window.__WANYE_CART_OPEN_ORDER_PATCH_V27271=1;
+    window.openOrder=function(id){
+      var out=original.apply(this,arguments);
+      setTimeout(function(){
+        var m=$('orderMask');
+        if(m&&!m.classList.contains('hidden'))decorateOrderModal();
+      },0);
+      return out;
+    };
+  }
+  function watchOrderModal(){
+    var m=$('orderMask');if(!m)return;
+    var obs=new MutationObserver(function(){
+      if(!m.classList.contains('hidden'))setTimeout(decorateOrderModal,0);
+    });
+    obs.observe(m,{attributes:true,attributeFilter:['class']});
+    // v27.27.1｜深連結可能在購物車外掛載入前就已經打開商品視窗。
+    // 初始化時若視窗已開，立即補做購物車裝飾，不再等下一次 class 變更。
+    if(!m.classList.contains('hidden'))setTimeout(decorateOrderModal,0);
+  }
+  function init(){injectStyle();injectLookupImageStyleV27235();injectHeader();injectModals();loadCart();patchOpenOrderV27271();watchOrderModal();watchProductCardsV27139();document.addEventListener('keydown',function(e){if(e.key==='Escape'){if($('cartMaskV27136')&&!$('cartMaskV27136').classList.contains('hidden'))closeCart();if($('lookupMaskV27136')&&!$('lookupMaskV27136').classList.contains('hidden'))closeLookup();}});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
