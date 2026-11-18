@@ -63,7 +63,7 @@
   </button>
   <button id="japanModeBtnV27270" class="onlineModeBtnV27270" type="button" onclick="switchOnlineKujiModeV27270('japan')">
     <span class="modeIconV27275">🇯🇵</span>
-    <span class="modeCopyV27275"><strong>日本代抽預約</strong><small>日本現地／線上代抽｜每套限 20 抽</small></span>
+    <span class="modeCopyV27275"><strong>日本官方線上代抽預約</strong><small>日本現地／線上代抽｜每套限 20 抽</small></span>
   </button>
 </div>
 <div id="regularModeContentV27270">
@@ -80,12 +80,12 @@
 <section id="statusBox" class="section hidden"><div class="statusTop"><div><h2 id="statusName"></h2><div id="statusId" class="muted"></div></div><span id="statusBadge" class="statusBadge"></span></div><div id="statusSteps" class="steps"></div><div id="statusMain"></div></section>
 </div>
 <section id="japanProxyPublicV27270" class="section hidden japanProxyPublicV27270">
-  <div class="sectionHead"><div><h2>🇯🇵 日本代抽預約</h2><div class="muted">每套最多預約 20 抽。先登記條件與基本資料，不需要先付款。</div></div><button class="btn secondary" type="button" onclick="loadJapanProxyPublicV27270(true)">更新名額</button></div>
+  <div class="sectionHead"><div><h2>🇯🇵 日本官方線上代抽預約</h2><div class="muted">每套最多預約 20 抽。先登記條件與基本資料，不需要先付款。</div></div><button class="btn secondary" type="button" onclick="loadJapanProxyPublicV27270(true)">更新名額</button></div>
   <div class="japanProxyNoticeV27270"><b>預約方式</b><span>選擇想預約的抽數，再勾選 A～G「哪些賞還在才要抽」。只要你勾選的任一賞仍在，就依你的預約抽數代抽；實際執行與後續付款由頑夜通知。</span></div>
   <div id="japanProxyPublicGridV27270" class="japanProxyPublicGridV27270"><div class="empty">讀取中…</div></div>
 </section>
 <section id="japanProxyFormV27270" class="section hidden japanProxyFormV27270">
-  <div class="sectionHead"><div><h2 id="japanProxyFormTitleV27270">預約日本代抽</h2><div id="japanProxyFormMetaV27270" class="muted"></div></div><button class="btn secondary" type="button" onclick="closeJapanProxyFormV27270()">關閉</button></div>
+  <div class="sectionHead"><div><h2 id="japanProxyFormTitleV27270">預約日本官方線上代抽</h2><div id="japanProxyFormMetaV27270" class="muted"></div></div><button class="btn secondary" type="button" onclick="closeJapanProxyFormV27270()">關閉</button></div>
   <input id="japanProxySettingIdV27270" type="hidden">
   <div class="japanProxyFormGridV27270">
     <div><label>預約抽數 *</label><input id="japanProxyDrawCountV27270" type="number" min="1" value="1" inputmode="numeric" oninput="updateJapanProxyEstimateV27270()"></div>
@@ -101,12 +101,12 @@
   <div id="japanProxyMsgV27270"></div>
 </section>
 <section id="japanProxyTrackV27270" class="section hidden japanProxyTrackV27270">
-  <div class="trackCopy"><h2>查詢日本代抽預約</h2><div class="muted">輸入預約成功後取得的查詢碼</div></div>
+  <div class="trackCopy"><h2>查詢日本官方線上代抽預約</h2><div class="muted">輸入預約成功後取得的查詢碼</div></div>
   <div class="trackControls"><input id="japanProxyTrackTokenV27270" placeholder="預約查詢碼"><button class="btn" type="button" onclick="trackJapanProxyReservationV27270()">查詢</button></div>
   <div id="japanProxyTrackResultV27270" style="margin-top:10px"></div>
 </section>
 </main>
-<script src="./config.js?v=272710"></script><script src="./gas-bridge.js?v=272710"></script><script src="./site-performance-v27.24.0.js?v=272710"></script>
+<script src="./config.js?v=272711"></script><script src="./gas-bridge.js?v=272711"></script><script src="./site-performance-v27.24.0.js?v=272711"></script>
 <script>
 var SETS=[],ACTIVE_SET=null,ACTIVE_DRAW=0,SELECTED=[],CURRENT_TOKEN='',POLL=null,BOARD_POLL=null,SET_LOADING=false,CACHE_KEY='wanye-online-kuji-27262',CACHE_MS=24*60*60*1000,PUBLIC_REVISION='';
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -237,7 +237,7 @@ function simpleJapanProxyTimeV272710(v){
 }
 function renderJapanProxyPublicV27270(){
   var g=document.getElementById('japanProxyPublicGridV27270');if(!g)return;
-  if(!JAPAN_PROXY_SETS_V27270.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">目前沒有開放中的日本線上代抽預約。</div>';return;}
+  if(!JAPAN_PROXY_SETS_V27270.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">目前沒有開放中的日本官方線上代抽預約。</div>';return;}
   g.innerHTML=JAPAN_PROXY_SETS_V27270.map(function(x){
     var img=x.imageUrl?'<img src="'+esc(x.imageUrl)+'" alt="'+esc(x.name||'')+'" loading="lazy" decoding="async">':'<div class="muted">暫無圖片</div>';
     var btn=x.full?'<div class="japanProxyFullV27270">已滿 20 / 20 抽</div>':'<button class="btn" style="width:100%" type="button" onclick="openJapanProxyFormV27270(\''+esc(x.id)+'\')">我要預約</button>';
@@ -256,14 +256,14 @@ function loadJapanProxyPublicV27270(force){
     JAPAN_PROXY_LOADING_V27270=false;
     var btn=document.getElementById('japanModeBtnV27270');if(btn)btn.classList.remove('hidden');
     var g=document.getElementById('japanProxyPublicGridV27270');
-    if(g)g.innerHTML='<div class="empty" style="grid-column:1/-1"><b>日本線上代抽後端尚未啟用</b><br><span style="font-size:10px">前台已完成，但 Apps Script 還沒部署包含日本代抽 API 的版本。</span></div>';
+    if(g)g.innerHTML='<div class="empty" style="grid-column:1/-1"><b>日本官方線上代抽後端尚未啟用</b><br><span style="font-size:10px">前台已完成，但 Apps Script 還沒部署包含日本代抽 API 的版本。</span></div>';
   }).getPublicJapanOnlineProxyListV27276();
 }
 function openJapanProxyFormV27270(id){
   var x=JAPAN_PROXY_SETS_V27270.find(function(s){return s.id===id});if(!x||x.full)return;
   JAPAN_PROXY_ACTIVE_V27270=x;
   document.getElementById('japanProxySettingIdV27270').value=x.id;
-  document.getElementById('japanProxyFormTitleV27270').textContent=x.name||'預約日本代抽';
+  document.getElementById('japanProxyFormTitleV27270').textContent=x.name||'預約日本官方線上代抽';
   document.getElementById('japanProxyFormMetaV27270').textContent='¥'+Number(x.yenPrice||0).toLocaleString('zh-TW')+' × 0.27 = '+money(x.price)+'/抽｜首抽 '+money(x.firstDrawPrice||0)+'｜目前剩 '+Number(x.remaining||0)+' 抽可預約';
   var dc=document.getElementById('japanProxyDrawCountV27270');dc.max=Math.max(1,Number(x.remaining||1));dc.value=1;
   document.getElementById('japanProxyGradeChecksV27270').innerHTML=(x.allowedGrades||[]).map(function(g){return '<label><input type="checkbox" value="'+esc(g)+'">'+esc(g)+'賞</label>';}).join('');
@@ -306,7 +306,7 @@ function trackJapanProxyReservationV27270(){
   var token=String(document.getElementById('japanProxyTrackTokenV27270').value||'').trim().toUpperCase();if(!token)return alert('請輸入查詢碼。');
   google.script.run.withSuccessHandler(function(r){
     var x=r&&r.reservation,box=document.getElementById('japanProxyTrackResultV27270');if(!x)return;
-    box.innerHTML='<div class="japanProxyResultV27270"><b>'+esc(x.settingName||'日本線上代抽')+'</b><br>狀態：'+esc(x.status||'')+'<br>預約：'+Number(x.drawCount||0)+' 抽｜條件 '+esc((x.grades||[]).join('、'))+'<br>預估金額：'+money(x.estimatedTotal||0)+((x.displayTime||simpleJapanProxyTimeV272710(x.expectedDrawAt))?'<br>開抽時間：'+esc(x.displayTime||simpleJapanProxyTimeV272710(x.expectedDrawAt)):'')+'<br>🚚 日本到台灣運費另計</div>';
+    box.innerHTML='<div class="japanProxyResultV27270"><b>'+esc(x.settingName||'日本官方線上代抽')+'</b><br>狀態：'+esc(x.status||'')+'<br>預約：'+Number(x.drawCount||0)+' 抽｜條件 '+esc((x.grades||[]).join('、'))+'<br>預估金額：'+money(x.estimatedTotal||0)+((x.displayTime||simpleJapanProxyTimeV272710(x.expectedDrawAt))?'<br>開抽時間：'+esc(x.displayTime||simpleJapanProxyTimeV272710(x.expectedDrawAt)):'')+'<br>🚚 日本到台灣運費另計</div>';
   }).withFailureHandler(function(e){document.getElementById('japanProxyTrackResultV27270').innerHTML='<div class="message bad">'+esc((e&&e.message)||'查詢失敗')+'</div>';}).getPublicJapanOnlineProxyReservationV27276(token);
 }
 
