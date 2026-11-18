@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>頑夜 TOY｜線上商城</title>
-  <meta name="wanye-shop-version" content="27.25.3-static-bootstrap">
+  <meta name="wanye-shop-version" content="27.26.0-publish-sync">
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="preconnect" href="https://drive.google.com">
@@ -886,9 +886,9 @@
   </div>
 </div>
 
-<script src="config.js?v=27253"></script>
-<script src="gas-bridge.js?v=27253"></script>
-<script src="./site-performance-v27.24.0.js?v=27253"></script>
+<script src="config.js?v=27260"></script>
+<script src="gas-bridge.js?v=27260"></script>
+<script src="./site-performance-v27.24.0.js?v=27260"></script>
 <script>
   var SHOP_BOOT_LOADING_DONE_V27251=false;
   var SHOP_BOOT_SLOW_TIMER_V27251=null;
@@ -941,7 +941,7 @@
   var SHOP_TOTAL=0;
   var SHOP_HAS_MORE=false;
   var SHOP_LOADING=false;
-  var SHOP_PAGE_SIZE=24;
+  var SHOP_PAGE_SIZE=120;
   var SEARCH_TIMER=null;
   var FIRST_LOAD=true;
   var CLOSED_AUTO_LOADS=0;
@@ -2167,8 +2167,8 @@
           FIRST_LOAD=false;
           openHashProduct();
 
-          // v27.25.3｜完整 449 筆已由 GitHub 快照提供，不再首屏後立刻掃整張 Sheet。
-          // 最新 24 筆由這次 API 補入；完整同步留給後續需要時再做。
+          // v27.25.3｜完整商品已由 GitHub 快照提供，不再首屏後立刻掃整張 Sheet。
+          // 最新 120 筆由這次 API 補入；完整同步留給後續需要時再做。
         }
       })
       .withFailureHandler(function(e){
@@ -2629,7 +2629,7 @@
 
 
   function loadStaticShopBootstrapV27253_(){
-    return fetch('./shop-bootstrap.json?v=27253',{
+    return fetch('./shop-bootstrap.json?v=27260',{
       method:'GET',
       cache:'force-cache',
       credentials:'same-origin'
@@ -2689,7 +2689,7 @@
   }
 
   loadStaticShopBootstrapV27253_().then(function(){
-    // 首頁已可瀏覽後，再背景抓最新 24 筆，確保剛上架商品能補進來。
+    // 首頁已可瀏覽後，再背景抓最新 120 筆，確保剛上架商品能補進來。
     setTimeout(function(){
       if(!SHOP_LOADING)loadShop(true);
     },1200);
@@ -2703,9 +2703,9 @@
   },2200);
 </script>
 
-<script src="shop-enhancements-v27.23.5.js?v=27253"></script>
-<script src="shop-ui-v27.15.8.js?v=27253"></script>
-  <script src="shop-sections-v27.23.1.js?v=27253"></script>
-  <script src="./visitor-stats-v27.17.1.js?v=27253" data-page="shop"></script>
+<script src="shop-enhancements-v27.23.5.js?v=27260"></script>
+<script src="shop-ui-v27.15.8.js?v=27260"></script>
+  <script src="shop-sections-v27.23.1.js?v=27260"></script>
+  <script src="./visitor-stats-v27.17.1.js?v=27260" data-page="shop"></script>
 </body>
 </html>
