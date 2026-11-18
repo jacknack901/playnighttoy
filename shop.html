@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>頑夜 TOY｜線上商城</title>
-  <meta name="wanye-shop-version" content="27.25.2-home-hydrate">
+  <meta name="wanye-shop-version" content="27.25.3-static-bootstrap">
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="preconnect" href="https://drive.google.com">
@@ -633,8 +633,8 @@
       <div class="shopBootDotV27251"></div>
       <div class="shopBootMoonV27251">🌙</div>
     </div>
-    <div class="shopBootTitleV27251">商品讀取中</div>
-    <div id="shopBootTextV27251" class="shopBootTextV27251">請稍等，正在同步最新商品資料…</div>
+    <div class="shopBootTitleV27251">商城準備中</div>
+    <div id="shopBootTextV27251" class="shopBootTextV27251">正在載入商品，馬上就好…</div>
     <div class="shopBootBarV27251" aria-hidden="true"></div>
     <div class="shopBootHintV27251">頑夜 TOY｜PLAY NIGHT TOY</div>
   </div>
@@ -886,9 +886,9 @@
   </div>
 </div>
 
-<script src="config.js?v=27252"></script>
-<script src="gas-bridge.js?v=27252"></script>
-<script src="./site-performance-v27.24.0.js?v=27252"></script>
+<script src="config.js?v=27253"></script>
+<script src="gas-bridge.js?v=27253"></script>
+<script src="./site-performance-v27.24.0.js?v=27253"></script>
 <script>
   var SHOP_BOOT_LOADING_DONE_V27251=false;
   var SHOP_BOOT_SLOW_TIMER_V27251=null;
@@ -913,11 +913,12 @@
     },320);
   }
 
+  // v27.25.3｜整頁遮罩最多停留 800ms，絕不因後端慢而卡住客人。
   SHOP_BOOT_SLOW_TIMER_V27251=setTimeout(function(){
     if(!SHOP_BOOT_LOADING_DONE_V27251){
-      updateShopBootLoadingV27251_('商品較多，仍在同步最新資料，請再稍等一下…');
+      hideShopBootLoadingV27251_();
     }
-  },5500);
+  },800);
 
   var SHOP_DATA={
     items:[],
@@ -2166,10 +2167,8 @@
           FIRST_LOAD=false;
           openHashProduct();
 
-          // 首屏完成後立即準備分類資料，不再等 1.1 秒 idle。
-          setTimeout(function(){
-            if(!ALL_PRODUCTS_LOADING&&!ALL_PRODUCTS_REFRESHED_THIS_PAGE)loadIpCatalog();
-          },0);
+          // v27.25.3｜完整 449 筆已由 GitHub 快照提供，不再首屏後立刻掃整張 Sheet。
+          // 最新 24 筆由這次 API 補入；完整同步留給後續需要時再做。
         }
       })
       .withFailureHandler(function(e){
@@ -2628,6 +2627,35 @@
     io.observe(document.getElementById('loadMoreWrap'));
   }
 
+
+  function loadStaticShopBootstrapV27253_(){
+    return fetch('./shop-bootstrap.json?v=27253',{
+      method:'GET',
+      cache:'force-cache',
+      credentials:'same-origin'
+    }).then(function(res){
+      if(!res.ok)throw new Error('bootstrap '+res.status);
+      return res.json();
+    }).then(function(data){
+      var items=data&&Array.isArray(data.items)?data.items:[];
+      if(!items.length)throw new Error('bootstrap empty');
+
+      ALL_PRODUCTS_CACHE=items;
+      ALL_PRODUCTS_READY=true;
+      ALL_PRODUCTS_REFRESHED_THIS_PAGE=true;
+      SHOP_LAST_FULL_SYNC_V27250=Date.now();
+      mergeKnownProductsV27241_(items);
+      hydrateHomeSectionsV27252_(items);
+      applyClientFilters();
+      hideShopBootLoadingV27251_();
+      return items.length;
+    }).catch(function(){
+      // 靜態快照失敗也不阻塞畫面，交給原本 GAS 背景更新。
+      hideShopBootLoadingV27251_();
+      return 0;
+    });
+  }
+
   function refreshLatestShopV27250_(){
     if(document.hidden)return;
     if(ALL_PRODUCTS_LOADING)return;
@@ -2649,22 +2677,35 @@
   renderIpChips();
   renderIpModal();
 
-  // v27.25.0：先用本機商品庫秒開，但最新 API 會立即覆蓋舊資料。
+  // v27.25.3｜最快路徑：
+  // 1. 有本機快取就立刻顯示。
+  // 2. 同時讀 GitHub 靜態商品快照；第一次來訪也能很快看到完整商城。
+  // 3. Apps Script 只做背景更新，不再卡住首屏。
   var restoredV27242=restoreAllProductsCache();
   if(restoredV27242){
     hydrateHomeSectionsV27252_(ALL_PRODUCTS_CACHE);
     applyClientFilters();
+    hideShopBootLoadingV27251_();
   }
 
-  // 首屏仍向後端取得最新資料，但不阻塞分類切換。
-  loadShop(true);
+  loadStaticShopBootstrapV27253_().then(function(){
+    // 首頁已可瀏覽後，再背景抓最新 24 筆，確保剛上架商品能補進來。
+    setTimeout(function(){
+      if(!SHOP_LOADING)loadShop(true);
+    },1200);
+  });
 
-  // v27.25.2｜近期推薦已在第一批商品回來時同步完成，不再使用 idle 延遲。
+  // 若快照網路異常，2.2 秒後仍會啟動原 GAS 首頁讀取做保險。
+  setTimeout(function(){
+    if(!SHOP_DATA.items.length && !SHOP_LOADING){
+      loadShop(true);
+    }
+  },2200);
 </script>
 
-<script src="shop-enhancements-v27.23.5.js?v=27252"></script>
-<script src="shop-ui-v27.15.8.js?v=27252"></script>
-  <script src="shop-sections-v27.23.1.js?v=27252"></script>
-  <script src="./visitor-stats-v27.17.1.js?v=27252" data-page="shop"></script>
+<script src="shop-enhancements-v27.23.5.js?v=27253"></script>
+<script src="shop-ui-v27.15.8.js?v=27253"></script>
+  <script src="shop-sections-v27.23.1.js?v=27253"></script>
+  <script src="./visitor-stats-v27.17.1.js?v=27253" data-page="shop"></script>
 </body>
 </html>
