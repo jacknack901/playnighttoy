@@ -49,7 +49,7 @@
 <section class="section trackSection"><div class="trackCopy"><h2>已有訂單？</h2><div class="muted">輸入查詢碼查看付款與開獎進度</div></div><div class="trackControls"><input id="trackToken" placeholder="輸入訂單查詢碼"><button class="btn" onclick="trackOrder()">查詢進度</button></div></section>
 <section id="statusBox" class="section hidden"><div class="statusTop"><div><h2 id="statusName"></h2><div id="statusId" class="muted"></div></div><span id="statusBadge" class="statusBadge"></span></div><div id="statusSteps" class="steps"></div><div id="statusMain"></div></section>
 </main>
-<script src="./config.js?v=27262"></script><script src="./gas-bridge.js?v=27262"></script><script src="./site-performance-v27.24.0.js?v=27262"></script>
+<script src="./config.js?v=27263"></script><script src="./gas-bridge.js?v=27263"></script><script src="./site-performance-v27.24.0.js?v=27263"></script>
 <script>
 var SETS=[],ACTIVE_SET=null,ACTIVE_DRAW=0,SELECTED=[],CURRENT_TOKEN='',POLL=null,BOARD_POLL=null,SET_LOADING=false,CACHE_KEY='wanye-online-kuji-27262',CACHE_MS=24*60*60*1000,PUBLIC_REVISION='';
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -93,6 +93,31 @@ function loadSets(force,silent){
     if(btn&&!silent){btn.disabled=false;btn.textContent='更新籤況';}
   }).getPublicOnlineKujiListV27180();
 }
+function loadOnlineKujiStaticV27263_(){
+  return fetch('./online-kuji-bootstrap.json?v=27263',{method:'GET',cache:'no-store',credentials:'same-origin'})
+    .then(function(res){if(!res.ok)throw new Error('bootstrap '+res.status);return res.json();})
+    .then(function(data){
+      var items=data&&Array.isArray(data.items)?data.items:[];
+      if(!items.length)throw new Error('bootstrap empty');
+      SETS=items;
+      PUBLIC_REVISION=String(data.revision||PUBLIC_REVISION||'');
+      saveCache();
+      renderSets();
+      return items.length;
+    })
+    .catch(function(){return 0;});
+}
+function primeOnlineKujiV27263_(){
+  var cached=readCache();
+  if(cached&&cached.length){
+    SETS=cached;
+    renderSets();
+  }
+  loadOnlineKujiStaticV27263_().then(function(count){
+    // GitHub 快照只負責秒開；真正送單仍由 Apps Script 鎖內重新驗證。
+    setTimeout(function(){if(!SET_LOADING)loadSets(true,true);},count?900:120);
+  });
+}
 function prizeSummary(x,compact){var arr=(x.prizes||[]),show=compact?arr.slice(0,4):arr,ps=show.map(function(p){return '<div class="prize"><div class="pimg">'+imgTag(p,'',p.grade)+'</div><div class="pgrade '+gradeToneClass(p.grade)+'">'+esc(p.grade||'獎賞')+'</div><div class="pname">'+esc(p.name||'')+'</div><div class="qty">剩 '+Number(p.remainingQty||0)+' / '+Number(p.originalQty||0)+'</div></div>';}).join('');var more=compact&&arr.length>show.length?'<div class="muted" style="grid-column:1/-1;text-align:center;padding:4px 0">另有 '+Number(arr.length-show.length)+' 種獎賞，點進去查看完整內容</div>':'';return '<div class="prizeBox '+(compact?'compact':'')+'"><div class="prizeHead"><b>'+(compact?'主要獎賞':'獎賞一覽')+'</b><span>'+Number(arr.length)+' 種</span></div><div class="prizeGrid">'+ps+more+'</div></div>';}
 function publicDesc(x){var d=String(x&&x.description||'').trim();if(!d)return '';if(/付款(前|確認後)|管理員|代抽|同步結果|開放選號/.test(d))return '';return d;}
 function renderSets(){var g=document.getElementById('setGrid');if(!SETS.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">目前沒有開放中的線上抽賞。</div>';return;}g.innerHTML=SETS.map(function(x){var canView=!!x.canViewBoard||!!x.canOrder;var desc=publicDesc(x);var status=x.pauseReason?'<div class="stateLine"><span class="pill warn">'+esc(x.pauseReason)+'</span></div>':'';var label=x.canOrder?'選號開抽':(canView?'查看籤盤':'暫停開放');return '<article class="card"><div class="cover">'+imgTag(x,'coverMain',x.name)+'</div><div class="body"><div class="name">'+esc(x.name)+'</div><div class="stats"><div class="stat"><b>'+money(x.price)+'</b><span>每抽</span></div><div class="stat"><b>'+Number(x.remaining||0)+'</b><span>可選號碼</span></div><div class="stat"><b>'+Number(x.openedCount||0)+'</b><span>已開獎</span></div></div>'+status+'<div class="arrivalLine"><span>📦</span><div><div class="arrivalLabel">預計到貨</div><strong>'+esc(x.arrivalText||'待公告')+'</strong></div></div>'+prizeSummary(x,true)+(desc?'<div class="desc">'+esc(desc)+'</div>':'')+'<div class="cardActions"><button class="btn" '+(!canView?'disabled':'')+' onclick="openPurchase(\''+esc(x.id)+'\')">'+label+'</button></div></div></article>';}).join('');}
@@ -105,7 +130,7 @@ function checkBoardRevision(){
     loadSets(true,true);
   }).withFailureHandler(function(){}).getPublicOnlineKujiOrderV27180('__REVISION__');
 }
-function startBoardAutoSync(){if(BOARD_POLL)clearInterval(BOARD_POLL);BOARD_POLL=setInterval(checkBoardRevision,4000);}
+function startBoardAutoSync(){if(BOARD_POLL)clearInterval(BOARD_POLL);BOARD_POLL=setInterval(checkBoardRevision,8000);}
 function stopBoardAutoSync(){if(BOARD_POLL){clearInterval(BOARD_POLL);BOARD_POLL=null;}}
 function openPurchase(id){var s=SETS.find(function(x){return x.id===id;});if(!s||!(s.canViewBoard||s.canOrder))return;ACTIVE_SET=s;ACTIVE_DRAW=(s.drawOptions||[])[0]||0;SELECTED=[];setMsg('reqMsg',s.canOrder?'':(s.orderBlockedReason||s.pauseReason||'目前只能查看籤盤，尚未開放送單。'),false);renderPurchase();document.getElementById('purchaseBox').classList.remove('hidden');document.getElementById('purchaseBox').scrollIntoView({behavior:'smooth',block:'start'});startBoardAutoSync();setTimeout(checkBoardRevision,250);}
 function closePurchase(){document.getElementById('purchaseBox').classList.add('hidden');ACTIVE_SET=null;ACTIVE_DRAW=0;SELECTED=[];stopBoardAutoSync();}
@@ -137,6 +162,6 @@ function renderOrder(o){if(!o)return;document.getElementById('statusBox').classL
 function trackOrder(){var t=String(document.getElementById('trackToken').value||CURRENT_TOKEN||'').trim().toUpperCase();if(!t)return alert('請輸入查詢碼。');CURRENT_TOKEN=t;document.getElementById('trackToken').value=t;google.script.run.withSuccessHandler(function(r){renderOrder(r&&r.order);startPoll();}).withFailureHandler(function(e){alert((e&&e.message)||'查詢失敗');}).getPublicOnlineKujiOrderV27180(t);}
 function reportPayment(){google.script.run.withSuccessHandler(function(){trackOrder();}).withFailureHandler(function(e){alert((e&&e.message)||'送出失敗');}).submitOnlineKujiPaymentV27180(CURRENT_TOKEN,{last5:document.getElementById('payLast5').value,amount:document.getElementById('payAmount').value});}
 function startPoll(){if(POLL)clearInterval(POLL);POLL=setInterval(function(){if(CURRENT_TOKEN)google.script.run.withSuccessHandler(function(r){renderOrder(r&&r.order);}).withFailureHandler(function(){}).getPublicOnlineKujiOrderV27180(CURRENT_TOKEN);},12000);}
-(function(){loadSets(false,false);setInterval(function(){if(!ACTIVE_SET&&document.visibilityState!=='hidden')loadSets(true,true);},30000);try{var t=new URL(location.href).searchParams.get('order');if(t){CURRENT_TOKEN=t.toUpperCase();document.getElementById('trackToken').value=CURRENT_TOKEN;trackOrder();}}catch(e){}})();
+(function(){primeOnlineKujiV27263_();setInterval(function(){if(!ACTIVE_SET&&document.visibilityState!=='hidden'&&!SET_LOADING)loadSets(true,true);},90000);document.addEventListener('visibilitychange',function(){if(!document.hidden&&!ACTIVE_SET&&!SET_LOADING)setTimeout(function(){loadSets(true,true);},500);});try{var t=new URL(location.href).searchParams.get('order');if(t){CURRENT_TOKEN=t.toUpperCase();document.getElementById('trackToken').value=CURRENT_TOKEN;trackOrder();}}catch(e){}})();
 </script>
 </body></html>
