@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  var VER='27.27.1', CART_KEY='wanye_shop_cart_v27136', PROFILE_KEY='wanye_shop_profile_v27136';
+  var VER='27.27.2', CART_KEY='wanye_shop_cart_v27136', PROFILE_KEY='wanye_shop_profile_v27136';
   var cart=[],cartValidatingV271315=false,cartValidateSeqV271315=0;
 
   function $(id){return document.getElementById(id);}
@@ -22,7 +22,7 @@
   .cartBodyV27136{padding:14px 16px 18px}.cartItemV27136{display:grid;grid-template-columns:72px 1fr auto;gap:11px;padding:11px 0;border-bottom:1px solid #32283d;align-items:center}.cartItemV27136 img{width:72px;height:72px;object-fit:cover;border-radius:12px;background:#0d0b12}.cartItemV27136.blockedV271315{opacity:.78;background:rgba(108,35,46,.18);border-radius:12px;padding-left:8px;padding-right:8px}.cartBlockedV271315{margin-top:7px;color:#ff91a5;font-size:12px;font-weight:900}.cartCheckV271315{margin:10px 0;padding:10px 12px;border:1px solid #5b486c;border-radius:10px;background:#241c2e;color:#dbcce6;font-size:12px}.cartCheckV271315.bad{border-color:#8c4352;background:#321a22;color:#ffb2c0}.cartItemNameV27136{font-weight:800;line-height:1.35}.cartSubV27136{font-size:12px;color:#b7a9c4;margin-top:5px}.cartQtyV27136{display:flex;align-items:center;gap:6px;margin-top:8px}.cartQtyV27136 button{width:30px;height:30px;border:1px solid #4a3b5a;background:#241d2d;color:#fff;border-radius:8px;cursor:pointer}.cartQtyV27136 input{width:54px!important;padding:7px!important;text-align:center}.cartRemoveV27136{border:0;background:transparent;color:#ff8aa4;cursor:pointer;font-weight:700}
   .cartSummaryV27136{margin-top:15px;padding:14px;border-radius:14px;background:#211a2b;border:1px solid #3a2e48}.cartSummaryRowV27136{display:flex;justify-content:space-between;gap:12px;margin:7px 0}.cartSummaryRowV27136.total{font-size:19px;font-weight:900;color:#ffd76b}.cartPlanV27136{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.cartPlanV27136 label{display:flex!important;align-items:center;gap:7px;margin:0!important;border:1px solid #443752;border-radius:10px;padding:10px;color:#f7f3ff!important;cursor:pointer}.cartPlanV27136 input{width:auto!important}
   .cartBankV27136{margin:12px 0;padding:12px;border:1px dashed #775b94;border-radius:12px;background:#100d16}.cartBankV27136 b{font-size:17px}.cartFormV27136{display:grid;grid-template-columns:1fr 1fr;gap:10px}.cartFormV27136 .full{grid-column:1/-1}.cartFormV27136 label{font-size:12px;color:#c5b6d1;margin:0 0 5px;display:block}.cartFormV27136 input,.cartFormV27136 textarea{width:100%;padding:11px 12px;border-radius:10px;border:1px solid #443752;background:#0e0b13;color:#fff}.cartFormV27136 textarea{min-height:70px;resize:vertical}.cartActionsV27136{display:flex;gap:9px;margin-top:14px}.cartActionsV27136 button{flex:1;border:0;border-radius:12px;padding:12px;font-weight:800;cursor:pointer}.cartPrimaryV27136{background:linear-gradient(135deg,#a865ff,#7839d2);color:#fff}.cartSecondaryV27136{background:#2a2234;color:#fff;border:1px solid #443752!important}.cartEmptyV27136{text-align:center;padding:34px 10px;color:#aa9ab8}
-  .cartAddBtnV27136{background:#2a2234!important;border:1px solid #6b4d88!important;color:#fff!important}.cartToastV27136{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);opacity:0;z-index:100000;background:#221a2b;color:#fff;padding:11px 16px;border:1px solid #5c4770;border-radius:999px;transition:.2s;pointer-events:none}.cartToastV27136.show{opacity:1;transform:translate(-50%,0)}
+  .cartAddBtnV27136{background:linear-gradient(135deg,#4d91e6,#6e7be8)!important;border:0!important;color:#fff!important;font-size:15px!important;font-weight:950!important;min-height:46px!important}.cartModalNoticeV27139{margin:10px 0;padding:12px 14px;border-radius:12px;background:#eef7ff;border:1px solid #cfe2f5;color:#456b91;font-size:12px;font-weight:850;line-height:1.6}.cartToastV27136{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);opacity:0;z-index:100000;background:#221a2b;color:#fff;padding:11px 16px;border:1px solid #5c4770;border-radius:999px;transition:.2s;pointer-events:none}.cartToastV27136.show{opacity:1;transform:translate(-50%,0)}
   .lookupInputRowV27136{display:flex;gap:8px}.lookupInputRowV27136 input{flex:1;padding:12px;border-radius:10px;border:1px solid #443752;background:#0e0b13;color:#fff}.lookupInputRowV27136 button{border:0;border-radius:10px;padding:0 16px;background:#8d55d8;color:#fff;font-weight:800;cursor:pointer}.lookupOrderV27136{margin-top:10px;padding:12px;border:1px solid #3c3049;border-radius:12px;background:#1e1826}.lookupOrderV27136 .oid{font-size:11px;color:#9e8ead;word-break:break-all}.lookupOrderV27136 .name{font-weight:800;margin:5px 0}.lookupStatusV27136{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.lookupStatusV27136 span{font-size:12px;border-radius:999px;padding:4px 8px;background:#30263b}.lookupNoticeV27136{font-size:12px;color:#a99bb8;margin:10px 0}.cartErrorV27136{margin-top:10px;color:#ff8da3;white-space:pre-wrap;font-size:13px}.cartOkV27136{margin-top:10px;color:#7ce1a6;white-space:pre-wrap;font-size:13px}
   @media(max-width:680px){.cartFormV27136{grid-template-columns:1fr}.cartFormV27136 .full{grid-column:auto}.cartItemV27136{grid-template-columns:62px 1fr}.cartItemV27136 img{width:62px;height:62px}.cartRemoveV27136{grid-column:2;justify-self:start}.head .cartHeadBtnV27136{padding:8px 9px;font-size:12px}.head{gap:6px!important}.brand span{display:none}.cartPanelV27136{max-height:95vh}.cartPlanV27136{grid-template-columns:1fr}}
   `;document.head.appendChild(s);}
@@ -35,8 +35,63 @@
   <div id="cartToastV27136" class="cartToastV27136"></div>`;while(wrap.firstChild)document.body.appendChild(wrap.firstChild);document.querySelector('[data-close-cart]').onclick=closeCart;document.querySelector('[data-close-lookup]').onclick=closeLookup;$('cartMaskV27136').addEventListener('click',function(e){if(e.target===this)closeCart();});$('lookupMaskV27136').addEventListener('click',function(e){if(e.target===this)closeLookup();});$('lookupGoV27136').onclick=lookupOrders;}
 
   function setModalFieldV27139(id,hidden){var el=$(id);if(el)el.style.display=hidden?'none':'';}
+  function setModalInputFieldV27272(id,hidden){
+    var el=$(id);if(!el)return;
+    var field=el.closest?el.closest('.field'):null;
+    if(field)field.style.display=hidden?'none':'';
+  }
   function pushCartItemV27139(x,v,qty){if(!x)return false;if(x.isClosed){if(typeof window.showErr==='function')window.showErr('此商品已結單，無法加入購物車');return false;}if(x.type!=='預購'||x.category==='GK'){if(typeof window.showErr==='function')window.showErr('此商品不適用一般購物車');return false;}qty=Math.max(1,Math.floor(Number(qty||1)));if(x.availableStock!==null&&x.availableStock!==undefined&&qty>Number(x.availableStock)){if(typeof window.showErr==='function')window.showErr('目前可購買數量不足');return false;}var unit=Number(v?v.price:x.price||0),key=x.id+'|'+(v?String(v.name):'');var old=cart.find(function(it){return it.key===key;});if(old)old.qty=Math.min(99,Number(old.qty||0)+qty);else cart.push({key:key,productId:x.id,name:x.name,variantName:v?String(v.name):'',unitPrice:unit,qty:qty,imageUrl:x.thumbUrl||x.imageUrl||'',availableStock:x.availableStock===null?null:Number(x.availableStock)});saveCart();toast('已加入購物車');return true;}
-  function decorateOrderModal(){var submit=$('orderSubmit'),actions=submit&&submit.parentNode;if(!submit||!actions)return;var btn=$('cartAddBtnV27136');if(!btn){btn=document.createElement('button');btn.id='cartAddBtnV27136';btn.type='button';btn.className='submit cartAddBtnV27136';btn.textContent='🛒 加入購物車';btn.onclick=addActiveProduct;actions.insertBefore(btn,submit);}var x=window.ACTIVE_PRODUCT;if(!x){var pid=String((($('modalProductId')||{}).value)||'');if(pid&&typeof window.findProduct==='function')x=window.findProduct(pid);}var cat=(x&&typeof window.categoryOf==='function')?window.categoryOf(x):String((x&&x.category)||''),normal=!!(x&&x.type==='預購'&&!x.isClosed&&cat!=='GK');btn.style.display=normal?'':'none';submit.style.display=normal?'none':'';['orderPaymentPlanFieldV271211','orderNameField','orderPhoneField','orderLineField','orderLast5Field','orderPaidField','orderCouponField','purchaseBankBox','purchaseNotice'].forEach(function(id){setModalFieldV27139(id,normal);});var note=$('orderNote');if(note&&note.closest){var nf=note.closest('.field');if(nf)nf.style.display=normal?'none':'';}var total=$('purchaseTotalBox');if(total)total.style.display=normal?'none':'';var notice=$('cartModalNoticeV27139');if(!notice&&normal){notice=document.createElement('div');notice.id='cartModalNoticeV27139';notice.className='cartModalNoticeV27139';notice.textContent='此商品先加入購物車。姓名、手機、LINE 與付款資料會在購物車最後結帳時一次填寫。';var body=$('orderError')&&$('orderError').parentNode;if(body)body.insertBefore(notice,$('orderError'));}if(notice)notice.style.display=normal?'':'none';}
+  function decorateOrderModal(){
+    var submit=$('orderSubmit'),actions=submit&&submit.parentNode;if(!submit||!actions)return;
+    var btn=$('cartAddBtnV27136');
+    if(!btn){
+      btn=document.createElement('button');
+      btn.id='cartAddBtnV27136';btn.type='button';btn.className='submit cartAddBtnV27136';
+      btn.textContent='🛒 加入購物車';btn.onclick=addActiveProduct;
+      actions.insertBefore(btn,submit);
+    }
+    var x=window.ACTIVE_PRODUCT;
+    if(!x){
+      var pid=String((($('modalProductId')||{}).value)||'');
+      if(pid&&typeof window.findProduct==='function')x=window.findProduct(pid);
+    }
+    var cat=(x&&typeof window.categoryOf==='function')?window.categoryOf(x):String((x&&x.category)||'');
+    var normal=!!(x&&x.type==='預購'&&!x.isClosed&&cat!=='GK');
+
+    btn.style.display=normal?'':'none';
+    submit.style.display=normal?'none':'';
+
+    // v27.27.2｜一般預購商品詳情只問「是否加入購物車」。
+    // 個資與付款資料全部留到購物車結帳才填。
+    ['orderName','orderPhone','orderLine','orderLast5','orderPaid','orderNote'].forEach(function(id){
+      setModalInputFieldV27272(id,normal);
+    });
+    ['orderPaymentPlanFieldV271211','orderCouponField','purchaseBankBox','purchaseNotice','inquiryNotice','closedInquiryNotice'].forEach(function(id){
+      if(normal)setModalFieldV27139(id,true);
+    });
+
+    var total=$('purchaseTotalBox');if(total)total.style.display=normal?'none':'';
+    var qtyField=$('orderQtyField');if(qtyField)qtyField.style.display=normal?'':'';
+    var err=$('orderError');if(err)err.classList.add('hidden');
+
+    var notice=$('cartModalNoticeV27139');
+    if(!notice){
+      notice=document.createElement('div');
+      notice.id='cartModalNoticeV27139';
+      notice.className='cartModalNoticeV27139';
+      var body=err&&err.parentNode;
+      if(body)body.insertBefore(notice,err);
+    }
+    if(notice){
+      notice.textContent='要把這個商品加入購物車嗎？資料與付款資訊會在購物車結帳時再填寫。';
+      notice.style.display=normal?'':'none';
+    }
+
+    // 非一般預購時，恢復原本表單欄位，交回舊流程處理。
+    if(!normal){
+      ['orderName','orderPhone','orderLine','orderNote'].forEach(function(id){setModalInputFieldV27272(id,false);});
+    }
+  }
 
   function addActiveProduct(){var x=window.ACTIVE_PRODUCT;if(!x){var pid=String((($('modalProductId')||{}).value)||'');if(pid&&typeof window.findProduct==='function')x=window.findProduct(pid);}var cat=(x&&typeof window.categoryOf==='function')?window.categoryOf(x):String((x&&x.category)||'');if(!x||x.type!=='預購'||x.isClosed||cat==='GK'){if(typeof window.showErr==='function')window.showErr('此商品目前無法加入購物車');return;}var vars=Array.isArray(x.variants)?x.variants:[],v=typeof window.selectedVariantV276==='function'?window.selectedVariantV276():null;if(vars.length&&!v){if(typeof window.showErr==='function')window.showErr('請先選擇商品規格');return;}var qty=Math.max(1,Math.floor(Number(($('orderQty')||{}).value||1)));if(pushCartItemV27139(x,v,qty)&&typeof window.closeOrder==='function')window.closeOrder();}
 
