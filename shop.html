@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>頑夜 TOY｜線上商城</title>
-  <meta name="wanye-shop-version" content="27.25.1-boot-loader">
+  <meta name="wanye-shop-version" content="27.25.2-home-hydrate">
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="preconnect" href="https://drive.google.com">
@@ -886,9 +886,9 @@
   </div>
 </div>
 
-<script src="config.js?v=27251"></script>
-<script src="gas-bridge.js?v=27251"></script>
-<script src="./site-performance-v27.24.0.js?v=27251"></script>
+<script src="config.js?v=27252"></script>
+<script src="gas-bridge.js?v=27252"></script>
+<script src="./site-performance-v27.24.0.js?v=27252"></script>
 <script>
   var SHOP_BOOT_LOADING_DONE_V27251=false;
   var SHOP_BOOT_SLOW_TIMER_V27251=null;
@@ -1253,6 +1253,9 @@
   }
 
   function featuredItemsV275_(){
+    if(Array.isArray(FEATURED_V275.cards)&&FEATURED_V275.cards.length){
+      return FEATURED_V275.cards.map(function(o){return o&&o.item;}).filter(Boolean);
+    }
     return (FEATURED_V275.direct||[]).concat(FEATURED_V275.closing||[]);
   }
 
@@ -1436,19 +1439,51 @@
     });
   }
 
-  function loadFeaturedV275_(){
-    // v27.25.0｜不再額外打 2 次 API；直接從已知商品池產生精選。
-    var a=(ALL_PRODUCTS_READY&&ALL_PRODUCTS_CACHE.length)
-      ? ALL_PRODUCTS_CACHE.slice()
-      : knownProductsV27241_().slice();
+  function loadFeaturedV275_(seedItems){
+    // v27.25.2｜近期推薦直接從目前已拿到的商品產生，不等 idle / 第二次 API。
+    var src=[],seen={};
+    function add(x){
+      if(!x)return;
+      var k=itemKeyV275_(x);
+      if(!k||seen[k])return;
+      seen[k]=1;src.push(x);
+    }
 
-    FEATURED_V275.direct=shuffleV275_(a.filter(function(x){
-      return x&&x.type==='直購'&&!x.isClosed;
-    })).slice(0,2);
+    (Array.isArray(seedItems)?seedItems:[]).forEach(add);
+    (ALL_PRODUCTS_READY?ALL_PRODUCTS_CACHE:[]).forEach(add);
+    knownProductsV27241_().forEach(add);
 
-    FEATURED_V275.closing=pickQuickClosingV275_(a);
+    var open=src.filter(function(x){return x&&!x.isClosed;});
+    var latest=clientSort(open,'new');
+    var cards=[],used={};
+
+    function pick(x,tag){
+      if(!x||cards.length>=4)return;
+      var k=itemKeyV275_(x);
+      if(!k||used[k])return;
+      used[k]=1;
+      cards.push({item:x,tag:tag});
+    }
+
+    latest.filter(function(x){return x.type==='直購';}).slice(0,2).forEach(function(x){
+      pick(x,'現貨精選');
+    });
+
+    pickQuickClosingV275_(latest).forEach(function(x){
+      pick(x,'快結單');
+    });
+
+    // 不足 4 張時直接以最新上架補滿，避免「近期推薦」整區空白。
+    latest.forEach(function(x){
+      pick(x,x&&x.isNew?'新品推薦':'近期推薦');
+    });
+
+    FEATURED_V275.cards=cards;
+    FEATURED_V275.direct=[];
+    FEATURED_V275.closing=[];
     FEATURED_LOADING_V275=false;
     renderFeaturedV275_();
+    return cards.length;
   }
 
   function renderFeaturedV275_(){
@@ -1460,13 +1495,18 @@
     section.classList.toggle('hidden',!visible);
     if(!visible)return;
 
-    var arr=[];
-    (FEATURED_V275.direct||[]).forEach(function(x){
-      arr.push({item:x,tag:'現貨精選'});
-    });
-    (FEATURED_V275.closing||[]).forEach(function(x){
-      arr.push({item:x,tag:'快結單'});
-    });
+    var arr=Array.isArray(FEATURED_V275.cards)&&FEATURED_V275.cards.length
+      ? FEATURED_V275.cards.slice()
+      : [];
+
+    if(!arr.length){
+      (FEATURED_V275.direct||[]).forEach(function(x){
+        arr.push({item:x,tag:'現貨精選'});
+      });
+      (FEATURED_V275.closing||[]).forEach(function(x){
+        arr.push({item:x,tag:'快結單'});
+      });
+    }
 
     if(!arr.length){
       g.innerHTML='<div class="empty" style="grid-column:1/-1">目前沒有可顯示的精選商品。</div>';
@@ -1510,6 +1550,34 @@
 
     renderIpChips();
     renderIpModal();
+  }
+
+  function hydrateHomeSectionsV27252_(seedItems){
+    var src=[],seen={};
+    function add(x){
+      if(!x)return;
+      var k=itemKeyV275_(x);
+      if(!k||seen[k])return;
+      seen[k]=1;src.push(x);
+    }
+
+    (Array.isArray(seedItems)?seedItems:[]).forEach(add);
+    (ALL_PRODUCTS_READY?ALL_PRODUCTS_CACHE:[]).forEach(add);
+    knownProductsV27241_().forEach(add);
+
+    if(src.length){
+      // 熱門作品每次從完整來源重算，避免舊批次 count 疊加或空白。
+      IP_CATALOG=[];
+      mergeIpCatalog(src);
+      loadFeaturedV275_(src);
+    }else{
+      renderIpChips();
+      renderFeaturedV275_();
+    }
+
+    var ipCount=(IP_CATALOG||[]).filter(function(x){return x&&x.label;}).length;
+    var recCount=Array.isArray(FEATURED_V275.cards)?FEATURED_V275.cards.length:0;
+    return {products:src.length,ips:ipCount,recommendations:recCount};
   }
 
   function saveAllProductsCache(){
@@ -1639,13 +1707,11 @@
           saveAllProductsCache();
           setGridUpdatingV27241_(false);
 
-          mergeIpCatalog(all);
+          hydrateHomeSectionsV27252_(all);
           renderChips();
 
-          // v27.25.0：完整同步後「全部商品首頁」也要更新，
-          // 不再只有分類／搜尋狀態才套用，避免新品抓到了卻不出現在畫面。
+          // 完整同步後首頁、分類、近期推薦全部一起更新。
           applyClientFilters();
-          loadFeaturedV275_();
         })
         .withFailureHandler(function(){
           ALL_PRODUCTS_LOADING=false;
@@ -2049,7 +2115,6 @@
 
         SHOP_LAST_APPLIED_SEQ_V27241=requestSeq;
         SHOP_LOADING=false;
-        if(FIRST_LOAD)hideShopBootLoadingV27251_();
         SHOP_LOADMORE_BUSY_V27241=false;
         setGridUpdatingV27241_(false);
         res=res||{};
@@ -2079,7 +2144,7 @@
         document.getElementById('statPre').textContent=SHOP_DATA.counts.preorder||0;
         document.getElementById('statDirect').textContent=SHOP_DATA.counts.direct||0;
 
-        mergeIpCatalog(incoming);
+        hydrateHomeSectionsV27252_(incoming);
         renderChips();
 
         // 特殊專區與品類都要套前台篩選，避免伺服器回來時整包資料閃回。
@@ -2096,6 +2161,8 @@
         }
 
         if(FIRST_LOAD){
+          // 熱門作品、近期推薦、商品總覽都已用第一批資料完成後才關讀取畫面。
+          hideShopBootLoadingV27251_();
           FIRST_LOAD=false;
           openHashProduct();
 
@@ -2585,21 +2652,19 @@
   // v27.25.0：先用本機商品庫秒開，但最新 API 會立即覆蓋舊資料。
   var restoredV27242=restoreAllProductsCache();
   if(restoredV27242){
+    hydrateHomeSectionsV27252_(ALL_PRODUCTS_CACHE);
     applyClientFilters();
   }
 
   // 首屏仍向後端取得最新資料，但不阻塞分類切換。
   loadShop(true);
 
-  var idleV27240=window.WANYE_IDLE||function(fn){return setTimeout(fn,500);};
-  idleV27240(function(){
-    loadFeaturedV275_();
-  },700);
+  // v27.25.2｜近期推薦已在第一批商品回來時同步完成，不再使用 idle 延遲。
 </script>
 
-<script src="shop-enhancements-v27.23.5.js?v=27251"></script>
-<script src="shop-ui-v27.15.8.js?v=27251"></script>
-  <script src="shop-sections-v27.23.1.js?v=27251"></script>
-  <script src="./visitor-stats-v27.17.1.js?v=27251" data-page="shop"></script>
+<script src="shop-enhancements-v27.23.5.js?v=27252"></script>
+<script src="shop-ui-v27.15.8.js?v=27252"></script>
+  <script src="shop-sections-v27.23.1.js?v=27252"></script>
+  <script src="./visitor-stats-v27.17.1.js?v=27252" data-page="shop"></script>
 </body>
 </html>
