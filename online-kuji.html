@@ -44,7 +44,7 @@
 <div class="toolbar"><div><strong>正在開放的抽賞</strong><small>選一套開始挑號碼</small></div><button class="btn secondary" id="refreshBtn" onclick="loadSets(true)">更新籤況</button></div>
 <div class="onlineModeTabsV27270">
   <button id="regularModeBtnV27270" class="onlineModeBtnV27270 active" type="button" onclick="switchOnlineKujiModeV27270('regular')">🎟 現貨線上抽</button>
-  <button id="japanModeBtnV27270" class="onlineModeBtnV27270 hidden" type="button" onclick="switchOnlineKujiModeV27270('japan')">🇯🇵 日本線上代抽預約</button>
+  <button id="japanModeBtnV27270" class="onlineModeBtnV27270" type="button" onclick="switchOnlineKujiModeV27270('japan')">🇯🇵 日本線上代抽預約</button>
 </div>
 <div id="regularModeContentV27270">
 <div id="syncState" class="sync"></div><div id="setGrid" class="grid"><div class="empty" style="grid-column:1/-1">載入中…</div></div>
@@ -86,7 +86,7 @@
   <div id="japanProxyTrackResultV27270" style="margin-top:10px"></div>
 </section>
 </main>
-<script src="./config.js?v=27270"></script><script src="./gas-bridge.js?v=27270"></script><script src="./site-performance-v27.24.0.js?v=27270"></script>
+<script src="./config.js?v=27273"></script><script src="./gas-bridge.js?v=27273"></script><script src="./site-performance-v27.24.0.js?v=27273"></script>
 <script>
 var SETS=[],ACTIVE_SET=null,ACTIVE_DRAW=0,SELECTED=[],CURRENT_TOKEN='',POLL=null,BOARD_POLL=null,SET_LOADING=false,CACHE_KEY='wanye-online-kuji-27262',CACHE_MS=24*60*60*1000,PUBLIC_REVISION='';
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -227,8 +227,11 @@ function loadJapanProxyPublicV27270(force){
     JAPAN_PROXY_SETS_V27270=(r&&r.items)||[];
     var btn=document.getElementById('japanModeBtnV27270');if(btn)btn.classList.remove('hidden');
     renderJapanProxyPublicV27270();
-  }).withFailureHandler(function(){
+  }).withFailureHandler(function(e){
     JAPAN_PROXY_LOADING_V27270=false;
+    var btn=document.getElementById('japanModeBtnV27270');if(btn)btn.classList.remove('hidden');
+    var g=document.getElementById('japanProxyPublicGridV27270');
+    if(g)g.innerHTML='<div class="empty" style="grid-column:1/-1"><b>日本線上代抽後端尚未啟用</b><br><span style="font-size:10px">前台已完成，但 Apps Script 還沒部署包含 v27.27.0 日本代抽 API 的版本。</span></div>';
   }).getPublicJapanOnlineProxyListV27270();
 }
 function openJapanProxyFormV27270(id){
