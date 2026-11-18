@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>頑夜 TOY｜線上商城</title>
-  <meta name="wanye-shop-version" content="27.25.0-fast-live">
+  <meta name="wanye-shop-version" content="27.25.1-boot-loader">
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="preconnect" href="https://drive.google.com">
@@ -580,9 +580,65 @@
       #categoryChips .chip::before{font-size:9px}
     }
 
+    /* v27.25.1｜首次進站商品同步遮罩 */
+    .shopBootLoadingV27251{
+      position:fixed;inset:0;z-index:100000;
+      display:flex;align-items:center;justify-content:center;
+      padding:22px;background:rgba(247,249,252,.96);
+      backdrop-filter:blur(10px);
+      opacity:1;visibility:visible;
+      transition:opacity .28s ease,visibility .28s ease;
+    }
+    .shopBootLoadingV27251.done{opacity:0;visibility:hidden;pointer-events:none}
+    .shopBootCardV27251{
+      width:min(330px,90vw);padding:28px 24px 24px;text-align:center;
+      background:#fff;border:1px solid #e1e7ef;border-radius:24px;
+      box-shadow:0 24px 70px rgba(39,60,90,.14);
+    }
+    .shopBootLogoV27251{
+      width:82px;height:82px;margin:0 auto 16px;position:relative;
+      display:grid;place-items:center;border-radius:50%;
+      background:linear-gradient(145deg,#eef7ff,#fff8d9 55%,#f2eeff);
+      border:1px solid #dae4ef;
+    }
+    .shopBootMoonV27251{font-size:40px;line-height:1;animation:shopBootFloatV27251 1.4s ease-in-out infinite}
+    .shopBootOrbitV27251{position:absolute;inset:-8px;border:3px solid transparent;border-top-color:#4d91e6;border-right-color:#ffd75d;border-radius:50%;animation:shopBootSpinV27251 .95s linear infinite}
+    .shopBootDotV27251{position:absolute;width:9px;height:9px;border-radius:50%;background:#b9a9e8;right:4px;top:13px;box-shadow:0 0 0 5px rgba(185,169,232,.14)}
+    .shopBootTitleV27251{font-size:20px;font-weight:950;color:#283951;letter-spacing:.01em}
+    .shopBootTextV27251{margin-top:7px;font-size:12px;line-height:1.7;color:#7e8a9d}
+    .shopBootBarV27251{height:6px;margin-top:18px;border-radius:999px;background:#edf1f6;overflow:hidden}
+    .shopBootBarV27251:before{content:"";display:block;width:42%;height:100%;border-radius:999px;background:linear-gradient(90deg,#4d91e6,#ffd75d,#b9a9e8);animation:shopBootBarV27251 1.15s ease-in-out infinite}
+    .shopBootHintV27251{margin-top:10px;font-size:10px;color:#a0a9b6}
+    @keyframes shopBootSpinV27251{to{transform:rotate(360deg)}}
+    @keyframes shopBootFloatV27251{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+    @keyframes shopBootBarV27251{0%{transform:translateX(-120%)}100%{transform:translateX(340%)}}
+    @media(max-width:720px){
+      .shopBootCardV27251{padding:24px 20px 21px;border-radius:21px}
+      .shopBootLogoV27251{width:74px;height:74px}
+      .shopBootMoonV27251{font-size:36px}
+      .shopBootTitleV27251{font-size:18px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .shopBootMoonV27251,.shopBootOrbitV27251,.shopBootBarV27251:before{animation:none!important}
+    }
+
   </style>
 </head>
 <body>
+
+<div id="shopBootLoadingV27251" class="shopBootLoadingV27251" role="status" aria-live="polite" aria-label="商品讀取中">
+  <div class="shopBootCardV27251">
+    <div class="shopBootLogoV27251" aria-hidden="true">
+      <div class="shopBootOrbitV27251"></div>
+      <div class="shopBootDotV27251"></div>
+      <div class="shopBootMoonV27251">🌙</div>
+    </div>
+    <div class="shopBootTitleV27251">商品讀取中</div>
+    <div id="shopBootTextV27251" class="shopBootTextV27251">請稍等，正在同步最新商品資料…</div>
+    <div class="shopBootBarV27251" aria-hidden="true"></div>
+    <div class="shopBootHintV27251">頑夜 TOY｜PLAY NIGHT TOY</div>
+  </div>
+</div>
 
 <header>
   <div class="head">
@@ -830,10 +886,39 @@
   </div>
 </div>
 
-<script src="config.js?v=271570"></script>
-<script src="gas-bridge.js?v=271570"></script>
-<script src="./site-performance-v27.24.0.js?v=27240"></script>
+<script src="config.js?v=27251"></script>
+<script src="gas-bridge.js?v=27251"></script>
+<script src="./site-performance-v27.24.0.js?v=27251"></script>
 <script>
+  var SHOP_BOOT_LOADING_DONE_V27251=false;
+  var SHOP_BOOT_SLOW_TIMER_V27251=null;
+
+  function updateShopBootLoadingV27251_(text){
+    var el=document.getElementById('shopBootTextV27251');
+    if(el&&text)el.textContent=String(text);
+  }
+
+  function hideShopBootLoadingV27251_(){
+    if(SHOP_BOOT_LOADING_DONE_V27251)return;
+    SHOP_BOOT_LOADING_DONE_V27251=true;
+    if(SHOP_BOOT_SLOW_TIMER_V27251){
+      clearTimeout(SHOP_BOOT_SLOW_TIMER_V27251);
+      SHOP_BOOT_SLOW_TIMER_V27251=null;
+    }
+    var el=document.getElementById('shopBootLoadingV27251');
+    if(!el)return;
+    el.classList.add('done');
+    setTimeout(function(){
+      if(el&&el.parentNode)el.style.display='none';
+    },320);
+  }
+
+  SHOP_BOOT_SLOW_TIMER_V27251=setTimeout(function(){
+    if(!SHOP_BOOT_LOADING_DONE_V27251){
+      updateShopBootLoadingV27251_('商品較多，仍在同步最新資料，請再稍等一下…');
+    }
+  },5500);
+
   var SHOP_DATA={
     items:[],
     categories:[],
@@ -1964,6 +2049,7 @@
 
         SHOP_LAST_APPLIED_SEQ_V27241=requestSeq;
         SHOP_LOADING=false;
+        if(FIRST_LOAD)hideShopBootLoadingV27251_();
         SHOP_LOADMORE_BUSY_V27241=false;
         setGridUpdatingV27241_(false);
         res=res||{};
@@ -2022,6 +2108,7 @@
       .withFailureHandler(function(e){
         if(requestSeq!==SHOP_REQUEST_SEQ_V27241)return;
         SHOP_LOADING=false;
+        if(FIRST_LOAD)hideShopBootLoadingV27251_();
         SHOP_LOADMORE_BUSY_V27241=false;
         setGridUpdatingV27241_(false);
 
@@ -2510,9 +2597,9 @@
   },700);
 </script>
 
-<script src="shop-enhancements-v27.23.5.js?v=27250"></script>
-<script src="shop-ui-v27.15.8.js?v=27250"></script>
-  <script src="shop-sections-v27.23.1.js?v=27250"></script>
-  <script src="./visitor-stats-v27.17.1.js?v=27250" data-page="shop"></script>
+<script src="shop-enhancements-v27.23.5.js?v=27251"></script>
+<script src="shop-ui-v27.15.8.js?v=27251"></script>
+  <script src="shop-sections-v27.23.1.js?v=27251"></script>
+  <script src="./visitor-stats-v27.17.1.js?v=27251" data-page="shop"></script>
 </body>
 </html>
