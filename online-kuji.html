@@ -106,7 +106,7 @@
   <div id="japanProxyTrackResultV27270" style="margin-top:10px"></div>
 </section>
 </main>
-<script src="./config.js?v=27275"></script><script src="./gas-bridge.js?v=27275"></script><script src="./site-performance-v27.24.0.js?v=27275"></script>
+<script src="./config.js?v=27276"></script><script src="./gas-bridge.js?v=27276"></script><script src="./site-performance-v27.24.0.js?v=27276"></script>
 <script>
 var SETS=[],ACTIVE_SET=null,ACTIVE_DRAW=0,SELECTED=[],CURRENT_TOKEN='',POLL=null,BOARD_POLL=null,SET_LOADING=false,CACHE_KEY='wanye-online-kuji-27262',CACHE_MS=24*60*60*1000,PUBLIC_REVISION='';
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -252,7 +252,7 @@ function loadJapanProxyPublicV27270(force){
     var btn=document.getElementById('japanModeBtnV27270');if(btn)btn.classList.remove('hidden');
     var g=document.getElementById('japanProxyPublicGridV27270');
     if(g)g.innerHTML='<div class="empty" style="grid-column:1/-1"><b>日本線上代抽後端尚未啟用</b><br><span style="font-size:10px">前台已完成，但 Apps Script 還沒部署包含 v27.27.0 日本代抽 API 的版本。</span></div>';
-  }).getPublicJapanOnlineProxyListV27270();
+  }).getPublicJapanOnlineProxyListV27276();
 }
 function openJapanProxyFormV27270(id){
   var x=JAPAN_PROXY_SETS_V27270.find(function(s){return s.id===id});if(!x||x.full)return;
@@ -287,7 +287,7 @@ function submitJapanProxyReservationUiV27270(){
     btn.disabled=false;btn.textContent='確認送出預約';
     var box=document.getElementById('japanProxyMsgV27270');box.className='message bad';box.textContent=(e&&e.message)||'預約失敗';
     loadJapanProxyPublicV27270(true);
-  }).submitJapanOnlineProxyReservationV27270({
+  }).submitJapanOnlineProxyReservationV27276({
     settingId:JAPAN_PROXY_ACTIVE_V27270.id,
     drawCount:document.getElementById('japanProxyDrawCountV27270').value,
     grades:grades,
@@ -302,7 +302,7 @@ function trackJapanProxyReservationV27270(){
   google.script.run.withSuccessHandler(function(r){
     var x=r&&r.reservation,box=document.getElementById('japanProxyTrackResultV27270');if(!x)return;
     box.innerHTML='<div class="japanProxyResultV27270"><b>'+esc(x.settingName||'日本線上代抽')+'</b><br>狀態：'+esc(x.status||'')+'<br>預約：'+Number(x.drawCount||0)+' 抽｜條件 '+esc((x.grades||[]).join('、'))+'<br>預估金額：'+money(x.estimatedTotal||0)+(x.expectedDrawAt?'<br>預計開抽：'+esc(x.expectedDrawAt):'')+'</div>';
-  }).withFailureHandler(function(e){document.getElementById('japanProxyTrackResultV27270').innerHTML='<div class="message bad">'+esc((e&&e.message)||'查詢失敗')+'</div>';}).getPublicJapanOnlineProxyReservationV27270(token);
+  }).withFailureHandler(function(e){document.getElementById('japanProxyTrackResultV27270').innerHTML='<div class="message bad">'+esc((e&&e.message)||'查詢失敗')+'</div>';}).getPublicJapanOnlineProxyReservationV27276(token);
 }
 
 (function(){primeOnlineKujiV27263_();setTimeout(function(){loadJapanProxyPublicV27270(false);},1200);setInterval(function(){if(!ACTIVE_SET&&document.visibilityState!=='hidden'&&!SET_LOADING)loadSets(true,true);},90000);document.addEventListener('visibilitychange',function(){if(!document.hidden&&!ACTIVE_SET&&!SET_LOADING)setTimeout(function(){loadSets(true,true);},500);});try{var t=new URL(location.href).searchParams.get('order');if(t){CURRENT_TOKEN=t.toUpperCase();document.getElementById('trackToken').value=CURRENT_TOKEN;trackOrder();}}catch(e){}})();
