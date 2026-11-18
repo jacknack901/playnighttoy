@@ -2,7 +2,7 @@
 (function(){
   'use strict';
 
-  var VER='27.24.2';
+  var VER='27.25.2';
   var DIRECT_MARKET_URL_V27231='https://myship.7-11.com.tw/general/detail/GM2611179779077';
 
   function sourceTextV27231_(x){
@@ -180,14 +180,19 @@
 
   function bustCache(){
     try{
-      window.ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V27242';
+      // v27.25.2｜絕對不要覆寫 shop.html 現行快取鍵。
+      // 只清真正的歷史版本，避免後載入 script 把新版快取邏輯改回舊版。
       [
         'WANYE_SHOP_ALL_V27157',
         'WANYE_SHOP_ALL_V27211',
         'WANYE_SHOP_ALL_V27220',
         'WANYE_SHOP_ALL_V27221',
-        'WANYE_SHOP_ALL_V27231'
-      ].forEach(function(k){sessionStorage.removeItem(k);});
+        'WANYE_SHOP_ALL_V27231',
+        'WANYE_SHOP_ALL_V27241',
+        'WANYE_SHOP_ALL_V27242'
+      ].forEach(function(k){
+        try{sessionStorage.removeItem(k);}catch(e){}
+      });
     }catch(e){}
   }
 
