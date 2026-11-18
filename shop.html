@@ -2355,6 +2355,7 @@
     }
 
     ACTIVE_PRODUCT=x;
+    window.ACTIVE_PRODUCT=x;
 
     document.getElementById('modalProductId').value=x.id;
     document.getElementById('modalUnitPrice').value=x.price;
@@ -2403,6 +2404,7 @@
     document.getElementById('orderMask').classList.add('hidden');
     document.body.style.overflow='';
     ACTIVE_PRODUCT=null;
+    window.ACTIVE_PRODUCT=null;
     clearProductRoute();
   }
 
