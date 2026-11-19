@@ -5,7 +5,7 @@
     getPublicKujiVersionV260:1,getPublicKujiList:1,getPublicCommerceV260:1,getPublicHomeBootstrapV2710:1,
     getPublicSoldKujiListV260:1,getPublicKuji:1,getPublicShopPageV270:1,getPublicShopProductV270:1,
     getPublicFormRpcAckV271210:1,getPublicShopOrdersByPhoneV27136:1,getPublicDailyVisitorV27170:1,
-    getPublicOnlineKujiListV27180:1,getPublicOnlineKujiOrderV27180:1,getPublicJapanOnlineProxyListV27276:1,getPublicJapanOnlineProxyReservationV27276:1
+    getPublicOnlineKujiListV27180:1,getPublicOnlineKujiOrderV27180:1,getPublicJapanOnlineProxyListV27276:1,getPublicJapanOnlineProxyReservationV27276:1,getPublicJapanOnlineProxyReservationsByPhoneV272723:1
   };
   var WRITE={
     submitRaffleSignupV2587:1,submitKujiActivitySignupV2544:1,submitPublicPreorderV2544:1,
