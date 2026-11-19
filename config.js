@@ -1,10 +1,10 @@
-// 頑夜 GitHub Pages 公開前台設定｜v27.26.1
+// 頑夜 GitHub Pages 公開前台設定｜v27.27.33
 window.WANWAN_GAS_EXEC_URL = 'https://script.google.com/macros/s/AKfycbxLJqANquTNnLlY7Zb5tR851EobSPTAsVho5SxYjBv2quX-B7uOqyBEcj5BdG5m8xw/exec';
 window.WANWAN_HOME_URL = 'https://jacknack901.github.io/playnighttoy/';
 window.WANWAN_SHOP_URL = 'https://jacknack901.github.io/playnighttoy/shop.html';
 window.WANWAN_SITE_BASE_URL = 'https://jacknack901.github.io/playnighttoy/';
 window.WANWAN_OFFICIAL_LINE_URL = 'https://lin.ee/sUCSbJV';
-window.WANWAN_SHOP_FRONTEND_VERSION = '27.26.1';
+window.WANWAN_SHOP_FRONTEND_VERSION = '27.27.33';
 window.WANWAN_HOME_FRONTEND_VERSION = '27.16.4';
 
 (function(){
