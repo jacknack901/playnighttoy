@@ -139,7 +139,7 @@
   <div id="japanProxyTrackResultV27270" style="margin-top:10px"></div>
 </section>
 </main>
-<script src="./config.js?v=272716"></script><script src="./gas-bridge.js?v=272716"></script><script src="./site-performance-v27.24.0.js?v=272716"></script>
+<script src="./config.js?v=272717"></script><script src="./gas-bridge.js?v=272717"></script><script src="./site-performance-v27.24.0.js?v=272717"></script>
 <script>
 var SETS=[],ACTIVE_SET=null,ACTIVE_DRAW=0,SELECTED=[],CURRENT_TOKEN='',POLL=null,BOARD_POLL=null,SET_LOADING=false,CACHE_KEY='wanye-online-kuji-27262',CACHE_MS=24*60*60*1000,PUBLIC_REVISION='';
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -310,7 +310,7 @@ function updateJapanProxyEstimateV27270(){
   if(!JAPAN_PROXY_ACTIVE_V27270)return;
   var n=Math.max(1,Math.min(Number(JAPAN_PROXY_ACTIVE_V27270.remaining||1),Math.trunc(Number(document.getElementById('japanProxyDrawCountV27270').value||1))));
   document.getElementById('japanProxyDrawCountV27270').value=n;
-  var normal=Number(JAPAN_PROXY_ACTIVE_V27270.price||0),fee=Number(JAPAN_PROXY_ACTIVE_V27270.firstDrawFeeTwd||178.2);document.getElementById('japanProxyEstimateV27270').value=money(Math.round((n*normal+fee)*100)/100);
+  var normal=Number(JAPAN_PROXY_ACTIVE_V27270.price||0),fee=Math.round(Number(JAPAN_PROXY_ACTIVE_V27270.firstDrawFeeTwd||178));document.getElementById('japanProxyEstimateV27270').value=money(Math.round((n*normal+fee)*100)/100);
 }
 function submitJapanProxyReservationUiV27270(){
   if(!JAPAN_PROXY_ACTIVE_V27270)return;
@@ -346,7 +346,7 @@ function trackJapanProxyReservationV27270(){
 (function(){primeOnlineKujiV27263_();setTimeout(function(){loadJapanProxyPublicV27270(false);},1200);setInterval(function(){if(!ACTIVE_SET&&document.visibilityState!=='hidden'&&!SET_LOADING)loadSets(true,true);},90000);setInterval(function(){var jp=document.getElementById('japanProxyPublicV27270');if(jp&&!jp.classList.contains('hidden')&&document.visibilityState!=='hidden')loadJapanProxyPublicV27270(true);},30000);document.addEventListener('visibilitychange',function(){if(!document.hidden&&!ACTIVE_SET&&!SET_LOADING)setTimeout(function(){loadSets(true,true);},500);});try{var t=new URL(location.href).searchParams.get('order');if(t){CURRENT_TOKEN=t.toUpperCase();document.getElementById('trackToken').value=CURRENT_TOKEN;trackOrder();}}catch(e){}})();
 </script>
 </body></html>
-+Number(x.firstDrawFeeTwd||178.2).toLocaleString('zh-TW',{maximumFractionDigits:1})+'</b>每筆預約只加收一次。</div><div class="japanProxyProgressPubV27270"><i style="width:'+Math.min(100,Number(x.reserved||0)/20*100)+'%"></i></div>'+((x.displayTime||simpleJapanProxyTimeV272710(x.expectedDrawAt))?'<div class="arrivalLine"><span>🕒</span><div><strong>套組上架時間 '+esc(x.displayTime||simpleJapanProxyTimeV272710(x.expectedDrawAt))+'</strong></div></div>':'')+(x.reservationOpen?'<div class="japanProxyWindowV272712">預約開放中'+(x.reservationCloseDisplay?'｜'+esc(x.reservationCloseDisplay)+' 截止':'｜開抽前 30 分鐘截止')+'</div>':'<div class="japanProxyWindowV272712 wait">預約已截止｜已移至最後｜隔天自動下架</div>')+'<div class="japanProxyShippingV272710">🚚 日本到台灣運費另計</div>'+(x.info?'<div class="japanProxyInfoV27270">'+esc(x.info)+'</div>':'')+'<div class="muted">可選條件：'+esc((x.allowedGrades||[]).join('／'))+'</div><div style="margin-top:10px">'+btn+'</div></div></article>';
++Math.round(Number(x.firstDrawFeeTwd||178)).toLocaleString('zh-TW')+'</b>每筆預約只加收一次。</div><div class="japanProxyProgressPubV27270"><i style="width:'+Math.min(100,Number(x.reserved||0)/20*100)+'%"></i></div>'+((x.displayTime||simpleJapanProxyTimeV272710(x.expectedDrawAt))?'<div class="arrivalLine"><span>🕒</span><div><strong>套組上架時間 '+esc(x.displayTime||simpleJapanProxyTimeV272710(x.expectedDrawAt))+'</strong></div></div>':'')+(x.reservationOpen?'<div class="japanProxyWindowV272712">預約開放中'+(x.reservationCloseDisplay?'｜'+esc(x.reservationCloseDisplay)+' 截止':'｜開抽前 30 分鐘截止')+'</div>':'<div class="japanProxyWindowV272712 wait">預約已截止｜已移至最後｜隔天自動下架</div>')+'<div class="japanProxyShippingV272710">🚚 日本到台灣運費另計</div>'+(x.info?'<div class="japanProxyInfoV27270">'+esc(x.info)+'</div>':'')+'<div class="muted">可選條件：'+esc((x.allowedGrades||[]).join('／'))+'</div><div style="margin-top:10px">'+btn+'</div></div></article>';
   }).join('');
 }
 function loadJapanProxyPublicV27270(force){
