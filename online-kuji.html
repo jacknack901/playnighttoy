@@ -146,12 +146,12 @@ body.japanProxyModalOpenV272722{overflow:hidden}.japanProxyGradeChecksV27270{dis
   <div id="japanProxyMsgV27270"></div>
 </section>
 <section id="japanProxyTrackV27270" class="section hidden japanProxyTrackV27270">
-  <div class="trackCopy"><h2>查詢日本官方線上代抽預約</h2><div class="muted">輸入預約成功後取得的查詢碼</div></div>
-  <div class="trackControls"><input id="japanProxyTrackTokenV27270" placeholder="預約查詢碼"><button class="btn" type="button" onclick="trackJapanProxyReservationV27270()">查詢</button></div>
+  <div class="trackCopy"><h2>查詢日本官方線上代抽預約</h2><div class="muted">可輸入手機號碼查全部預約，或輸入原本的查詢碼查單筆。</div></div>
+  <div class="trackControls"><input id="japanProxyTrackTokenV27270" inputmode="search" placeholder="手機號碼或預約查詢碼"><button class="btn" type="button" onclick="trackJapanProxyReservationV27270()">查詢預約</button></div>
   <div id="japanProxyTrackResultV27270" style="margin-top:10px"></div>
 </section>
 </main>
-<script src="./config.js?v=272722"></script><script src="./gas-bridge.js?v=272722"></script><script src="./site-performance-v27.24.0.js?v=272722"></script>
+<script src="./config.js?v=272723"></script><script src="./gas-bridge.js?v=272723"></script><script src="./site-performance-v27.24.0.js?v=272723"></script>
 <script>
 var SETS=[],ACTIVE_SET=null,ACTIVE_DRAW=0,SELECTED=[],CURRENT_TOKEN='',POLL=null,BOARD_POLL=null,SET_LOADING=false,CACHE_KEY='wanye-online-kuji-27262',CACHE_MS=24*60*60*1000,PUBLIC_REVISION='';
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
@@ -355,12 +355,32 @@ function submitJapanProxyReservationUiV27270(){
     note:document.getElementById('japanProxyNoteV27270').value
   });
 }
+function renderJapanProxyReservationItemV272723_(x){
+  return '<div class="japanProxyResultV27270" style="margin-bottom:8px"><b>'+esc(x.settingName||'日本官方線上代抽')+'</b><br>狀態：'+esc(x.status||'')+'<br>預約：'+Number(x.drawCount||0)+' 抽｜條件 '+esc((x.grades||[]).join('、'))+'<br>預估金額：'+money(x.estimatedTotal||0)+((x.displayTime||simpleJapanProxyTimeV272710(x.expectedDrawAt))?'<br>套組上架時間：'+esc(x.displayTime||simpleJapanProxyTimeV272710(x.expectedDrawAt)):'')+'<br>🚚 日本到台灣運費另計</div>';
+}
 function trackJapanProxyReservationV27270(){
-  var token=String(document.getElementById('japanProxyTrackTokenV27270').value||'').trim().toUpperCase();if(!token)return alert('請輸入查詢碼。');
+  var q=String(document.getElementById('japanProxyTrackTokenV27270').value||'').trim();
+  var box=document.getElementById('japanProxyTrackResultV27270');
+  if(!q)return alert('請輸入手機號碼或查詢碼。');
+  box.innerHTML='<div class="muted">查詢中…</div>';
+  var digits=q.replace(/\D/g,''),isPhone=/^[+\d\s\-()]+$/.test(q)&&digits.length>=9;
+  if(isPhone){
+    google.script.run.withSuccessHandler(function(r){
+      var items=(r&&r.items)||[];
+      if(!items.length){box.innerHTML='<div class="message bad">找不到預約紀錄。</div>';return;}
+      box.innerHTML='<div class="summary"><b>'+esc(r.phoneMasked||'')+'</b>｜共 '+Number(r.count||items.length)+' 筆日本代抽預約</div>'+items.map(renderJapanProxyReservationItemV272723_).join('');
+    }).withFailureHandler(function(e){
+      box.innerHTML='<div class="message bad">'+esc((e&&e.message)||'查詢失敗')+'</div>';
+    }).getPublicJapanOnlineProxyReservationsByPhoneV272723(q);
+    return;
+  }
+  var token=q.toUpperCase();
   google.script.run.withSuccessHandler(function(r){
-    var x=r&&r.reservation,box=document.getElementById('japanProxyTrackResultV27270');if(!x)return;
-    box.innerHTML='<div class="japanProxyResultV27270"><b>'+esc(x.settingName||'日本官方線上代抽')+'</b><br>狀態：'+esc(x.status||'')+'<br>預約：'+Number(x.drawCount||0)+' 抽｜條件 '+esc((x.grades||[]).join('、'))+'<br>預估金額：'+money(x.estimatedTotal||0)+((x.displayTime||simpleJapanProxyTimeV272710(x.expectedDrawAt))?'<br>開抽時間：'+esc(x.displayTime||simpleJapanProxyTimeV272710(x.expectedDrawAt)):'')+'<br>🚚 日本到台灣運費另計</div>';
-  }).withFailureHandler(function(e){document.getElementById('japanProxyTrackResultV27270').innerHTML='<div class="message bad">'+esc((e&&e.message)||'查詢失敗')+'</div>';}).getPublicJapanOnlineProxyReservationV27276(token);
+    var x=r&&r.reservation;if(!x)return;
+    box.innerHTML=renderJapanProxyReservationItemV272723_(x);
+  }).withFailureHandler(function(e){
+    box.innerHTML='<div class="message bad">'+esc((e&&e.message)||'查詢失敗')+'</div>';
+  }).getPublicJapanOnlineProxyReservationV27276(token);
 }
 
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){var f=document.getElementById('japanProxyFormV27270');if(f&&!f.classList.contains('hidden'))closeJapanProxyFormV27270();}});
