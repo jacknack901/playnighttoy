@@ -390,7 +390,7 @@ function submitJapanProxyReservationUiV27270(){
   var btn=document.getElementById('japanProxySubmitV27270');btn.disabled=true;btn.textContent='送出中…';
   google.script.run.withSuccessHandler(function(r){
     btn.disabled=false;btn.textContent='確認送出預約';
-    var box=document.getElementById('japanProxyMsgV27270');box.className='message ok';box.innerHTML='✓ 預約成功｜查詢碼 <b>'+esc(r.token||'')+'</b><br>已預約 '+Number(r.drawCount||0)+' 抽｜預估 '+money(r.estimatedTotal||0)+'<br>首抽已含 ¥660 × 0.27 費用，目前不需要付款。';
+    var box=document.getElementById('japanProxyMsgV27270');box.className='message ok';box.innerHTML='✓ 預約成功｜查詢碼 <b>'+esc(r.token||'')+'</b><br>已預約 '+Number(r.drawCount||0)+' 抽｜預估 '+money(r.estimatedTotal||0)+'<br>首抽已含日本商城固定手續費 NT$178，目前不需要付款。';
     document.getElementById('japanProxyTrackTokenV27270').value=r.token||'';
     loadJapanProxyPublicV27270(true);
   }).withFailureHandler(function(e){
