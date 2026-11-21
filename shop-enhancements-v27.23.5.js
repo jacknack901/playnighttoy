@@ -273,16 +273,20 @@
         : '<div class="lookupOrderMediaV27235" data-order-image-key="'+escV(key)+'"><div class="lookupOrderFallbackV27235">📦</div></div>';
 
       var total=Number(o.total||0),received=Number(o.receivedAmount||0);
-      if(!received && String(o.paymentStatus||'')==='已確認')received=Number(o.paidAmount||0);
       var balance=o.balance!==undefined?Number(o.balance||0):Math.max(0,total-received);
-      var plan=String(o.paymentPlan||'').trim();
-      if(!plan)plan=received<=0?'未收款':(received>=total&&total>0?'全額':'訂金');
-      var processing=String(o.processingStatus||'').trim() || (o.orderStatus==='處理中'?'處理中':(o.orderStatus==='已完成'?'已處理':'待處理'));
-      var purchase=String(o.purchaseStatus||'').trim() || (o.orderStatus==='已取消'?'砍單':'未下單');
-      var procCls=processing==='已處理'?'done':(processing==='處理中'?'doing':'');
-      var buyCls=(purchase==='已下單'||purchase==='已到貨')?'done':(purchase==='砍單'?'doing':'');
-      var purchaseDate=o.purchaseDate?('｜'+escV(o.purchaseDate)):'';
-      var note=o.customerProgressNote?'<div class="lookupCustomerNoteV272753"><b>店家進度：</b>'+escV(o.customerProgressNote)+'</div>':'';
+      var pay=String(o.paymentState||'').trim();
+      if(!pay){
+        var p=String(o.paymentPlan||'').trim();
+        pay=p==='未收款'?'未付款':(p||((received<=0)?'未付款':(received>=total&&total>0?'全額':'訂金')));
+      }
+      var state=String(o.productStatus||'').trim();
+      if(!state){
+        if(o.purchaseStatus==='已下單')state='已下單';
+        else if(o.purchaseStatus==='砍單')state='砍單';
+        else if(o.orderStatus==='已取消')state='已取消';
+        else state='已確認';
+      }
+      var stateCls=state==='已下單'?'done':((state==='砍單'||state==='已取消')?'doing':'');
 
       return '<div class="lookupOrderV27136"><div class="lookupOrderRowV27235">'+
         media+
@@ -292,16 +296,13 @@
           '<div class="cartSubV27136">'+escV(o.createdAt)+'｜數量 '+Number(o.qty||1)+'</div>'+
           '<div class="lookupFinanceV272753">'+
             '<div><span>訂單總額</span><b>'+moneyV(total)+'</b></div>'+
-            '<div class="received"><span>'+escV(plan)+'｜已收</span><b>'+moneyV(received)+'</b></div>'+
+            '<div class="received"><span>'+escV(pay)+'｜已收</span><b>'+moneyV(received)+'</b></div>'+
             '<div class="balance"><span>尚欠金額</span><b>'+moneyV(balance)+'</b></div>'+
           '</div>'+
           '<div class="lookupFlowV272753">'+
-            '<span>收款：'+escV(o.paymentStatus||'待確認')+'</span>'+
-            '<span class="'+procCls+'">處理：'+escV(processing)+'</span>'+
-            '<span class="'+buyCls+'">採購：'+escV(purchase)+purchaseDate+'</span>'+
-            '<span>訂單：'+escV(o.orderStatus||'待確認')+'</span>'+
+            '<span>付款：'+escV(pay)+'</span>'+
+            '<span class="'+stateCls+'">商品狀況：'+escV(state)+'</span>'+
           '</div>'+
-          note+
         '</div>'+
       '</div></div>';
     }).join('');
@@ -359,10 +360,14 @@
     google.script.run
       .withSuccessHandler(success)
       .withFailureHandler(function(){
-        // Web App 尚未部署 v27.27.53 時自動退回舊查詢，不讓客人完全不能查單。
-        google.script.run.withSuccessHandler(success).withFailureHandler(failOld).getPublicShopOrdersByPhoneV27136(phone);
+        google.script.run
+          .withSuccessHandler(success)
+          .withFailureHandler(function(){
+            google.script.run.withSuccessHandler(success).withFailureHandler(failOld).getPublicShopOrdersByPhoneV27136(phone);
+          })
+          .getPublicShopOrdersByPhoneV272753(phone);
       })
-      .getPublicShopOrdersByPhoneV272753(phone);
+      .getPublicShopOrdersByPhoneV272754(phone);
   }
 
   function patchOpenOrderV27271(){
