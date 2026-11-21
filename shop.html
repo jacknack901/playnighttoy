@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>頑夜 TOY｜線上商城</title>
-  <meta name="wanye-shop-version" content="27.27.33-fast-live-sync">
+  <meta name="wanye-shop-version" content="27.27.34-fast-search-master-pool">
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="preconnect" href="https://drive.google.com">
@@ -974,11 +974,18 @@
   var SHOP_CLIENT_FILTER_KEY_V27250='';
   var SHOP_CLIENT_PAGING_V27250=false;
   var SHOP_LAST_FULL_SYNC_V27250=0;
-  // v27.27.33｜商城即時同步：輕量抓最新商品，完整同步低頻執行，避免大量 Pokémon Center 商品拖慢。
-  var SHOP_FAST_REFRESH_INTERVAL_V272733=12*1000;
+  // v27.27.34｜商城即時同步：輕量抓最新商品，完整同步低頻執行，避免大量 Pokémon Center 商品拖慢。
+  var SHOP_FAST_REFRESH_INTERVAL_V272733=30*1000;
   var SHOP_FULL_REFRESH_INTERVAL_V272733=90*1000;
   var SHOP_LAST_FAST_REFRESH_V272733=0;
   var SHOP_AUTO_REFRESH_TIMER_V272733=null;
+  // v27.27.34｜完整商品主池＋可靠搜尋
+  var SHOP_FRONT_VERSION_V272734='27.27.34-fast-search-master-pool';
+  var SHOP_SEARCH_REMOTE_SEQ_V272734=0;
+  var SHOP_SEARCH_REMOTE_TIMER_V272734=null;
+  var SHOP_SEARCH_INDEX_V272734={};
+  var SHOP_LAST_GRID_RENDER_KEY_V272734='';
+  var SHOP_MASTER_COMPLETE_V272734=false;
 
   var IP_LOGOS={
     '精靈村':'https://pbs.twimg.com/profile_images/574766295528296449/VbZGbrsU_400x400.jpeg',
@@ -1278,6 +1285,7 @@
   }
 
   function mergeKnownProductsV27241_(items){
+    // v27.27.34：新資料優先。避免舊 localStorage / 舊靜態快照蓋回最新 GAS 商品。
     var map={},out=[];
     function add(x){
       if(!x)return;
@@ -1286,10 +1294,10 @@
       if(map[k])return;
       map[k]=1;out.push(x);
     }
-    (SHOP_KNOWN_ITEMS_V27241||[]).forEach(add);
-    (ALL_PRODUCTS_CACHE||[]).forEach(add);
-    (SHOP_DATA.items||[]).forEach(add);
     (Array.isArray(items)?items:[]).forEach(add);
+    (SHOP_DATA.items||[]).forEach(add);
+    (ALL_PRODUCTS_CACHE||[]).forEach(add);
+    (SHOP_KNOWN_ITEMS_V27241||[]).forEach(add);
     featuredItemsV275_().forEach(add);
     SHOP_KNOWN_ITEMS_V27241=out;
     return out;
@@ -1317,7 +1325,7 @@
     return out;
   }
 
-  // v27.27.33｜GitHub 靜態快照只當「缺資料補底」，不得覆蓋瀏覽器或 GAS 已拿到的更新商品。
+  // v27.27.34｜GitHub 靜態快照只當「缺資料補底」，不得覆蓋瀏覽器或 GAS 已拿到的更新商品。
   function mergeStaticBootstrapV272733_(items){
     var map={},out=[];
     function add(x){
@@ -1632,6 +1640,7 @@
 
     ALL_PRODUCTS_CACHE=obj.items;
     ALL_PRODUCTS_READY=true;
+    SHOP_MASTER_COMPLETE_V272734=false;
     mergeKnownProductsV27241_(ALL_PRODUCTS_CACHE);
     mergeIpCatalog(ALL_PRODUCTS_CACHE);
 
@@ -1725,6 +1734,8 @@
 
           ALL_PRODUCTS_CACHE=all;
           ALL_PRODUCTS_READY=true;
+          SHOP_MASTER_COMPLETE_V272734=true;
+          SHOP_SEARCH_INDEX_V272734={};
           ALL_PRODUCTS_REFRESHED_THIS_PAGE=true;
           SHOP_LAST_FULL_SYNC_V27250=Date.now();
           mergeKnownProductsV27241_(all);
@@ -1780,9 +1791,70 @@
     return arr;
   }
 
+  function masterProductsV272734_(){
+    // 所有搜尋/分類都從同一個主商品池運算，不再只看某個載入階段的 ALL_PRODUCTS_CACHE。
+    return knownProductsV27241_().slice();
+  }
+
+  function normalizeSearchV272734_(value){
+    var s=String(value==null?'':value);
+    try{if(s.normalize)s=s.normalize('NFKC');}catch(e){}
+    return s.toUpperCase()
+      .replace(/[‐‑‒–—―]/g,'-')
+      .replace(/[|｜/\\,，、。．・･·:：;；()（）【】「」『』"'\x60~!！?？+＋=＝_\-]/g,' ')
+      .replace(/\s+/g,' ')
+      .trim();
+  }
+
+  function searchTextV272734_(x){
+    if(!x)return '';
+    var key=productKeyV27241_(x)||('NAME:'+String(x.name||''));
+    var sig=[
+      x.updatedAt,x.createdAt,x.name,x.category,x.type,x.tags,x.note,
+      x.sourceName,x.sourceWebsite,x.purchaseUrl,x.variantsJson
+    ].join('|');
+    var cached=SHOP_SEARCH_INDEX_V272734[key];
+    if(cached&&cached.sig===sig)return cached.text;
+
+    var ip=inferIp(x&&x.name);
+    var raw=[
+      x&&x.name,
+      categoryOf(x),
+      x&&x.category,
+      x&&x.type,
+      ip&&ip.label,
+      x&&x.tags,
+      x&&x.note,
+      x&&x.sourceName,
+      x&&x.sourceWebsite,
+      x&&x.productId,
+      x&&x.id,
+      x&&x.variantsJson
+    ].join(' ');
+    var txt=normalizeSearchV272734_(raw);
+    SHOP_SEARCH_INDEX_V272734[key]={sig:sig,text:txt,compact:txt.replace(/\s+/g,'')};
+    return txt;
+  }
+
+  function matchesSearchV272734_(x,rawQuery){
+    var q=normalizeSearchV272734_(rawQuery);
+    if(!q)return true;
+    var key=productKeyV27241_(x)||('NAME:'+String(x&&x.name||''));
+    var txt=searchTextV272734_(x);
+    var cached=SHOP_SEARCH_INDEX_V272734[key]||{compact:txt.replace(/\s+/g,'')};
+    var compactQ=q.replace(/\s+/g,'');
+
+    // 先支援「忽略空白/符號」完整比對，再支援多關鍵字 AND 搜尋。
+    if(compactQ&&cached.compact.indexOf(compactQ)>=0)return true;
+    var tokens=q.split(' ').filter(Boolean);
+    return tokens.length?tokens.every(function(t){
+      return txt.indexOf(t)>=0 || cached.compact.indexOf(t.replace(/\s+/g,''))>=0;
+    }):true;
+  }
+
   function clientFilteredProducts(){
-    var arr=(ALL_PRODUCTS_CACHE||[]).slice();
-    var q=String(document.getElementById('search').value||'').trim().toUpperCase();
+    var arr=masterProductsV272734_();
+    var rawQ=String(document.getElementById('search').value||'').trim();
     var sort=document.getElementById('sort').value;
 
     if(ACTIVE_MODE==='preorder'){
@@ -1791,6 +1863,10 @@
       arr=arr.filter(function(x){return x&&x.type==='直購'&&!x.isClosed;});
     }else if(ACTIVE_MODE==='closed'){
       arr=arr.filter(function(x){return x&&x.isClosed;});
+    }else if(ACTIVE_MODE==='pokemonCenter'){
+      arr=arr.filter(modeMatchV27241_);
+    }else if(ACTIVE_MODE==='ichibanSet'){
+      arr=arr.filter(modeMatchV27241_);
     }
 
     if(ACTIVE_CATEGORY){
@@ -1800,27 +1876,22 @@
     if(ACTIVE_IP){
       arr=arr.filter(function(x){
         var ip=inferIp(x&&x.name);
+        if(ACTIVE_IP==='寶可夢' && typeof window.isPokemonCenterV27231_==='function' && window.isPokemonCenterV27231_(x)){
+          return true;
+        }
         return !!(ip&&ip.label===ACTIVE_IP);
       });
-    }else if(q){
-      arr=arr.filter(function(x){
-        var ip=inferIp(x&&x.name);
-        var hay=[
-          x&&x.name,
-          categoryOf(x),
-          x&&x.category,
-          x&&x.type,
-          ip&&ip.label
-        ].join(' ').toUpperCase();
-        return hay.indexOf(q)>=0;
-      });
+    }
+
+    if(rawQ){
+      arr=arr.filter(function(x){return matchesSearchV272734_(x,rawQ);});
     }
 
     return clientSort(arr,sort);
   }
 
   function clientAvailableCategories(){
-    var arr=(ALL_PRODUCTS_CACHE||[]).slice();
+    var arr=masterProductsV272734_();
 
     if(ACTIVE_MODE==='preorder'){
       arr=arr.filter(function(x){return x&&x.type==='預購'&&!x.isClosed;});
@@ -1847,7 +1918,8 @@
   }
 
   function applyClientFilters(){
-    if(!ALL_PRODUCTS_READY)return false;
+    var master=masterProductsV272734_();
+    if(!master.length)return false;
 
     var full=clientFilteredProducts();
     var key=clientFilterKeyV27250_();
@@ -1864,7 +1936,7 @@
     SHOP_OFFSET=SHOP_DATA.items.length;
     SHOP_DATA.availableCategories=clientAvailableCategories();
 
-    var all=(ALL_PRODUCTS_CACHE||[]);
+    var all=master;
     SHOP_DATA.counts={
       all:all.length,
       preorder:all.filter(function(x){return x&&x.type==='預購'&&!x.isClosed;}).length,
@@ -2252,18 +2324,29 @@
       (ACTIVE_MODE==='closed'?arr.length:SHOP_TOTAL)+' 項'+
       ((ACTIVE_MODE==='closed'&&SHOP_HAS_MORE)?'・載入更多歷史商品中':'');
 
-    if(!arr.length){
-      g.innerHTML='<div class="empty" style="grid-column:1/-1">'+
-        (ACTIVE_MODE==='closed'?'目前沒有已結單商品。':'目前沒有符合條件的商品。')+
-        '</div>';
-    }else{
-      g.innerHTML=arr.map(function(x,i){return cardHtml(x,i);}).join('');
+    var gridKey=[
+      ACTIVE_MODE,ACTIVE_CATEGORY,ACTIVE_IP,
+      String(document.getElementById('search').value||'').trim(),
+      arr.map(function(x){return [
+        productKeyV27241_(x),x.updatedAt,x.price,x.isClosed,x.imageUrl
+      ].join(':');}).join('|')
+    ].join('||');
 
-      g.querySelectorAll('[data-open]').forEach(function(b){
-        b.onclick=function(){openOrder(b.getAttribute('data-open'));};
-      });
+    if(gridKey!==SHOP_LAST_GRID_RENDER_KEY_V272734){
+      SHOP_LAST_GRID_RENDER_KEY_V272734=gridKey;
+      if(!arr.length){
+        g.innerHTML='<div class="empty" style="grid-column:1/-1">'+
+          (ACTIVE_MODE==='closed'?'目前沒有已結單商品。':'目前沒有符合條件的商品。')+
+          '</div>';
+      }else{
+        g.innerHTML=arr.map(function(x,i){return cardHtml(x,i);}).join('');
 
-      bindZoomV275_(g);
+        g.querySelectorAll('[data-open]').forEach(function(b){
+          b.onclick=function(){openOrder(b.getAttribute('data-open'));};
+        });
+
+        bindZoomV275_(g);
+      }
     }
 
     renderFeaturedV275_();
@@ -2591,8 +2674,36 @@
     if(id&&findProduct(id))openOrder(id);
   }
 
+  function searchRemoteV272734_(query){
+    query=String(query||'').trim();
+    if(!query)return;
+
+    var seq=++SHOP_SEARCH_REMOTE_SEQ_V272734;
+    google.script.run
+      .withSuccessHandler(function(res){
+        if(seq!==SHOP_SEARCH_REMOTE_SEQ_V272734)return;
+        if(String(document.getElementById('search').value||'').trim()!==query)return;
+        res=res||{};
+        var incoming=Array.isArray(res.items)?res.items:[];
+        if(incoming.length){
+          mergeFreshShopItemsV27250_(incoming);
+          mergeKnownProductsV27241_(incoming);
+          SHOP_SEARCH_INDEX_V272734={};
+          saveAllProductsCache();
+          applyClientFilters();
+        }
+      })
+      .withFailureHandler(function(){
+        // 本機完整商品池仍可搜尋；背景查詢失敗不清空畫面。
+      })
+      .getPublicShopPageV270({
+        type:'',category:'',q:query,sort:'new',offset:0,limit:300,focusId:''
+      });
+  }
+
   document.getElementById('search').addEventListener('input',function(){
     clearTimeout(SEARCH_TIMER);
+    clearTimeout(SHOP_SEARCH_REMOTE_TIMER_V272734);
 
     var v=document.getElementById('search').value.trim();
     if(ACTIVE_IP && v!==ACTIVE_IP_SEARCH){
@@ -2607,11 +2718,17 @@
     CLOSED_AUTO_LOADS=0;
     renderModeTabs();
 
+    // 本機主商品池先瞬間搜尋；不等網路。
     SEARCH_TIMER=setTimeout(function(){
-      if(!applyClientFilters()){
-        loadShop(true);
-      }
-    },80);
+      if(!applyClientFilters())showInstantSwitchV27241_();
+    },70);
+
+    // 停止輸入後再向 GAS 查最新商品，補進剛上架但尚未進靜態快照的資料。
+    if(v){
+      SHOP_SEARCH_REMOTE_TIMER_V272734=setTimeout(function(){
+        searchRemoteV272734_(v);
+      },260);
+    }
   });
 
   document.getElementById('sort').addEventListener('change',function(){
@@ -2659,9 +2776,9 @@
 
 
   function loadStaticShopBootstrapV27253_(){
-    return fetch('./shop-bootstrap.json?v=272733',{
+    return fetch('./shop-bootstrap.json?v=272734',{
       method:'GET',
-      cache:'no-store',
+      cache:'force-cache',
       credentials:'same-origin'
     }).then(function(res){
       if(!res.ok)throw new Error('bootstrap '+res.status);
@@ -2670,11 +2787,12 @@
       var items=data&&Array.isArray(data.items)?data.items:[];
       if(!items.length)throw new Error('bootstrap empty');
 
-      // v27.27.33：靜態快照只補底，不可把較新的 GAS／本機商品蓋回舊版本。
+      // v27.27.34：靜態快照只補底，不可把較新的 GAS／本機商品蓋回舊版本。
       mergeStaticBootstrapV272733_(items);
       ALL_PRODUCTS_READY=true;
+      SHOP_MASTER_COMPLETE_V272734=true;
       ALL_PRODUCTS_REFRESHED_THIS_PAGE=false;
-      mergeKnownProductsV27241_(items);
+      mergeKnownProductsV27241_(ALL_PRODUCTS_CACHE);
       hydrateHomeSectionsV27252_(ALL_PRODUCTS_CACHE);
       applyClientFilters();
       hideShopBootLoadingV27251_();
@@ -2692,7 +2810,12 @@
     // 輕量同步：只抓最新一頁，剛上架商品通常會在這裡直接補進來。
     if(!SHOP_LOADING && now-Number(SHOP_LAST_FAST_REFRESH_V272733||0)>=SHOP_FAST_REFRESH_INTERVAL_V272733){
       SHOP_LAST_FAST_REFRESH_V272733=now;
-      loadShop(true);
+      var activeQ=String(document.getElementById('search').value||'').trim();
+      if(activeQ){
+        searchRemoteV272734_(activeQ);
+      }else{
+        loadShop(true);
+      }
     }
 
     // 完整同步低頻執行，處理「很早建立、剛剛才從草稿上架」的舊商品。
@@ -2734,7 +2857,7 @@
   }
 
   loadStaticShopBootstrapV27253_().then(function(){
-    // v27.27.33｜靜態畫面出來後立刻抓最新 120 筆；不再等 1.2 秒。
+    // v27.27.34｜靜態畫面出來後立刻抓最新 120 筆；不再等 1.2 秒。
     setTimeout(function(){
       if(!SHOP_LOADING){
         SHOP_LAST_FAST_REFRESH_V272733=Date.now();
@@ -2751,7 +2874,7 @@
     }
   },900);
 
-  // v27.27.33｜1 秒後完整同步一次，補進「舊草稿剛正式上架」的商品。
+  // v27.27.34｜1 秒後完整同步一次，補進「舊草稿剛正式上架」的商品。
   setTimeout(function(){
     try{
       ALL_PRODUCTS_REFRESHED_THIS_PAGE=false;
