@@ -4,7 +4,7 @@
   var READ={
     getPublicKujiVersionV260:1,getPublicKujiList:1,getPublicCommerceV260:1,getPublicHomeBootstrapV2710:1,
     getPublicSoldKujiListV260:1,getPublicKuji:1,getPublicShopPageV270:1,getPublicShopProductV270:1,
-    getPublicFormRpcAckV271210:1,getPublicShopOrdersByPhoneV27136:1,getPublicDailyVisitorV27170:1,
+    getPublicFormRpcAckV271210:1,getPublicShopOrdersByPhoneV27136:1,getPublicShopOrdersByPhoneV272753:1,getPublicShopOrdersByPhoneV272754:1,getPublicShopOrdersByPhoneV272755:1,getPublicShopOrdersByPhoneV272756:1,getPublicShopOrdersByPhoneV272757:1,getPublicShopOrdersByPhoneV272758:1,getPublicDailyVisitorV27170:1,
     getPublicOnlineKujiListV27180:1,getPublicOnlineKujiOrderV27180:1,getPublicJapanOnlineProxyListV27276:1,getPublicJapanOnlineProxyReservationV27276:1,getPublicJapanOnlineProxyReservationsByPhoneV272723:1
   };
   var WRITE={
