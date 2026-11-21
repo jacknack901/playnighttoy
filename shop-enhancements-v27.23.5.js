@@ -471,22 +471,31 @@
       renderLookupOrdersV27235(res.orders,resBox);
     }
 
+    function failFinal(e){
+      btn.disabled=false;
+      btn.textContent='查詢';
+      msg.className='cartErrorV27136';
+      msg.textContent=e&&e.message?e.message:String(e||'查詢失敗，請稍後再試。');
+    }
+
     function legacy(){
       google.script.run
         .withSuccessHandler(done)
-        .withFailureHandler(function(e){
-          btn.disabled=false;
-          btn.textContent='查詢';
-          msg.className='cartErrorV27136';
-          msg.textContent=e&&e.message?e.message:String(e||'查詢失敗，請稍後再試。');
-        })
+        .withFailureHandler(failFinal)
         .getPublicShopOrdersByPhoneV27136(phone);
     }
 
-    // v27.27.58：只打最新唯讀查單；若尚未部署新版才退回最舊穩定查單。
+    function currentV57(){
+      google.script.run
+        .withSuccessHandler(done)
+        .withFailureHandler(legacy)
+        .getPublicShopOrdersByPhoneV272757(phone);
+    }
+
+    // v27.27.58：新版唯讀 API 優先；尚未部署 v58 時立刻退回目前 v57。
     google.script.run
       .withSuccessHandler(done)
-      .withFailureHandler(legacy)
+      .withFailureHandler(currentV57)
       .getPublicShopOrdersByPhoneV272758(phone);
   }
 
