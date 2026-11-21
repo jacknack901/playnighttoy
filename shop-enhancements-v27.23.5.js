@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  var VER='27.27.2', CART_KEY='wanye_shop_cart_v27136', PROFILE_KEY='wanye_shop_profile_v27136';
+  var VER='27.27.53', CART_KEY='wanye_shop_cart_v27136', PROFILE_KEY='wanye_shop_profile_v27136';
   var cart=[],cartValidatingV271315=false,cartValidateSeqV271315=0;
 
   function $(id){return document.getElementById(id);}
@@ -242,7 +242,28 @@
       .getPublicShopPageV270(req);
   }
 
+  function injectOrderTrackingStyleV272753(){
+    if($('lookupOrderTrackingStyleV272753'))return;
+    var s=document.createElement('style');s.id='lookupOrderTrackingStyleV272753';
+    s.textContent=[
+      '.lookupFinanceV272753{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}',
+      '.lookupFinanceV272753>div{padding:7px 8px;border:1px solid #e1e6ec;border-radius:9px;background:#f8fafc}',
+      '.lookupFinanceV272753 span{display:block;font-size:9px;color:#7e8a99}',
+      '.lookupFinanceV272753 b{display:block;margin-top:2px;font-size:12px;color:#2c3d52}',
+      '.lookupFinanceV272753 .received b{color:#268258}',
+      '.lookupFinanceV272753 .balance b{color:#9a6b21}',
+      '.lookupFlowV272753{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}',
+      '.lookupFlowV272753 span{padding:5px 7px;border-radius:999px;background:#eef4fa;color:#4d6075;font-size:10px;font-weight:850}',
+      '.lookupFlowV272753 .done{background:#e9f7ef;color:#307351}',
+      '.lookupFlowV272753 .doing{background:#fff4d9;color:#89671e}',
+      '.lookupCustomerNoteV272753{margin-top:8px;padding:8px 9px;border-left:3px solid #7aa8d7;border-radius:7px;background:#f5f9fd;color:#536478;font-size:10px;line-height:1.55}',
+      '@media(max-width:520px){.lookupFinanceV272753{grid-template-columns:1fr 1fr}.lookupFinanceV272753>div:first-child{grid-column:1/-1}}'
+    ].join('');
+    document.head.appendChild(s);
+  }
+
   function renderLookupOrdersV27235(orders,resBox){
+    injectOrderTrackingStyleV272753();
     orders=Array.isArray(orders)?orders:[];
     resBox.innerHTML=orders.map(function(o,idx){
       var key=lookupOrderKeyV27235(o,idx);
@@ -251,18 +272,40 @@
         ? '<div class="lookupOrderMediaV27235" data-order-image-key="'+escV(key)+'"><img class="lookupOrderImgV27235" src="'+escV(img)+'" alt="'+escV(o.productName||'商品')+'" loading="lazy" referrerpolicy="no-referrer"></div>'
         : '<div class="lookupOrderMediaV27235" data-order-image-key="'+escV(key)+'"><div class="lookupOrderFallbackV27235">📦</div></div>';
 
+      var total=Number(o.total||0),received=Number(o.receivedAmount||0);
+      if(!received && String(o.paymentStatus||'')==='已確認')received=Number(o.paidAmount||0);
+      var balance=o.balance!==undefined?Number(o.balance||0):Math.max(0,total-received);
+      var plan=String(o.paymentPlan||'').trim();
+      if(!plan)plan=received<=0?'未收款':(received>=total&&total>0?'全額':'訂金');
+      var processing=String(o.processingStatus||'').trim() || (o.orderStatus==='處理中'?'處理中':(o.orderStatus==='已完成'?'已處理':'待處理'));
+      var purchase=String(o.purchaseStatus||'').trim() || (o.orderStatus==='已取消'?'砍單':'未下單');
+      var procCls=processing==='已處理'?'done':(processing==='處理中'?'doing':'');
+      var buyCls=(purchase==='已下單'||purchase==='已到貨')?'done':(purchase==='砍單'?'doing':'');
+      var purchaseDate=o.purchaseDate?('｜'+escV(o.purchaseDate)):'';
+      var note=o.customerProgressNote?'<div class="lookupCustomerNoteV272753"><b>店家進度：</b>'+escV(o.customerProgressNote)+'</div>':'';
+
       return '<div class="lookupOrderV27136"><div class="lookupOrderRowV27235">'+
         media+
         '<div class="lookupOrderInfoV27235">'+
           '<div class="oid">'+escV(o.orderId)+'</div>'+
           '<div class="name">'+escV(o.productName)+(o.variantName?'｜'+escV(o.variantName):'')+'</div>'+
-          '<div class="cartSubV27136">'+escV(o.createdAt)+'｜數量 '+Number(o.qty||1)+'｜'+moneyV(o.total)+'</div>'+
-          '<div class="lookupStatusV27136"><span>收款：'+escV(o.paymentStatus||'待確認')+'</span><span>訂單：'+escV(o.orderStatus||'待確認')+'</span></div>'+
+          '<div class="cartSubV27136">'+escV(o.createdAt)+'｜數量 '+Number(o.qty||1)+'</div>'+
+          '<div class="lookupFinanceV272753">'+
+            '<div><span>訂單總額</span><b>'+moneyV(total)+'</b></div>'+
+            '<div class="received"><span>'+escV(plan)+'｜已收</span><b>'+moneyV(received)+'</b></div>'+
+            '<div class="balance"><span>尚欠金額</span><b>'+moneyV(balance)+'</b></div>'+
+          '</div>'+
+          '<div class="lookupFlowV272753">'+
+            '<span>收款：'+escV(o.paymentStatus||'待確認')+'</span>'+
+            '<span class="'+procCls+'">處理：'+escV(processing)+'</span>'+
+            '<span class="'+buyCls+'">採購：'+escV(purchase)+purchaseDate+'</span>'+
+            '<span>訂單：'+escV(o.orderStatus||'待確認')+'</span>'+
+          '</div>'+
+          note+
         '</div>'+
       '</div></div>';
     }).join('');
 
-    // 去重後補抓，避免同商品 3 筆訂單打 3 次 API。
     var seen={};
     orders.forEach(function(o,idx){
       var k=String((o&&o.productId)||'')+'|'+String((o&&o.productName)||'');
@@ -272,7 +315,6 @@
         if(source){
           setLookupImageV27235(lookupOrderKeyV27235(o,idx),source.src,o&&o.productName);
         }else{
-          // 來源尚未補完，這筆也各自補抓，確保最終一定有機會出圖。
           hydrateLookupOrderImageV27235(o,lookupOrderKeyV27235(o,idx));
         }
         return;
@@ -296,35 +338,31 @@
       return;
     }
 
-    msg.className='';
-    msg.textContent='';
-    resBox.innerHTML='';
-    btn.disabled=true;
-    btn.textContent='查詢中…';
+    msg.className='';msg.textContent='';resBox.innerHTML='';
+    btn.disabled=true;btn.textContent='查詢中…';
+
+    function success(res){
+      btn.disabled=false;btn.textContent='查詢';res=res||{};
+      if(!res.orders||!res.orders.length){
+        msg.className='cartErrorV27136';msg.textContent='找不到此手機號碼的訂單。';return;
+      }
+      msg.className='cartOkV27136';
+      msg.textContent='找到 '+res.count+' 筆訂單'+(res.limited?'（僅顯示最近 30 筆）':'')+'。';
+      renderLookupOrdersV27235(res.orders,resBox);
+    }
+    function failOld(e){
+      btn.disabled=false;btn.textContent='查詢';
+      msg.className='cartErrorV27136';
+      msg.textContent=e&&e.message?e.message:String(e||'查詢失敗');
+    }
 
     google.script.run
-      .withSuccessHandler(function(res){
-        btn.disabled=false;
-        btn.textContent='查詢';
-        res=res||{};
-
-        if(!res.orders||!res.orders.length){
-          msg.className='cartErrorV27136';
-          msg.textContent='找不到此手機號碼的訂單。';
-          return;
-        }
-
-        msg.className='cartOkV27136';
-        msg.textContent='找到 '+res.count+' 筆訂單'+(res.limited?'（僅顯示最近 30 筆）':'')+'。';
-        renderLookupOrdersV27235(res.orders,resBox);
+      .withSuccessHandler(success)
+      .withFailureHandler(function(){
+        // Web App 尚未部署 v27.27.53 時自動退回舊查詢，不讓客人完全不能查單。
+        google.script.run.withSuccessHandler(success).withFailureHandler(failOld).getPublicShopOrdersByPhoneV27136(phone);
       })
-      .withFailureHandler(function(e){
-        btn.disabled=false;
-        btn.textContent='查詢';
-        msg.className='cartErrorV27136';
-        msg.textContent=e&&e.message?e.message:String(e||'查詢失敗');
-      })
-      .getPublicShopOrdersByPhoneV27136(phone);
+      .getPublicShopOrdersByPhoneV272753(phone);
   }
 
   function patchOpenOrderV27271(){
@@ -351,6 +389,6 @@
     // 初始化時若視窗已開，立即補做購物車裝飾，不再等下一次 class 變更。
     if(!m.classList.contains('hidden'))setTimeout(decorateOrderModal,0);
   }
-  function init(){injectStyle();injectLookupImageStyleV27235();injectHeader();injectModals();loadCart();patchOpenOrderV27271();watchOrderModal();watchProductCardsV27139();document.addEventListener('keydown',function(e){if(e.key==='Escape'){if($('cartMaskV27136')&&!$('cartMaskV27136').classList.contains('hidden'))closeCart();if($('lookupMaskV27136')&&!$('lookupMaskV27136').classList.contains('hidden'))closeLookup();}});}
+  function init(){injectStyle();injectLookupImageStyleV27235();injectOrderTrackingStyleV272753();injectHeader();injectModals();loadCart();patchOpenOrderV27271();watchOrderModal();watchProductCardsV27139();document.addEventListener('keydown',function(e){if(e.key==='Escape'){if($('cartMaskV27136')&&!$('cartMaskV27136').classList.contains('hidden'))closeCart();if($('lookupMaskV27136')&&!$('lookupMaskV27136').classList.contains('hidden'))closeLookup();}});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
