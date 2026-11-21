@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  var VER='27.27.55', CART_KEY='wanye_shop_cart_v27136', PROFILE_KEY='wanye_shop_profile_v27136';
+  var VER='27.27.56', CART_KEY='wanye_shop_cart_v27136', PROFILE_KEY='wanye_shop_profile_v27136';
   var cart=[],cartValidatingV271315=false,cartValidateSeqV271315=0;
 
   function $(id){return document.getElementById(id);}
@@ -272,12 +272,20 @@
         ? '<div class="lookupOrderMediaV27235" data-order-image-key="'+escV(key)+'"><img class="lookupOrderImgV27235" src="'+escV(img)+'" alt="'+escV(o.productName||'商品')+'" loading="lazy" referrerpolicy="no-referrer"></div>'
         : '<div class="lookupOrderMediaV27235" data-order-image-key="'+escV(key)+'"><div class="lookupOrderFallbackV27235">📦</div></div>';
 
-      var total=Number(o.total||0),received=Number(o.receivedAmount||0);
+      var total=Number(o.total||0);
+      var hasReceived=o.receivedAmount!==undefined&&o.receivedAmount!==null&&o.receivedAmount!=='';
+      var received=hasReceived?Number(o.receivedAmount||0):0;
+      if(!hasReceived&&String(o.paymentStatus||'')==='已確認')received=Number(o.paidAmount||0);
       var balance=o.balance!==undefined?Number(o.balance||0):Math.max(0,total-received);
       var pay=String(o.paymentState||'').trim();
       if(!pay){
         var p=String(o.paymentPlan||'').trim();
-        pay=p==='未收款'?'未付款':(p||((received<=0)?'未付款':(received>=total&&total>0?'全額':'訂金')));
+        if(p==='未收款')p='未付款';
+        var label=String(o.paymentLabel||'').trim();
+        if(p)pay=p;
+        else if(/全額|100%/.test(label))pay='全額';
+        else if(/訂金|70%/.test(label))pay='訂金';
+        else pay=(received<=0)?'未付款':(received>=total&&total>0?'全額':'訂金');
       }
       var state=String(o.productStatus||'').trim();
       if(!state){
@@ -366,13 +374,27 @@
             google.script.run
               .withSuccessHandler(success)
               .withFailureHandler(function(){
-                google.script.run.withSuccessHandler(success).withFailureHandler(failOld).getPublicShopOrdersByPhoneV27136(phone);
+                google.script.run
+      .withSuccessHandler(success)
+      .withFailureHandler(function(){
+        google.script.run
+          .withSuccessHandler(success)
+          .withFailureHandler(function(){
+            google.script.run
+              .withSuccessHandler(success)
+              .withFailureHandler(function(){
+                google.script.run
+                  .withSuccessHandler(success)
+                  .withFailureHandler(function(){
+                    google.script.run.withSuccessHandler(success).withFailureHandler(failOld).getPublicShopOrdersByPhoneV27136(phone);
+                  })
+                  .getPublicShopOrdersByPhoneV272753(phone);
               })
-              .getPublicShopOrdersByPhoneV272753(phone);
+              .getPublicShopOrdersByPhoneV272754(phone);
           })
-          .getPublicShopOrdersByPhoneV272754(phone);
+          .getPublicShopOrdersByPhoneV272755(phone);
       })
-      .getPublicShopOrdersByPhoneV272755(phone);
+      .getPublicShopOrdersByPhoneV272756(phone);
   }
 
   function patchOpenOrderV27271(){
