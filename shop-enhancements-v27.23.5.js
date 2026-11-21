@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  var VER='27.27.53', CART_KEY='wanye_shop_cart_v27136', PROFILE_KEY='wanye_shop_profile_v27136';
+  var VER='27.27.55', CART_KEY='wanye_shop_cart_v27136', PROFILE_KEY='wanye_shop_profile_v27136';
   var cart=[],cartValidatingV271315=false,cartValidateSeqV271315=0;
 
   function $(id){return document.getElementById(id);}
@@ -363,11 +363,16 @@
         google.script.run
           .withSuccessHandler(success)
           .withFailureHandler(function(){
-            google.script.run.withSuccessHandler(success).withFailureHandler(failOld).getPublicShopOrdersByPhoneV27136(phone);
+            google.script.run
+              .withSuccessHandler(success)
+              .withFailureHandler(function(){
+                google.script.run.withSuccessHandler(success).withFailureHandler(failOld).getPublicShopOrdersByPhoneV27136(phone);
+              })
+              .getPublicShopOrdersByPhoneV272753(phone);
           })
-          .getPublicShopOrdersByPhoneV272753(phone);
+          .getPublicShopOrdersByPhoneV272754(phone);
       })
-      .getPublicShopOrdersByPhoneV272754(phone);
+      .getPublicShopOrdersByPhoneV272755(phone);
   }
 
   function patchOpenOrderV27271(){
