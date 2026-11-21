@@ -375,7 +375,7 @@
 
   function renderLookupOrdersV27235(orders,resBox){
     injectOrderTrackingStyleV272753();
-    orders=Array.isArray(orders)?orders:[];
+    orders=(Array.isArray(orders)?orders:[]).filter(function(o){return String(o&&o.productStatus||'')!=='已取消'&&String(o&&o.orderStatus||'')!=='已取消';});
     resBox.innerHTML=orders.map(function(o,idx){
       var key=lookupOrderKeyV27235(o,idx);
       var img=lookupOrderImageV27235(o);
@@ -461,14 +461,17 @@
       btn.disabled=false;
       btn.textContent='查詢';
       res=res||{};
-      if(!res.orders||!res.orders.length){
+      var visible=(Array.isArray(res.orders)?res.orders:[]).filter(function(o){
+        return String(o&&o.productStatus||'')!=='已取消'&&String(o&&o.orderStatus||'')!=='已取消';
+      });
+      if(!visible.length){
         msg.className='cartErrorV27136';
-        msg.textContent='找不到此手機號碼的訂單。';
+        msg.textContent='目前沒有進行中的訂單。';
         return;
       }
       msg.className='cartOkV27136';
-      msg.textContent='找到 '+Number(res.count||res.orders.length)+' 筆訂單'+(res.limited?'（僅顯示最近 30 筆）':'')+'。';
-      renderLookupOrdersV27235(res.orders,resBox);
+      msg.textContent='找到 '+visible.length+' 筆進行中訂單。';
+      renderLookupOrdersV27235(visible,resBox);
     }
 
     function failFinal(e){
