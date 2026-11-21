@@ -450,27 +450,44 @@
     var phone=$('lookupPhoneV27136').value.trim();
     var msg=$('lookupMsgV27136'),resBox=$('lookupResultsV27136'),btn=$('lookupGoV27136');
     if(!phone){msg.className='cartErrorV27136';msg.textContent='請輸入手機號碼。';return;}
-    msg.className='';msg.textContent='';resBox.innerHTML='';btn.disabled=true;btn.textContent='查詢中…';
 
-    function success(res){
-      btn.disabled=false;btn.textContent='查詢';res=res||{};
-      if(!res.orders||!res.orders.length){msg.className='cartErrorV27136';msg.textContent='找不到此手機號碼的訂單。';return;}
-      msg.className='cartOkV27136';msg.textContent='找到 '+res.count+' 筆訂單'+(res.limited?'（僅顯示最近 30 筆）':'')+'。';
+    msg.className='';
+    msg.textContent='查詢中…';
+    resBox.innerHTML='';
+    btn.disabled=true;
+    btn.textContent='查詢中…';
+
+    function done(res){
+      btn.disabled=false;
+      btn.textContent='查詢';
+      res=res||{};
+      if(!res.orders||!res.orders.length){
+        msg.className='cartErrorV27136';
+        msg.textContent='找不到此手機號碼的訂單。';
+        return;
+      }
+      msg.className='cartOkV27136';
+      msg.textContent='找到 '+Number(res.count||res.orders.length)+' 筆訂單'+(res.limited?'（僅顯示最近 30 筆）':'')+'。';
       renderLookupOrdersV27235(res.orders,resBox);
     }
-    function failOld(e){
-      btn.disabled=false;btn.textContent='查詢';msg.className='cartErrorV27136';
-      msg.textContent=e&&e.message?e.message:String(e||'查詢失敗');
+
+    function legacy(){
+      google.script.run
+        .withSuccessHandler(done)
+        .withFailureHandler(function(e){
+          btn.disabled=false;
+          btn.textContent='查詢';
+          msg.className='cartErrorV27136';
+          msg.textContent=e&&e.message?e.message:String(e||'查詢失敗，請稍後再試。');
+        })
+        .getPublicShopOrdersByPhoneV27136(phone);
     }
-    function call755(){
-      google.script.run.withSuccessHandler(success).withFailureHandler(function(){
-        google.script.run.withSuccessHandler(success).withFailureHandler(failOld).getPublicShopOrdersByPhoneV27136(phone);
-      }).getPublicShopOrdersByPhoneV272755(phone);
-    }
-    function call756(){
-      google.script.run.withSuccessHandler(success).withFailureHandler(call755).getPublicShopOrdersByPhoneV272756(phone);
-    }
-    google.script.run.withSuccessHandler(success).withFailureHandler(call756).getPublicShopOrdersByPhoneV272757(phone);
+
+    // v27.27.58：只打最新唯讀查單；若尚未部署新版才退回最舊穩定查單。
+    google.script.run
+      .withSuccessHandler(done)
+      .withFailureHandler(legacy)
+      .getPublicShopOrdersByPhoneV272758(phone);
   }
 
   function patchOpenOrderV27271(){
