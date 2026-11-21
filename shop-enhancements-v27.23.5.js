@@ -23,7 +23,7 @@
   .cartSummaryV27136{margin-top:15px;padding:14px;border-radius:14px;background:#211a2b;border:1px solid #3a2e48}.cartSummaryRowV27136{display:flex;justify-content:space-between;gap:12px;margin:7px 0}.cartSummaryRowV27136.total{font-size:19px;font-weight:900;color:#ffd76b}.cartPlanV27136{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.cartPlanV27136 label{display:flex!important;align-items:center;gap:7px;margin:0!important;border:1px solid #443752;border-radius:10px;padding:10px;color:#f7f3ff!important;cursor:pointer}.cartPlanV27136 input{width:auto!important}
   .cartBankV27136{margin:12px 0;padding:12px;border:1px dashed #775b94;border-radius:12px;background:#100d16}.cartBankV27136 b{font-size:17px}.cartFormV27136{display:grid;grid-template-columns:1fr 1fr;gap:10px}.cartFormV27136 .full{grid-column:1/-1}.cartFormV27136 label{font-size:12px;color:#c5b6d1;margin:0 0 5px;display:block}.cartFormV27136 input,.cartFormV27136 textarea{width:100%;padding:11px 12px;border-radius:10px;border:1px solid #443752;background:#0e0b13;color:#fff}.cartFormV27136 textarea{min-height:70px;resize:vertical}.cartActionsV27136{display:flex;gap:9px;margin-top:14px}.cartActionsV27136 button{flex:1;border:0;border-radius:12px;padding:12px;font-weight:800;cursor:pointer}.cartPrimaryV27136{background:linear-gradient(135deg,#a865ff,#7839d2);color:#fff}.cartSecondaryV27136{background:#2a2234;color:#fff;border:1px solid #443752!important}.cartEmptyV27136{text-align:center;padding:34px 10px;color:#aa9ab8}
   .cartAddBtnV27136{background:linear-gradient(135deg,#4d91e6,#6e7be8)!important;border:0!important;color:#fff!important;font-size:15px!important;font-weight:950!important;min-height:46px!important}.cartModalNoticeV27139{margin:10px 0;padding:12px 14px;border-radius:12px;background:#eef7ff;border:1px solid #cfe2f5;color:#456b91;font-size:12px;font-weight:850;line-height:1.6}.cartToastV27136{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);opacity:0;z-index:100000;background:#221a2b;color:#fff;padding:11px 16px;border:1px solid #5c4770;border-radius:999px;transition:.2s;pointer-events:none}.cartToastV27136.show{opacity:1;transform:translate(-50%,0)}
-  .lookupInputRowV27136{display:flex;gap:8px}.lookupInputRowV27136 input{flex:1;padding:12px;border-radius:10px;border:1px solid #443752;background:#0e0b13;color:#fff}.lookupInputRowV27136 button{border:0;border-radius:10px;padding:0 16px;background:#8d55d8;color:#fff;font-weight:800;cursor:pointer}.lookupOrderV27136{margin-top:10px;padding:12px;border:1px solid #3c3049;border-radius:12px;background:#1e1826}.lookupOrderV27136 .oid{font-size:11px;color:#9e8ead;word-break:break-all}.lookupOrderV27136 .name{font-weight:800;margin:5px 0}.lookupStatusV27136{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.lookupStatusV27136 span{font-size:12px;border-radius:999px;padding:4px 8px;background:#30263b}.lookupNoticeV27136{font-size:12px;color:#a99bb8;margin:10px 0}.cartErrorV27136{margin-top:10px;color:#ff8da3;white-space:pre-wrap;font-size:13px}.cartOkV27136{margin-top:10px;color:#7ce1a6;white-space:pre-wrap;font-size:13px}
+  .lookupInputRowV27136{display:flex;gap:8px}.lookupInputRowV27136 input{flex:1;padding:12px;border-radius:10px;border:1px solid #443752;background:#0e0b13;color:#fff}.lookupInputRowV27136 button{border:0;border-radius:10px;padding:0 16px;background:#8d55d8;color:#fff;font-weight:800;cursor:pointer}.lookupOrderV27136{margin-top:10px;padding:12px;border:1px solid #3c3049;border-radius:12px;background:#1e1826}.lookupOrderV27136 .oid{font-size:11px;color:#9e8ead;word-break:break-all}.lookupOrderV27136 .name{font-weight:800;margin:5px 0}.lookupStatusV27136{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.lookupStatusV27136 span{font-size:12px;border-radius:999px;padding:4px 8px;background:#30263b}.lookupNoticeV27136{font-size:12px;color:#a99bb8;margin:10px 0}.cartErrorV27136{margin-top:10px;color:#ff8da3;white-space:pre-wrap;font-size:13px}.cartOkV27136{margin-top:10px;color:#7ce1a6;white-space:pre-wrap;font-size:13px}.cartDeliveryV272757{margin-top:12px;padding:12px;border:1px solid #4c3d5b;border-radius:12px;background:#17121e}.cartDeliveryV272757>strong{display:block;margin-bottom:8px;color:#fff}.cartDeliveryGridV272757{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cartDeliveryGridV272757 label{display:flex!important;align-items:flex-start;gap:8px;margin:0!important;padding:11px;border:1px solid #443752;border-radius:10px;background:#211a2b;color:#fff!important;cursor:pointer}.cartDeliveryGridV272757 input{width:auto!important;margin-top:3px}.cartShippingNoticeV272757{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid #6a5427;background:#2a2112;color:#f4d88b;font-size:12px;line-height:1.7;font-weight:800}.cartShippingNoticeV272757.hot{border-color:#8b5d2e;background:#322315}.cartShippingNoticeV272757 b{color:#ffe5a7}.lookupDeliveryV272757{display:inline-flex;margin-top:7px;padding:4px 8px;border-radius:999px;background:#eaf4ff;color:#356a9c;font-size:11px;font-weight:900}
   @media(max-width:680px){.cartFormV27136{grid-template-columns:1fr}.cartFormV27136 .full{grid-column:auto}.cartItemV27136{grid-template-columns:62px 1fr}.cartItemV27136 img{width:62px;height:62px}.cartRemoveV27136{grid-column:2;justify-self:start}.head .cartHeadBtnV27136{padding:8px 9px;font-size:12px}.head{gap:6px!important}.brand span{display:none}.cartPanelV27136{max-height:95vh}.cartPlanV27136{grid-template-columns:1fr}}
   `;document.head.appendChild(s);}
 
@@ -107,13 +107,124 @@
   function refreshCartCurrentStateV271315(){if(!cart.length)return;var seq=++cartValidateSeqV271315,pending=cart.length;cartValidatingV271315=true;cart.forEach(function(it){it.blockedReasonV271315='';});renderCart();cart.forEach(function(it){google.script.run.withSuccessHandler(function(x){if(seq!==cartValidateSeqV271315)return;var reason='';if(!x)reason='商品已下架｜無法結帳';else if(x.isClosed)reason='已結單｜無法結帳';else if(x.type!=='預購')reason='非預購商品｜無法結帳';else if(x.category==='GK')reason='GK 商品需客服確認｜無法結帳';else{var vars=Array.isArray(x.variants)?x.variants:[],v=null;if(it.variantName){v=vars.find(function(z){return String(z.name||'')===String(it.variantName||'');})||null;if(!v)reason='商品規格已變更｜請移除後重新加入';}if(!reason){it.name=x.name||it.name;it.unitPrice=Number(v?v.price:x.price||it.unitPrice||0);it.availableStock=x.availableStock===null?null:Number(x.availableStock);if(it.availableStock!==null&&Number(it.qty||1)>it.availableStock)reason='目前庫存不足｜請調整數量';}}it.blockedReasonV271315=reason;pending--;if(pending<=0){cartValidatingV271315=false;renderCart();}}).withFailureHandler(function(){if(seq!==cartValidateSeqV271315)return;it.blockedReasonV271315='暫時無法確認商品狀態｜請稍後再試';pending--;if(pending<=0){cartValidatingV271315=false;renderCart();}}).getPublicShopProductV270(it.productId,'');});}
   function openCart(){injectModals();$('cartMaskV27136').classList.remove('hidden');document.body.style.overflow='hidden';renderCart();refreshCartCurrentStateV271315();}
   function closeCart(){$('cartMaskV27136').classList.add('hidden');document.body.style.overflow='';}
-  function renderCart(){var list=$('cartListV27136'),box=$('cartCheckoutV27136');if(!cart.length){list.innerHTML='<div class="cartEmptyV27136">購物車目前是空的<br><small>一般預購商品可直接按「加入購物車」。</small></div>';box.innerHTML='';return;}var blocked=cartBlockedCountV271315();list.innerHTML=(cartValidatingV271315?'<div class="cartCheckV271315">正在確認商品是否仍可預購…</div>':(blocked?'<div class="cartCheckV271315 bad">購物車內有 '+blocked+' 項商品已無法結帳，請先移除或調整。</div>':''))+cart.map(function(it,i){var bad=!!it.blockedReasonV271315;return '<div class="cartItemV27136 '+(bad?'blockedV271315':'')+'" data-cart-index="'+i+'"><img src="'+escV(it.imageUrl||'')+'" alt=""><div><div class="cartItemNameV27136">'+escV(it.name)+'</div>'+(it.variantName?'<div class="cartSubV27136">規格：'+escV(it.variantName)+'</div>':'')+'<div class="cartSubV27136">單價 '+moneyV(it.unitPrice)+'</div>'+(bad?'<div class="cartBlockedV271315">⚠ '+escV(it.blockedReasonV271315)+'</div>':'')+'<div class="cartQtyV27136"><button type="button" data-minus="'+i+'" '+(bad?'disabled':'')+'>−</button><input type="number" min="1" max="99" value="'+Number(it.qty||1)+'" data-qty="'+i+'" '+(bad?'disabled':'')+'><button type="button" data-plus="'+i+'" '+(bad?'disabled':'')+'>＋</button></div></div><button class="cartRemoveV27136" type="button" data-remove="'+i+'">移除</button></div>';}).join('');var prof=loadProfile();box.innerHTML='<div class="cartSummaryV27136"><div class="cartSummaryRowV27136"><span>商品品項</span><b>'+cart.length+' 項</b></div><div class="cartPlanV27136"><label><input type="radio" name="cartPlanV27136" value="deposit" checked> <span><b>支付訂金</b><br><small>尾款之後再付</small></span></label><label><input type="radio" name="cartPlanV27136" value="full"> <span><b>一次付清</b><br><small>全額預購</small></span></label></div><div class="cartSummaryRowV27136 total"><span id="cartPayTitleV27136">本次應付訂金</span><b id="cartExpectedV27136"></b></div></div><div class="cartBankV27136">匯款帳號｜中國信託（822）<br><b>783540123887</b><br><small>請先完成整筆購物車匯款，再填寫後五碼送出。</small></div><div class="cartFormV27136"><div><label>姓名 *</label><input id="cartNameV27136" maxlength="40" value="'+escV(prof.name||'')+'"></div><div><label>手機 *</label><input id="cartPhoneV27136" inputmode="tel" maxlength="20" value="'+escV(prof.phone||'')+'"></div><div><label>LINE ID *</label><input id="cartLineV27136" maxlength="80" value="'+escV(prof.lineId||'')+'"></div><div><label>匯款帳號後五碼 *</label><input id="cartLast5V27136" inputmode="numeric" maxlength="5"></div><div class="full"><label>實際匯款總額 *</label><input id="cartPaidV27136" type="number" min="1" step="1" inputmode="numeric"></div><div class="full"><label>備註</label><textarea id="cartNoteV27136" maxlength="250" placeholder="整筆購物車的備註（選填）"></textarea></div></div><div id="cartMsgV27136"></div><div class="cartActionsV27136"><button class="cartSecondaryV27136" type="button" id="cartContinueV27136">繼續逛</button><button class="cartPrimaryV27136" type="button" id="cartSubmitV27136" '+((cartValidatingV271315||blocked)?'disabled':'')+'>'+((cartValidatingV271315)?'確認商品狀態中…':(blocked?'請先移除無法結帳商品':'我已匯款，送出全部訂單'))+'</button></div>';
-    list.querySelectorAll('[data-minus]').forEach(function(b){b.onclick=function(){changeQty(Number(b.dataset.minus),-1);};});list.querySelectorAll('[data-plus]').forEach(function(b){b.onclick=function(){changeQty(Number(b.dataset.plus),1);};});list.querySelectorAll('[data-remove]').forEach(function(b){b.onclick=function(){cart.splice(Number(b.dataset.remove),1);saveCart();renderCart();};});list.querySelectorAll('[data-qty]').forEach(function(inp){inp.onchange=function(){setQty(Number(inp.dataset.qty),Number(inp.value||1));};});document.querySelectorAll('input[name="cartPlanV27136"]').forEach(function(r){r.onchange=refreshCartTotals;});$('cartContinueV27136').onclick=closeCart;$('cartSubmitV27136').onclick=submitCart;refreshCartTotals();}
+  function currentDeliveryV272757(){
+    var el=document.querySelector('input[name="cartDeliveryV272757"]:checked');
+    return el?String(el.value||''):'';
+  }
+  function cartHasPokemonV272757(){
+    return (cart||[]).some(function(it){
+      var s=String((it&&it.name)||'');
+      return /POK[ÉE]MON|POCKET\s*MONSTER|ポケモン|寶可夢|神奇寶貝/i.test(s) || !!(it&&it.isPokemonV272757);
+    });
+  }
+
+  function renderCart(){
+    var list=$('cartListV27136'),box=$('cartCheckoutV27136');
+    if(!cart.length){
+      list.innerHTML='<div class="cartEmptyV27136">購物車目前是空的<br><small>一般預購商品可直接按「加入購物車」。</small></div>';
+      box.innerHTML='';return;
+    }
+    var blocked=cartBlockedCountV271315(),prof=loadProfile(),hasPokemon=cartHasPokemonV272757();
+    list.innerHTML=
+      (cartValidatingV271315?'<div class="cartCheckV271315">正在確認商品是否仍可預購…</div>':
+        (blocked?'<div class="cartCheckV271315 bad">購物車內有 '+blocked+' 項商品已無法結帳，請先移除或調整。</div>':''))+
+      cart.map(function(it,i){
+        var bad=!!it.blockedReasonV271315;
+        return '<div class="cartItemV27136 '+(bad?'blockedV271315':'')+'" data-cart-index="'+i+'">'+
+          '<img src="'+escV(it.imageUrl||'')+'" alt=""><div><div class="cartItemNameV27136">'+escV(it.name)+'</div>'+
+          (it.variantName?'<div class="cartSubV27136">規格：'+escV(it.variantName)+'</div>':'')+
+          '<div class="cartSubV27136">單價 '+moneyV(it.unitPrice)+'</div>'+
+          (bad?'<div class="cartBlockedV271315">⚠ '+escV(it.blockedReasonV271315)+'</div>':'')+
+          '<div class="cartQtyV27136"><button type="button" data-minus="'+i+'" '+(bad?'disabled':'')+'>−</button>'+
+          '<input type="number" min="1" max="99" value="'+Number(it.qty||1)+'" data-qty="'+i+'" '+(bad?'disabled':'')+'>'+
+          '<button type="button" data-plus="'+i+'" '+(bad?'disabled':'')+'>＋</button></div></div>'+
+          '<button class="cartRemoveV27136" type="button" data-remove="'+i+'">移除</button></div>';
+      }).join('');
+
+    box.innerHTML=
+      '<div class="cartSummaryV27136">'+
+        '<div class="cartSummaryRowV27136"><span>商品品項</span><b>'+cart.length+' 項</b></div>'+
+        '<div class="cartPlanV27136">'+
+          '<label><input type="radio" name="cartPlanV27136" value="deposit" checked> <span><b>支付訂金</b><br><small>尾款之後再付</small></span></label>'+
+          '<label><input type="radio" name="cartPlanV27136" value="full"> <span><b>一次付清</b><br><small>全額預購</small></span></label>'+
+        '</div>'+
+        '<div class="cartDeliveryV272757"><strong>到貨後取貨方式 *</strong><div class="cartDeliveryGridV272757">'+
+          '<label><input type="radio" name="cartDeliveryV272757" value="到店自取"><span><b>到店自取</b><br><small>商品到貨後至頑夜 TOY 門市取貨</small></span></label>'+
+          '<label><input type="radio" name="cartDeliveryV272757" value="賣貨便"><span><b>賣貨便</b><br><small>到貨後依賣貨便方式寄送</small></span></label>'+
+        '</div></div>'+
+        '<div class="cartShippingNoticeV272757 '+(hasPokemon?'hot':'')+'"><b>運費說明</b><br>'+
+          '・寶可夢商品：日本寄到台灣的國際運費，商品到貨後另外計算。'+
+          (hasPokemon?'<br>・本購物車含寶可夢相關商品，請特別留意上述日本→台灣國際運費。':'')+
+          '<br>・台灣寄送：選擇賣貨便時，運費以賣貨便實際運費為準。'+
+          '<br>・到店自取：不收台灣端寄送運費。</div>'+
+        '<div class="cartSummaryRowV27136 total"><span id="cartPayTitleV27136">本次應付訂金</span><b id="cartExpectedV27136"></b></div>'+
+      '</div>'+
+      '<div class="cartBankV27136">匯款帳號｜中國信託（822）<br><b>783540123887</b><br><small>請先完成整筆購物車匯款，再填寫後五碼送出。</small></div>'+
+      '<div class="cartFormV27136">'+
+        '<div><label>姓名 *</label><input id="cartNameV27136" maxlength="40" value="'+escV(prof.name||'')+'"></div>'+
+        '<div><label>手機 *</label><input id="cartPhoneV27136" inputmode="tel" maxlength="20" value="'+escV(prof.phone||'')+'"></div>'+
+        '<div><label>LINE ID *</label><input id="cartLineV27136" maxlength="80" value="'+escV(prof.lineId||'')+'"></div>'+
+        '<div><label>匯款帳號後五碼 *</label><input id="cartLast5V27136" inputmode="numeric" maxlength="5"></div>'+
+        '<div class="full"><label>實際匯款總額 *</label><input id="cartPaidV27136" type="number" min="1" step="1" inputmode="numeric"></div>'+
+        '<div class="full"><label>備註</label><textarea id="cartNoteV27136" maxlength="200" placeholder="整筆購物車的備註（選填）"></textarea></div>'+
+      '</div>'+
+      '<div id="cartMsgV27136"></div>'+
+      '<div class="cartActionsV27136"><button class="cartSecondaryV27136" type="button" id="cartContinueV27136">繼續逛</button>'+
+      '<button class="cartPrimaryV27136" type="button" id="cartSubmitV27136" '+((cartValidatingV271315||blocked)?'disabled':'')+'>'+
+      ((cartValidatingV271315)?'確認商品狀態中…':(blocked?'請先移除無法結帳商品':'我已匯款，送出全部訂單'))+'</button></div>';
+
+    list.querySelectorAll('[data-minus]').forEach(function(b){b.onclick=function(){changeQty(Number(b.dataset.minus),-1);};});
+    list.querySelectorAll('[data-plus]').forEach(function(b){b.onclick=function(){changeQty(Number(b.dataset.plus),1);};});
+    list.querySelectorAll('[data-remove]').forEach(function(b){b.onclick=function(){cart.splice(Number(b.dataset.remove),1);saveCart();renderCart();};});
+    list.querySelectorAll('[data-qty]').forEach(function(inp){inp.onchange=function(){setQty(Number(inp.dataset.qty),Number(inp.value||1));};});
+    document.querySelectorAll('input[name="cartPlanV27136"]').forEach(function(r){r.onchange=refreshCartTotals;});
+    $('cartContinueV27136').onclick=closeCart;$('cartSubmitV27136').onclick=submitCart;refreshCartTotals();
+  }
   function setQty(i,n){if(!cart[i])return;n=Math.max(1,Math.min(99,Math.floor(Number(n||1))));if(cart[i].availableStock!==null&&cart[i].availableStock!==undefined)n=Math.min(n,Math.max(1,Number(cart[i].availableStock)));cart[i].qty=n;saveCart();renderCart();}
   function changeQty(i,d){if(!cart[i])return;setQty(i,Number(cart[i].qty||1)+d);}
   function refreshCartTotals(){var total=cartExpectedTotal(),plan=currentCartPlan();$('cartExpectedV27136').textContent=moneyV(total);$('cartPayTitleV27136').textContent=plan==='full'?'本次應付全額':'本次應付訂金';var p=$('cartPaidV27136');if(p&&!p.dataset.touched)p.value=Math.round(total);if(p&&!p._bound){p._bound=true;p.addEventListener('input',function(){p.dataset.touched='1';});}}
 
-  function submitCart(){var msg=$('cartMsgV27136'),btn=$('cartSubmitV27136');msg.className='';msg.textContent='';if(!cart.length)return;if(cartValidatingV271315){msg.className='cartErrorV27136';msg.textContent='正在確認商品狀態，請稍後再結帳。';return;}if(cartBlockedCountV271315()){msg.className='cartErrorV27136';msg.textContent='購物車內有已結單或無法購買的商品，請先移除後再結帳。';return;}var plan=currentCartPlan(),name=$('cartNameV27136').value.trim(),phone=$('cartPhoneV27136').value.trim(),lineId=$('cartLineV27136').value.trim(),last5=$('cartLast5V27136').value.replace(/\D/g,''),total=cartExpectedTotal(),paid=Number($('cartPaidV27136').value||0);if(!name){msg.className='cartErrorV27136';msg.textContent='請填寫姓名。';return;}if(!phone){msg.className='cartErrorV27136';msg.textContent='請填寫手機。';return;}if(!lineId){msg.className='cartErrorV27136';msg.textContent='請填寫 LINE ID。';return;}if(!/^\d{5}$/.test(last5)){msg.className='cartErrorV27136';msg.textContent='請填寫匯款帳號後五碼。';return;}if(Math.abs(paid-total)>0.009){msg.className='cartErrorV27136';msg.textContent='實際匯款總額需等於 '+moneyV(total)+'。';return;}var cid='CART-'+Date.now()+'-'+Math.random().toString(36).slice(2,9),payload={cartRequestId:cid,name:name,phone:phone,lineId:lineId,bankLast5:last5,note:$('cartNoteV27136').value.trim(),paymentPlan:plan,totalPaid:paid,items:cart.map(function(it){return {productId:it.productId,qty:Number(it.qty||1),variantName:it.variantName||'',paidAmount:itemExpected(it,plan)};})};saveProfile({name:name,phone:phone,lineId:lineId});btn.disabled=true;btn.textContent='送出中…';google.script.run.withSuccessHandler(function(res){btn.disabled=false;btn.textContent='我已匯款，送出全部訂單';res=res||{};var successIdx={};(res.successes||[]).forEach(function(x){successIdx[Number(x.index)]=true;});if(res.successCount){cart=cart.filter(function(_,i){return !successIdx[i];});saveCart();}if(res.failureCount){msg.className='cartErrorV27136';msg.textContent=(res.message||'部分商品送出失敗')+'\n'+(res.failures||[]).map(function(x){return '・'+(x.error||'送出失敗');}).join('\n');renderCart();}else{msg.className='cartOkV27136';msg.textContent=(res.message||'訂單已送出')+'\n購物車編號：'+(res.cartId||cid);cart=[];saveCart();setTimeout(function(){renderCart();},1200);}}).withFailureHandler(function(e){btn.disabled=false;btn.textContent='我已匯款，送出全部訂單';msg.className='cartErrorV27136';msg.textContent=e&&e.message?e.message:String(e||'送出失敗');}).submitShopCartV27136(payload);}
+  function submitCart(){
+    var msg=$('cartMsgV27136'),btn=$('cartSubmitV27136');
+    msg.className='';msg.textContent='';
+    if(!cart.length)return;
+    if(cartValidatingV271315){msg.className='cartErrorV27136';msg.textContent='正在確認商品狀態，請稍後再結帳。';return;}
+    if(cartBlockedCountV271315()){msg.className='cartErrorV27136';msg.textContent='購物車內有已結單或無法購買的商品，請先移除後再結帳。';return;}
+    var plan=currentCartPlan(),delivery=currentDeliveryV272757();
+    var name=$('cartNameV27136').value.trim(),phone=$('cartPhoneV27136').value.trim(),lineId=$('cartLineV27136').value.trim();
+    var last5=$('cartLast5V27136').value.replace(/\D/g,''),total=cartExpectedTotal(),paid=Number($('cartPaidV27136').value||0);
+    if(!delivery){msg.className='cartErrorV27136';msg.textContent='請選擇到貨後取貨方式：到店自取或賣貨便。';return;}
+    if(!name){msg.className='cartErrorV27136';msg.textContent='請填寫姓名。';return;}
+    if(!phone){msg.className='cartErrorV27136';msg.textContent='請填寫手機。';return;}
+    if(!lineId){msg.className='cartErrorV27136';msg.textContent='請填寫 LINE ID。';return;}
+    if(!/^\d{5}$/.test(last5)){msg.className='cartErrorV27136';msg.textContent='請填寫匯款帳號後五碼。';return;}
+    if(Math.abs(paid-total)>0.009){msg.className='cartErrorV27136';msg.textContent='實際匯款總額需等於 '+moneyV(total)+'。';return;}
+    var cid='CART-'+Date.now()+'-'+Math.random().toString(36).slice(2,9);
+    var userNote=$('cartNoteV27136').value.trim();
+    var note=('[取貨方式：'+delivery+']'+(userNote?' '+userNote:'')).slice(0,250);
+    var payload={cartRequestId:cid,name:name,phone:phone,lineId:lineId,bankLast5:last5,note:note,deliveryMethod:delivery,paymentPlan:plan,totalPaid:paid,
+      items:cart.map(function(it){return {productId:it.productId,qty:Number(it.qty||1),variantName:it.variantName||'',paidAmount:itemExpected(it,plan),deliveryMethod:delivery};})};
+    saveProfile({name:name,phone:phone,lineId:lineId});
+    btn.disabled=true;btn.textContent='送出中…';
+    google.script.run.withSuccessHandler(function(res){
+      btn.disabled=false;btn.textContent='我已匯款，送出全部訂單';res=res||{};
+      var successIdx={};(res.successes||[]).forEach(function(x){successIdx[Number(x.index)]=true;});
+      if(res.successCount){cart=cart.filter(function(_,i){return !successIdx[i];});saveCart();}
+      if(res.failureCount){
+        msg.className='cartErrorV27136';
+        msg.textContent=(res.message||'部分商品送出失敗')+'\n'+(res.failures||[]).map(function(x){return '・'+(x.error||'送出失敗');}).join('\n');
+        renderCart();
+      }else{
+        msg.className='cartOkV27136';
+        msg.textContent=(res.message||'訂單已送出')+'\n取貨方式：'+delivery+'\n購物車編號：'+(res.cartId||cid);
+        cart=[];saveCart();setTimeout(function(){renderCart();},1400);
+      }
+    }).withFailureHandler(function(e){
+      btn.disabled=false;btn.textContent='我已匯款，送出全部訂單';
+      msg.className='cartErrorV27136';msg.textContent=e&&e.message?e.message:String(e||'送出失敗');
+    }).submitShopCartV27136(payload);
+  }
+
 
   function lookupOrderProductV27235(o){
     var all=[];
@@ -310,7 +421,7 @@
           '<div class="lookupFlowV272753">'+
             '<span>付款：'+escV(pay)+'</span>'+
             '<span class="'+stateCls+'">商品狀況：'+escV(state)+'</span>'+
-          '</div>'+
+          '</div>'+          (o.deliveryMethod?'<span class="lookupDeliveryV272757">取貨：'+escV(o.deliveryMethod)+'</span>':'')+
         '</div>'+
       '</div></div>';
     }).join('');
@@ -337,64 +448,29 @@
   function closeLookup(){$('lookupMaskV27136').classList.add('hidden');document.body.style.overflow='';}
   function lookupOrders(){
     var phone=$('lookupPhoneV27136').value.trim();
-    var msg=$('lookupMsgV27136');
-    var resBox=$('lookupResultsV27136');
-    var btn=$('lookupGoV27136');
-
-    if(!phone){
-      msg.className='cartErrorV27136';
-      msg.textContent='請輸入手機號碼。';
-      return;
-    }
-
-    msg.className='';msg.textContent='';resBox.innerHTML='';
-    btn.disabled=true;btn.textContent='查詢中…';
+    var msg=$('lookupMsgV27136'),resBox=$('lookupResultsV27136'),btn=$('lookupGoV27136');
+    if(!phone){msg.className='cartErrorV27136';msg.textContent='請輸入手機號碼。';return;}
+    msg.className='';msg.textContent='';resBox.innerHTML='';btn.disabled=true;btn.textContent='查詢中…';
 
     function success(res){
       btn.disabled=false;btn.textContent='查詢';res=res||{};
-      if(!res.orders||!res.orders.length){
-        msg.className='cartErrorV27136';msg.textContent='找不到此手機號碼的訂單。';return;
-      }
-      msg.className='cartOkV27136';
-      msg.textContent='找到 '+res.count+' 筆訂單'+(res.limited?'（僅顯示最近 30 筆）':'')+'。';
+      if(!res.orders||!res.orders.length){msg.className='cartErrorV27136';msg.textContent='找不到此手機號碼的訂單。';return;}
+      msg.className='cartOkV27136';msg.textContent='找到 '+res.count+' 筆訂單'+(res.limited?'（僅顯示最近 30 筆）':'')+'。';
       renderLookupOrdersV27235(res.orders,resBox);
     }
     function failOld(e){
-      btn.disabled=false;btn.textContent='查詢';
-      msg.className='cartErrorV27136';
+      btn.disabled=false;btn.textContent='查詢';msg.className='cartErrorV27136';
       msg.textContent=e&&e.message?e.message:String(e||'查詢失敗');
     }
-
-    google.script.run
-      .withSuccessHandler(success)
-      .withFailureHandler(function(){
-        google.script.run
-          .withSuccessHandler(success)
-          .withFailureHandler(function(){
-            google.script.run
-              .withSuccessHandler(success)
-              .withFailureHandler(function(){
-                google.script.run
-      .withSuccessHandler(success)
-      .withFailureHandler(function(){
-        google.script.run
-          .withSuccessHandler(success)
-          .withFailureHandler(function(){
-            google.script.run
-              .withSuccessHandler(success)
-              .withFailureHandler(function(){
-                google.script.run
-                  .withSuccessHandler(success)
-                  .withFailureHandler(function(){
-                    google.script.run.withSuccessHandler(success).withFailureHandler(failOld).getPublicShopOrdersByPhoneV27136(phone);
-                  })
-                  .getPublicShopOrdersByPhoneV272753(phone);
-              })
-              .getPublicShopOrdersByPhoneV272754(phone);
-          })
-          .getPublicShopOrdersByPhoneV272755(phone);
-      })
-      .getPublicShopOrdersByPhoneV272756(phone);
+    function call755(){
+      google.script.run.withSuccessHandler(success).withFailureHandler(function(){
+        google.script.run.withSuccessHandler(success).withFailureHandler(failOld).getPublicShopOrdersByPhoneV27136(phone);
+      }).getPublicShopOrdersByPhoneV272755(phone);
+    }
+    function call756(){
+      google.script.run.withSuccessHandler(success).withFailureHandler(call755).getPublicShopOrdersByPhoneV272756(phone);
+    }
+    google.script.run.withSuccessHandler(success).withFailureHandler(call756).getPublicShopOrdersByPhoneV272757(phone);
   }
 
   function patchOpenOrderV27271(){
