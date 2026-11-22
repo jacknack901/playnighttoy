@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>頑夜 TOY｜線上商城</title>
-  <meta name="wanye-shop-version" content="27.27.82-longterm-preorder-hardening">
+  <meta name="wanye-shop-version" content="27.27.83-speed-latest-first">
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="preconnect" href="https://drive.google.com">
@@ -709,8 +709,8 @@
       <div class="featuredDecor decorStar" aria-hidden="true">✦</div>
       <div class="featuredHead">
         <div class="featuredHeading">
-          <span class="sectionKicker">PICK UP</span>
-          <strong>近期推薦</strong>
+          <span class="sectionKicker">NEW ARRIVAL</span>
+          <strong>最新上架</strong>
         </div>
         <a class="featuredShopLink" href="./shop.html">全部商品 →</a>
       </div>
@@ -964,23 +964,24 @@
   var ALL_PRODUCTS_CACHE=[];
   var ALL_PRODUCTS_READY=false;
   var ALL_PRODUCTS_LOADING=false;
-  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V272782';
+  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V272783';
   // v27.25.0｜快取只拿來秒開，不再讓新品被舊資料卡一天。
   var ALL_PRODUCTS_CACHE_TTL=10*1000;
   var ALL_PRODUCTS_STALE_TTL_V27242=24*60*60*1000;
   var ALL_PRODUCTS_REFRESHED_THIS_PAGE=false;
-  var SHOP_CLIENT_VISIBLE_V27250=48;
-  var SHOP_CLIENT_STEP_V27250=48;
+  var SHOP_CLIENT_VISIBLE_V27250=24;
+  var SHOP_CLIENT_STEP_V27250=36;
   var SHOP_CLIENT_FILTER_KEY_V27250='';
   var SHOP_CLIENT_PAGING_V27250=false;
   var SHOP_LAST_FULL_SYNC_V27250=0;
   // v27.27.34｜商城即時同步：輕量抓最新商品，完整同步低頻執行，避免大量 Pokémon Center 商品拖慢。
-  var SHOP_FAST_REFRESH_INTERVAL_V272733=30*1000;
-  var SHOP_FULL_REFRESH_INTERVAL_V272733=90*1000;
+  var SHOP_FAST_REFRESH_INTERVAL_V272733=20*1000;
+  var SHOP_FULL_REFRESH_INTERVAL_V272733=5*60*1000;
   var SHOP_LAST_FAST_REFRESH_V272733=0;
   var SHOP_AUTO_REFRESH_TIMER_V272733=null;
   // v27.27.34｜完整商品主池＋可靠搜尋
-  var SHOP_FRONT_VERSION_V272734='27.27.34-fast-search-master-pool';
+  var SHOP_FRONT_VERSION_V272734='27.27.83-speed-latest-first';
+  var SHOP_LIVE_LATEST_SEQ_V272783=0;
   var SHOP_SEARCH_REMOTE_SEQ_V272734=0;
   var SHOP_SEARCH_REMOTE_TIMER_V272734=null;
   var SHOP_SEARCH_INDEX_V272734={};
@@ -1503,17 +1504,10 @@
       cards.push({item:x,tag:tag});
     }
 
-    latest.filter(function(x){return x.type==='直購';}).slice(0,2).forEach(function(x){
-      pick(x,'現貨精選');
-    });
-
-    pickQuickClosingV275_(latest).forEach(function(x){
-      pick(x,'快結單');
-    });
-
-    // 不足 4 張時直接以最新上架補滿，避免「近期推薦」整區空白。
+    // 首頁最上方固定就是「真正最新上架」四件。
+    // 快結單仍保留在排序選單，不再搶掉新品的首頁位置。
     latest.forEach(function(x){
-      pick(x,x&&x.isNew?'新品推薦':'近期推薦');
+      pick(x,'最新上架');
     });
 
     FEATURED_V275.cards=cards;
@@ -1778,6 +1772,31 @@
     next();
   }
 
+  function shopDateMsV272783_(v){
+    if(v===null||v===undefined||v==='')return 0;
+    if(typeof v==='number'&&isFinite(v))return v>100000000000?v:v*1000;
+    var s=String(v).trim();
+    if(!s)return 0;
+    var t=Date.parse(s);
+    if(isFinite(t))return t;
+    var m=s.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})(?:[ T](\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?/);
+    if(!m)return 0;
+    return new Date(Number(m[1]),Number(m[2])-1,Number(m[3]),Number(m[4]||23),Number(m[5]||59),Number(m[6]||59)).getTime();
+  }
+
+  function newestScoreV272783_(x){
+    if(!x)return 0;
+    // 由 GAS 最新一頁取得的商品最高優先，確保「剛上架」立即出現在最上面。
+    if(Number(x.__liveLatestRankV272783||0)>0){
+      return 9000000000000000+Number(x.__liveLatestRankV272783||0);
+    }
+    return Math.max(
+      shopDateMsV272783_(x.publishedAt||x.publishAt||x.publishedTime),
+      shopDateMsV272783_(x.updatedAt||x.modifiedAt||x.lastUpdatedAt),
+      shopDateMsV272783_(x.createdAt||x.createdTime)
+    );
+  }
+
   function clientSort(arr,sort){
     arr=arr.slice();
 
@@ -1789,9 +1808,9 @@
       arr.sort(function(a,b){return closeTimeV275_(a)-closeTimeV275_(b);});
     }else{
       arr.sort(function(a,b){
-        var at=String(a.createdAt||a.createdTime||a.updatedAt||'');
-        var bt=String(b.createdAt||b.createdTime||b.updatedAt||'');
-        return bt.localeCompare(at);
+        var d=newestScoreV272783_(b)-newestScoreV272783_(a);
+        if(d)return d;
+        return String(productKeyV27241_(b)).localeCompare(String(productKeyV27241_(a)));
       });
     }
     return arr;
@@ -2222,6 +2241,14 @@
         res=res||{};
 
         var incoming=Array.isArray(res.items)?res.items:[];
+        // sort=new 的 GAS 回應本身就是「最新上架」權威順序。
+        // 給這批商品暫存 live rank，避免舊 createdAt 把剛正式上架的商品壓到後面。
+        if(reset && query && query.sort==='new' && !query.q && incoming.length){
+          var liveBase=++SHOP_LIVE_LATEST_SEQ_V272783*1000000;
+          incoming.forEach(function(x,idx){
+            if(x)x.__liveLatestRankV272783=liveBase+(incoming.length-idx);
+          });
+        }
         mergeKnownProductsV27241_(incoming);
         // 第一個最新 API 回應立刻合併進完整商品池，避免本機舊快取蓋掉新品。
         if(incoming.length){
@@ -2781,8 +2808,30 @@
   }
 
 
+  function loadLatestStaticV272783_(){
+    return fetch('./shop-latest.json?v=272783',{
+      method:'GET',
+      cache:'force-cache',
+      credentials:'same-origin'
+    }).then(function(res){
+      if(!res.ok)throw new Error('latest '+res.status);
+      return res.json();
+    }).then(function(data){
+      var items=data&&Array.isArray(data.items)?data.items:[];
+      if(!items.length)throw new Error('latest empty');
+      mergeFreshShopItemsV27250_(items);
+      mergeKnownProductsV27241_(items);
+      hydrateHomeSectionsV27252_(items);
+      showInstantSwitchV27241_();
+      hideShopBootLoadingV27251_();
+      return items.length;
+    }).catch(function(){
+      return 0;
+    });
+  }
+
   function loadStaticShopBootstrapV27253_(){
-    return fetch('./shop-bootstrap.json?v=272782',{
+    return fetch('./shop-bootstrap.json?v=272783',{
       method:'GET',
       cache:'force-cache',
       credentials:'same-origin'
@@ -2851,10 +2900,12 @@
   renderIpChips();
   renderIpModal();
 
-  // v27.25.3｜最快路徑：
-  // 1. 有本機快取就立刻顯示。
-  // 2. 同時讀 GitHub 靜態商品快照；第一次來訪也能很快看到完整商城。
-  // 3. Apps Script 只做背景更新，不再卡住首屏。
+  // v27.27.83｜速度＋即時性：
+  // A. 本機快取可用就 0 API 秒開。
+  // B. shop-latest.json（120 筆）優先，先把真正新品畫出來。
+  // C. GAS 只抓最新一頁校正剛上架商品。
+  // D. 完整 shop-bootstrap.json 在背景補齊搜尋/分類。
+  // E. 完整 GAS 全庫同步延後到閒置階段，避免 1158 筆搶首屏資源。
   var restoredV27242=restoreAllProductsCache();
   if(restoredV27242){
     hydrateHomeSectionsV27252_(ALL_PRODUCTS_CACHE);
@@ -2862,31 +2913,47 @@
     hideShopBootLoadingV27251_();
   }
 
-  loadStaticShopBootstrapV27253_().then(function(){
-    // v27.27.34｜靜態畫面出來後立刻抓最新 120 筆；不再等 1.2 秒。
+  loadLatestStaticV272783_().then(function(){
     setTimeout(function(){
       if(!SHOP_LOADING){
         SHOP_LAST_FAST_REFRESH_V272733=Date.now();
         loadShop(true);
       }
-    },250);
+    },60);
+
+    var loadFullStatic=function(){
+      loadStaticShopBootstrapV27253_();
+    };
+    if('requestIdleCallback' in window){
+      requestIdleCallback(loadFullStatic,{timeout:900});
+    }else{
+      setTimeout(loadFullStatic,260);
+    }
   });
 
-  // 若快照網路異常，0.9 秒後直接走 GAS，不讓首屏長時間停在舊資料。
+  // latest 小檔若異常，直接走 GAS；不等待完整 640KB 快照。
   setTimeout(function(){
     if(!SHOP_DATA.items.length && !SHOP_LOADING){
       SHOP_LAST_FAST_REFRESH_V272733=Date.now();
       loadShop(true);
     }
-  },900);
+  },500);
 
-  // v27.27.34｜1 秒後完整同步一次，補進「舊草稿剛正式上架」的商品。
-  setTimeout(function(){
+  // 完整 GAS 全庫同步只在瀏覽器空閒且停留較久時做。
+  // 日常新品由 20 秒一次的最新頁同步處理，不需要每次開頁就掃 1158 筆。
+  var scheduleFullSyncV272783_=function(){
     try{
       ALL_PRODUCTS_REFRESHED_THIS_PAGE=false;
       if(!ALL_PRODUCTS_LOADING)loadIpCatalog();
     }catch(e){}
-  },1000);
+  };
+  if('requestIdleCallback' in window){
+    requestIdleCallback(function(){
+      setTimeout(scheduleFullSyncV272783_,12000);
+    },{timeout:15000});
+  }else{
+    setTimeout(scheduleFullSyncV272783_,15000);
+  }
 </script>
 
 <script src="shop-enhancements-v27.23.5.js?v=272759"></script>
