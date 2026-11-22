@@ -502,6 +502,51 @@
       .getPublicShopOrdersByPhoneV272758(phone);
   }
 
+  function injectProductGalleryStyleV272764(){
+    if($('shopProductGalleryStyleV272764'))return;
+    var s=document.createElement('style');s.id='shopProductGalleryStyleV272764';
+    s.textContent=[
+      '.shopProductGalleryV272764{display:flex;gap:7px;overflow-x:auto;padding:8px 2px 2px;scrollbar-width:thin}',
+      '.shopProductGalleryV272764 button{flex:0 0 auto;width:58px;height:58px;padding:2px;border:2px solid transparent;border-radius:9px;background:#f4f6f8;cursor:pointer;overflow:hidden}',
+      '.shopProductGalleryV272764 button.active{border-color:#845bd1;background:#fff}',
+      '.shopProductGalleryV272764 img{width:100%;height:100%;object-fit:cover;display:block;border-radius:6px}',
+      '@media(max-width:520px){.shopProductGalleryV272764 button{width:52px;height:52px}}'
+    ].join('');
+    document.head.appendChild(s);
+  }
+  function renderProductGalleryV272764(images){
+    injectProductGalleryStyleV272764();
+    var main=$('modalImg');if(!main)return;
+    var old=$('shopProductGalleryV272764');
+    if(old)old.remove();
+    images=(Array.isArray(images)?images:[]).filter(function(u){return /^https?:\/\//i.test(String(u||''));});
+    var seen={},clean=[];
+    images.forEach(function(u){u=String(u||'').trim();if(u&&!seen[u]){seen[u]=1;clean.push(u);}});
+    if(!clean.length)return;
+    main.src=clean[0];
+    if(clean.length<2)return;
+    var wrap=document.createElement('div');wrap.id='shopProductGalleryV272764';wrap.className='shopProductGalleryV272764';
+    clean.forEach(function(u,i){
+      var b=document.createElement('button');b.type='button';if(i===0)b.classList.add('active');
+      b.innerHTML='<img src="'+escV(u)+'" alt="商品展示圖 '+(i+1)+'" loading="lazy">';
+      b.onclick=function(){
+        main.src=u;
+        wrap.querySelectorAll('button').forEach(function(x){x.classList.remove('active');});
+        b.classList.add('active');
+      };
+      wrap.appendChild(b);
+    });
+    main.insertAdjacentElement('afterend',wrap);
+  }
+  function hydrateProductGalleryV272764(id){
+    var main=$('modalImg');if(!main)return;
+    var old=$('shopProductGalleryV272764');if(old)old.remove();
+    google.script.run
+      .withSuccessHandler(function(res){res=res||{};renderProductGalleryV272764(res.images||[]);})
+      .withFailureHandler(function(){})
+      .getPublicShopGalleryV272764(id);
+  }
+
   function patchOpenOrderV27271(){
     if(window.__WANYE_CART_OPEN_ORDER_PATCH_V27271)return;
     var original=window.openOrder;
@@ -511,7 +556,10 @@
       var out=original.apply(this,arguments);
       setTimeout(function(){
         var m=$('orderMask');
-        if(m&&!m.classList.contains('hidden'))decorateOrderModal();
+        if(m&&!m.classList.contains('hidden')){
+          decorateOrderModal();
+          hydrateProductGalleryV272764(id);
+        }
       },0);
       return out;
     };
