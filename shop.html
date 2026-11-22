@@ -1786,10 +1786,6 @@
 
   function newestScoreV272783_(x){
     if(!x)return 0;
-    // 由 GAS 最新一頁取得的商品最高優先，確保「剛上架」立即出現在最上面。
-    if(Number(x.__liveLatestRankV272783||0)>0){
-      return 9000000000000000+Number(x.__liveLatestRankV272783||0);
-    }
     return Math.max(
       shopDateMsV272783_(x.publishedAt||x.publishAt||x.publishedTime),
       shopDateMsV272783_(x.updatedAt||x.modifiedAt||x.lastUpdatedAt),
@@ -1808,9 +1804,26 @@
       arr.sort(function(a,b){return closeTimeV275_(a)-closeTimeV275_(b);});
     }else{
       arr.sort(function(a,b){
+        // 1. GAS 最新頁權威順序（真正剛上架）
+        var al=Number(a&&a.__liveLatestRankV272783||0);
+        var bl=Number(b&&b.__liveLatestRankV272783||0);
+        if(al||bl){
+          if(bl!==al)return bl-al;
+        }
+
+        // 2. 輕量 latest 靜態快照順序（首屏秒開時仍維持最新順序）
+        var asr=Number(a&&a.__staticLatestRankV272783||0);
+        var bsr=Number(b&&b.__staticLatestRankV272783||0);
+        if(asr||bsr){
+          if(bsr!==asr)return bsr-asr;
+        }
+
+        // 3. 上架/更新時間優先，再看建立時間
         var d=newestScoreV272783_(b)-newestScoreV272783_(a);
         if(d)return d;
-        return String(productKeyV27241_(b)).localeCompare(String(productKeyV27241_(a)));
+
+        // 同時間維持來源原始順序；現代瀏覽器 Array.sort 為 stable sort。
+        return 0;
       });
     }
     return arr;
@@ -2244,7 +2257,8 @@
         // sort=new 的 GAS 回應本身就是「最新上架」權威順序。
         // 給這批商品暫存 live rank，避免舊 createdAt 把剛正式上架的商品壓到後面。
         if(reset && query && query.sort==='new' && !query.q && incoming.length){
-          var liveBase=++SHOP_LIVE_LATEST_SEQ_V272783*1000000;
+          var liveBase=Date.now()*1000;
+          SHOP_LIVE_LATEST_SEQ_V272783++;
           incoming.forEach(function(x,idx){
             if(x)x.__liveLatestRankV272783=liveBase+(incoming.length-idx);
           });
@@ -2819,6 +2833,9 @@
     }).then(function(data){
       var items=data&&Array.isArray(data.items)?data.items:[];
       if(!items.length)throw new Error('latest empty');
+      items.forEach(function(x,idx){
+        if(x)x.__staticLatestRankV272783=items.length-idx;
+      });
       mergeFreshShopItemsV27250_(items);
       mergeKnownProductsV27241_(items);
       hydrateHomeSectionsV27252_(items);
