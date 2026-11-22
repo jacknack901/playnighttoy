@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>頑夜 TOY｜線上商城</title>
-  <meta name="wanye-shop-version" content="27.27.83-speed-latest-first">
+  <meta name="wanye-shop-version" content="27.27.84-random-closing-soon">
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="preconnect" href="https://drive.google.com">
@@ -409,6 +409,27 @@
     }
     .decorStar{right:126px;top:16px;color:rgba(77,145,230,.20);font-size:25px;font-weight:950}
 
+    /* v27.27.84｜即將結單：暖色提醒，但維持商城整體清爽感 */
+    .closingSoonFrameV272784{
+      background:linear-gradient(135deg,#fff8e8 0%,#ffffff 48%,#fff0ec 100%)!important;
+      border-color:#f0dfcf!important
+    }
+    .closingSoonFrameV272784:before{
+      background:linear-gradient(90deg,#ffbe55,#ff8d70)!important
+    }
+    .closingSoonGlowV272784{
+      right:-36px;top:-64px;width:170px;height:170px;border-radius:50%;
+      background:radial-gradient(circle,rgba(255,173,88,.18),rgba(255,173,88,0) 68%)
+    }
+    .closingSoonHintV272784{
+      display:block;margin-top:4px;color:#9a7968;font-size:11px;font-weight:700;line-height:1.45
+    }
+    .closingSoonMoreV272784{cursor:pointer;font-family:inherit}
+    @media(max-width:620px){
+      .closingSoonHintV272784{font-size:10px}
+      .closingSoonMoreV272784{font-size:9px}
+    }
+
     /* 商品總覽：像真正商城的列表區 */
     .catalogPanel{
       position:relative;overflow:hidden;padding:20px!important;
@@ -720,6 +741,23 @@
     </div>
   </section>
 
+  <section id="closingSoonV272784" class="featuredTop">
+    <div class="featuredFrame closingSoonFrameV272784">
+      <div class="featuredDecor closingSoonGlowV272784" aria-hidden="true"></div>
+      <div class="featuredHead">
+        <div class="featuredHeading">
+          <span class="sectionKicker">ENDING SOON</span>
+          <strong>即將結單</strong>
+          <small class="closingSoonHintV272784">每次重新整理都會隨機換一組近期結單商品</small>
+        </div>
+        <button class="featuredShopLink closingSoonMoreV272784" type="button" onclick="showAllClosingSoonV272784_()">最近結單全部查看 →</button>
+      </div>
+      <div id="closingSoonGridV272784" class="grid">
+        <div class="empty" style="grid-column:1/-1">整理近期結單商品中…</div>
+      </div>
+    </div>
+  </section>
+
   <section id="catalogSection" class="catalogSection">
     <div class="catalogPanel">
       <div class="catalogTop">
@@ -955,6 +993,8 @@
 
   var FEATURED_V275={direct:[],closing:[]};
   var FEATURED_LOADING_V275=false;
+  var CLOSING_SOON_V272784={cards:[],poolSignature:''};
+  var CLOSING_RANDOM_SEED_V272784=Math.random();
 
   var IP_CATALOG=[];
   var IP_CATALOG_LOADING=false;
@@ -964,7 +1004,7 @@
   var ALL_PRODUCTS_CACHE=[];
   var ALL_PRODUCTS_READY=false;
   var ALL_PRODUCTS_LOADING=false;
-  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V272783';
+  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V272784';
   // v27.25.0｜快取只拿來秒開，不再讓新品被舊資料卡一天。
   var ALL_PRODUCTS_CACHE_TTL=10*1000;
   var ALL_PRODUCTS_STALE_TTL_V27242=24*60*60*1000;
@@ -1556,6 +1596,117 @@
     bindZoomV275_(g);
   }
 
+  function closingDayStartV272784_(time){
+    var d=new Date(time);
+    return new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime();
+  }
+
+  function closingTagV272784_(x){
+    var t=closeTimeV275_(x);
+    if(t===Number.MAX_SAFE_INTEGER)return '即將結單';
+    var today=closingDayStartV272784_(Date.now());
+    var day=closingDayStartV272784_(t);
+    var diff=Math.round((day-today)/86400000);
+    if(diff<=0)return '今天結單';
+    if(diff===1)return '明天結單';
+    var d=new Date(t);
+    return String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+' 結單';
+  }
+
+  function seededClosingScoreV272784_(id){
+    var str=String(id||'')+'|'+String(CLOSING_RANDOM_SEED_V272784);
+    var h=2166136261;
+    for(var i=0;i<str.length;i++){
+      h^=str.charCodeAt(i);
+      h=Math.imul(h,16777619);
+    }
+    return h>>>0;
+  }
+
+  function pickClosingSoonV272784_(items){
+    var now=Date.now()-60000;
+    var eligible=(Array.isArray(items)?items:[]).filter(function(x){
+      if(!x||x.type!=='預購'||x.isClosed||isLongTermPreorderV272782_(x))return false;
+      var t=closeTimeV275_(x);
+      return t!==Number.MAX_SAFE_INTEGER && t>=now;
+    }).sort(function(a,b){
+      return closeTimeV275_(a)-closeTimeV275_(b);
+    });
+
+    // 只從最近 30 款裡隨機，確保「有變化」但仍真的都是近期要結單。
+    var pool=eligible.slice(0,Math.min(30,eligible.length));
+    var sig=pool.map(function(x){return itemKeyV275_(x);}).join('|');
+
+    // 同一頁面資料補齊時，用同一 seed 重算；重新整理頁面 seed 才改變。
+    var randomized=pool.slice().sort(function(a,b){
+      return seededClosingScoreV272784_(itemKeyV275_(a))-seededClosingScoreV272784_(itemKeyV275_(b));
+    });
+
+    CLOSING_SOON_V272784.poolSignature=sig;
+    CLOSING_SOON_V272784.cards=randomized.slice(0,4);
+    return CLOSING_SOON_V272784.cards;
+  }
+
+  function renderClosingSoonV272784_(items){
+    var section=document.getElementById('closingSoonV272784');
+    var g=document.getElementById('closingSoonGridV272784');
+    if(!section||!g)return;
+
+    var visible=showFeaturedV275_();
+    section.classList.toggle('hidden',!visible);
+    if(!visible)return;
+
+    var src=[];
+    var seen={};
+    function add(x){
+      if(!x)return;
+      var k=itemKeyV275_(x);
+      if(!k||seen[k])return;
+      seen[k]=1;
+      src.push(x);
+    }
+    (Array.isArray(items)?items:[]).forEach(add);
+    (ALL_PRODUCTS_CACHE||[]).forEach(add);
+    knownProductsV27241_().forEach(add);
+
+    var cards=pickClosingSoonV272784_(src);
+    if(!cards.length){
+      g.innerHTML='<div class="empty" style="grid-column:1/-1">目前沒有近期結單商品。</div>';
+      return;
+    }
+
+    g.innerHTML=cards.map(function(x,i){
+      return cardHtml(x,i,closingTagV272784_(x));
+    }).join('');
+
+    g.querySelectorAll('[data-open]').forEach(function(b){
+      b.onclick=function(){openOrder(b.getAttribute('data-open'));};
+    });
+    bindZoomV275_(g);
+  }
+
+  function showAllClosingSoonV272784_(){
+    ACTIVE_MODE='all';
+    ACTIVE_TYPE='';
+    ACTIVE_CATEGORY='';
+    ACTIVE_IP='';
+    ACTIVE_IP_SEARCH='';
+    CLOSED_AUTO_LOADS=0;
+
+    var search=document.getElementById('search');
+    var sort=document.getElementById('sort');
+    if(search)search.value='';
+    if(sort)sort.value='close';
+
+    renderModeTabs();
+    renderIpChips();
+    renderChips();
+    applyClientFilters();
+
+    var catalog=document.getElementById('catalogSection');
+    if(catalog)catalog.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
   function mergeIpCatalog(items){
     var map={};
 
@@ -1602,9 +1753,11 @@
       IP_CATALOG=[];
       mergeIpCatalog(src);
       loadFeaturedV275_(src);
+      renderClosingSoonV272784_(src);
     }else{
       renderIpChips();
       renderFeaturedV275_();
+      renderClosingSoonV272784_([]);
     }
 
     var ipCount=(IP_CATALOG||[]).filter(function(x){return x&&x.label;}).length;
@@ -2397,6 +2550,7 @@
     }
 
     renderFeaturedV275_();
+    renderClosingSoonV272784_(masterProductsV272734_());
 
     var btn=document.getElementById('loadMoreBtn');
     if(btn){
@@ -2451,7 +2605,7 @@
 
     var eager=i<4?' eager fetchpriority="high"':' loading="lazy" fetchpriority="low"';
     var feature=featureTag
-      ? '<span class="badge '+(featureTag==='快結單'?'closing':'directPick')+'">'+esc(featureTag)+'</span>'
+      ? '<span class="badge '+(/結單/.test(String(featureTag))?'closing':'directPick')+'">'+esc(featureTag)+'</span>'
       : '';
 
     var zoom=x.imageUrl?' data-zoom-src="'+esc(x.imageUrl)+'"':'';
@@ -2848,7 +3002,7 @@
   }
 
   function loadStaticShopBootstrapV27253_(){
-    return fetch('./shop-bootstrap.json?v=272783',{
+    return fetch('./shop-bootstrap.json?v=272784',{
       method:'GET',
       cache:'force-cache',
       credentials:'same-origin'
