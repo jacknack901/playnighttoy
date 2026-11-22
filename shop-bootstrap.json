@@ -1,5 +1,5 @@
 {
-  "version": "27.27.79-taobao-static-fallback",
+  "version": "27.27.80-close-date-sync",
   "generatedAt": "2026-11-22T18:00:00+08:00",
   "count": 1109,
   "items": [
@@ -20074,7 +20074,7 @@
       "category": "周邊",
       "name": "海賊王cuter草帽背包路飛索隆艾斯",
       "price": 811,
-      "closeDate": "",
+      "closeDate": "2099-12-31",
       "imageUrl": "https://drive.google.com/thumbnail?id=1LRUhBZiZukqO72DtgDI7OJSEHgmYGrPs&sz=w1200",
       "purchaseUrl": "",
       "availableStock": null,
