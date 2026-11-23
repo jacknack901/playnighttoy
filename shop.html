@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>頑夜 TOY｜線上商城</title>
-  <meta name="wanye-shop-version" content="27.27.84-random-closing-soon">
+  <meta name="wanye-shop-version" content="27.27.85-marushima-cutoff">
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="preconnect" href="https://drive.google.com">
@@ -644,6 +644,7 @@
     }
 
   </style>
+  <script>window.WANYE_MARUSHIMA_CUTOFF_VERSION_V272785='27.27.85-marushima-cutoff';</script>
 </head>
 <body>
 
@@ -1004,7 +1005,7 @@
   var ALL_PRODUCTS_CACHE=[];
   var ALL_PRODUCTS_READY=false;
   var ALL_PRODUCTS_LOADING=false;
-  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V272784';
+  var ALL_PRODUCTS_CACHE_KEY='WANYE_SHOP_ALL_V272785';
   // v27.25.0｜快取只拿來秒開，不再讓新品被舊資料卡一天。
   var ALL_PRODUCTS_CACHE_TTL=10*1000;
   var ALL_PRODUCTS_STALE_TTL_V27242=24*60*60*1000;
@@ -2977,7 +2978,7 @@
 
 
   function loadLatestStaticV272783_(){
-    return fetch('./shop-latest.json?v=272783',{
+    return fetch('./shop-latest.json?v=272785',{
       method:'GET',
       cache:'force-cache',
       credentials:'same-origin'
@@ -3002,7 +3003,7 @@
   }
 
   function loadStaticShopBootstrapV27253_(){
-    return fetch('./shop-bootstrap.json?v=272784',{
+    return fetch('./shop-bootstrap.json?v=272785',{
       method:'GET',
       cache:'force-cache',
       credentials:'same-origin'
