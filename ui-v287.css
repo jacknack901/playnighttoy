@@ -2184,3 +2184,603 @@ body[data-page="member"] .member-summary{
     font-size:10px;
   }
 }
+
+
+/* v28.10.3｜頑夜手氣賞：依使用者提供實體籤比例重製 */
+.lucky-kuji-v6.daily-kuji-overlay{
+  background:rgba(13,17,24,.92);
+  backdrop-filter:blur(9px);
+}
+.lucky-kuji-v6 .daily-kuji-stage{
+  --kuji-panel-w:300px;
+  --kuji-panel-h:205px;
+  width:min(650px,96vw);
+  min-height:315px;
+}
+.lucky-kuji-v6 .daily-kuji-heading{
+  margin-bottom:12px;
+  text-align:center;
+}
+.lucky-kuji-v6 .daily-kuji-heading span{
+  display:block;
+  font-size:10px;
+  font-weight:1000;
+  letter-spacing:4px;
+  color:#9cdcf4;
+}
+.lucky-kuji-v6 .daily-kuji-heading b{
+  display:block;
+  margin-top:3px;
+  font-family:Arial Black,Impact,sans-serif;
+  font-size:36px;
+  line-height:.95;
+  letter-spacing:2px;
+  color:#fff;
+}
+.lucky-kuji-v6 .daily-kuji-heading small{
+  display:block;
+  margin-top:4px;
+  font-size:9px;
+  letter-spacing:2.3px;
+  color:rgba(255,255,255,.72);
+  font-weight:900;
+}
+
+/* 關閉狀態只有一張短票，約 1.46:1 */
+.lucky-kuji-v6 .kuji-book{
+  position:relative;
+  width:var(--kuji-panel-w);
+  height:var(--kuji-panel-h);
+  margin:0 auto;
+  overflow:hidden;
+  filter:drop-shadow(0 20px 30px rgba(0,0,0,.38));
+  transition:width .05s linear;
+}
+
+/* 左側紅票：對照使用者提供的紅色實體票 */
+.lucky-kuji-v6 .kuji-left-panel,
+.lucky-kuji-v6 .kuji-right-panel{
+  position:absolute;
+  top:0;
+  width:var(--kuji-panel-w);
+  height:var(--kuji-panel-h);
+}
+.lucky-kuji-v6 .kuji-left-panel{
+  left:0;
+  z-index:3;
+  background:#ed2434;
+  border:1px solid #c91b29;
+  overflow:hidden;
+}
+.lucky-kuji-v6 .kuji-left-panel:before,
+.lucky-kuji-v6 .kuji-left-panel:after{
+  content:"";
+  position:absolute;
+  left:0;right:0;height:7px;
+  background:
+    linear-gradient(135deg,transparent 50%,#fff 51%) 0 0/12px 7px repeat-x,
+    linear-gradient(225deg,transparent 50%,#fff 51%) 6px 0/12px 7px repeat-x;
+  opacity:.97;
+}
+.lucky-kuji-v6 .kuji-left-panel:before{top:-1px}
+.lucky-kuji-v6 .kuji-left-panel:after{bottom:-1px;transform:rotate(180deg)}
+.lucky-kuji-v6 .kuji-side-strip{
+  position:absolute;
+  left:8px;
+  top:25px;
+  bottom:25px;
+  width:25px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+  color:#23272b;
+  clip-path:polygon(0 5%,70% 5%,100% 16%,78% 28%,100% 40%,78% 52%,100% 64%,78% 76%,100% 88%,70% 95%,0 95%);
+}
+.lucky-kuji-v6 .kuji-side-strip span{
+  writing-mode:vertical-rl;
+  font-size:6px;
+  line-height:1.2;
+  letter-spacing:.5px;
+  font-weight:1000;
+}
+.lucky-kuji-v6 .kuji-white-card{
+  position:absolute;
+  left:41px;
+  right:13px;
+  top:20px;
+  bottom:20px;
+  display:grid;
+  grid-template-columns:58px minmax(0,1fr) 50px;
+  grid-template-rows:1fr 31px;
+  gap:8px;
+  align-items:center;
+  padding:12px 10px 9px;
+  background:#f7f7f5;
+  color:#2f3338;
+  clip-path:polygon(3% 0,97% 0,100% 8%,97% 18%,100% 28%,97% 38%,100% 48%,97% 58%,100% 68%,97% 78%,100% 90%,97% 100%,3% 100%,0 90%,3% 80%,0 70%,3% 60%,0 50%,3% 40%,0 30%,3% 20%,0 10%);
+  box-shadow:inset 0 0 0 1px #d6d6d3;
+}
+.lucky-kuji-v6 .kuji-member-bubble{
+  width:55px;
+  height:45px;
+  border-radius:48% 52% 45% 55%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#db2441;
+  color:#fff;
+  text-align:center;
+  font-size:8px;
+  line-height:1.05;
+  font-weight:1000;
+  transform:rotate(-5deg);
+}
+.lucky-kuji-v6 .kuji-card-copy{min-width:0}
+.lucky-kuji-v6 .kuji-card-copy>b{
+  display:block;
+  color:#d62339;
+  font-size:14px;
+  line-height:1;
+  font-weight:1000;
+}
+.lucky-kuji-v6 .kuji-card-copy>strong{
+  display:block;
+  margin-top:4px;
+  font:900 9px/1 Arial Black,Impact,sans-serif;
+  letter-spacing:.5px;
+  color:#252a2f;
+}
+.lucky-kuji-v6 .kuji-card-copy>p{
+  margin:5px 0 0;
+  font-size:6px;
+  line-height:1.45;
+  font-weight:800;
+  color:#767a7e;
+}
+.lucky-kuji-v6 .kuji-campaign{
+  margin-top:7px;
+  padding:5px 6px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  background:#5c6064;
+  color:#fff;
+}
+.lucky-kuji-v6 .kuji-campaign span{font-size:5px;font-weight:1000;letter-spacing:.4px}
+.lucky-kuji-v6 .kuji-campaign b{font-size:5px}
+.lucky-kuji-v6 .kuji-qr-look{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(3,1fr);
+  gap:2px;
+  width:47px;
+  height:47px;
+  padding:3px;
+  background:#fff;
+  border:1px solid #999;
+}
+.lucky-kuji-v6 .kuji-qr-look i{background:#16191c}
+.lucky-kuji-v6 .kuji-qr-look i:nth-child(2),
+.lucky-kuji-v6 .kuji-qr-look i:nth-child(4),
+.lucky-kuji-v6 .kuji-qr-look i:nth-child(8){
+  background:#fff;
+  border:2px solid #16191c;
+}
+.lucky-kuji-v6 .kuji-number-box{
+  grid-column:1/-1;
+  align-self:end;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:7px;
+  align-items:center;
+  padding:5px 7px;
+  border:1px solid #9c9c99;
+  background:#fff;
+}
+.lucky-kuji-v6 .kuji-number-box span{
+  font-size:5px;
+  font-weight:1000;
+  color:#666b70;
+}
+.lucky-kuji-v6 .kuji-number-box b{
+  font:900 10px/1.1 "Courier New",monospace;
+  letter-spacing:1.1px;
+  color:#23272b;
+}
+
+/* 右側結果票，比例與左票相同 */
+.lucky-kuji-v6 .kuji-right-panel{
+  left:var(--kuji-panel-w);
+  z-index:2;
+  background:#dfe6ea;
+  border:1px solid #728795;
+  overflow:hidden;
+  clip-path:inset(0 calc(100% - var(--tear-progress)) 0 0);
+}
+.lucky-kuji-v6 .kuji-right-panel:before,
+.lucky-kuji-v6 .kuji-right-panel:after{
+  content:"";
+  position:absolute;
+  z-index:9;
+  left:0;right:0;height:7px;
+  background:
+    linear-gradient(135deg,transparent 50%,#fff 51%) 0 0/12px 7px repeat-x,
+    linear-gradient(225deg,transparent 50%,#fff 51%) 6px 0/12px 7px repeat-x;
+}
+.lucky-kuji-v6 .kuji-right-panel:before{top:-1px}
+.lucky-kuji-v6 .kuji-right-panel:after{bottom:-1px;transform:rotate(180deg)}
+
+.lucky-kuji-v6 .daily-kuji-result{
+  position:absolute;
+  inset:0;
+  display:grid!important;
+  grid-template-rows:43px 1fr 34px;
+  background:#172631;
+  color:#e4edf2;
+  text-align:left;
+}
+.lucky-kuji-v6 .kuji-prize-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:0 13px;
+  background:#1695c7;
+  color:#fff;
+}
+.lucky-kuji-v6 .kuji-prize-top span{
+  font-size:10px;
+  font-weight:1000;
+}
+.lucky-kuji-v6 .kuji-prize-top b{
+  font-size:8px;
+  font-weight:1000;
+}
+.lucky-kuji-v6 .kuji-prize-body{
+  display:grid;
+  grid-template-columns:42% 58%;
+  min-height:0;
+  background:#172631;
+}
+.lucky-kuji-v6 .kuji-prize-grade{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#111e28;
+  border-right:1px solid #4b606e;
+}
+.lucky-kuji-v6 .kuji-prize-grade strong{
+  font:900 74px/.86 Arial Black,Impact,sans-serif;
+  letter-spacing:-5px;
+  color:#d9e7ed;
+}
+.lucky-kuji-v6 .kuji-prize-copy{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:12px 12px;
+}
+.lucky-kuji-v6 .kuji-prize-copy small{
+  font-size:7px;
+  color:#91bdd0;
+  font-weight:900;
+}
+.lucky-kuji-v6 .kuji-prize-copy>span{
+  margin-top:3px;
+  font-size:15px;
+  line-height:1;
+  font-weight:1000;
+  color:#fff;
+}
+.lucky-kuji-v6 .kuji-prize-copy>b{
+  margin-top:3px;
+  font:900 23px/.95 Arial Black,Impact,sans-serif;
+  letter-spacing:.4px;
+  color:#fff;
+}
+.lucky-kuji-v6 .kuji-prize-copy h3{
+  margin:8px 0 0;
+  font-size:9px;
+  line-height:1.3;
+  color:#cbd8de;
+}
+.lucky-kuji-v6 .kuji-prize-foot{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 11px;
+  background:#bdc6cc;
+  color:#25343e;
+  border-top:1px solid #8a99a2;
+}
+.lucky-kuji-v6 .kuji-prize-foot span{font-size:6px;font-weight:1000}
+.lucky-kuji-v6 .kuji-prize-foot b{font-size:7px}
+.lucky-kuji-v6 .kuji-prize-foot i{font-style:normal}
+
+/* 內側未撕開時的藍白店舖票面 */
+.lucky-kuji-v6 .kuji-inner-cover{
+  position:absolute;
+  z-index:5;
+  inset:0;
+  clip-path:inset(0 0 0 var(--tear-progress));
+  background:#e7eff3;
+  transition:clip-path .05s linear;
+}
+.lucky-kuji-v6 .kuji-inner-cover-top{
+  height:43px;
+  padding:0 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#1598c9;
+  color:#fff;
+}
+.lucky-kuji-v6 .kuji-inner-cover-top span{font-size:9px;font-weight:1000}
+.lucky-kuji-v6 .kuji-inner-cover-top b{font-size:8px}
+.lucky-kuji-v6 .kuji-inner-cover-center{
+  position:absolute;
+  left:0;right:0;
+  top:43px;bottom:34px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:#e9f2f6;
+  color:#a8bec9;
+}
+.lucky-kuji-v6 .kuji-inner-cover-center strong{
+  font-size:30px;
+  line-height:1;
+  opacity:.35;
+}
+.lucky-kuji-v6 .kuji-inner-cover-center span{
+  margin-top:5px;
+  font-size:7px;
+  font-weight:900;
+}
+.lucky-kuji-v6 .kuji-inner-cover-foot{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:34px;
+  padding:0 11px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#1598c9;
+  color:#fff;
+}
+.lucky-kuji-v6 .kuji-inner-cover-foot b{font-size:7px}
+.lucky-kuji-v6 .kuji-inner-cover-foot span{font-size:6px}
+
+/* 接縫把手：起點就是紅票右側，往右拉 */
+.lucky-kuji-v6 .daily-kuji-peel-edge{
+  position:absolute;
+  z-index:8;
+  left:calc(var(--tear-x) - 8px);
+  top:7px;
+  bottom:7px;
+  width:16px;
+  opacity:0;
+  pointer-events:none;
+  transition:left .05s linear,opacity .12s ease;
+}
+.lucky-kuji-v6.peeling .daily-kuji-peel-edge,
+.lucky-kuji-v6.dragging .daily-kuji-peel-edge,
+.lucky-kuji-v6.auto-peeling .daily-kuji-peel-edge{opacity:1}
+.lucky-kuji-v6 .daily-kuji-peel-edge:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,rgba(255,255,255,.9),rgba(0,0,0,.19) 58%,transparent);
+}
+.lucky-kuji-v6 .daily-kuji-peel-edge span{
+  position:absolute;
+  top:46%;
+  left:-4px;
+  width:15px;
+  height:30px;
+  transform:skewY(17deg);
+  background:linear-gradient(225deg,#fff 0 47%,#bfc3c5 48% 53%,#efefec 54%);
+  box-shadow:-4px 4px 9px rgba(0,0,0,.2);
+}
+.lucky-kuji-v6 .daily-kuji-peel-edge i{
+  position:absolute;
+  right:-5px;top:0;bottom:0;
+  width:6px;
+  background:linear-gradient(90deg,transparent,rgba(0,0,0,.14));
+}
+.lucky-kuji-v6 .daily-kuji-tear{
+  position:absolute;
+  z-index:10;
+  left:calc(var(--tear-x) - 21px);
+  top:50%;
+  transform:translateY(-50%);
+  width:42px;
+  height:88px;
+  min-height:0;
+  border:1px solid #bababa;
+  border-radius:7px;
+  background:linear-gradient(180deg,#fff,#ececea);
+  color:#283238;
+  box-shadow:5px 6px 12px rgba(0,0,0,.17);
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+  transition:left .05s linear,transform .14s ease;
+}
+.lucky-kuji-v6 .daily-kuji-tear:before{
+  content:"";
+  position:absolute;
+  left:-7px;top:0;bottom:0;
+  width:8px;
+  background:
+    linear-gradient(135deg,transparent 50%,#f3f3f0 51%) 0 0/8px 12px repeat-y,
+    linear-gradient(45deg,transparent 50%,#f3f3f0 51%) 0 6px/8px 12px repeat-y;
+}
+.lucky-kuji-v6 .daily-kuji-tear:after{display:none}
+.lucky-kuji-v6 .daily-kuji-tear-arrow{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:23px;height:23px;
+  margin:0 auto 5px;
+  border-radius:50%;
+  background:#1598c9;
+  color:#fff;
+  font-size:18px;
+}
+.lucky-kuji-v6 .daily-kuji-tear b{
+  display:block;
+  margin:auto;
+  font:900 8px/1 Arial Black,Impact,sans-serif;
+  writing-mode:vertical-rl;
+  letter-spacing:.5px;
+}
+.lucky-kuji-v6 .daily-kuji-tear small{
+  display:block;
+  margin-top:4px;
+  font-size:5px;
+  color:#848a8e;
+}
+.lucky-kuji-v6.dragging .daily-kuji-tear{
+  cursor:grabbing;
+  transform:translateY(-50%) scale(1.035);
+}
+.lucky-kuji-v6.snapback .kuji-book{transition:width .28s ease}
+.lucky-kuji-v6.snapback .kuji-inner-cover{transition:clip-path .28s ease}
+.lucky-kuji-v6.snapback .daily-kuji-tear,
+.lucky-kuji-v6.snapback .daily-kuji-peel-edge{transition:left .28s ease}
+.lucky-kuji-v6.finishing .kuji-book{transition:width .36s cubic-bezier(.2,.8,.2,1)}
+.lucky-kuji-v6.finishing .kuji-inner-cover{transition:clip-path .36s cubic-bezier(.2,.8,.2,1)}
+.lucky-kuji-v6.finishing .daily-kuji-tear,
+.lucky-kuji-v6.finishing .daily-kuji-peel-edge{transition:left .36s cubic-bezier(.2,.8,.2,1)}
+.lucky-kuji-v6.revealed .kuji-inner-cover,
+.lucky-kuji-v6.revealed .daily-kuji-tear,
+.lucky-kuji-v6.revealed .daily-kuji-peel-edge{
+  opacity:0;
+  pointer-events:none;
+}
+.lucky-kuji-v6.revealed .daily-kuji-result{
+  animation:luckyResultPop .38s cubic-bezier(.2,.85,.25,1) both;
+}
+.lucky-kuji-v6 .daily-kuji-foot{
+  margin-top:9px;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  color:rgba(255,255,255,.72);
+  font-size:7px;
+}
+.lucky-kuji-v6 .daily-kuji-foot b{color:#91dcf5}
+
+/* 手機：兩片打開後仍完整落在一個螢幕寬內 */
+@media(max-width:620px){
+  .lucky-kuji-v6.daily-kuji-overlay{padding:9px 6px}
+  .lucky-kuji-v6 .daily-kuji-stage{
+    --kuji-panel-w:164px;
+    --kuji-panel-h:122px;
+    width:min(344px,98vw);
+    min-height:230px;
+  }
+  .lucky-kuji-v6 .daily-kuji-close{right:0;top:-2px}
+  .lucky-kuji-v6 .daily-kuji-heading{margin-bottom:7px;padding-right:26px}
+  .lucky-kuji-v6 .daily-kuji-heading span{font-size:7px;letter-spacing:2.4px}
+  .lucky-kuji-v6 .daily-kuji-heading b{font-size:25px;letter-spacing:1.2px}
+  .lucky-kuji-v6 .daily-kuji-heading small{font-size:6px;letter-spacing:1.5px}
+
+  .lucky-kuji-v6 .kuji-left-panel:before,
+  .lucky-kuji-v6 .kuji-left-panel:after,
+  .lucky-kuji-v6 .kuji-right-panel:before,
+  .lucky-kuji-v6 .kuji-right-panel:after{
+    height:5px;
+    background-size:9px 5px,9px 5px;
+  }
+  .lucky-kuji-v6 .kuji-side-strip{
+    left:5px;top:15px;bottom:15px;width:14px;
+  }
+  .lucky-kuji-v6 .kuji-side-strip span{font-size:3px;letter-spacing:.2px}
+  .lucky-kuji-v6 .kuji-white-card{
+    left:23px;right:7px;top:11px;bottom:11px;
+    grid-template-columns:31px minmax(0,1fr) 28px;
+    grid-template-rows:1fr 20px;
+    gap:4px;
+    padding:7px 5px 5px;
+  }
+  .lucky-kuji-v6 .kuji-member-bubble{
+    width:30px;height:27px;font-size:4px;
+  }
+  .lucky-kuji-v6 .kuji-card-copy>b{font-size:7px}
+  .lucky-kuji-v6 .kuji-card-copy>strong{font-size:4px;margin-top:2px}
+  .lucky-kuji-v6 .kuji-card-copy>p{font-size:3px;margin-top:2px;line-height:1.3}
+  .lucky-kuji-v6 .kuji-campaign{margin-top:3px;padding:3px}
+  .lucky-kuji-v6 .kuji-campaign span,
+  .lucky-kuji-v6 .kuji-campaign b{font-size:3px}
+  .lucky-kuji-v6 .kuji-qr-look{
+    width:26px;height:26px;padding:2px;gap:1px;
+  }
+  .lucky-kuji-v6 .kuji-qr-look i:nth-child(2),
+  .lucky-kuji-v6 .kuji-qr-look i:nth-child(4),
+  .lucky-kuji-v6 .kuji-qr-look i:nth-child(8){border-width:1px}
+  .lucky-kuji-v6 .kuji-number-box{
+    gap:3px;padding:3px 4px;
+  }
+  .lucky-kuji-v6 .kuji-number-box span{font-size:3px}
+  .lucky-kuji-v6 .kuji-number-box b{font-size:5px;letter-spacing:.5px}
+
+  .lucky-kuji-v6 .daily-kuji-result{grid-template-rows:27px 1fr 22px}
+  .lucky-kuji-v6 .kuji-prize-top{padding:0 6px}
+  .lucky-kuji-v6 .kuji-prize-top span{font-size:5px}
+  .lucky-kuji-v6 .kuji-prize-top b{font-size:4px}
+  .lucky-kuji-v6 .kuji-prize-body{grid-template-columns:41% 59%}
+  .lucky-kuji-v6 .kuji-prize-grade strong{font-size:40px;letter-spacing:-3px}
+  .lucky-kuji-v6 .kuji-prize-copy{padding:6px 5px}
+  .lucky-kuji-v6 .kuji-prize-copy small{font-size:4px}
+  .lucky-kuji-v6 .kuji-prize-copy>span{font-size:8px}
+  .lucky-kuji-v6 .kuji-prize-copy>b{font-size:11px}
+  .lucky-kuji-v6 .kuji-prize-copy h3{font-size:5px;margin-top:3px}
+  .lucky-kuji-v6 .kuji-prize-foot{padding:0 5px}
+  .lucky-kuji-v6 .kuji-prize-foot span{font-size:3px}
+  .lucky-kuji-v6 .kuji-prize-foot b{font-size:4px}
+
+  .lucky-kuji-v6 .kuji-inner-cover-top{height:27px;padding:0 6px}
+  .lucky-kuji-v6 .kuji-inner-cover-top span{font-size:5px}
+  .lucky-kuji-v6 .kuji-inner-cover-top b{font-size:4px}
+  .lucky-kuji-v6 .kuji-inner-cover-center{top:27px;bottom:22px}
+  .lucky-kuji-v6 .kuji-inner-cover-center strong{font-size:18px}
+  .lucky-kuji-v6 .kuji-inner-cover-center span{font-size:4px}
+  .lucky-kuji-v6 .kuji-inner-cover-foot{height:22px;padding:0 5px}
+  .lucky-kuji-v6 .kuji-inner-cover-foot b{font-size:4px}
+  .lucky-kuji-v6 .kuji-inner-cover-foot span{font-size:3px}
+
+  .lucky-kuji-v6 .daily-kuji-tear{
+    width:30px;height:61px;left:calc(var(--tear-x) - 15px);
+  }
+  .lucky-kuji-v6 .daily-kuji-tear-arrow{
+    width:17px;height:17px;font-size:13px;margin-bottom:3px;
+  }
+  .lucky-kuji-v6 .daily-kuji-tear b{font-size:5px}
+  .lucky-kuji-v6 .daily-kuji-tear small{font-size:3px}
+  .lucky-kuji-v6 .daily-kuji-peel-edge{
+    left:calc(var(--tear-x) - 6px);
+    width:12px;
+  }
+  .lucky-kuji-v6 .daily-kuji-peel-edge span{
+    width:10px;height:22px;
+  }
+  .lucky-kuji-v6 .daily-kuji-foot{
+    font-size:5px;
+    line-height:1.3;
+    margin-top:6px;
+  }
+}
+
+@media(max-width:350px){
+  .lucky-kuji-v6 .daily-kuji-stage{
+    --kuji-panel-w:155px;
+    --kuji-panel-h:116px;
+    width:min(326px,98vw);
+  }
+}
