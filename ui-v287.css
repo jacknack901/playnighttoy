@@ -1223,3 +1223,42 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
   .lucky-kuji-v2 .daily-kuji-peel-edge,
   .lucky-kuji-v2 .daily-kuji-inner{transition:none!important;animation:none!important}
 }
+
+
+/* v28.9.5｜購物車結帳流程恢復 */
+.cart-drawer{overflow-y:auto;overscroll-behavior:contain;padding-bottom:22px}
+.cart-drawer-actions{display:grid;grid-template-columns:1fr 1.25fr;gap:8px;padding:0 16px 4px}
+.cart-drawer-actions .btn{min-height:46px;border-radius:13px;text-align:center;display:flex;align-items:center;justify-content:center;font-weight:950}
+.cart-checkout-open{border:0;cursor:pointer}
+.cart-checkout-open:disabled{background:#e7eaf0!important;color:#989fad!important;cursor:not-allowed}
+.cart-item-invalid{background:#fff7f6;border-radius:12px;padding-left:7px;padding-right:7px}
+.cart-item-info{min-width:0}.cart-item-info em{display:block;margin-top:5px;font-size:9px;font-style:normal;font-weight:900;color:#bd4f45}
+.cart-checkout{padding:0 16px}
+.cart-checkout-error{margin:12px 0;padding:12px;border:1px solid #efc0bb;border-radius:13px;background:#fff3f1;color:#a9433b;font-size:11px;line-height:1.65}
+.cart-checkout-error b{display:block;margin-bottom:4px;font-size:12px}
+.cart-checkout-shell{margin:12px 0 14px;padding:14px;border:1px solid #dfe6f3;border-radius:16px;background:#f8faff}
+.cart-checkout-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:11px}
+.cart-checkout-head small{display:block;font-size:8px;letter-spacing:1.2px;color:#7d8daf;font-weight:950}.cart-checkout-head b{display:block;font-size:16px;color:#2d477f}
+.cart-checkout-head button{border:0;background:#eef2f9;color:#6b7c9f;border-radius:9px;padding:7px 9px;font-size:9px;font-weight:900;cursor:pointer}
+.cart-plan{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
+.cart-plan label{display:flex;align-items:flex-start;gap:7px;padding:10px;border:1px solid #dfe6f3;border-radius:12px;background:#fff;cursor:pointer}
+.cart-plan input{width:auto!important;margin-top:2px}.cart-plan b{display:block;font-size:11px;color:#304b83}.cart-plan small{display:block;margin-top:2px;font-size:8px;line-height:1.35;color:#8995ad}
+.cart-pay-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;border-radius:12px;background:linear-gradient(135deg,#fff4c8,#ffe59a);color:#665019}
+.cart-pay-summary span{font-size:10px;font-weight:900}.cart-pay-summary strong{font-size:19px;color:#6e4d00}
+.cart-checkout-note{margin:9px 0;padding:9px 10px;border-radius:10px;background:#fff;color:#7886a3;font-size:9px;line-height:1.55}
+.cart-checkout-form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cart-checkout-form label{display:block}.cart-checkout-form label.full{grid-column:1/-1}.cart-checkout-form span{display:block;margin-bottom:4px;font-size:9px;font-weight:900;color:#60749d}
+.cart-checkout-form input,.cart-checkout-form textarea{width:100%;border:1px solid #d8e2f2;border-radius:10px;background:#fff;padding:10px 11px;color:#243f79;outline:none;font-size:11px}
+.cart-checkout-form textarea{min-height:66px;resize:vertical}
+.cart-checkout-form input:focus,.cart-checkout-form textarea:focus{border-color:#8da8e5;box-shadow:0 0 0 3px rgba(92,124,198,.09)}
+.cart-checkout-msg{white-space:pre-wrap;font-size:10px;line-height:1.55;margin-top:8px}.cart-checkout-msg.error{color:#bd4b58}.cart-checkout-msg.success{color:#278158;font-weight:850}
+.cart-submit-order{width:100%;min-height:47px;margin-top:10px;border:0;border-radius:12px;background:linear-gradient(135deg,#ffd95f,#ffc54f);color:#2e4674;font-size:12px;font-weight:1000;cursor:pointer}
+.cart-submit-order:disabled{opacity:.6;cursor:wait}
+@media(max-width:620px){
+ .cart-drawer{width:min(440px,100vw)}
+ .cart-drawer-actions{position:sticky;bottom:0;z-index:3;background:rgba(255,255,255,.96);padding:9px 12px max(10px,env(safe-area-inset-bottom));border-top:1px solid #e6ebf4}
+ .cart-checkout{padding:0 12px}.cart-checkout-shell{padding:12px}
+ .cart-plan{grid-template-columns:1fr}
+ .cart-checkout-form{grid-template-columns:1fr}
+ .cart-checkout-form label.full{grid-column:auto}
+}
