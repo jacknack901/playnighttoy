@@ -1707,7 +1707,7 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
 /* 初始密封票面：只蓋住右側 */
 .lucky-kuji-v4 .kuji-seal-cover{
   position:absolute;z-index:5;inset:0;
-  clip-path:inset(0 calc(100% - var(--tear-progress)) 0 0);
+  clip-path:inset(0 0 0 var(--tear-progress));
   background:#f1f1ef;
   border-left:1px dashed #8d8d8d;
   transition:clip-path .055s linear;
