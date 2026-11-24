@@ -420,3 +420,18 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
  .shop-special-points{grid-template-columns:1fr}
  .shop-special-points>div{padding:9px 10px}
 }
+
+
+/* v28.9.2｜Pokémon 專區標題桌機維持單行 */
+.shop-context-hero.is-pokemon .shop-context-copy h1{
+  white-space:nowrap;
+  font-size:clamp(30px,3.65vw,50px);
+  letter-spacing:-1.5px;
+}
+@media(max-width:760px){
+  .shop-context-hero.is-pokemon .shop-context-copy h1{
+    white-space:normal;
+    font-size:32px;
+    line-height:1.05;
+  }
+}
