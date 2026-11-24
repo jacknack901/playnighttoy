@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f7faff"><title>頑夜 TOY v28｜線上抽賞預覽</title><link rel="stylesheet" href="./site.css?v=28p2"></head>
+<body>
+<div class="previewbar"><div class="container"><div><b>頑夜 TOY v28 線上抽預覽</b>｜真實套組、獎賞剩餘、籤號盤</div><div class="preview-pill">正式送單仍使用目前正式線上抽系統</div></div></div>
+<header class="siteHeader"><div class="container headerIn"><a class="brand" href="./index.html"><img class="brandLogo" src="../assets/logo.png" alt=""><div class="brandText"><strong>頑夜 TOY</strong><span>PLAY NIGHT TOY</span></div></a><nav class="nav"><a href="./index.html">⌂ 首頁</a><a href="./shop.html">▦ 線上商城</a><a class="active" href="./online-kuji.html">🎟 線上抽賞</a><a href="../index.html">◇ 最新活動</a><a href="#" onclick="W28.openMy();return false">☺ 我的頑夜</a></nav><div class="headActions"><button class="headIcon" onclick="W28.openMy()">♡</button><a class="headBtn primary" href="../online-kuji.html">正式線上抽</a></div></div></header>
+<main><div class="container">
+<section class="hero" style="min-height:260px"><div class="heroGrid" style="min-height:260px"><div class="heroCopy" style="padding:30px 34px"><div class="eyebrow">ONLINE KUJI LIVE</div><h1 style="font-size:clamp(38px,4vw,58px)">先看大賞，再決定要不要抽</h1><p>剩餘抽數、A～D 賞、最後賞、籤號狀態直接攤開，不用一層一層點。</p><div class="heroActions"><a class="btn primary" href="../online-kuji.html">進入正式線上抽 →</a><button class="btn light" onclick="W28.openMy()">查我的抽賞</button></div></div><div class="heroVisual"><div class="heroStack" id="kujiHero"><div class="heroPlaceholder heroImg two">🎟</div></div></div></div></section>
+
+<section class="dashboard"><div class="dashCard"><div class="dashIcon">🎟</div><div class="dashCopy"><small>目前套組</small><strong id="setCount">—</strong><span>真實靜態資料</span></div></div><div class="dashCard"><div class="dashIcon">🟢</div><div class="dashCopy"><small>可查看籤盤</small><strong id="viewCount">—</strong><span>目前可瀏覽</span></div></div><div class="dashCard"><div class="dashIcon">🏆</div><div class="dashCopy"><small>大賞剩餘</small><strong id="majorCount">—</strong><span>A-D 賞合計</span></div></div><div class="dashCard"><div class="dashIcon">↻</div><div class="dashCopy"><small>同步方式</small><strong>8s</strong><span>正式頁目前有 revision poll</span></div></div></section>
+
+<section class="section"><div class="sectionCard"><div class="sectionHead"><div class="sectionTitle"><small>LIVE SETS</small><strong>正在開放／可查看的抽賞</strong><span>卡片先給你最重要的判斷資訊。</span></div><a class="sectionAction" href="../online-kuji.html">正式抽賞頁 →</a></div><div id="kujiGrid" class="kujiGrid"><div class="empty">資料載入中…</div></div></div></section>
+
+<section class="section"><div class="sectionCard"><div class="sectionHead"><div class="sectionTitle"><small>WHY RETURN</small><strong>讓抽賞頁不只是「下單工具」</strong><span>這些功能會讓用戶更願意回來看籤況。</span></div></div><div class="featureGrid">
+<div class="featureCard"><div class="featureTop"><strong>最近開出動態</strong><span class="featureIcon">⚡</span></div><p>正式版若後端補上開出時間，就能顯示「21:42 C賞已開出」，不顯示客戶姓名。</p><div id="recentOpen" class="miniList"></div></div>
+<div class="featureCard"><div class="featureTop"><strong>大賞剩餘提示</strong><span class="featureIcon">🏆</span></div><p>套組列表就直接顯示 A-D 賞剩幾個與最後賞是否還在，不用點進去才知道。</p><div class="miniList"><div class="miniRow"><span>A-D 賞資訊</span><span>列表直接看</span></div><div class="miniRow"><span>最後賞狀態</span><span>醒目提示</span></div></div></div>
+<div class="featureCard"><div class="featureTop"><strong>開抽倒數</strong><span class="featureIcon">⏱</span></div><p>即將上市套組可顯示倒數，並加入「開放時提醒我」入口。</p><div class="miniList"><div class="miniRow"><span>日本上架</span><span>11:00</span></div><div class="miniRow"><span>預約截止</span><span>10:30</span></div></div></div>
+<div class="featureCard"><div class="featureTop"><strong>日本代抽時間軸</strong><span class="featureIcon">🇯🇵</span></div><p>直接呈現台灣時間、預約開放、截止、目前 20 抽名額，不用使用者自行換算。</p><div class="miniList"><div class="miniRow"><span>預約進度</span><span>14 / 20</span></div><div class="miniRow"><span>國際運費</span><span>另計</span></div></div></div>
+</div></div></section>
+</div></main>
+<footer class="footer"><div class="container"><div class="footerGrid"><div class="footerBrand"><img class="brandLogo" src="../assets/logo.png" alt=""><div class="brandText"><strong>頑夜 TOY</strong><span>PLAY NIGHT TOY</span></div></div><div class="footerBlock"><strong>透明籤況</strong><span>剩餘抽數、獎賞剩餘、籤號盤完整顯示。</span></div><div class="footerBlock"><strong>正式送單</strong><span>預覽版不寫正式資料，按鈕導回目前系統。</span></div><div class="footerBlock"><strong>客服</strong><span>官方 LINE｜訂單查詢</span></div></div><div class="copyright">v28 線上抽 UI Preview</div></div></footer>
+<nav class="bottomNav"><a href="./index.html"><b>⌂</b>首頁</a><a href="./shop.html"><b>▦</b>商城</a><a href="./online-kuji.html"><b>🎟</b>線上抽</a><button onclick="W28.openMy()"><b>♡</b>收藏</button><button onclick="W28.openMy()"><b>☺</b>我的</button></nav>
+<script src="./common.js?v=28p2"></script>
+<script>
+function initKuji(){
+ document.getElementById('setCount').textContent=W28.kuji.length;document.getElementById('viewCount').textContent=W28.kuji.filter(function(x){return x.canViewBoard||x.canOrder}).length;
+ var major=W28.kuji.reduce(function(s,x){return s+(x.prizes||[]).filter(function(p){return /^[A-D]賞/.test(String(p.grade||''))}).reduce(function(a,p){return a+Number(p.remainingQty||0)},0)},0);document.getElementById('majorCount').textContent=major;
+ document.getElementById('kujiGrid').innerHTML=W28.kuji.map(W28.kujiCard).join('')||'<div class="empty">目前沒有線上抽資料。</div>';
+ var imgs=W28.kuji.filter(function(x){return x.imageUrl}).slice(0,3);document.getElementById('kujiHero').innerHTML=imgs.map(function(x,i){return '<img class="heroImg '+(['one','two','three'][i]||'two')+'" src="'+W28.esc(x.imageUrl)+'" alt="">'}).join('')||'<div class="heroPlaceholder heroImg two">🎟</div>';
+ var rows=[];W28.kuji.forEach(function(x){(x.board||[]).filter(function(t){return t.status==='已開'&&t.grade}).slice(-3).forEach(function(t){rows.push({set:x.name,t:t})})});document.getElementById('recentOpen').innerHTML=rows.slice(0,5).map(function(r){return '<div class="miniRow"><span>'+W28.esc(r.t.grade)+'｜籤號 '+Number(r.t.number)+'</span><span>'+W28.esc((r.t.name||'').slice(0,10))+'</span></div>'}).join('')||'<div class="miniRow"><span>目前沒有已開資料</span><span>—</span></div>'
+}
+W28.load(initKuji);
+</script></body></html>
