@@ -7,7 +7,7 @@
       const url=endpoint(); if(!url){reject(new Error('尚未設定 GAS 網址'));return;}
       const cb='__wanye_cb_'+Date.now()+'_'+(++seq);
       const s=document.createElement('script');
-      const timer=setTimeout(clean,timeout||18000);
+      const timer=setTimeout(()=>clean(new Error('連線逾時，請再試一次')),timeout||18000);
       function clean(err){clearTimeout(timer);try{delete window[cb]}catch(e){};if(s.parentNode)s.parentNode.removeChild(s);if(err)reject(err);}
       window[cb]=function(payload){clearTimeout(timer);try{delete window[cb]}catch(e){};if(s.parentNode)s.parentNode.removeChild(s);if(payload&&payload.ok){resolve(payload.data)}else reject(new Error(payload&&payload.error||'讀取失敗'));};
       s.onerror=function(){clean(new Error('連線失敗'));};
