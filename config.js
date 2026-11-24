@@ -3,4 +3,4 @@ window.WANWAN_SITE_BASE_URL='./';
 window.WANWAN_HOME_URL='./index.html';
 window.WANWAN_SHOP_URL='./shop.html';
 window.WANWAN_OFFICIAL_LINE_URL='https://lin.ee/sUCSbJV';
-window.WANWAN_VERSION='28.7.2';
+window.WANWAN_VERSION='28.7.3';
