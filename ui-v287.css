@@ -207,3 +207,8 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
   .daily-kuji-front-right b{font-size:14px!important}
   .daily-kuji-inner-top img{width:19px;height:19px}
 }
+
+/* v28.7.7｜私籤結果顯示防呆 */
+.daily-kuji-result[hidden]{display:none!important}
+.daily-kuji-overlay:not(.result-visible) .daily-kuji-inner .daily-kuji-result{display:none!important;opacity:0!important;visibility:hidden!important}
+.daily-kuji-overlay.result-visible .daily-kuji-inner .daily-kuji-result{display:block!important;opacity:1!important;visibility:visible!important;transform:scale(1)!important}
