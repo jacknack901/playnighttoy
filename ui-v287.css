@@ -2867,3 +2867,141 @@ body[data-page="member"] .member-summary{
     left:calc(var(--tear-x) - 6px)!important;
   }
 }
+
+
+/* v28.10.5｜頑夜手氣賞：咪牌式分段揭曉（玩法不變：左→右撕） */
+.lucky-kuji-v6 .daily-kuji-result{
+  overflow:hidden;
+}
+
+/* 內層紙面一開始就存在，但只有被紅票撕開的區域看得到 */
+.lucky-kuji-v6 .kuji-prize-top{
+  opacity:.28;
+  filter:saturate(.82) brightness(.92);
+  transition:opacity .18s ease,filter .18s ease;
+}
+.lucky-kuji-v6.reveal-top .kuji-prize-top{
+  opacity:1;
+  filter:none;
+}
+
+/* 大賞別先出現：像咪牌時先看到 A / B / C 的輪廓 */
+.lucky-kuji-v6 .kuji-prize-grade strong{
+  opacity:0;
+  transform:translateX(-8px) scale(.96);
+  filter:blur(2.5px);
+  transition:opacity .16s ease,transform .22s cubic-bezier(.2,.8,.2,1),filter .18s ease;
+}
+.lucky-kuji-v6.reveal-grade .kuji-prize-grade strong{
+  opacity:1;
+  transform:translateX(0) scale(1);
+  filter:none;
+}
+
+/* 「今日運勢 / 大吉」第二段才露 */
+.lucky-kuji-v6 .kuji-prize-copy small,
+.lucky-kuji-v6 .kuji-prize-copy>span{
+  opacity:0;
+  transform:translateY(5px);
+  transition:opacity .18s ease,transform .2s ease;
+}
+.lucky-kuji-v6.reveal-fortune .kuji-prize-copy small,
+.lucky-kuji-v6.reveal-fortune .kuji-prize-copy>span{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* 英文再晚一拍，營造「再撕一點才知道」 */
+.lucky-kuji-v6 .kuji-prize-copy>b{
+  opacity:0;
+  transform:translateY(6px) scale(.97);
+  filter:blur(2px);
+  transition:opacity .2s ease,transform .24s cubic-bezier(.2,.8,.2,1),filter .2s ease;
+}
+.lucky-kuji-v6.reveal-english .kuji-prize-copy>b{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  filter:none;
+}
+
+/* 最後才顯示完整說明與籤號 */
+.lucky-kuji-v6 .kuji-prize-copy h3,
+.lucky-kuji-v6 .kuji-prize-foot{
+  opacity:0;
+  transition:opacity .22s ease;
+}
+.lucky-kuji-v6.reveal-detail .kuji-prize-copy h3,
+.lucky-kuji-v6.reveal-detail .kuji-prize-foot{
+  opacity:1;
+}
+
+/* 紅色外層真的像紙被掀開：撕口後方增加紙張厚度與陰影 */
+.lucky-kuji-v6 .kuji-left-panel{
+  will-change:clip-path;
+  filter:drop-shadow(4px 1px 3px rgba(0,0,0,.14));
+}
+.lucky-kuji-v6.dragging .kuji-left-panel,
+.lucky-kuji-v6.auto-peeling .kuji-left-panel{
+  filter:drop-shadow(7px 2px 5px rgba(0,0,0,.22));
+}
+.lucky-kuji-v6 .daily-kuji-peel-edge{
+  width:20px!important;
+}
+.lucky-kuji-v6 .daily-kuji-peel-edge:after{
+  content:"";
+  position:absolute;
+  left:-7px;
+  top:0;
+  bottom:0;
+  width:11px;
+  background:linear-gradient(90deg,rgba(255,255,255,.9),rgba(239,239,235,.65),rgba(0,0,0,.08));
+  clip-path:polygon(0 0,100% 2%,72% 8%,100% 15%,70% 23%,100% 32%,68% 42%,100% 51%,70% 61%,100% 71%,69% 81%,100% 90%,70% 100%,0 100%);
+}
+
+/* 參照實體抽賞票的資訊層級：賞別最大、運勢其次、英文再其次 */
+.lucky-kuji-v6 .kuji-prize-grade strong{
+  font-family:"Arial Black","Noto Sans TC","Microsoft JhengHei",sans-serif;
+  font-size:78px;
+  line-height:.84;
+  font-weight:1000;
+  letter-spacing:-6px;
+}
+.lucky-kuji-v6 .kuji-prize-copy>span{
+  font-size:17px;
+  line-height:1;
+  font-weight:1000;
+}
+.lucky-kuji-v6 .kuji-prize-copy>b{
+  font-family:"Arial Black","Noto Sans TC","Microsoft JhengHei",sans-serif;
+  font-size:24px;
+  line-height:.92;
+  font-weight:1000;
+  letter-spacing:-.2px;
+}
+
+/* 完全揭曉時做一次很小的定格，不改結果 */
+.lucky-kuji-v6.revealed .kuji-prize-grade strong{
+  animation:kujiGradeSettle .32s cubic-bezier(.2,.9,.2,1) both;
+}
+@keyframes kujiGradeSettle{
+  0%{transform:scale(.97)}
+  55%{transform:scale(1.035)}
+  100%{transform:scale(1)}
+}
+
+@media(max-width:620px){
+  .lucky-kuji-v6 .kuji-prize-grade strong{
+    font-size:43px;
+    letter-spacing:-3.5px;
+  }
+  .lucky-kuji-v6 .kuji-prize-copy>span{
+    font-size:9px;
+  }
+  .lucky-kuji-v6 .kuji-prize-copy>b{
+    font-size:12px;
+    letter-spacing:-.2px;
+  }
+  .lucky-kuji-v6 .daily-kuji-peel-edge{
+    width:14px!important;
+  }
+}
