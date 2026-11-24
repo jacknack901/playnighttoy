@@ -1,0 +1,25 @@
+{
+  "version": "28.5.1",
+  "generatedAt": "2026-11-24",
+  "items": [
+    {
+      "id": "CONTENT-33D92AE665C3",
+      "name": "週五鯊魚女武神盃",
+      "title": "週五鯊魚女武神盃",
+      "description": "未滿8人將流局",
+      "imageUrl": "https://i.ibb.co/67nCHwmH/UX.png",
+      "url": "",
+      "link": "",
+      "startAt": "",
+      "endAt": "",
+      "location": "頑夜 TOY",
+      "status": "開放中",
+      "closed": false,
+      "type": "門市活動",
+      "signupEnabled": true,
+      "signupLimit": 20,
+      "signupFee": 300,
+      "paymentMode": "onsite"
+    }
+  ]
+}
