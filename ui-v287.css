@@ -1861,3 +1861,281 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
   .lucky-kuji-v4 .daily-kuji-peel-edge span{width:12px;height:25px}
   .lucky-kuji-v4 .daily-kuji-foot{font-size:6px}
 }
+
+
+/* v28.10.0｜頑夜手氣賞：短版實體籤＋手機獨立排版 */
+.lucky-kuji-v5.daily-kuji-overlay{
+  background:radial-gradient(circle at 50% 44%,rgba(255,255,255,.06),transparent 34%),rgba(14,18,25,.92);
+  backdrop-filter:blur(9px);
+}
+.lucky-kuji-v5 .daily-kuji-stage{width:min(585px,94vw)}
+.lucky-kuji-v5 .daily-kuji-heading{margin-bottom:12px;text-align:center}
+.lucky-kuji-v5 .daily-kuji-heading span{display:block;font-size:10px;font-weight:1000;letter-spacing:4px;color:#a8dff2}
+.lucky-kuji-v5 .daily-kuji-heading b{display:block;margin-top:3px;font:900 36px/.95 Arial Black,Impact,sans-serif;letter-spacing:2px;color:#fff}
+.lucky-kuji-v5 .daily-kuji-heading small{display:block;margin-top:5px;font-size:10px;font-weight:900;letter-spacing:2.4px;color:rgba(255,255,255,.72)}
+
+.lucky-kuji-v5 .daily-kuji-ticket{
+  position:relative;
+  display:grid;
+  grid-template-columns:63% 37%;
+  width:100%;
+  aspect-ratio:1.9/1;
+  min-height:0;
+  max-height:none;
+  border-radius:3px;
+  background:#e9e9e7;
+  box-shadow:0 24px 65px rgba(0,0,0,.42);
+  overflow:visible;
+}
+
+/* 讓外輪廓不是單純長方形：上下鋸齒、左右微缺口 */
+.lucky-kuji-v5 .daily-kuji-ticket:before,
+.lucky-kuji-v5 .daily-kuji-ticket:after{
+  content:"";
+  position:absolute;z-index:20;left:0;right:0;height:8px;pointer-events:none;
+  background:
+    linear-gradient(135deg,transparent 50%,#121820 51%) 0 0/13px 8px repeat-x,
+    linear-gradient(225deg,transparent 50%,#121820 51%) 6.5px 0/13px 8px repeat-x;
+}
+.lucky-kuji-v5 .daily-kuji-ticket:before{top:-1px}
+.lucky-kuji-v5 .daily-kuji-ticket:after{bottom:-1px;transform:rotate(180deg)}
+
+.lucky-kuji-v5 .kuji-left-stub{
+  position:relative;min-width:0;padding:17px 14px 14px 34px;
+  background:#ec2637;border:1px solid #c91d2c;border-right:0;overflow:hidden;
+}
+.lucky-kuji-v5 .kuji-left-rail{
+  position:absolute;left:0;top:8px;bottom:8px;width:25px;
+  display:flex;align-items:center;justify-content:center;
+  background:#f2f2ef;border-right:1px solid rgba(0,0,0,.14);
+}
+.lucky-kuji-v5 .kuji-left-rail span{
+  writing-mode:vertical-rl;font-size:6px;font-weight:1000;letter-spacing:1.7px;color:#30343a;
+}
+.lucky-kuji-v5 .kuji-info-card{
+  display:grid;grid-template-columns:56px minmax(0,1fr) 54px;gap:9px;align-items:center;
+  padding:12px 10px;background:#f8f8f5;border:1px solid #dddcd8;box-shadow:inset 0 0 0 2px #fff;
+}
+.lucky-kuji-v5 .kuji-info-bubble{
+  width:54px;height:46px;border-radius:48% 52% 47% 53%;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  background:#d92338;color:#fff;font-size:8px;line-height:1.05;font-weight:1000;transform:rotate(-5deg);
+}
+.lucky-kuji-v5 .kuji-info-copy{min-width:0}
+.lucky-kuji-v5 .kuji-info-copy b{display:block;font-size:15px;line-height:1;color:#d82135;font-weight:1000}
+.lucky-kuji-v5 .kuji-info-copy strong{display:block;margin-top:4px;font:900 11px/1 Arial Black,Impact,sans-serif;color:#222a31;letter-spacing:.7px}
+.lucky-kuji-v5 .kuji-info-copy span{display:block;margin-top:5px;font-size:7px;line-height:1.45;font-weight:800;color:#777b80}
+.lucky-kuji-v5 .kuji-code-box{
+  display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);
+  gap:3px;width:50px;height:50px;padding:4px;background:#fff;border:1px solid #aaa;
+}
+.lucky-kuji-v5 .kuji-code-box i{background:#202327}
+.lucky-kuji-v5 .kuji-code-box i:nth-child(2),
+.lucky-kuji-v5 .kuji-code-box i:nth-child(4),
+.lucky-kuji-v5 .kuji-code-box i:nth-child(8){background:transparent;border:2px solid #202327}
+.lucky-kuji-v5 .kuji-info-band{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;padding:6px 8px;background:#54585d;color:#fff;
+}
+.lucky-kuji-v5 .kuji-info-band span{font-size:7px;font-weight:1000;letter-spacing:.6px}
+.lucky-kuji-v5 .kuji-info-band b{font-size:7px}
+.lucky-kuji-v5 .kuji-ticket-no{
+  display:flex;align-items:flex-end;gap:8px;margin-top:7px;color:#fff;
+}
+.lucky-kuji-v5 .kuji-ticket-no span{font-size:6px;font-weight:900;letter-spacing:.7px}
+.lucky-kuji-v5 .kuji-ticket-no b{font-size:12px;letter-spacing:1px}
+.lucky-kuji-v5 .kuji-ticket-no small{margin-left:auto;font-size:6px;font-weight:900;opacity:.9}
+
+/* 右側可撕賞票 */
+.lucky-kuji-v5 .kuji-result-zone{
+  position:relative;min-width:0;overflow:hidden;background:#d7e0e5;border:1px solid #738a98;
+}
+.lucky-kuji-v5 .kuji-result-zone:before{
+  content:"";position:absolute;z-index:12;left:-1px;top:0;bottom:0;width:8px;pointer-events:none;
+  background:
+    linear-gradient(135deg,transparent 50%,#fff 51%) 0 0/8px 12px repeat-y,
+    linear-gradient(45deg,transparent 50%,#fff 51%) 0 6px/8px 12px repeat-y;
+}
+.lucky-kuji-v5 .daily-kuji-result{
+  position:absolute;inset:0;display:grid!important;grid-template-rows:38px 1fr 30px;
+  background:#15232e;color:#e2edf2;text-align:left;
+}
+.lucky-kuji-v5 .kuji-result-header{
+  display:flex;align-items:center;justify-content:space-between;gap:6px;padding:0 10px;background:#2189b7;color:#fff;
+}
+.lucky-kuji-v5 .kuji-result-header span{font-size:9px;font-weight:1000}
+.lucky-kuji-v5 .kuji-result-header b{font:900 9px/1 Arial Black,Impact,sans-serif;letter-spacing:.7px}
+.lucky-kuji-v5 .kuji-result-body{display:grid;grid-template-columns:43% 57%;min-height:0}
+.lucky-kuji-v5 .kuji-result-grade{display:flex;align-items:center;justify-content:center;background:#111e28;border-right:1px solid #4b616f}
+.lucky-kuji-v5 .kuji-result-grade strong{font:900 68px/.86 Arial Black,Impact,sans-serif;letter-spacing:-5px;color:#dceaf0}
+.lucky-kuji-v5 .kuji-result-copy{display:flex;flex-direction:column;justify-content:center;padding:10px 9px}
+.lucky-kuji-v5 .kuji-result-copy small{font-size:7px;color:#92bdd0;font-weight:900}
+.lucky-kuji-v5 .kuji-result-copy>span{margin-top:2px;font-size:13px;font-weight:1000;color:#fff}
+.lucky-kuji-v5 .kuji-result-copy>b{margin-top:2px;font:900 21px/.95 Arial Black,Impact,sans-serif;letter-spacing:.4px;color:#fff}
+.lucky-kuji-v5 .kuji-result-copy h3{margin:7px 0 0;font-size:9px;line-height:1.3;color:#cdd9df}
+.lucky-kuji-v5 .kuji-result-footer{
+  display:flex;align-items:center;justify-content:space-between;padding:0 9px;background:#bdc7cd;color:#25343e;border-top:1px solid #8899a3;
+}
+.lucky-kuji-v5 .kuji-result-footer span{font-size:6px;font-weight:1000;letter-spacing:.7px}
+.lucky-kuji-v5 .kuji-result-footer b{font-size:7px}
+
+/* 密封正面 */
+.lucky-kuji-v5 .kuji-seal-cover{
+  position:absolute;z-index:5;inset:0;
+  clip-path:inset(0 0 0 var(--tear-progress));
+  background:#f2f2ef;border-left:1px dashed #999;
+  transition:clip-path .05s linear;
+}
+.lucky-kuji-v5 .kuji-seal-head{
+  height:42px;padding:0 10px;display:flex;align-items:center;justify-content:space-between;background:#e52a39;color:#fff;
+}
+.lucky-kuji-v5 .kuji-seal-head span{font-size:8px;font-weight:1000}
+.lucky-kuji-v5 .kuji-seal-head b{font:900 12px/1 Arial Black,Impact,sans-serif;letter-spacing:.8px}
+.lucky-kuji-v5 .kuji-seal-center{
+  position:absolute;left:0;right:0;top:42px;bottom:31px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#2b3237;
+}
+.lucky-kuji-v5 .kuji-seal-center small{font-size:6px;font-weight:900;color:#858a8e}
+.lucky-kuji-v5 .kuji-seal-center strong{margin-top:2px;font:900 31px/.9 Arial Black,Impact,sans-serif;letter-spacing:1.2px}
+.lucky-kuji-v5 .kuji-seal-center b{font-size:26px;line-height:.85;color:#2189b7}
+.lucky-kuji-v5 .kuji-seal-center span{margin-top:4px;font-size:6px;font-weight:900;color:#7d8387}
+.lucky-kuji-v5 .kuji-seal-foot{
+  position:absolute;left:0;right:0;bottom:0;height:31px;padding:0 8px;
+  display:flex;align-items:center;justify-content:space-between;background:#d8dadd;color:#293842;
+}
+.lucky-kuji-v5 .kuji-seal-foot span{font-size:6px;font-weight:1000}
+.lucky-kuji-v5 .kuji-seal-foot b{font:900 7px/1 Arial Black,Impact,sans-serif;letter-spacing:.6px}
+
+/* 撕口 */
+.lucky-kuji-v5 .daily-kuji-peel-edge{
+  position:absolute;z-index:8;left:var(--tear-progress);top:6px;bottom:6px;width:17px;
+  pointer-events:none;opacity:0;transition:left .05s linear,opacity .12s ease;
+}
+.lucky-kuji-v5.peeling .daily-kuji-peel-edge,
+.lucky-kuji-v5.dragging .daily-kuji-peel-edge,
+.lucky-kuji-v5.auto-peeling .daily-kuji-peel-edge{opacity:1}
+.lucky-kuji-v5 .daily-kuji-peel-edge:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.9),rgba(0,0,0,.18) 58%,transparent)}
+.lucky-kuji-v5 .daily-kuji-peel-edge span{position:absolute;top:46%;left:-4px;width:16px;height:32px;transform:skewY(18deg);background:linear-gradient(225deg,#fff 0 47%,#bfc2c3 48% 53%,#efefec 54%);box-shadow:-4px 4px 9px rgba(0,0,0,.2)}
+.lucky-kuji-v5 .daily-kuji-peel-edge i{position:absolute;right:-5px;top:0;bottom:0;width:6px;background:linear-gradient(90deg,transparent,rgba(0,0,0,.14))}
+.lucky-kuji-v5 .daily-kuji-tear{
+  position:absolute;z-index:10;left:clamp(0px,calc(var(--tear-progress) - 1px),calc(100% - 47px));top:50%;
+  transform:translateY(-50%);width:45px;height:93px;min-height:0;
+  border:1px solid #bcbcbc;border-left:0;border-radius:0 6px 6px 0;background:linear-gradient(180deg,#fff,#ececea);
+  color:#273238;box-shadow:7px 7px 13px rgba(0,0,0,.15);cursor:grab;touch-action:none;user-select:none;
+  transition:left .05s linear,transform .14s ease;
+}
+.lucky-kuji-v5 .daily-kuji-tear:before{
+  content:"";position:absolute;left:-7px;top:0;bottom:0;width:8px;background:
+  linear-gradient(135deg,transparent 50%,#f3f3f0 51%) 0 0/8px 12px repeat-y,
+  linear-gradient(45deg,transparent 50%,#f3f3f0 51%) 0 6px/8px 12px repeat-y;
+}
+.lucky-kuji-v5 .daily-kuji-tear:after{display:none}
+.lucky-kuji-v5 .daily-kuji-tear-arrow{display:flex;align-items:center;justify-content:center;width:24px;height:24px;margin:0 auto 5px;border-radius:50%;background:#2189b7;color:#fff;font-size:18px}
+.lucky-kuji-v5 .daily-kuji-tear b{display:block;margin:auto;font:900 8px/1 Arial Black,Impact,sans-serif;writing-mode:vertical-rl;letter-spacing:.5px}
+.lucky-kuji-v5 .daily-kuji-tear small{display:block;margin-top:4px;font-size:5px;line-height:1.15;color:#858a8e}
+.lucky-kuji-v5.dragging .daily-kuji-tear{cursor:grabbing;transform:translateY(-50%) scale(1.035)}
+.lucky-kuji-v5.snapback .kuji-seal-cover{transition:clip-path .28s ease}
+.lucky-kuji-v5.snapback .daily-kuji-tear,
+.lucky-kuji-v5.snapback .daily-kuji-peel-edge{transition:left .28s ease}
+.lucky-kuji-v5.finishing .kuji-seal-cover{transition:clip-path .36s cubic-bezier(.2,.8,.2,1)}
+.lucky-kuji-v5.finishing .daily-kuji-tear,
+.lucky-kuji-v5.finishing .daily-kuji-peel-edge{transition:left .36s cubic-bezier(.2,.8,.2,1)}
+.lucky-kuji-v5.revealed .kuji-seal-cover,
+.lucky-kuji-v5.revealed .daily-kuji-tear,
+.lucky-kuji-v5.revealed .daily-kuji-peel-edge{opacity:0;pointer-events:none}
+.lucky-kuji-v5.revealed .daily-kuji-result{animation:luckyResultPop .38s cubic-bezier(.2,.85,.25,1) both}
+.lucky-kuji-v5 .daily-kuji-foot{margin-top:9px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;color:rgba(255,255,255,.72);font-size:7px}
+.lucky-kuji-v5 .daily-kuji-foot b{color:#8ed8f3}
+
+/* 手機：不是縮桌機，而是重新排版 */
+@media(max-width:620px){
+  .lucky-kuji-v5.daily-kuji-overlay{padding:10px 8px}
+  .lucky-kuji-v5 .daily-kuji-stage{width:min(356px,96vw)}
+  .lucky-kuji-v5 .daily-kuji-close{top:-2px;right:0}
+  .lucky-kuji-v5 .daily-kuji-heading{margin-bottom:8px;padding-right:28px}
+  .lucky-kuji-v5 .daily-kuji-heading span{font-size:7px;letter-spacing:2.6px}
+  .lucky-kuji-v5 .daily-kuji-heading b{font-size:27px;letter-spacing:1.4px}
+  .lucky-kuji-v5 .daily-kuji-heading small{font-size:7px;letter-spacing:1.7px}
+
+  .lucky-kuji-v5 .daily-kuji-ticket{
+    grid-template-columns:62% 38%;
+    width:100%;
+    aspect-ratio:1.62/1;
+    min-height:210px;
+  }
+  .lucky-kuji-v5 .daily-kuji-ticket:before,
+  .lucky-kuji-v5 .daily-kuji-ticket:after{height:6px;background-size:10px 6px,10px 6px}
+
+  .lucky-kuji-v5 .kuji-left-stub{padding:13px 8px 10px 23px}
+  .lucky-kuji-v5 .kuji-left-rail{top:6px;bottom:6px;width:17px}
+  .lucky-kuji-v5 .kuji-left-rail span{font-size:4px;letter-spacing:.8px}
+  .lucky-kuji-v5 .kuji-info-card{
+    grid-template-columns:36px minmax(0,1fr);
+    grid-template-areas:"bubble copy" "code code";
+    gap:6px;padding:8px 6px;
+  }
+  .lucky-kuji-v5 .kuji-info-bubble{grid-area:bubble;width:34px;height:31px;font-size:5px}
+  .lucky-kuji-v5 .kuji-info-copy{grid-area:copy}
+  .lucky-kuji-v5 .kuji-info-copy b{font-size:9px}
+  .lucky-kuji-v5 .kuji-info-copy strong{font-size:6px;margin-top:3px}
+  .lucky-kuji-v5 .kuji-info-copy span{font-size:5px;margin-top:3px;line-height:1.35}
+  .lucky-kuji-v5 .kuji-code-box{
+    grid-area:code;width:100%;height:21px;display:flex;gap:2px;padding:3px;
+  }
+  .lucky-kuji-v5 .kuji-code-box i{flex:1}
+  .lucky-kuji-v5 .kuji-code-box i:nth-child(2),
+  .lucky-kuji-v5 .kuji-code-box i:nth-child(4),
+  .lucky-kuji-v5 .kuji-code-box i:nth-child(8){border-width:1px}
+  .lucky-kuji-v5 .kuji-info-band{margin-top:5px;padding:4px 5px}
+  .lucky-kuji-v5 .kuji-info-band span{font-size:4px;letter-spacing:.3px}
+  .lucky-kuji-v5 .kuji-info-band b{font-size:4px}
+  .lucky-kuji-v5 .kuji-ticket-no{margin-top:5px;gap:4px}
+  .lucky-kuji-v5 .kuji-ticket-no span{font-size:4px}
+  .lucky-kuji-v5 .kuji-ticket-no b{font-size:7px}
+  .lucky-kuji-v5 .kuji-ticket-no small{font-size:4px}
+
+  .lucky-kuji-v5 .daily-kuji-result{grid-template-rows:31px 1fr 25px}
+  .lucky-kuji-v5 .kuji-result-header{padding:0 6px}
+  .lucky-kuji-v5 .kuji-result-header span{font-size:6px}
+  .lucky-kuji-v5 .kuji-result-header b{font-size:5px;letter-spacing:.3px}
+  .lucky-kuji-v5 .kuji-result-body{grid-template-columns:44% 56%}
+  .lucky-kuji-v5 .kuji-result-grade strong{font-size:47px;letter-spacing:-3px}
+  .lucky-kuji-v5 .kuji-result-copy{padding:7px 5px}
+  .lucky-kuji-v5 .kuji-result-copy small{font-size:5px}
+  .lucky-kuji-v5 .kuji-result-copy>span{font-size:9px}
+  .lucky-kuji-v5 .kuji-result-copy>b{font-size:12px}
+  .lucky-kuji-v5 .kuji-result-copy h3{font-size:6px;margin-top:4px}
+  .lucky-kuji-v5 .kuji-result-footer{padding:0 5px}
+  .lucky-kuji-v5 .kuji-result-footer span{font-size:4px}
+  .lucky-kuji-v5 .kuji-result-footer b{font-size:5px}
+
+  .lucky-kuji-v5 .kuji-seal-head{height:34px;padding:0 6px}
+  .lucky-kuji-v5 .kuji-seal-head span{font-size:5px}
+  .lucky-kuji-v5 .kuji-seal-head b{font-size:7px}
+  .lucky-kuji-v5 .kuji-seal-center{top:34px;bottom:26px}
+  .lucky-kuji-v5 .kuji-seal-center small{font-size:4px}
+  .lucky-kuji-v5 .kuji-seal-center strong{font-size:19px}
+  .lucky-kuji-v5 .kuji-seal-center b{font-size:17px}
+  .lucky-kuji-v5 .kuji-seal-center span{font-size:4px}
+  .lucky-kuji-v5 .kuji-seal-foot{height:26px;padding:0 5px}
+  .lucky-kuji-v5 .kuji-seal-foot span{font-size:4px}
+  .lucky-kuji-v5 .kuji-seal-foot b{font-size:4px}
+
+  .lucky-kuji-v5 .daily-kuji-tear{
+    width:34px;height:72px;left:clamp(0px,calc(var(--tear-progress) - 1px),calc(100% - 35px));
+    border-radius:0 5px 5px 0;
+  }
+  .lucky-kuji-v5 .daily-kuji-tear-arrow{width:19px;height:19px;font-size:15px;margin-bottom:3px}
+  .lucky-kuji-v5 .daily-kuji-tear b{font-size:6px}
+  .lucky-kuji-v5 .daily-kuji-tear small{font-size:4px}
+  .lucky-kuji-v5 .daily-kuji-peel-edge{width:12px}
+  .lucky-kuji-v5 .daily-kuji-peel-edge span{width:10px;height:23px}
+  .lucky-kuji-v5 .daily-kuji-foot{font-size:6px;line-height:1.35;margin-top:7px}
+}
+
+@media(max-width:360px){
+  .lucky-kuji-v5 .daily-kuji-stage{width:min(338px,96vw)}
+  .lucky-kuji-v5 .daily-kuji-ticket{aspect-ratio:1.55/1;min-height:205px}
+  .lucky-kuji-v5 .kuji-left-stub{padding-left:21px}
+  .lucky-kuji-v5 .kuji-result-grade strong{font-size:43px}
+  .lucky-kuji-v5 .kuji-result-copy>b{font-size:11px}
+}
