@@ -1,5 +1,5 @@
-const CACHE='wanye-static-v2840';
-const STATIC=['./','./index.html','./shop.html','./activities.html','./online.html','./kuji.html','./member.html','./style.css?v=2840','./ui-v284.css?v=2840','./app.js?v=2840','./gas-bridge.js?v=2840','./config.js?v=2840','./assets/logo.png'];
+const CACHE='wanye-static-v2850';
+const STATIC=['./','./index.html','./shop.html','./activities.html','./online.html','./kuji.html','./member.html','./style.css?v=2850','./ui-v285.css?v=2850','./app.js?v=2850','./gas-bridge.js?v=2850','./config.js?v=2850','./assets/logo.png','./assets/ui-icons.svg'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(STATIC).catch(()=>{})));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});
 self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.method!=='GET'||u.origin!==location.origin)return;if(e.request.mode==='navigate'){e.respondWith(fetch(e.request).then(r=>{const c=r.clone();caches.open(CACHE).then(x=>x.put(e.request,c));return r}).catch(()=>caches.match(e.request).then(r=>r||caches.match('./index.html'))));return}e.respondWith(caches.match(e.request).then(hit=>hit||fetch(e.request).then(r=>{if(r.ok){const c=r.clone();caches.open(CACHE).then(x=>x.put(e.request,c))}return r})))});
