@@ -4,7 +4,7 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.quer
 const MOBILE=matchMedia('(max-width:820px)').matches;
 const PAGE_SIZE=MOBILE?12:16;
 const PREVIEW=location.protocol==='file:'||['localhost','127.0.0.1'].includes(location.hostname);
-const VERSION='28.7.0';
+const VERSION='28.7.1';
 function readJson(key,fallback){try{const v=JSON.parse(localStorage.getItem(key)||'null');return v==null?fallback:v}catch(e){return fallback}}
 const S={products:[],total:0,nextOffset:0,hasMore:false,counts:{},categories:[],ips:[],requestSeq:0,mode:'all',ip:'',cat:'',sort:'new',query:'',focus:'',activities:[],onlineDraws:[],japanDraws:[],shopStatic:null,shopIndex:null,shopRenderToken:0,onlineStatic:null,drawSelection:null,activitySelection:null,favorites:new Set(readJson('wanye:favs',[])),recent:readJson('wanye:recent',[]),cart:readJson('wanye:cart',[]),cartItems:readJson('wanye:cartItems',{}),viewStats:readJson('wanye:viewStats',{}),member:null,memberToken:localStorage.getItem('wanye:memberToken')||'',deviceId:localStorage.getItem('wanye:deviceId')||''};
 if(!S.deviceId){S.deviceId='web_'+Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('wanye:deviceId',S.deviceId)}
@@ -121,7 +121,7 @@ async function submitWish(){if(!S.memberToken){toast('請先登入會員');if(do
 async function initMember(){const remembered=localStorage.getItem('wanye:rememberLineId')||'';if($('#memberLineId'))$('#memberLineId').value=remembered;if($('#rememberLineId'))$('#rememberLineId').checked=!!remembered;await refreshMember();renderMember();syncCounts();if(S.member)loadRecommendations()}
 async function shopMore(){if(!S.hasMore)return;$('#shopMore').disabled=true;$('#shopMore').textContent='載入中…';await fetchShop(false)}
 function initFollow(){const e=$('#homeFollow');if(e)e.innerHTML=['寶可夢','航海王','戰鬥陀螺','三麗鷗'].map(x=>`<a class="chip" href="./shop.html?ip=${encodeURIComponent(x)}">＋ ${x}</a>`).join('')}
-function registerSW(){if('serviceWorker'in navigator&&location.protocol==='https:')navigator.serviceWorker.register('./sw-v287.js?v=2870').catch(()=>{})}
+function registerSW(){if('serviceWorker'in navigator&&location.protocol==='https:')navigator.serviceWorker.register('./sw-v2871.js?v=2871').catch(()=>{})}
 window.WANYE={memberLogin,memberRegister,showAuth,memberLogout,memberTab,submitWish,shopMore,openSearch,openCart,openProduct,openDraw,submitOnlineOrder,openActivitySignup,submitActivitySignup};
 document.addEventListener('DOMContentLoaded',()=>{bindGlobal();initFollow();registerSW();const p=document.body.dataset.page,immediate=(p==='shop'&&$('#shopGrid .product-card'))||(p==='online'&&$('#onlineGrid .draw-card'))||(p==='home'&&($('#homeKujiGrid .draw-card')||$('#homeEvents .activity-card')));if(!immediate)showPageLoader(p);else hidePageLoader();const run=p==='home'?initHome:p==='shop'?initShop:p==='kuji'?initKuji:p==='online'?initOnline:p==='activities'?initActivities:p==='member'?initMember:null;const done=()=>{hidePageLoader();idleTask(warmShopCache);setTimeout(()=>showDailyKujiIfNeeded(false),420)};if(run)Promise.resolve(run()).catch(e=>{console.error(e);toast('部分資料載入失敗')}).finally(done);else done();syncCounts()});
 })();
