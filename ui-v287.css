@@ -2784,3 +2784,86 @@ body[data-page="member"] .member-summary{
     width:min(326px,98vw);
   }
 }
+
+
+/* v28.10.4｜手氣賞撕法固定：最左側 → 最右側 */
+.lucky-kuji-v6 .kuji-book{
+  width:var(--kuji-panel-w)!important;
+  height:var(--kuji-panel-h);
+  overflow:visible;
+  transition:none!important;
+}
+
+/* 內部結果固定在同一張籤紙下層，不再往右伸出第二張票 */
+.lucky-kuji-v6 .kuji-right-panel{
+  left:0!important;
+  top:0;
+  z-index:1;
+  width:var(--kuji-panel-w);
+  height:var(--kuji-panel-h);
+  clip-path:none!important;
+}
+
+/* 紅色外層蓋在結果上方，從左往右逐步消失 */
+.lucky-kuji-v6 .kuji-left-panel{
+  left:0;
+  top:0;
+  z-index:4;
+  width:var(--kuji-panel-w);
+  height:var(--kuji-panel-h);
+  clip-path:inset(0 0 0 var(--tear-progress));
+  transition:clip-path .05s linear;
+}
+
+/* 不再做第二層展開／店舖票蓋板 */
+.lucky-kuji-v6 .kuji-inner-cover{
+  display:none!important;
+}
+
+/* 撕線與把手從最左側開始，沿整張籤往右走 */
+.lucky-kuji-v6 .daily-kuji-peel-edge{
+  left:calc(var(--tear-x) - 7px)!important;
+  top:6px;
+  bottom:6px;
+}
+.lucky-kuji-v6 .daily-kuji-tear{
+  left:clamp(-13px,calc(var(--tear-x) - 20px),calc(100% - 29px))!important;
+  top:50%;
+  width:40px;
+  height:86px;
+  border-radius:0 7px 7px 0;
+}
+.lucky-kuji-v6 .daily-kuji-tear:before{
+  left:-6px;
+}
+.lucky-kuji-v6 .daily-kuji-tear-arrow{
+  transform:none;
+}
+
+/* 撕開過程只處理外層紅票，不再改變整體寬度 */
+.lucky-kuji-v6.snapback .kuji-left-panel{
+  transition:clip-path .28s ease;
+}
+.lucky-kuji-v6.finishing .kuji-left-panel{
+  transition:clip-path .36s cubic-bezier(.2,.8,.2,1);
+}
+.lucky-kuji-v6.revealed .kuji-left-panel{
+  opacity:0;
+  pointer-events:none;
+}
+.lucky-kuji-v6.snapback .kuji-book,
+.lucky-kuji-v6.finishing .kuji-book{
+  transition:none!important;
+}
+
+/* 手機：同樣從最左側一路撕到最右側 */
+@media(max-width:620px){
+  .lucky-kuji-v6 .daily-kuji-tear{
+    left:clamp(-10px,calc(var(--tear-x) - 15px),calc(100% - 25px))!important;
+    width:30px;
+    height:61px;
+  }
+  .lucky-kuji-v6 .daily-kuji-peel-edge{
+    left:calc(var(--tear-x) - 6px)!important;
+  }
+}
