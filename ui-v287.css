@@ -180,3 +180,30 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
 .daily-kuji-replay-text{display:flex;flex-direction:column;line-height:1.12;text-align:left}.daily-kuji-replay-text b{font-size:12px;color:#4b3922}.daily-kuji-replay-text small{font-size:8px;color:#9a7c51;margin-top:3px}
 .daily-kuji-open .daily-kuji-replay-fab{opacity:0;pointer-events:none;transform:translateY(6px)}
 @media(max-width:620px){.daily-kuji-replay-fab{right:12px;bottom:137px;padding:6px;width:46px;height:46px;justify-content:center}.daily-kuji-replay-ticket{width:35px;height:26px}.daily-kuji-replay-text{display:none}.daily-kuji-replay-ticket b{font-size:8px}.daily-kuji-replay-ticket i{top:5px}.customer-service-fab{bottom:82px}}
+
+/* v28.7.6｜80 抽私籤結果鎖定＋頑夜品牌票面 */
+.daily-kuji-inner .daily-kuji-result{opacity:0!important;visibility:hidden!important;transform:scale(.96)!important;transition:opacity .14s ease,transform .22s ease}
+.daily-kuji-overlay.armed .daily-kuji-inner .daily-kuji-result{opacity:1!important;visibility:visible!important;transform:scale(1)!important}
+.daily-kuji-front-label{display:block!important;left:17%!important;right:14%!important;top:17%!important;height:182px!important;padding:12px 16px 37px!important;clip-path:none!important;background:#fffdf8!important;border:1px solid rgba(58,45,28,.3)!important}
+.daily-kuji-front-brand{display:flex;align-items:center;gap:9px;padding-bottom:9px;margin-bottom:9px;border-bottom:1px solid #d7d0c3}
+.daily-kuji-front-brand img{width:38px;height:38px;object-fit:contain;border-radius:6px;background:#fff;padding:2px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.daily-kuji-front-brand small{display:block;font-size:9px;color:#24211d;font-weight:1000;letter-spacing:.6px}
+.daily-kuji-front-brand b{display:block;font-size:11px;color:#9a7133;letter-spacing:1.2px;margin-top:2px}
+.daily-kuji-front-main{display:grid;grid-template-columns:1fr 1.15fr;gap:12px}
+.daily-kuji-front-left{border-right:1px solid #c9c3b8;padding-right:12px}
+.daily-kuji-front-right{padding-left:2px}
+.daily-kuji-front-right b{font-size:20px!important;line-height:1!important;margin:4px 0!important}
+.daily-kuji-inner-top img{width:24px;height:24px;object-fit:contain;background:#fff;border-radius:4px;padding:2px}
+.daily-kuji-result-serial{display:block;margin-top:8px;font-size:7px;letter-spacing:1.4px;color:#6c8290}
+.daily-kuji-result-serial b{font-size:8px;color:#2a6f91}
+.daily-kuji-overlay.revealed .daily-kuji-inner .daily-kuji-result{opacity:1!important;visibility:visible!important;transform:scale(1)!important}
+.daily-kuji-foot{font-size:9px;letter-spacing:.35px}
+@media(max-width:620px){
+  .daily-kuji-front-label{left:17%!important;right:10%!important;top:16%!important;height:139px!important;padding:8px 10px 29px!important}
+  .daily-kuji-front-brand{gap:6px;padding-bottom:6px;margin-bottom:6px}
+  .daily-kuji-front-brand img{width:28px;height:28px}
+  .daily-kuji-front-brand small{font-size:7px}.daily-kuji-front-brand b{font-size:8px}
+  .daily-kuji-front-main{gap:7px}.daily-kuji-front-left strong{font-size:20px!important}
+  .daily-kuji-front-right b{font-size:14px!important}
+  .daily-kuji-inner-top img{width:19px;height:19px}
+}
