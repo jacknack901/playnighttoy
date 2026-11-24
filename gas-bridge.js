@@ -5,12 +5,14 @@
     getPublicKujiVersionV260:1,getPublicKujiList:1,getPublicCommerceV260:1,getPublicHomeBootstrapV2710:1,
     getPublicSoldKujiListV260:1,getPublicKuji:1,getPublicShopPageV270:1,getPublicShopProductV270:1,
     getPublicFormRpcAckV271210:1,getPublicShopOrdersByPhoneV27136:1,getPublicShopOrdersByPhoneV272753:1,getPublicShopOrdersByPhoneV272754:1,getPublicShopOrdersByPhoneV272755:1,getPublicShopOrdersByPhoneV272756:1,getPublicShopOrdersByPhoneV272757:1,getPublicShopOrdersByPhoneV272758:1,getPublicShopGalleryV272764:1,getPublicDailyVisitorV27170:1,
-    getPublicOnlineKujiListV27180:1,getPublicOnlineKujiOrderV27180:1,getPublicJapanOnlineProxyListV27276:1,getPublicJapanOnlineProxyReservationV27276:1,getPublicJapanOnlineProxyReservationsByPhoneV272723:1
+    getPublicOnlineKujiListV27180:1,getPublicOnlineKujiOrderV27180:1,getPublicJapanOnlineProxyListV27276:1,getPublicJapanOnlineProxyReservationV27276:1,getPublicJapanOnlineProxyReservationsByPhoneV272723:1,
+    getPublicV28HomeBundle:1
   };
   var WRITE={
     submitRaffleSignupV2587:1,submitKujiActivitySignupV2544:1,submitPublicPreorderV2544:1,
     submitKujiGroupPaymentV2523:1,submitShopInquiryV267:1,submitShopOrderV266:1,submitShopCartV27136:1,
-    submitOnlineKujiRequestV27180:1,submitOnlineKujiPaymentV27180:1,submitOnlineKujiNumbersV27180:1,submitJapanOnlineProxyReservationV27276:1
+    submitOnlineKujiRequestV27180:1,submitOnlineKujiPaymentV27180:1,submitOnlineKujiNumbersV27180:1,submitJapanOnlineProxyReservationV27276:1,
+    memberPortalLoginV280:1,memberPortalRefreshV280:1,memberPortalLogoutV280:1,getPublicV28MemberPreferences:1,savePublicV28MemberPreference:1,submitPublicV28Wish:1
   };
   var seq=0;
   function cfgError(fail){var msg='尚未設定 Apps Script /exec 網址，請先修改 config.js。';if(typeof fail==='function')fail({message:msg});else if(window.console)console.error(msg);}
