@@ -306,29 +306,3 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
  .home-banner-arrow{top:30%}
  .home-banner-dots{left:18px;bottom:18px}
 }
-
-
-/* v28.8.3｜首頁新品速報：只改呈現，不碰商品資料/API/renderer */
-.home-arrivals-compact{padding-top:9px;padding-bottom:14px}
-.home-arrivals-compact .section-head{align-items:center;margin-bottom:9px}
-.home-arrivals-compact .section-head h2{display:flex;align-items:center;gap:7px;margin:1px 0 0;font-size:20px;line-height:1.15;letter-spacing:-.35px;white-space:nowrap}
-.home-arrivals-sub{display:inline-flex;align-items:center;min-height:21px;padding:3px 7px;border-radius:999px;background:#eef3ff;color:#5f72a6;font-size:9px;font-weight:950;letter-spacing:0;white-space:nowrap}
-.home-arrivals-compact #homeProducts{grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
-.home-arrivals-compact .product-card{min-height:0;border-radius:14px;box-shadow:0 4px 14px rgba(54,76,132,.06)}
-.home-arrivals-compact .product-media{display:none!important}
-.home-arrivals-compact .fav-btn{display:none!important}
-.home-arrivals-compact .product-body{min-height:0!important;padding:10px 11px!important}
-.home-arrivals-compact .product-name{min-height:0;font-size:11px;line-height:1.35;-webkit-line-clamp:2}
-.home-arrivals-compact .product-meta{font-size:9px;margin-top:4px}
-.home-arrivals-compact .product-close{margin-top:7px;padding:6px 7px;font-size:8px;border-radius:9px}
-.home-arrivals-compact .product-close strong{font-size:9px}
-.home-arrivals-compact .price{margin-top:7px!important;font-size:14px}
-.home-arrivals-compact .product-card-actions{display:none!important}
-@media(max-width:760px){
-  .home-arrivals-compact .section-head{gap:10px}
-  .home-arrivals-compact .section-head h2{font-size:18px;gap:5px}
-  .home-arrivals-sub{font-size:8px;padding:3px 6px}
-  .home-arrivals-compact .section-link{font-size:10px;white-space:nowrap}
-  .home-arrivals-compact #homeProducts{display:flex;gap:8px;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;padding:1px 1px 7px;margin-right:-12px;padding-right:12px}
-  .home-arrivals-compact #homeProducts .product-card{flex:0 0 min(250px,78vw);scroll-snap-align:start}
-}
