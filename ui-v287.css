@@ -435,3 +435,331 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
     line-height:1.05;
   }
 }
+
+
+/* v28.9.3｜商城手機版完整優化 */
+@media(max-width:620px){
+  body[data-page="shop"] .container{
+    width:min(100% - 16px,1360px);
+  }
+
+  body[data-page="shop"] .shop-context-hero{
+    margin-top:8px;
+    border-radius:18px;
+    box-shadow:0 8px 22px rgba(49,73,132,.08);
+  }
+
+  body[data-page="shop"] .shop-context-inner{
+    display:block;
+    padding:17px 14px 14px;
+    min-height:0;
+  }
+
+  body[data-page="shop"] .shop-context-copy{
+    display:block;
+  }
+
+  body[data-page="shop"] .shop-context-eyebrow{
+    margin-bottom:5px;
+    font-size:8px;
+    letter-spacing:1.25px;
+  }
+
+  body[data-page="shop"] .shop-context-copy h1{
+    margin:0;
+    font-size:28px;
+    line-height:1.06;
+    letter-spacing:-1px;
+  }
+
+  body[data-page="shop"] .shop-context-hero.is-pokemon .shop-context-copy h1{
+    white-space:nowrap;
+    font-size:clamp(19px,5.5vw,25px);
+    letter-spacing:-.85px;
+  }
+
+  body[data-page="shop"] .shop-context-copy p{
+    margin-top:8px;
+    font-size:10px;
+    line-height:1.55;
+    font-weight:700;
+  }
+
+  body[data-page="shop"] .shop-context-badges{
+    margin-top:10px;
+    gap:5px;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    padding-bottom:2px;
+    scrollbar-width:none;
+  }
+  body[data-page="shop"] .shop-context-badges::-webkit-scrollbar{display:none}
+
+  body[data-page="shop"] .shop-context-badges span{
+    flex:0 0 auto;
+    font-size:8px;
+    padding:5px 8px;
+  }
+
+  body[data-page="shop"] .shop-context-notice{
+    display:block;
+    margin-top:12px;
+  }
+
+  body[data-page="shop"] .shop-context-notice:has(.shop-notice-card){
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+  }
+
+  body[data-page="shop"] .shop-notice-card{
+    min-height:0;
+    padding:10px 11px;
+    border-radius:13px;
+    box-shadow:none;
+  }
+
+  body[data-page="shop"] .shop-notice-card small{
+    font-size:8px;
+  }
+
+  body[data-page="shop"] .shop-notice-card strong{
+    font-size:18px;
+    margin:2px 0;
+  }
+
+  body[data-page="shop"] .shop-notice-card span{
+    font-size:8px;
+  }
+
+  body[data-page="shop"] .shop-special-notice{
+    display:grid;
+    grid-template-columns:38px minmax(0,1fr);
+    gap:10px;
+    padding:11px;
+    border-radius:14px;
+    box-shadow:none;
+  }
+
+  body[data-page="shop"] .shop-special-icon{
+    width:38px;
+    height:38px;
+    border-radius:11px;
+    font-size:17px;
+  }
+
+  body[data-page="shop"] .pokeball-mark:before{
+    width:11px;
+    height:11px;
+    border-width:3px;
+  }
+
+  body[data-page="shop"] .shop-special-notice small{
+    font-size:7px;
+  }
+
+  body[data-page="shop"] .shop-special-notice strong{
+    font-size:13px;
+    margin:1px 0 3px;
+  }
+
+  body[data-page="shop"] .shop-special-notice p{
+    font-size:9px;
+    line-height:1.45;
+  }
+
+  body[data-page="shop"] .shop-special-points{
+    display:flex;
+    overflow-x:auto;
+    gap:7px;
+    margin-top:8px;
+    padding:0 0 2px;
+    scroll-snap-type:x proximity;
+    scrollbar-width:none;
+  }
+  body[data-page="shop"] .shop-special-points::-webkit-scrollbar{display:none}
+
+  body[data-page="shop"] .shop-special-points>div{
+    flex:0 0 145px;
+    min-width:145px;
+    min-height:54px;
+    padding:8px 9px;
+    border-radius:12px;
+    scroll-snap-align:start;
+  }
+
+  body[data-page="shop"] .shop-special-points b{
+    min-width:25px;
+    font-size:8px;
+  }
+
+  body[data-page="shop"] .shop-special-points span{
+    font-size:9px;
+  }
+
+  body[data-page="shop"] .shop-special-points small{
+    font-size:7px;
+  }
+
+  body[data-page="shop"] .section{
+    padding-top:12px;
+  }
+
+  body[data-page="shop"] .section-head{
+    margin-bottom:9px;
+    align-items:flex-start;
+  }
+
+  body[data-page="shop"] .section-head small{
+    font-size:9px;
+    letter-spacing:1px;
+  }
+
+  body[data-page="shop"] .section-head h2{
+    font-size:22px;
+    margin-top:1px;
+  }
+
+  body[data-page="shop"] .filter-panel{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 112px;
+    gap:8px;
+    margin:0 0 9px;
+    align-items:center;
+  }
+
+  body[data-page="shop"] .filter-panel .search{
+    grid-column:1/-1;
+  }
+
+  body[data-page="shop"] .filter-panel .search input{
+    min-height:42px;
+    padding:10px 12px;
+    border-radius:12px;
+    font-size:12px;
+  }
+
+  body[data-page="shop"] .filter-panel .tabs{
+    grid-column:1/2;
+    display:flex;
+    flex-wrap:nowrap;
+    gap:6px;
+    overflow-x:auto;
+    min-width:0;
+    padding:1px 0 3px;
+    scrollbar-width:none;
+  }
+  body[data-page="shop"] .filter-panel .tabs::-webkit-scrollbar{display:none}
+
+  body[data-page="shop"] .filter-panel .tabs button{
+    flex:0 0 auto;
+    min-height:35px;
+    padding:7px 11px;
+    font-size:10px;
+  }
+
+  body[data-page="shop"] .filter-panel select{
+    width:112px;
+    min-width:0;
+    min-height:36px;
+    padding:7px 8px;
+    border-radius:11px;
+    font-size:10px;
+  }
+
+  body[data-page="shop"] .chip-row{
+    gap:6px;
+    padding:3px 0 6px;
+    margin:0;
+    scrollbar-width:none;
+  }
+  body[data-page="shop"] .chip-row::-webkit-scrollbar{display:none}
+
+  body[data-page="shop"] .chip{
+    flex:0 0 auto;
+    padding:7px 10px;
+    font-size:10px;
+  }
+
+  body[data-page="shop"] .catalog-meta{
+    margin:2px 0 9px;
+    font-size:10px;
+  }
+
+  body[data-page="shop"] .product-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+
+  body[data-page="shop"] .product-card{
+    border-radius:14px;
+    box-shadow:0 3px 12px rgba(52,76,137,.06);
+  }
+
+  body[data-page="shop"] .product-media{
+    padding:7px!important;
+  }
+
+  body[data-page="shop"] .product-body{
+    min-height:101px;
+    padding:9px 9px 8px;
+  }
+
+  body[data-page="shop"] .product-name{
+    font-size:11px;
+    line-height:1.35;
+    min-height:30px;
+  }
+
+  body[data-page="shop"] .product-meta{
+    margin-top:4px;
+    font-size:8px;
+  }
+
+  body[data-page="shop"] .product-close{
+    margin-top:6px;
+  }
+
+  body[data-page="shop"] .product-close-label{
+    font-size:8px;
+  }
+
+  body[data-page="shop"] .product-close strong{
+    font-size:9px;
+  }
+
+  body[data-page="shop"] .product-card .price{
+    margin-top:6px;
+    font-size:14px;
+  }
+
+  body[data-page="shop"] .fav-btn{
+    top:6px;
+    right:6px;
+    width:29px;
+    height:29px;
+    font-size:16px;
+  }
+
+  body[data-page="shop"] .product-card-actions{
+    padding:0 8px 9px;
+  }
+
+  body[data-page="shop"] .card-cart-btn{
+    min-height:36px;
+    border-radius:10px;
+    font-size:10px;
+  }
+}
+
+@media(max-width:380px){
+  body[data-page="shop"] .shop-context-hero.is-pokemon .shop-context-copy h1{
+    font-size:19px;
+  }
+  body[data-page="shop"] .filter-panel{
+    grid-template-columns:minmax(0,1fr) 102px;
+  }
+  body[data-page="shop"] .filter-panel select{
+    width:102px;
+  }
+}
