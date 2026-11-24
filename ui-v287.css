@@ -1525,3 +1525,339 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
   .member-record-meta,.member-record-status{gap:4px}
   .member-record-meta span,.member-record-status span{font-size:8px;padding:4px 6px}
 }
+
+
+/* v28.9.9｜頑夜手氣賞：實體抽賞券結構版 */
+.lucky-kuji-v4.daily-kuji-overlay{
+  background:rgba(16,20,28,.9);
+  backdrop-filter:blur(8px);
+}
+.lucky-kuji-v4 .daily-kuji-stage{width:min(760px,96vw)}
+.lucky-kuji-v4 .daily-kuji-heading{margin-bottom:12px;text-align:center}
+.lucky-kuji-v4 .daily-kuji-heading span{
+  display:block;font-size:13px;font-weight:1000;letter-spacing:5px;color:#fff;
+}
+.lucky-kuji-v4 .daily-kuji-heading b{
+  display:block;margin-top:3px;font-family:Arial Black,Impact,sans-serif;
+  font-size:46px;line-height:.95;letter-spacing:2px;color:#fff;
+}
+.lucky-kuji-v4 .daily-kuji-heading small{
+  display:block;margin-top:5px;font-size:10px;font-weight:900;letter-spacing:3px;color:#9dd9f2;
+}
+
+.lucky-kuji-v4 .daily-kuji-ticket{
+  position:relative;
+  display:grid;
+  grid-template-columns:61.5% 38.5%;
+  width:100%;
+  min-height:248px;
+  border-radius:4px;
+  overflow:visible;
+  background:#e7e8e9;
+  box-shadow:0 28px 80px rgba(0,0,0,.42);
+}
+
+/* 左側固定主票 */
+.lucky-kuji-v4 .kuji-left-stub{
+  position:relative;
+  z-index:2;
+  min-width:0;
+  background:#ed1f33;
+  border:1px solid #c71425;
+  border-right:0;
+  padding:18px 20px 16px 42px;
+  overflow:hidden;
+}
+.lucky-kuji-v4 .kuji-left-stub:before,
+.lucky-kuji-v4 .kuji-left-stub:after{
+  content:"";
+  position:absolute;left:0;right:0;height:7px;
+  background:
+    linear-gradient(135deg,transparent 50%,#fff 51%) 0 0/12px 7px repeat-x,
+    linear-gradient(225deg,transparent 50%,#fff 51%) 6px 0/12px 7px repeat-x;
+  opacity:.96;
+}
+.lucky-kuji-v4 .kuji-left-stub:before{top:-1px}
+.lucky-kuji-v4 .kuji-left-stub:after{bottom:-1px;transform:rotate(180deg)}
+.lucky-kuji-v4 .kuji-left-rail{
+  position:absolute;left:0;top:7px;bottom:7px;width:30px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  background:#f5f5f5;border-right:1px solid rgba(0,0,0,.12);
+}
+.lucky-kuji-v4 .kuji-left-rail b{
+  writing-mode:vertical-rl;
+  font-size:7px;line-height:1;letter-spacing:1.2px;color:#32353a;
+}
+.lucky-kuji-v4 .kuji-info-box{
+  height:100%;
+  background:#f7f7f5;
+  border:1px solid #dfdfdc;
+  box-shadow:inset 0 0 0 3px #fff;
+  padding:14px 14px 10px;
+  color:#31343a;
+}
+.lucky-kuji-v4 .kuji-info-top{
+  display:grid;grid-template-columns:72px 1fr 62px;gap:10px;align-items:center;
+}
+.lucky-kuji-v4 .kuji-info-badge{
+  display:flex;align-items:center;justify-content:center;
+  width:70px;height:54px;border-radius:50%;
+  background:#d92137;color:#fff;text-align:center;
+  font-size:10px;line-height:1.05;font-weight:1000;
+  transform:rotate(-5deg);
+}
+.lucky-kuji-v4 .kuji-info-copy b{
+  display:block;font-size:16px;line-height:1.1;color:#d51f33;font-weight:1000;
+}
+.lucky-kuji-v4 .kuji-info-copy span{
+  display:block;margin-top:4px;font-size:9px;font-weight:900;color:#30343a;
+}
+.lucky-kuji-v4 .kuji-info-copy small{
+  display:block;margin-top:4px;font-size:7px;line-height:1.45;color:#777b80;
+}
+.lucky-kuji-v4 .kuji-fake-code{
+  width:58px;height:58px;border:4px solid #fff;background:
+   linear-gradient(90deg,#111 8px,transparent 8px 13px,#111 13px 18px,transparent 18px 24px,#111 24px 30px,transparent 30px 35px,#111 35px 41px,transparent 41px 47px,#111 47px),
+   linear-gradient(#111 8px,transparent 8px 14px,#111 14px 19px,transparent 19px 25px,#111 25px 31px,transparent 31px 37px,#111 37px 43px,transparent 43px 49px,#111 49px);
+  background-color:#fff;
+  box-shadow:0 0 0 1px #b9b9b9;
+}
+.lucky-kuji-v4 .kuji-info-line{
+  margin-top:10px;padding:7px 9px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:#4d5258;color:#fff;
+}
+.lucky-kuji-v4 .kuji-info-line span{
+  font-size:9px;font-weight:1000;letter-spacing:.9px;
+}
+.lucky-kuji-v4 .kuji-info-line b{font-size:8px}
+.lucky-kuji-v4 .kuji-info-number{
+  margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  font-size:7px;color:#6f747a;
+}
+.lucky-kuji-v4 .kuji-info-number strong{
+  font-size:13px;letter-spacing:1.2px;color:#3a3d42;
+}
+.lucky-kuji-v4 .kuji-stub-footer{
+  display:flex;justify-content:space-between;gap:10px;margin-top:7px;color:#fff;
+  font-size:6px;font-weight:900;letter-spacing:.8px;
+}
+.lucky-kuji-v4 .kuji-stub-footer b{font-size:7px}
+
+/* 右側賞別票 */
+.lucky-kuji-v4 .kuji-result-zone{
+  position:relative;
+  min-width:0;
+  background:#dfe5e9;
+  border:1px solid #728999;
+  overflow:hidden;
+}
+.lucky-kuji-v4 .kuji-result-zone:before,
+.lucky-kuji-v4 .kuji-result-zone:after{
+  content:"";position:absolute;z-index:8;left:0;right:0;height:7px;pointer-events:none;
+  background:
+    linear-gradient(135deg,transparent 50%,#fff 51%) 0 0/12px 7px repeat-x,
+    linear-gradient(225deg,transparent 50%,#fff 51%) 6px 0/12px 7px repeat-x;
+}
+.lucky-kuji-v4 .kuji-result-zone:before{top:-1px}
+.lucky-kuji-v4 .kuji-result-zone:after{bottom:-1px;transform:rotate(180deg)}
+.lucky-kuji-v4 .kuji-result-zone .daily-kuji-result{
+  display:grid!important;grid-template-rows:45px 1fr 35px;
+  position:absolute;inset:0;width:100%;height:100%;
+  background:#172631;color:#d9e6ec;text-align:left;
+}
+.lucky-kuji-v4 .kuji-result-top{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:0 13px;background:#2388b5;color:#fff;
+}
+.lucky-kuji-v4 .kuji-result-top span{font-size:11px;font-weight:1000}
+.lucky-kuji-v4 .kuji-result-top b{
+  font-family:Arial Black,Impact,sans-serif;font-size:13px;letter-spacing:1px;
+}
+.lucky-kuji-v4 .kuji-result-main{
+  display:grid;grid-template-columns:42% 58%;min-height:0;background:#182733;
+}
+.lucky-kuji-v4 .kuji-result-grade{
+  display:flex;align-items:center;justify-content:center;border-right:1px solid #4d6472;
+  background:#13212c;
+}
+.lucky-kuji-v4 .kuji-result-grade strong{
+  font-family:Arial Black,Impact,sans-serif;font-size:90px;line-height:.85;letter-spacing:-6px;color:#dbe9ef;
+}
+.lucky-kuji-v4 .kuji-result-text{
+  display:flex;flex-direction:column;justify-content:center;padding:13px 14px;
+}
+.lucky-kuji-v4 .kuji-result-text>span{
+  font-size:12px;font-weight:1000;color:#8ebfd3;
+}
+.lucky-kuji-v4 .kuji-result-text>b{
+  margin-top:2px;font-family:Arial Black,Impact,sans-serif;font-size:29px;line-height:.95;letter-spacing:.6px;color:#fff;
+}
+.lucky-kuji-v4 .kuji-result-text h3{
+  margin:8px 0 0;font-size:13px;line-height:1.2;color:#d7e1e6;
+}
+.lucky-kuji-v4 .kuji-result-bottom{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 12px;
+  background:#bfc8ce;color:#26343e;border-top:1px solid #8898a2;
+}
+.lucky-kuji-v4 .kuji-result-bottom span{font-size:7px;font-weight:1000}
+.lucky-kuji-v4 .kuji-result-bottom b{font-size:8px}
+.lucky-kuji-v4 .kuji-result-bottom i{font-style:normal}
+
+/* 初始密封票面：只蓋住右側 */
+.lucky-kuji-v4 .kuji-seal-cover{
+  position:absolute;z-index:5;inset:0;
+  clip-path:inset(0 calc(100% - var(--tear-progress)) 0 0);
+  background:#f1f1ef;
+  border-left:1px dashed #8d8d8d;
+  transition:clip-path .055s linear;
+}
+.lucky-kuji-v4 .kuji-seal-top{
+  height:50px;padding:0 13px;display:flex;align-items:center;justify-content:space-between;
+  background:#e42735;color:#fff;
+}
+.lucky-kuji-v4 .kuji-seal-top b{
+  font-size:11px;font-weight:1000;letter-spacing:.7px;
+}
+.lucky-kuji-v4 .kuji-seal-top span{
+  font-family:Arial Black,Impact,sans-serif;font-size:15px;letter-spacing:1px;
+}
+.lucky-kuji-v4 .kuji-seal-body{
+  position:absolute;left:0;right:0;top:50px;bottom:38px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:#f7f7f5;color:#2c3238;text-align:center;
+}
+.lucky-kuji-v4 .kuji-seal-body small{
+  font-size:8px;font-weight:900;color:#8c9297;
+}
+.lucky-kuji-v4 .kuji-seal-body strong{
+  margin-top:4px;font-family:Arial Black,Impact,sans-serif;font-size:42px;line-height:.9;letter-spacing:2px;
+}
+.lucky-kuji-v4 .kuji-seal-body b{
+  font-size:33px;line-height:.9;color:#2388b5;
+}
+.lucky-kuji-v4 .kuji-seal-body span{
+  margin-top:6px;font-size:8px;font-weight:900;color:#7d8388;
+}
+.lucky-kuji-v4 .kuji-seal-bottom{
+  position:absolute;left:0;right:0;bottom:0;height:38px;padding:0 11px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:#d6d9db;color:#26343e;
+}
+.lucky-kuji-v4 .kuji-seal-bottom span{font-size:8px;font-weight:1000}
+.lucky-kuji-v4 .kuji-seal-bottom b{
+  font-family:Arial Black,Impact,sans-serif;font-size:10px;letter-spacing:.8px;
+}
+
+/* 撕口固定從左右票的分界開始，往右移 */
+.lucky-kuji-v4 .daily-kuji-peel-edge{
+  position:absolute;z-index:7;left:var(--tear-progress);top:7px;bottom:7px;width:20px;
+  pointer-events:none;opacity:0;transition:left .055s linear,opacity .12s ease;
+}
+.lucky-kuji-v4.peeling .daily-kuji-peel-edge,
+.lucky-kuji-v4.dragging .daily-kuji-peel-edge,
+.lucky-kuji-v4.auto-peeling .daily-kuji-peel-edge{opacity:1}
+.lucky-kuji-v4 .daily-kuji-peel-edge:before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(255,255,255,.85),rgba(0,0,0,.20) 58%,transparent);
+}
+.lucky-kuji-v4 .daily-kuji-peel-edge span{
+  position:absolute;top:46%;left:-4px;width:18px;height:36px;transform:skewY(17deg);
+  background:linear-gradient(225deg,#fff 0 47%,#bfc2c3 48% 53%,#eeeeeb 54%);
+  box-shadow:-4px 4px 10px rgba(0,0,0,.22);
+}
+.lucky-kuji-v4 .daily-kuji-peel-edge i{
+  position:absolute;top:0;bottom:0;right:-6px;width:7px;background:linear-gradient(90deg,transparent,rgba(0,0,0,.15));
+}
+.lucky-kuji-v4 .daily-kuji-tear{
+  position:absolute;z-index:9;left:clamp(0px,calc(var(--tear-progress) - 2px),calc(100% - 55px));top:50%;
+  transform:translateY(-50%);width:53px;height:110px;min-height:0;
+  border:1px solid #b9b9b8;border-left:0;border-radius:0 7px 7px 0;
+  background:linear-gradient(180deg,#fff,#ececea);color:#2c3338;
+  box-shadow:7px 7px 14px rgba(0,0,0,.15);
+  cursor:grab;touch-action:none;user-select:none;
+  transition:left .055s linear,transform .16s ease;
+}
+.lucky-kuji-v4 .daily-kuji-tear:before{
+  content:"";position:absolute;left:-7px;top:0;bottom:0;width:8px;
+  background:
+    linear-gradient(135deg,transparent 50%,#f3f3f1 51%) 0 0/8px 12px repeat-y,
+    linear-gradient(45deg,transparent 50%,#f3f3f1 51%) 0 6px/8px 12px repeat-y;
+}
+.lucky-kuji-v4 .daily-kuji-tear:after{display:none}
+.lucky-kuji-v4 .daily-kuji-tear-arrow{
+  display:flex;align-items:center;justify-content:center;width:28px;height:28px;margin:0 auto 6px;
+  border-radius:50%;background:#2388b5;color:#fff;font-size:22px;
+}
+.lucky-kuji-v4 .daily-kuji-tear b{
+  display:block;margin:auto;font-family:Arial Black,Impact,sans-serif;font-size:11px;writing-mode:vertical-rl;letter-spacing:.7px;
+}
+.lucky-kuji-v4 .daily-kuji-tear small{
+  display:block;margin-top:4px;font-size:6px;line-height:1.2;color:#81868a;
+}
+.lucky-kuji-v4.dragging .daily-kuji-tear{cursor:grabbing;transform:translateY(-50%) scale(1.03)}
+.lucky-kuji-v4.snapback .kuji-seal-cover{transition:clip-path .28s ease}
+.lucky-kuji-v4.snapback .daily-kuji-tear,
+.lucky-kuji-v4.snapback .daily-kuji-peel-edge{transition:left .28s ease}
+.lucky-kuji-v4.finishing .kuji-seal-cover{transition:clip-path .38s cubic-bezier(.2,.8,.2,1)}
+.lucky-kuji-v4.finishing .daily-kuji-tear,
+.lucky-kuji-v4.finishing .daily-kuji-peel-edge{transition:left .38s cubic-bezier(.2,.8,.2,1)}
+.lucky-kuji-v4.revealed .kuji-seal-cover,
+.lucky-kuji-v4.revealed .daily-kuji-tear,
+.lucky-kuji-v4.revealed .daily-kuji-peel-edge{opacity:0;pointer-events:none}
+.lucky-kuji-v4.revealed .daily-kuji-result{animation:luckyResultPop .4s cubic-bezier(.2,.85,.25,1) both}
+
+.lucky-kuji-v4 .daily-kuji-foot{
+  margin-top:10px;display:flex;justify-content:center;gap:9px;flex-wrap:wrap;
+  color:rgba(255,255,255,.72);font-size:8px;
+}
+.lucky-kuji-v4 .daily-kuji-foot b{color:#8fd6f2}
+
+@media(max-width:620px){
+  .lucky-kuji-v4.daily-kuji-overlay{padding:9px}
+  .lucky-kuji-v4 .daily-kuji-stage{width:min(410px,100%)}
+  .lucky-kuji-v4 .daily-kuji-heading{margin-bottom:8px;padding-right:30px}
+  .lucky-kuji-v4 .daily-kuji-heading span{font-size:8px;letter-spacing:3px}
+  .lucky-kuji-v4 .daily-kuji-heading b{font-size:30px}
+  .lucky-kuji-v4 .daily-kuji-heading small{font-size:7px;letter-spacing:2px}
+
+  .lucky-kuji-v4 .daily-kuji-ticket{
+    grid-template-columns:61% 39%;
+    min-height:158px;
+  }
+  .lucky-kuji-v4 .kuji-left-stub{padding:10px 8px 9px 24px}
+  .lucky-kuji-v4 .kuji-left-rail{width:19px}
+  .lucky-kuji-v4 .kuji-left-rail b{font-size:4px;letter-spacing:.5px}
+  .lucky-kuji-v4 .kuji-info-box{padding:8px 7px 6px}
+  .lucky-kuji-v4 .kuji-info-top{grid-template-columns:39px 1fr 33px;gap:5px}
+  .lucky-kuji-v4 .kuji-info-badge{width:38px;height:31px;font-size:5px}
+  .lucky-kuji-v4 .kuji-info-copy b{font-size:8px}
+  .lucky-kuji-v4 .kuji-info-copy span{font-size:5px;margin-top:2px}
+  .lucky-kuji-v4 .kuji-info-copy small{font-size:4px;margin-top:2px}
+  .lucky-kuji-v4 .kuji-fake-code{width:31px;height:31px;border-width:2px;background-size:auto}
+  .lucky-kuji-v4 .kuji-info-line{margin-top:5px;padding:4px 5px}
+  .lucky-kuji-v4 .kuji-info-line span{font-size:4px}.lucky-kuji-v4 .kuji-info-line b{font-size:4px}
+  .lucky-kuji-v4 .kuji-info-number{margin-top:4px;font-size:4px}
+  .lucky-kuji-v4 .kuji-info-number strong{font-size:6px}
+  .lucky-kuji-v4 .kuji-stub-footer{margin-top:4px;font-size:3px}.lucky-kuji-v4 .kuji-stub-footer b{font-size:4px}
+
+  .lucky-kuji-v4 .kuji-result-zone .daily-kuji-result{grid-template-rows:30px 1fr 24px}
+  .lucky-kuji-v4 .kuji-result-top{padding:0 7px}.lucky-kuji-v4 .kuji-result-top span{font-size:6px}.lucky-kuji-v4 .kuji-result-top b{font-size:7px}
+  .lucky-kuji-v4 .kuji-result-main{grid-template-columns:41% 59%}
+  .lucky-kuji-v4 .kuji-result-grade strong{font-size:50px;letter-spacing:-4px}
+  .lucky-kuji-v4 .kuji-result-text{padding:7px 6px}
+  .lucky-kuji-v4 .kuji-result-text>span{font-size:6px}
+  .lucky-kuji-v4 .kuji-result-text>b{font-size:15px}
+  .lucky-kuji-v4 .kuji-result-text h3{font-size:7px;margin-top:4px}
+  .lucky-kuji-v4 .kuji-result-bottom{padding:0 6px}.lucky-kuji-v4 .kuji-result-bottom span{font-size:4px}.lucky-kuji-v4 .kuji-result-bottom b{font-size:5px}
+
+  .lucky-kuji-v4 .kuji-seal-top{height:32px;padding:0 7px}.lucky-kuji-v4 .kuji-seal-top b{font-size:6px}.lucky-kuji-v4 .kuji-seal-top span{font-size:8px}
+  .lucky-kuji-v4 .kuji-seal-body{top:32px;bottom:25px}.lucky-kuji-v4 .kuji-seal-body small{font-size:5px}.lucky-kuji-v4 .kuji-seal-body strong{font-size:23px}.lucky-kuji-v4 .kuji-seal-body b{font-size:19px}.lucky-kuji-v4 .kuji-seal-body span{font-size:5px}
+  .lucky-kuji-v4 .kuji-seal-bottom{height:25px;padding:0 6px}.lucky-kuji-v4 .kuji-seal-bottom span{font-size:5px}.lucky-kuji-v4 .kuji-seal-bottom b{font-size:5px}
+  .lucky-kuji-v4 .daily-kuji-tear{width:37px;height:76px;left:clamp(0px,calc(var(--tear-progress) - 1px),calc(100% - 38px))}
+  .lucky-kuji-v4 .daily-kuji-tear-arrow{width:20px;height:20px;font-size:16px;margin-bottom:4px}
+  .lucky-kuji-v4 .daily-kuji-tear b{font-size:7px}.lucky-kuji-v4 .daily-kuji-tear small{font-size:4px}
+  .lucky-kuji-v4 .daily-kuji-peel-edge{width:14px}
+  .lucky-kuji-v4 .daily-kuji-peel-edge span{width:12px;height:25px}
+  .lucky-kuji-v4 .daily-kuji-foot{font-size:6px}
+}
