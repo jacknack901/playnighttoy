@@ -2139,3 +2139,48 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
   .lucky-kuji-v5 .kuji-result-grade strong{font-size:43px}
   .lucky-kuji-v5 .kuji-result-copy>b{font-size:11px}
 }
+
+
+/* v28.10.1｜會員中心只保留核心功能 */
+.member-center-head{
+  margin-top:14px;
+  padding:18px 20px 14px;
+  border-bottom:1px solid #e6ebf4;
+}
+.member-center-head small{
+  display:block;
+  font-size:9px;
+  letter-spacing:1.5px;
+  font-weight:1000;
+  color:#8190ad;
+}
+.member-center-head h1{
+  margin:3px 0 4px;
+  font-size:30px;
+  line-height:1;
+  color:#29457e;
+}
+.member-center-head p{
+  margin:0;
+  font-size:11px;
+  line-height:1.55;
+  color:#7d8ba5;
+}
+body[data-page="member"] .member-main{
+  padding-top:0;
+}
+body[data-page="member"] .member-summary{
+  margin-top:0;
+}
+@media(max-width:620px){
+  .member-center-head{
+    margin-top:8px;
+    padding:14px 12px 10px;
+  }
+  .member-center-head h1{
+    font-size:24px;
+  }
+  .member-center-head p{
+    font-size:10px;
+  }
+}
