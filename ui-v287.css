@@ -376,3 +376,47 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
     height:22px;
   }
 }
+
+
+/* v28.9.1｜商城情境公告 Hero：快結單 / Pokémon / 現貨 */
+.shop-context-hero{margin-top:16px;border-radius:26px;overflow:hidden;position:relative;box-shadow:0 12px 30px rgba(49,73,132,.10);background:linear-gradient(135deg,#e5efff,#f3efff 58%,#fff6dc)}
+.shop-context-inner{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(380px,.92fr);gap:24px;align-items:stretch;padding:31px 34px;min-height:250px}
+.shop-context-copy{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.shop-context-eyebrow{font-size:10px;font-weight:1000;letter-spacing:1.7px;color:#6c83b8;margin-bottom:8px}
+.shop-context-copy h1{font-size:clamp(34px,4.4vw,58px);line-height:1.02;letter-spacing:-1.8px;margin:0;color:#263f76}
+.shop-context-copy p{font-size:13px;line-height:1.75;color:#6578a0;font-weight:750;max-width:650px;margin:13px 0 0}
+.shop-context-badges{display:flex;gap:7px;flex-wrap:wrap;margin-top:17px}
+.shop-context-badges span{font-size:9px;font-weight:950;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.95);color:#61759f}
+.shop-context-notice{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:center}
+.shop-notice-card{display:block;background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.98);border-radius:17px;padding:14px;min-height:90px;text-decoration:none;box-shadow:0 7px 18px rgba(44,66,119,.07)}
+.shop-notice-card small{display:block;color:#7d8dac;font-size:9px;font-weight:900}.shop-notice-card strong{display:block;color:#29457e;font-size:24px;margin:4px 0}.shop-notice-card span{font-size:9px;color:#8793aa;font-weight:800}.shop-notice-card.primary{background:rgba(255,255,255,.98)}
+.shop-special-notice{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:center;padding:17px;border-radius:18px;background:rgba(255,255,255,.93);border:1px solid rgba(255,255,255,.98);box-shadow:0 8px 20px rgba(55,72,116,.07)}
+.shop-special-icon{width:48px;height:48px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:1000;background:#f1f4fb;color:#506aa1;position:relative}
+.shop-special-notice small{font-size:9px;letter-spacing:1px;font-weight:1000;color:#7d8cab}.shop-special-notice strong{display:block;font-size:16px;color:#2c457b;margin:2px 0 4px}.shop-special-notice p{margin:0;font-size:10px;line-height:1.55;color:#7c89a3}
+.shop-special-points{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.shop-special-points>div{display:flex;gap:9px;align-items:center;background:rgba(255,255,255,.76);border:1px solid rgba(255,255,255,.9);border-radius:14px;padding:10px}
+.shop-special-points b{font-size:10px;color:#47639c;min-width:30px}.shop-special-points span{font-size:10px;font-weight:900;color:#526991;line-height:1.3}.shop-special-points small{font-size:8px;color:#8a95aa;font-weight:700}
+.shop-context-hero.is-closing{background:linear-gradient(135deg,#fff0dd 0%,#ffe8e1 52%,#fff5d8 100%)}
+.shop-context-hero.is-closing .shop-context-eyebrow,.shop-context-hero.is-closing .shop-context-copy h1{color:#9c4b36}
+.shop-context-hero.is-closing .shop-special-notice.urgent{background:linear-gradient(135deg,#fff,#fff7f0)}
+.shop-context-hero.is-closing .shop-special-icon{background:#ffe3d4;color:#b85b3c}
+.shop-context-hero.is-pokemon{background:linear-gradient(135deg,#fff2a8 0%,#fffbd8 45%,#d9efff 100%)}
+.shop-context-hero.is-pokemon .shop-context-eyebrow,.shop-context-hero.is-pokemon .shop-context-copy h1{color:#315c9d}
+.shop-context-hero.is-pokemon .shop-special-notice.pokemon{background:rgba(255,255,255,.94)}
+.pokeball-mark{background:linear-gradient(to bottom,#ef5350 0 46%,#2d3544 46% 54%,#fff 54% 100%)!important;border:2px solid #fff;box-shadow:0 3px 10px rgba(49,73,132,.12)}
+.pokeball-mark:before{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;border:4px solid #2d3544;left:50%;top:50%;transform:translate(-50%,-50%)}
+.shop-context-hero.is-direct{background:linear-gradient(135deg,#e7f8ee 0%,#f3fff7 48%,#e2f0ff 100%)}
+.shop-context-hero.is-direct .shop-context-eyebrow,.shop-context-hero.is-direct .shop-context-copy h1{color:#277454}
+.shop-context-hero.is-direct .shop-special-icon{background:#dff5e7;color:#2f875f}
+@media(max-width:900px){.shop-context-inner{grid-template-columns:1fr}.shop-context-notice{grid-template-columns:repeat(4,1fr)}.shop-special-notice,.shop-special-points{grid-column:1/-1}.shop-notice-card{min-height:78px}}
+@media(max-width:620px){
+ .shop-context-hero{margin-top:10px;border-radius:20px}
+ .shop-context-inner{padding:22px 16px;gap:17px;min-height:auto}
+ .shop-context-copy h1{font-size:34px;letter-spacing:-1px}
+ .shop-context-copy p{font-size:11px}
+ .shop-context-notice{grid-template-columns:1fr 1fr}
+ .shop-notice-card{min-height:72px;padding:11px}.shop-notice-card strong{font-size:20px}
+ .shop-special-notice{padding:13px}.shop-special-icon{width:42px;height:42px;border-radius:13px}
+ .shop-special-points{grid-template-columns:1fr}
+ .shop-special-points>div{padding:9px 10px}
+}
