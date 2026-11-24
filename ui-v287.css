@@ -355,3 +355,24 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
  .wish-modal-head{padding-right:38px}
  .wish-modal-head h2{font-size:23px}
 }
+
+
+/* v28.8.9｜社群卡品牌圖示 */
+.community-icon.official-brand{
+  background:#fff!important;
+  border:1px solid #edf0f5;
+  box-shadow:0 3px 10px rgba(40,54,91,.06);
+  overflow:hidden;
+}
+.community-icon.official-brand img{
+  display:block;
+  width:24px;
+  height:24px;
+  object-fit:contain;
+}
+@media(max-width:620px){
+  .community-icon.official-brand img{
+    width:22px;
+    height:22px;
+  }
+}
