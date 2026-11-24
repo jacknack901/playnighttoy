@@ -273,3 +273,36 @@ body.shop-filtering .product-grid{opacity:.6;transform:translateY(2px);pointer-e
 @media(prefers-reduced-motion:reduce){
  .home-banner-slide{transition:none!important}.home-banner-progress i{animation:none!important}
 }
+
+/* v28.8.1｜首頁輪播精簡版：更像廣告，不重複最新上架 */
+.home-banner-viewport,.home-banner-track{min-height:430px}
+.home-banner-slide{grid-template-columns:minmax(0,1fr) minmax(320px,.9fr);gap:18px;padding:38px 54px}
+.home-banner-copy{max-width:650px}
+.home-banner-copy h1{font-size:clamp(28px,3.2vw,46px);line-height:1.05;letter-spacing:-1.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:10px 0 10px}
+.home-banner-copy p{font-size:14px;margin-bottom:20px}
+.home-banner-art{height:315px}
+.home-banner-art:before{width:90%;height:90%;border-radius:24px}
+.home-banner-art picture{width:90%;height:90%}
+.home-banner-art img{border-radius:18px}
+.home-banner-dots{left:54px;bottom:18px}
+@media(max-width:900px){
+ .home-banner-viewport,.home-banner-track{min-height:405px}
+ .home-banner-slide{grid-template-columns:1fr minmax(240px,.78fr);padding:34px 38px}
+ .home-banner-copy h1{font-size:34px}
+ .home-banner-copy p{font-size:13px}
+ .home-banner-art{height:285px}
+ .home-banner-dots{left:38px}
+}
+@media(max-width:620px){
+ .home-banner-viewport,.home-banner-track{min-height:440px}
+ .home-banner-art{height:270px;padding:14px 18px 0}
+ .home-banner-art:before{height:235px;width:calc(100% - 26px)}
+ .home-banner-art picture{height:235px}
+ .home-banner-copy{padding:238px 18px 50px}
+ .home-banner-copy h1{font-size:25px;line-height:1.05;letter-spacing:-.7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:8px 0 7px}
+ .home-banner-copy p{font-size:11px;margin-bottom:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .home-banner-kicker{min-height:23px;font-size:7px}
+ .home-banner-cta{min-height:40px}
+ .home-banner-arrow{top:30%}
+ .home-banner-dots{left:18px;bottom:18px}
+}
