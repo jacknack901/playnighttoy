@@ -33,6 +33,10 @@ async function loadGroups(force){
     groups=groupItems(data);
     renderGroups();
     const c=$('#groupCount'); if(c)c.textContent=String(groups.length);
+    const wanted=new URLSearchParams(location.search).get('group');
+    if(wanted&&groups.some(x=>String(x.id)===String(wanted))&&!active){
+      setTimeout(()=>openGroup(wanted),80);
+    }
   }catch(e){
     if(grid)grid.innerHTML='<div class="group-empty"><b>集單抽目前讀取失敗</b><br><small>'+esc(e&&e.message||e)+'</small></div>';
   }finally{loading=false}
