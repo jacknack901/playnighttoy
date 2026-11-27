@@ -1,0 +1,81 @@
+
+/* 頑夜 TOY｜線上抽賞中心 v28.12.10 REVIEW */
+.online-center-intro{margin:18px 0 14px;padding:14px;border:1px solid #dce5ef;border-radius:18px;background:rgba(255,255,255,.92);box-shadow:0 12px 30px rgba(33,51,73,.06)}
+.online-mode-switch{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.online-mode-btn{min-height:58px;border:1px solid #d9e3ef;border-radius:14px;background:#f7faff;color:#26364a;font-weight:900;font-size:14px;cursor:pointer;padding:8px 10px;transition:.16s ease}
+.online-mode-btn small{display:block;margin-top:3px;font-size:10px;font-weight:700;color:#748296}
+.online-mode-btn.active{background:#111827;color:#fff;border-color:#111827;box-shadow:0 10px 22px rgba(17,24,39,.14)}
+.online-mode-btn.active small{color:#cbd5e1}
+.online-mode-panel{display:none!important}
+.online-mode-panel.is-active{display:block!important}
+.online-mode-panel .draw-section-head{align-items:flex-end;gap:12px;margin-bottom:14px}
+.online-mode-panel .draw-section-head p{max-width:680px}
+#regular .draw-grid,#group .group-kuji-grid,#japan .proxy-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+#regular .draw-card{border-radius:18px;overflow:hidden;border:1px solid #dfe7ef;background:#fff;box-shadow:0 8px 24px rgba(32,45,62,.06)}
+#regular .draw-card-media{aspect-ratio:1/1;max-height:280px;background:#f4f7fa}
+#regular .draw-card-body{padding:14px}
+#regular .draw-card-body h3{font-size:15px;line-height:1.45;min-height:44px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#regular .draw-price{font-size:22px;margin:7px 0 10px}
+#regular .draw-metrics{gap:6px}
+#regular .draw-metrics>div{padding:8px 5px;border-radius:11px;background:#f7f9fc}
+#regular .draw-cta{min-height:46px;border-radius:12px;font-weight:900}
+.group-kuji-card{display:flex;flex-direction:column;overflow:hidden;border:1px solid #dce5ef;border-radius:18px;background:#fff;box-shadow:0 8px 24px rgba(32,45,62,.06)}
+.group-kuji-cover{position:relative;aspect-ratio:1/1;background:#f4f7fa;overflow:hidden}
+.group-kuji-cover img{width:100%;height:100%;object-fit:contain;display:block}
+.group-kuji-cover .group-state{position:absolute;top:10px;left:10px;padding:6px 9px;border-radius:999px;background:#111827;color:#fff;font-size:11px;font-weight:900}
+.group-kuji-body{padding:14px;display:flex;flex-direction:column;gap:10px;flex:1}
+.group-kuji-body h3{margin:0;font-size:15px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.group-kuji-price{font-size:22px;font-weight:1000;color:#111827}
+.group-kuji-price small{font-size:11px;color:#7a8798}
+.group-progress-line{height:10px;border-radius:999px;background:#edf2f7;overflow:hidden}
+.group-progress-line i{display:block;height:100%;background:linear-gradient(90deg,#8b5cf6,#ec4899)}
+.group-kuji-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.group-kuji-stats div{padding:8px 6px;border-radius:11px;background:#f7f9fc;text-align:center}
+.group-kuji-stats small{display:block;font-size:9px;color:#7a8798}
+.group-kuji-stats strong{display:block;margin-top:2px;font-size:16px}
+.group-kuji-desc{font-size:12px;line-height:1.6;color:#5e6c7c}
+.group-kuji-deadline{font-size:11px;font-weight:800;color:#8b5e14}
+.group-kuji-action{margin-top:auto;min-height:46px;border:0;border-radius:12px;background:#111827;color:#fff;font-weight:900;cursor:pointer}
+.group-kuji-action:disabled{opacity:.45;cursor:not-allowed}
+.group-empty{grid-column:1/-1;padding:32px 16px;text-align:center;border:1px dashed #ccd8e5;border-radius:16px;color:#758396;background:#fff}
+.group-modal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(15,23,42,.55);backdrop-filter:blur(5px)}
+.group-modal.hidden{display:none}
+.group-modal-card{width:min(620px,100%);max-height:90vh;overflow:auto;border-radius:20px;background:#fff;box-shadow:0 24px 80px rgba(0,0,0,.22);padding:18px}
+.group-modal-head{display:flex;align-items:flex-start;gap:12px}
+.group-modal-head h3{margin:0;font-size:19px}
+.group-modal-head p{margin:4px 0 0;color:#748296;font-size:12px}
+.group-modal-close{margin-left:auto;border:0;background:#eef2f6;width:38px;height:38px;border-radius:12px;font-size:20px;cursor:pointer}
+.group-qty-title{margin-top:16px;font-size:12px;font-weight:900;color:#475569}
+.group-qty-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:7px}
+.group-qty-btn{min-height:44px;border:1px solid #d8e1eb;border-radius:11px;background:#f8fafc;font-weight:900;cursor:pointer}
+.group-qty-btn.active{background:#111827;color:#fff;border-color:#111827}
+.group-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.group-form-grid label{display:block;font-size:11px;font-weight:900;color:#596778;margin-bottom:5px}
+.group-form-grid input,.group-form-grid textarea{width:100%;border:1px solid #d8e1eb;border-radius:11px;padding:11px 12px;background:#fff;font:inherit}
+.group-form-grid .full{grid-column:1/-1}
+.group-delivery{display:flex;gap:7px;flex-wrap:wrap}
+.group-delivery button{border:1px solid #d8e1eb;border-radius:10px;background:#f8fafc;padding:9px 12px;font-weight:800;cursor:pointer}
+.group-delivery button.active{background:#111827;color:#fff;border-color:#111827}
+.group-order-summary{margin-top:14px;padding:12px;border-radius:13px;background:#f5f7fa;font-size:13px;line-height:1.7}
+.group-submit{width:100%;min-height:48px;margin-top:12px;border:0;border-radius:12px;background:#7c3aed;color:#fff;font-size:15px;font-weight:1000;cursor:pointer}
+.group-submit:disabled{opacity:.5}
+.group-msg{margin-top:10px;font-size:12px;font-weight:800}
+.group-msg.ok{color:#08783f}.group-msg.bad{color:#b42318}
+@media(max-width:980px){#regular .draw-grid,#group .group-kuji-grid,#japan .proxy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){
+ .online-center-intro{margin:12px 0;padding:9px;border-radius:14px}
+ .online-mode-switch{grid-template-columns:1fr}
+ .online-mode-btn{min-height:50px;text-align:left;padding:8px 12px}
+ #regular .draw-grid,#group .group-kuji-grid,#japan .proxy-grid{grid-template-columns:1fr;gap:10px}
+ #regular .draw-card{display:grid;grid-template-columns:112px 1fr}
+ #regular .draw-card-media{height:100%;max-height:none;aspect-ratio:auto}
+ #regular .draw-card-body{padding:11px}
+ #regular .draw-card-body h3{font-size:13px;min-height:auto}
+ #regular .draw-price{font-size:18px}
+ #regular .draw-metrics{grid-template-columns:repeat(3,1fr)}
+ .group-kuji-card{display:grid;grid-template-columns:112px 1fr}
+ .group-kuji-cover{aspect-ratio:auto;height:100%}
+ .group-kuji-body{padding:11px}
+ .group-form-grid{grid-template-columns:1fr}
+ .group-form-grid .full{grid-column:auto}
+}
