@@ -1,0 +1,23 @@
+頑夜 TOY｜商城＋線上抽＋集單抽 覆蓋包
+
+版本鎖定：17a66807f8f32964f89bca59db3cb84ed4cce385
+
+【直接覆蓋原檔】
+- index.html
+- shop.html
+- online.html
+- online-kuji.html
+
+【新增到網站根目錄】
+- home-group-v281211.js
+- online-group-v281210.js
+- ui-home-group-v281211.css
+- ui-online-clean-v281210.css
+
+注意：
+- 不要刪除其他網站檔案。
+- 這包不包含 Apps Script / POS / 後台 Code.gs。
+- 覆蓋後若瀏覽器仍看到舊版，Ctrl+F5 強制重新整理。
+- shop.html 已恢復 v28.11.5 穩定商城主程式。
+- 線上抽包含：線上抽賞／集單抽／日本代抽。
+- 首頁會顯示集單抽入口與進度。
