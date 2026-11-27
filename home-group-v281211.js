@@ -4,7 +4,14 @@
 const $=(s,r=document)=>r.querySelector(s);
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function money(v){return 'NT$ '+Math.round(Number(v||0)).toLocaleString('zh-TW')}
-function rpcRead(name,args=[]){if(!window.WANYE_RPC)throw Error('RPC 尚未載入');return WANYE_RPC.read(name,args,30000)}
+async function groupRpcRead(name,args=[]){
+  if(typeof window.rpcRead==='function')return window.rpcRead(name,args);
+  if(!window.WANYE_RPC){
+    if(typeof window.ensureRpcV281109==='function')await window.ensureRpcV281109();
+  }
+  if(!window.WANYE_RPC)throw Error('RPC 尚未載入');
+  return WANYE_RPC.read(name,args,30000);
+}
 function groups(raw){const a=raw&&Array.isArray(raw.items)?raw.items:(Array.isArray(raw)?raw:[]);return a.filter(x=>String(x.publicMode||'')==='group'&&!x.closed)}
 function card(x){
   const target=Math.max(0,Number(x.groupTargetQty||x.total||0));
@@ -27,7 +34,7 @@ function card(x){
 async function load(){
   const grid=$('#homeGroupGrid');if(!grid)return;
   try{
-    const data=await rpcRead('getPublicV283KujiLite',[]);
+    const data=await groupRpcRead('getPublicV283KujiLite',[]);
     const list=groups(data).slice(0,3);
     const count=$('#homeGroupCount');if(count)count.textContent=String(groups(data).length);
     grid.innerHTML=list.length?list.map(card).join(''):'<div class="home-group-empty">目前沒有開放中的集單抽。</div>';
