@@ -243,16 +243,42 @@ async function syncFukubukuroStatusV281110(){
     });
   }catch(e){console.warn('[home] fukubukuro status sync skipped',e)}
 }
-async function initHome(){bootHomeBanners();initFukubukuroV281110();
-const homeBoot=inlineJson('homeShopBootData');if(homeBoot&&normalizeProducts(homeBoot).length){S.products=localProductSort(normalizeProducts(homeBoot),'new');S.counts=homeBoot.counts||{};S.homeShopAuthoritative=true;$('#homeNew')&&($('#homeNew').textContent=Number(S.counts?.new??0).toLocaleString());$('#homeClosing')&&($('#homeClosing').textContent=Number(S.counts?.closing??0).toLocaleString());if(!$('#homeProducts .product-card'))$('#homeProducts').innerHTML=S.products.slice(0,5).map((p,i)=>productCardFastV281105(p,i<2)).join('')}
-const onlineBoot=inlineJson('onlineBootData');if(onlineBoot){applyOnlineState(onlineBoot);$('#homeKuji')&&($('#homeKuji').textContent=S.onlineDraws.length);$('#homeJapan')&&($('#homeJapan').textContent=Number(onlineBoot.counts?.japan||0));if(!$('#homeKujiGrid .draw-card'))$('#homeKujiGrid').innerHTML=S.onlineDraws.slice(0,3).map(homeDrawCardV281109).join('')}
-const activityBoot=inlineJson('activitiesBootData');if(activityBoot?.items?.length)S.activities=activityBoot.items;
-hidePageLoader();
-setTimeout(()=>idleTask(async()=>{try{const head=await loadShopHeadV281105(),products=localProductSort(normalizeProducts(head),'new').slice(0,12);if(products.length){S.shopHead=head;S.counts=head.counts||S.counts||{};const current=$('#homeProducts .product-card')?.dataset.productId||'',next=productId(products[0]);S.products=products;if(current!==next){$('#homeProducts')&&($('#homeProducts').innerHTML=products.slice(0,5).map((p,i)=>productCardFastV281105(p,i<2)).join(''));$('#homePicks')&&($('#homePicks').innerHTML=products.slice(0,3).map(p=>`<button class="pick-card pick-open" type="button" data-product-open="${esc(productId(p))}"><div class="thumb">${imageMarkup(p,300,'',false)}</div><div><span class="pill yellow" style="position:static;display:inline-block">精選</span><b>${esc(p.name)}</b><strong>${money(p.price)}</strong></div></button>`).join(''))}$('#homeNew')&&($('#homeNew').textContent=Number(S.counts?.new??0).toLocaleString());$('#homeClosing')&&($('#homeClosing').textContent=Number(S.counts?.closing??0).toLocaleString())}}catch(e){console.warn('[home] deferred head sync skipped',e)}},700),700);
-setTimeout(()=>idleTask(()=>syncFukubukuroStatusV281110()),2600);
-setTimeout(()=>idleTask(async()=>{try{const liveShop=await fetchNewestShopWindowV281038({offset:0,limit:12,sort:'new',q:'',category:'',ip:'',mode:'all'}),liveItems=localProductSort(markLiveOnlyNewestV281038(normalizeProducts(liveShop)),'new');if(liveItems.length){const merged=localProductSort(mergeProductListsV281022(normalizeProducts(S.shopHead),liveItems),'new').slice(0,12),current=$('#homeProducts .product-card')?.dataset.productId||'',next=productId(merged[0]);S.products=merged;S.counts=Object.assign({},S.shopHead?.counts||{},liveShop?.counts||{});if(current!==next){$('#homeProducts')&&($('#homeProducts').innerHTML=merged.slice(0,5).map((p,i)=>productCardFastV281105(p,i<2)).join(''));$('#homePicks')&&($('#homePicks').innerHTML=merged.slice(0,3).map(p=>`<button class="pick-card pick-open" type="button" data-product-open="${esc(productId(p))}"><div class="thumb">${imageMarkup(p,300,'',false)}</div><div><span class="pill yellow" style="position:static;display:inline-block">精選</span><b>${esc(p.name)}</b><strong>${money(p.price)}</strong></div></button>`).join(''))}}}catch(e){console.warn('[home] live product sync skipped',e)}
-try{let live;try{live=await rpcRead('getPublicV281107OnlineRealtime',[])}catch(e){live=await rpcRead('getPublicOnlineKujiListV27180',[])}const items=Array.isArray(live?.regular)?live.regular:genericItems(live,['items','kuji','list','sets']);if(items.length){S.onlineDraws=items;$('#homeKujiGrid')&&($('#homeKujiGrid').innerHTML=items.slice(0,3).map(homeDrawCardV281109).join(''));$('#homeKuji')&&($('#homeKuji').textContent=items.length)}}catch(e){console.warn('[home] live kuji sync skipped',e)}},1800),1800)}
-
+async function initHome(){
+  bootHomeBanners();initFukubukuroV281110();
+  const productTask=(async()=>{
+    try{
+      const liveShop=await fetchNewestShopWindowV281038({offset:0,limit:12,sort:'new',q:'',category:'',ip:'',mode:'all'});
+      const products=localProductSort(markLiveOnlyNewestV281038(normalizeProducts(liveShop)),'new').slice(0,12);
+      if(products.length){
+        S.products=products;S.shopHead=liveShop;S.counts=liveShop.counts||{};
+        $('#homeProducts')&&($('#homeProducts').innerHTML=products.slice(0,5).map((p,i)=>productCardFastV281105(p,i<2)).join(''));
+        $('#homePicks')&&($('#homePicks').innerHTML=products.slice(0,3).map(p=>`<button class="pick-card pick-open" type="button" data-product-open="${esc(productId(p))}"><div class="thumb">${imageMarkup(p,300,'',false)}</div><div><span class="pill yellow" style="position:static;display:inline-block">精選</span><b>${esc(p.name)}</b><strong>${money(p.price)}</strong></div></button>`).join(''));
+        $('#homeNew')&&($('#homeNew').textContent=Number(S.counts?.new??0).toLocaleString());
+        $('#homeClosing')&&($('#homeClosing').textContent=Number(S.counts?.closing??0).toLocaleString());
+      }
+    }catch(e){
+      console.warn('[home] live products failed',e);
+      try{
+        const head=await loadShopHeadV281105(),products=localProductSort(normalizeProducts(head),'new').slice(0,12);
+        if(products.length){S.products=products;S.counts=head.counts||{};$('#homeProducts')&&($('#homeProducts').innerHTML=products.slice(0,5).map((p,i)=>productCardFastV281105(p,i<2)).join(''))}
+      }catch(_){}
+    }finally{document.body.classList.add('home-fresh-products-ready')}
+  })();
+  const kujiTask=(async()=>{
+    try{
+      let live;try{live=await rpcRead('getPublicV281107OnlineRealtime',[])}catch(e){live=await rpcRead('getPublicOnlineKujiListV27180',[])}
+      const items=Array.isArray(live?.regular)?live.regular:genericItems(live,['items','kuji','list','sets']);
+      S.onlineDraws=items||[];
+      $('#homeKujiGrid')&&($('#homeKujiGrid').innerHTML=S.onlineDraws.slice(0,3).map(homeDrawCardV281109).join('')||'<div class="empty-box">目前沒有線上抽賞</div>');
+      $('#homeKuji')&&($('#homeKuji').textContent=S.onlineDraws.length);
+      if(live?.japan)$('#homeJapan')&&($('#homeJapan').textContent=Number(live.japan.length||0));
+    }catch(e){console.warn('[home] live kuji failed',e)}
+    finally{document.body.classList.add('home-fresh-kuji-ready')}
+  })();
+  idleTask(async()=>{try{let d;try{d=await rpcRead('getPublicV283HomeLite',[])}catch(e){d=await rpcRead('getPublicV28HomeLite',[])}if(d){const set=d.settings||{};applyHomeBannerSettings(set)}}catch(e){}});
+  idleTask(()=>syncFukubukuroStatusV281110());
+  await Promise.allSettled([productTask,kujiTask]);
+}
 function renderShopContext(){const hero=$('#shopHero');if(!hero)return;const eyebrow=$('#shopHeroEyebrow'),title=$('#shopHeroTitle'),desc=$('#shopHeroDesc'),badges=$('#shopHeroBadges'),notice=$('#shopHeroNotice'),catalogKicker=$('#shopCatalogKicker'),catalogTitle=$('#shopCatalogTitle');let kind='default',e='ONLINE SHOP',t='找到你真正想收藏的',d='預購、現貨、限定與長期代購都集中在這裡，依你的收藏方式快速找到商品。',b=['全站商品','新品預購','現貨直購'],k='SMART CATALOG',ct='線上商城',n=`<div class="shop-notice-card primary"><small>完整商品</small><strong id="shopTotal">${Number(S.counts.all||S.total||0).toLocaleString()}</strong><span>商城公開商品</span></div><div class="shop-notice-card"><small>新品</small><strong id="shopNew">${Number(S.counts.new||0).toLocaleString()}</strong><span>近期上架</span></div><div class="shop-notice-card"><small>快結單</small><strong id="shopClosing">${Number(S.counts.closing||0).toLocaleString()}</strong><span>14 天內截止</span></div><a class="shop-notice-card link" href="./member.html"><small>我的收藏</small><strong data-fav-count>${S.favorites.size}</strong><span>查看收藏商品 →</span></a>`;if(S.mode==='closing'){kind='closing';e='CLOSING SOON';t='快結單商品｜最後倒數';d='這裡只顯示近期即將截止的預購商品。喜歡就別拖到最後一刻，結單後需等待到貨或後續現貨。';b=['結單倒數','錯過需等現貨','日期以商品頁為準'];k='CLOSING SOON';ct='快結單商品';n=`<div class="shop-special-notice urgent"><span class="shop-special-icon">⌛</span><div><small>PRE-ORDER DEADLINE</small><strong>預購即將截止</strong><p>請先確認商品卡上的結單日期；已結單商品將無法加入購物車。</p></div></div><div class="shop-special-points"><div><b>01</b><span>商品結單時間<br><small>依各商品頁標示為準</small></span></div><div><b>02</b><span>錯過結單<br><small>後續需等上市現貨</small></span></div><div><b>03</b><span>想買就先確認<br><small>避免最後一天才下單</small></span></div></div>`}else if(S.ip==='寶可夢'){kind='pokemon';e='POKÉMON COLLECTION';t='Pokémon 專區｜寶可夢收藏基地';d='Pokémon Center、限定周邊、娃娃、景品與各式寶可夢商品集中整理，最新上架直接在這裡找。';b=['Pokémon Center','限定商品','新品持續更新'];k='POKÉMON COLLECTION';ct='Pokémon 專區';n=`<div class="shop-special-notice pokemon"><span class="shop-special-icon pokeball-mark"><i></i></span><div><small>POKÉMON GOODS</small><strong>寶可夢商品集中整理</strong><p>寶可夢商品採開放購買，不設定固定結單日；預計發售月份與實際到貨時間依官方資訊為準。</p></div></div><div class="shop-special-points"><div><b>PC</b><span>Pokémon Center<br><small>日本官方中心商品</small></span></div><div><b>NEW</b><span>新品與限定<br><small>持續更新上架</small></span></div><div><b>INFO</b><span>購買資訊<br><small>無固定結單日／發售時間依官方</small></span></div></div>`}else if(S.mode==='direct'){kind='direct';e='IN STOCK NOW';t='現貨專區｜現在就能帶走';d='不用等預購、不用等上市，這裡都是目前可直接購買的現貨商品；喜歡就直接下單。';b=['現貨直購','不用等預購','售完為止'];k='IN STOCK';ct='現貨專區';n=`<div class="shop-special-notice stock"><span class="shop-special-icon">✓</span><div><small>READY TO GO</small><strong>現貨可直接購買</strong><p>現貨數量會隨門市與線上訂單變動，熱門商品售完即止。</p></div></div><div class="shop-special-points"><div><b>NOW</b><span>現在有貨<br><small>可直接加入購物車</small></span></div><div><b>FAST</b><span>不用等預購<br><small>省去上市等待時間</small></span></div><div><b>LAST</b><span>售完為止<br><small>庫存依實際狀況為準</small></span></div></div>`}hero.className='shop-context-hero is-'+kind;if(eyebrow)eyebrow.textContent=e;if(title)title.textContent=t;if(desc)desc.textContent=d;if(badges)badges.innerHTML=b.map(x=>`<span>${esc(x)}</span>`).join('');if(notice)notice.innerHTML=n;if(catalogKicker)catalogKicker.textContent=k;if(catalogTitle)catalogTitle.textContent=ct;syncCounts()}
 function readQuery(){const q=new URLSearchParams(location.search);S.query=q.get('q')||'';S.ip=q.get('ip')||'';S.mode=q.get('filter')||'all';S.focus=q.get('focus')||'';return q}
 function shopQuery(offset=0){const q={offset,limit:PAGE_SIZE,sort:S.sort,q:S.query,category:S.cat,ip:S.ip,mode:['fav','recent'].includes(S.mode)?'all':S.mode};if(S.mode==='fav')q.ids=[...S.favorites];if(S.mode==='recent')q.ids=S.recent.slice();return q}
