@@ -2,6 +2,25 @@
 'use strict';
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
 let groups=[],active=null,qty=1,delivery='門市取貨',loading=false,selected=new Set();
+const GROUP_CACHE_KEY='wanye:group-kuji:v281219';
+const GROUP_CACHE_TTL=2*60*1000;
+let lastLoadedAt=0;
+function readGroupCache(){
+  try{
+    const raw=localStorage.getItem(GROUP_CACHE_KEY); if(!raw)return null;
+    const d=JSON.parse(raw); if(!d||!Array.isArray(d.items))return null;
+    return d;
+  }catch(e){return null}
+}
+function writeGroupCache(items){
+  try{localStorage.setItem(GROUP_CACHE_KEY,JSON.stringify({ts:Date.now(),items:items||[]}))}catch(e){}
+}
+function useGroupCache(){
+  const d=readGroupCache(); if(!d||!d.items.length)return false;
+  groups=d.items; lastLoadedAt=Number(d.ts||0); renderGroups();
+  const c=$('#groupCount');if(c)c.textContent=String(groups.length);
+  return true;
+}
 
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function money(v){return 'NT$ '+Math.round(Number(v||0)).toLocaleString('zh-TW')}
@@ -48,17 +67,22 @@ function switchMode(mode,scroll){
 window.WANYE_SWITCH_ONLINE_MODE=switchMode;
 
 async function loadGroups(force){
-  if(loading)return; loading=true;
   const grid=$('#groupGrid');
-  if(grid&&!groups.length)grid.innerHTML='<div class="group-empty">集單抽載入中…</div>';
+  const hadCache=groups.length?true:useGroupCache();
+  const cacheFresh=hadCache && (Date.now()-lastLoadedAt<GROUP_CACHE_TTL);
+  if(!force&&cacheFresh)return;
+  if(loading)return;
+  loading=true;
+  if(grid&&!hadCache&&!groups.length)grid.innerHTML='<div class="group-empty group-loading-fast"><b>正在取得最新集單</b><small>第一次載入後，下次會直接顯示快照。</small></div>';
   try{
     const data=await rpcRead('getPublicV283KujiLite',[]);
-    groups=groupItems(data); renderGroups();
+    const fresh=groupItems(data);
+    groups=fresh; lastLoadedAt=Date.now(); writeGroupCache(fresh); renderGroups();
     const c=$('#groupCount');if(c)c.textContent=String(groups.length);
     const wanted=new URLSearchParams(location.search).get('group');
-    if(wanted&&groups.some(x=>String(x.id)===String(wanted))&&!active)setTimeout(()=>openGroup(wanted),80);
+    if(wanted&&groups.some(x=>String(x.id)===String(wanted))&&!active)setTimeout(()=>openGroup(wanted),40);
   }catch(e){
-    if(grid)grid.innerHTML='<div class="group-empty"><b>集單抽目前讀取失敗</b><br><small>'+esc(e&&e.message||e)+'</small></div>';
+    if(!groups.length&&grid)grid.innerHTML='<div class="group-empty"><b>集單抽目前讀取失敗</b><br><small>'+esc(e&&e.message||e)+'</small></div>';
   }finally{loading=false}
 }
 window.WANYE_LOAD_GROUP_KUJI=()=>loadGroups(true);
@@ -90,6 +114,7 @@ function renderGroups(){
 
 async function hydrateGroupDetail(){
   if(!active||!active.publicCode)return;
+  if(prizeItems(active).length){active._detailLoaded=true;return;}
   try{
     const d=await rpcRead('getPublicKuji',[active.publicCode]);
     if(d&&typeof d==='object'){
@@ -177,7 +202,7 @@ async function submitGroup(){
     const r=await rpcWrite('submitKujiGroupOrderV28124',[active.id,{name,phone,lineId,qty,selectedNumbers:picked,numbers:picked,bankLast5:last5,deliveryMethod:delivery,note:[note,numberNote].filter(Boolean).join('｜'),requestId}]);
     msg.innerHTML='✅ 集單已送出｜編號 <b>'+esc(r.id||'')+'</b><br>選號 <b>'+picked.join('、')+'</b>｜應付 '+money(r.expectedAmount||Number(active.price||0)*qty);
     msg.className='group-msg ok';btn.textContent='已送出';
-    setTimeout(async()=>{await loadGroups(true);active=groups.find(x=>String(x.id)===String(active?.id))||active;renderNumberBoard()},500);
+    setTimeout(async()=>{await loadGroups(true);active=groups.find(x=>String(x.id)===String(active?.id))||active;renderNumberBoard()},180);
   }catch(e){
     msg.textContent=e&&e.message||'送出失敗';msg.className='group-msg bad';btn.disabled=false;btn.textContent='確認送出集單';
   }
@@ -193,5 +218,13 @@ document.addEventListener('click',e=>{
 document.addEventListener('input',e=>{if(e.target.id==='groupQtyCustom'){qty=Math.max(1,Math.floor(Number(e.target.value||1)));while(selected.size>qty)selected.delete([...selected].pop());$$('.group-qty-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.qty)===qty));renderNumberBoard();updateSummary()}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#groupModal').classList.contains('hidden'))closeGroup()});
 window.WANYE_SUBMIT_GROUP=submitGroup;
-window.addEventListener('DOMContentLoaded',()=>{const hash=location.hash.replace('#','');switchMode(['regular','group','japan'].includes(hash)?hash:'regular',false);loadGroups(false)});
+window.addEventListener('DOMContentLoaded',()=>{
+  const hash=location.hash.replace('#','');
+  const mode=['regular','group','japan'].includes(hash)?hash:'regular';
+  useGroupCache();
+  switchMode(mode,false);
+  if(mode==='group')loadGroups(false);
+  else if('requestIdleCallback' in window)requestIdleCallback(()=>loadGroups(false),{timeout:1800});
+  else setTimeout(()=>loadGroups(false),900);
+});
 })();
