@@ -88,6 +88,19 @@ function renderGroups(){
   $$('[data-group-open]',grid).forEach(btn=>btn.addEventListener('click',()=>openGroup(btn.dataset.groupOpen)));
 }
 
+async function hydrateGroupDetail(){
+  if(!active||!active.publicCode)return;
+  try{
+    const d=await rpcRead('getPublicKuji',[active.publicCode]);
+    if(d&&typeof d==='object'){
+      if(Array.isArray(d.prizes)&&d.prizes.length)active.prizes=d.prizes;
+      if(!active.imageUrl&&d.imageUrl)active.imageUrl=d.imageUrl;
+      if(!active.name&&d.name)active.name=d.name;
+      active._detailLoaded=true;
+      renderPrizes();
+    }
+  }catch(e){console.warn('[group] prize detail fallback',e&&e.message||e)}
+}
 function renderPrizes(){
   const box=$('#groupPrizeList');if(!box||!active)return;
   const ps=prizeItems(active);
@@ -114,7 +127,7 @@ function openGroup(id){
   $$('.group-qty-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.qty)===1));
   $$('.group-delivery button').forEach(b=>b.classList.toggle('active',b.dataset.delivery==='門市取貨'));
   $('#groupQtyCustom').value='1';$('#groupMsg').textContent='';$('#groupMsg').className='group-msg';
-  renderPrizes();renderNumberBoard();updateSummary();
+  renderPrizes();renderNumberBoard();updateSummary();hydrateGroupDetail();
   const order=$('#groupOrderFields'),submit=$('#groupSubmit'),qtyArea=$('#groupQtyArea');
   if(order)order.hidden=state.key!=='open';if(qtyArea)qtyArea.hidden=state.key!=='open';if(submit)submit.hidden=state.key!=='open';
   $('#groupModal').classList.remove('hidden');document.body.style.overflow='hidden';
