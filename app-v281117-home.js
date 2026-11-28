@@ -267,7 +267,7 @@ async function syncFukubukuroStatusV281110(){
     const s=d?.settings||{};
     updateFukubukuroV281110({
       total:Number(s.fukubukuro_total||150),
-      sold:Number(s.fukubukuro_sold||1),
+      sold:Math.max(Number(s.fukubukuro_sold||1),Number($('#fukubukuro2027')?.dataset.sold||0)),
       end:s.fukubukuro_end||'2027-01-31',
       url:s.fukubukuro_url||''
     });
