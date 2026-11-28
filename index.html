@@ -642,7 +642,7 @@ body[data-page="online"]:not(.online-fresh-ready) #japanGrid::after{
 <style id="home-banner-final-v281129">
 /* 首頁廣告最終版：1920x800 原圖直接全幅顯示 */
 body[data-page="home"] #homeBannerShell{
-  width:min(100%,1360px)!important;
+  width:min(100%,1200px)!important;
   margin:18px auto 0!important;
   padding:0!important;
   border-radius:24px!important;
@@ -696,7 +696,8 @@ body[data-page="home"] #homeBannerShell .home-banner-art img{
   object-fit:cover!important;
   object-position:center center!important;
   border-radius:0!important;
-  filter:none!important;
+  filter:contrast(1.055) saturate(1.02)!important;
+  image-rendering:-webkit-optimize-contrast;
   transform:none!important;
 }
 body[data-page="home"] #homeBannerShell .home-banner-arrow,
