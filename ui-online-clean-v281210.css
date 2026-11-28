@@ -79,3 +79,304 @@
  .group-form-grid{grid-template-columns:1fr}
  .group-form-grid .full{grid-column:auto}
 }
+
+
+/* 頑夜 TOY｜日本官方代抽 RWD v28.12.20 */
+#japan.online-mode-panel{
+  width:100%;
+  max-width:1240px;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+#japan .draw-section-head{
+  width:min(1180px,100%);
+  margin-left:auto;
+  margin-right:auto;
+}
+#japan .proxy-grid{
+  width:min(1180px,100%);
+  margin:0 auto!important;
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(280px,360px))!important;
+  justify-content:center;
+  gap:20px!important;
+}
+#japan .proxy-card{
+  width:100%;
+  max-width:360px;
+  justify-self:center;
+  overflow:hidden;
+  border:1px solid #dfe7ef;
+  border-radius:19px;
+  background:#fff;
+  box-shadow:0 10px 28px rgba(32,45,62,.07);
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+#japan .proxy-card:hover{transform:translateY(-2px);box-shadow:0 16px 38px rgba(32,45,62,.11)}
+#japan .proxy-media{
+  position:relative;
+  height:220px;
+  background:linear-gradient(180deg,#f8fafc,#fff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+#japan .proxy-media img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+#japan .proxy-badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  padding:6px 9px;
+  border-radius:999px;
+  background:#111827;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.4px;
+}
+#japan .proxy-body{
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+#japan .proxy-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#japan .proxy-body h3{
+  margin:0;
+  min-height:44px;
+  font-size:15px;
+  line-height:1.45;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  overflow:hidden;
+}
+.japan-proxy-meta-v281220{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+}
+.japan-proxy-meta-v281220>div{
+  min-width:0;
+  padding:9px 10px;
+  border-radius:11px;
+  background:#f7f9fc;
+}
+.japan-proxy-meta-v281220 small{
+  display:block;
+  color:#7a8798;
+  font-size:9px;
+  margin-bottom:3px;
+}
+.japan-proxy-meta-v281220 b{
+  display:block;
+  font-size:12px;
+  line-height:1.35;
+  color:#1f2937;
+  overflow-wrap:anywhere;
+}
+.japan-proxy-progress-v281220{
+  padding:10px;
+  border:1px solid #edf1f5;
+  border-radius:12px;
+  background:#fbfcfe;
+}
+.japan-proxy-progress-head-v281220,
+.japan-proxy-progress-foot-v281220{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.japan-proxy-progress-head-v281220{margin-bottom:7px}
+.japan-proxy-progress-head-v281220 span,
+.japan-proxy-progress-foot-v281220 span{font-size:10px;color:#7a8798}
+.japan-proxy-progress-head-v281220 strong{font-size:13px;color:#111827}
+.japan-proxy-progress-foot-v281220{margin-top:6px}
+.japan-proxy-progress-foot-v281220 b{font-size:11px;color:#7c3aed}
+#japan .japan-proxy-reserve-btn{
+  min-height:46px;
+  border-radius:12px;
+  font-weight:900;
+  width:100%;
+}
+
+/* 預約彈窗 */
+.japan-proxy-modal{
+  width:min(760px,calc(100vw - 28px));
+  max-height:90dvh;
+  overflow:auto;
+  border-radius:20px;
+  background:#fff;
+  padding:20px;
+  box-shadow:0 24px 80px rgba(15,23,42,.24);
+}
+.japan-proxy-modal-head{padding-right:38px}
+.japan-proxy-modal-head>span{
+  display:inline-flex;
+  padding:5px 8px;
+  border-radius:999px;
+  background:#111827;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.5px;
+}
+.japan-proxy-modal-head h2{
+  margin:9px 0 4px;
+  font-size:22px;
+  line-height:1.35;
+}
+.japan-proxy-modal-head p{margin:0;color:#718096;font-size:12px}
+.japan-proxy-summary{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin:15px 0;
+}
+.japan-proxy-summary>div{
+  padding:11px;
+  border:1px solid #e5ebf2;
+  border-radius:12px;
+  background:#f8fafc;
+}
+.japan-proxy-summary small{display:block;font-size:10px;color:#7a8798;margin-bottom:4px}
+.japan-proxy-summary strong{display:block;font-size:15px;color:#111827}
+.japan-proxy-form .activity-form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.japan-proxy-form .activity-form-grid label,
+.activity-note-field{font-size:11px;font-weight:900;color:#596778}
+.japan-proxy-form input,
+.japan-proxy-form select,
+.activity-note-field input{
+  width:100%;
+  min-height:44px;
+  margin-top:5px;
+  box-sizing:border-box;
+  border:1px solid #d8e1eb;
+  border-radius:11px;
+  background:#fff;
+  padding:10px 11px;
+}
+.japan-proxy-grade-title{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:15px;
+}
+.japan-proxy-grade-title small{color:#8a97a8;font-size:10px}
+.japan-proxy-grades{
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:7px;
+  margin-top:8px;
+}
+.japan-proxy-grades label{position:relative}
+.japan-proxy-grades input{position:absolute;opacity:0;pointer-events:none}
+.japan-proxy-grades span{
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #d8e1eb;
+  border-radius:10px;
+  background:#f8fafc;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+.japan-proxy-grades input:checked+span{
+  background:#111827;
+  color:#fff;
+  border-color:#111827;
+}
+.japan-proxy-notice{
+  margin-top:12px;
+  padding:10px 11px;
+  border-radius:11px;
+  background:#fff7ed;
+  color:#9a5a13;
+  font-size:11px;
+  line-height:1.55;
+}
+.japan-proxy-form .activity-submit-row{
+  margin-top:13px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.japan-proxy-form .activity-signup-submit{
+  min-width:150px;
+  min-height:46px;
+  border-radius:11px;
+  font-weight:900;
+}
+@media (min-width:681px) and (max-width:1099px){
+  #japan.online-mode-panel{max-width:920px}
+  #japan .proxy-grid{
+    grid-template-columns:repeat(2,minmax(260px,1fr))!important;
+    gap:16px!important;
+  }
+  #japan .proxy-card{max-width:420px}
+}
+@media (max-width:680px){
+  #japan.online-mode-panel{
+    width:100%;
+    max-width:none;
+    margin:0 auto!important;
+  }
+  #japan .draw-section-head{width:100%;padding-left:2px;padding-right:2px}
+  #japan .proxy-grid{
+    width:100%;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:12px!important;
+    margin:0!important;
+  }
+  #japan .proxy-card{
+    max-width:none;
+    margin:0!important;
+    display:grid;
+    grid-template-columns:118px minmax(0,1fr);
+    border-radius:16px;
+  }
+  #japan .proxy-media{height:100%;min-height:190px}
+  #japan .proxy-body{padding:11px;gap:8px}
+  #japan .proxy-body h3{font-size:13px;min-height:auto}
+  .japan-proxy-meta-v281220{grid-template-columns:1fr}
+  .japan-proxy-meta-v281220>div{padding:7px 8px}
+  .japan-proxy-progress-v281220{padding:8px}
+  #japan .japan-proxy-reserve-btn{min-height:42px;font-size:12px}
+
+  .japan-proxy-modal{
+    width:calc(100vw - 12px);
+    max-height:calc(100dvh - 12px);
+    padding:14px;
+    border-radius:16px;
+  }
+  .japan-proxy-modal-head h2{font-size:18px}
+  .japan-proxy-summary{grid-template-columns:1fr 1fr}
+  .japan-proxy-summary>div:last-child{grid-column:1/-1}
+  .japan-proxy-form .activity-form-grid{grid-template-columns:1fr}
+  .japan-proxy-grades{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .japan-proxy-form .activity-submit-row{
+    align-items:stretch;
+    flex-direction:column;
+  }
+  .japan-proxy-form .activity-signup-submit{width:100%}
+}
+@media (max-width:390px){
+  #japan .proxy-card{grid-template-columns:104px minmax(0,1fr)}
+  #japan .proxy-media{min-height:176px}
+  .japan-proxy-grades{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
