@@ -109,7 +109,7 @@ function openGroup(id){
   qty=1;delivery='門市取貨';selected=new Set();
   const state=stateOf(active);
   $('#groupFormTitle').textContent=active.name||'一番賞集單';
-  $('#groupFormMeta').textContent=money(active.price)+' / 抽｜'+state.label+'｜剩 '+Number(active.remaining??state.remain||0)+' 抽';
+  $('#groupFormMeta').textContent=money(active.price)+' / 抽｜'+state.label+'｜剩 '+Number(active.remaining ?? state.remain ?? 0)+' 抽';
   ['groupName','groupPhone','groupLine','groupLast5','groupNote'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
   $$('.group-qty-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.qty)===1));
   $$('.group-delivery button').forEach(b=>b.classList.toggle('active',b.dataset.delivery==='門市取貨'));
