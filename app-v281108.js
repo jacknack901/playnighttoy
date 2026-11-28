@@ -63,6 +63,12 @@ function saveRecent(){localStorage.setItem('wanye:recent',JSON.stringify(S.recen
 function saveCart(){localStorage.setItem('wanye:cart',JSON.stringify(S.cart));localStorage.setItem('wanye:cartItems',JSON.stringify(S.cartItems||{}));syncCounts()}
 function persistentGet(key,maxAge=21600000){try{const x=JSON.parse(localStorage.getItem(key)||'null');return x&&Date.now()-x.t<maxAge?x.v:null}catch(e){return null}}
 function persistentSet(key,v){try{localStorage.setItem(key,JSON.stringify({t:Date.now(),v}))}catch(e){}}
+
+function firstPaintDeadlineV281223(ms=1800){return new Promise(resolve=>setTimeout(()=>resolve({timeout:true}),ms))}
+async function firstPaintRaceV281223(promise,ms=1800){
+  try{return await Promise.race([Promise.resolve(promise).then(value=>({timeout:false,value})),firstPaintDeadlineV281223(ms)])}
+  catch(error){return {timeout:false,error}}
+}
 async function rpcRead(a,args=[]){if(!window.WANYE_RPC)throw new Error('RPC 未載入');return WANYE_RPC.read(a,args,30000)}
 async function rpcWrite(a,args=[]){if(!window.WANYE_RPC)throw new Error('RPC 未載入');return WANYE_RPC.write(a,args,18000)}
 async function swr(key,render,loader,maxAge=604800000){const stale=persistentGet(key,maxAge);if(stale){render(stale);hidePageLoader()}try{const v=await loader();persistentSet(key,v);render(v);hidePageLoader();return v}catch(e){hidePageLoader();if(!stale)throw e;return stale}}
@@ -226,8 +232,22 @@ function startOnlineRealtimeV281107(){clearInterval(ONLINE_REALTIME_TIMER_V28110
 function refreshOnlineRealtimeV281107(){return syncOnlineRealtimeV281107(true)}
 async function initOnline(){
   const q=new URLSearchParams(location.search),focus=q.get('draw');
-  try{await syncOnlineRealtimeV281107(true)}
-  finally{document.body.classList.add('online-fresh-ready')}
+  const livePromise=syncOnlineRealtimeV281107(true);
+  const first=await firstPaintRaceV281223(livePromise,1750);
+  if(first.timeout||first.error){
+    if(!S.onlineDraws.length&&!S.japanDraws.length){
+      const boot=inlineJson('onlineBootData');
+      if(boot)renderOnline({regular:Array.isArray(boot.regular)?boot.regular:[],japan:Array.isArray(boot.japan)?boot.japan:[]},true);
+      else{
+        try{
+          const snap=await Promise.race([loadOnlineStatic(),new Promise((_,rej)=>setTimeout(()=>rej(new Error('snapshot timeout')),150))]);
+          renderOnline({regular:Array.isArray(snap.regular)?snap.regular:[],japan:Array.isArray(snap.japan)?snap.japan:[]},true);
+        }catch(_){}
+      }
+    }
+  }
+  document.body.classList.add('online-fresh-ready');
+  livePromise.then(()=>document.body.classList.add('online-fresh-ready')).catch(()=>{});
   startOnlineRealtimeV281107();
   if(focus)setTimeout(()=>openDraw(focus),30);
 }
