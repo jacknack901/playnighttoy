@@ -63,6 +63,12 @@ function saveRecent(){localStorage.setItem('wanye:recent',JSON.stringify(S.recen
 function saveCart(){localStorage.setItem('wanye:cart',JSON.stringify(S.cart));localStorage.setItem('wanye:cartItems',JSON.stringify(S.cartItems||{}));syncCounts()}
 function persistentGet(key,maxAge=21600000){try{const x=JSON.parse(localStorage.getItem(key)||'null');return x&&Date.now()-x.t<maxAge?x.v:null}catch(e){return null}}
 function persistentSet(key,v){try{localStorage.setItem(key,JSON.stringify({t:Date.now(),v}))}catch(e){}}
+
+function firstPaintDeadlineV281223(ms=1800){return new Promise(resolve=>setTimeout(()=>resolve({timeout:true}),ms))}
+async function firstPaintRaceV281223(promise,ms=1800){
+  try{return await Promise.race([Promise.resolve(promise).then(value=>({timeout:false,value})),firstPaintDeadlineV281223(ms)])}
+  catch(error){return {timeout:false,error}}
+}
 let RPC_BOOT_V281109=null;
 function loadScriptOnceV281109(src,key){if(window[key])return Promise.resolve();return new Promise((resolve,reject)=>{const old=document.querySelector('script[data-wanye-lazy="'+key+'"]');if(old){old.addEventListener('load',()=>resolve(),{once:true});old.addEventListener('error',()=>reject(new Error(key+' 載入失敗')),{once:true});return}const s=document.createElement('script');s.src=src;s.defer=true;s.dataset.wanyeLazy=key;s.onload=()=>resolve();s.onerror=()=>reject(new Error(key+' 載入失敗'));document.head.appendChild(s)})}
 async function ensureRpcV281109(){if(window.WANYE_RPC)return WANYE_RPC;if(!RPC_BOOT_V281109)RPC_BOOT_V281109=(async()=>{if(!window.WANWAN_API_URL)await loadScriptOnceV281109('./config.js?v=2889','config');await loadScriptOnceV281109('./gas-bridge.js?v=2890','bridge');if(!window.WANYE_RPC)throw new Error('RPC 未載入');return WANYE_RPC})().catch(e=>{RPC_BOOT_V281109=null;throw e});return RPC_BOOT_V281109}
@@ -270,39 +276,42 @@ async function syncFukubukuroStatusV281110(){
 async function initHome(){
   bootHomeBanners();initFukubukuroV281110();catBindV281117();
 
-  const productTask=(async()=>{
-    try{
-      const d=await catFetchV281117({offset:0,limit:16,sort:'new',mode:'all',q:'',category:'',ip:''});
-      catHomeApplyV281117(d);
-    }catch(e){
-      console.warn('[home] fresh catalogue failed',e);
-      const fallback=catCacheV281117({offset:0,limit:16,sort:'new',mode:'all',q:'',category:'',ip:''})||inlineJson('homeShopBootData');
+  const q={offset:0,limit:16,sort:'new',mode:'all',q:'',category:'',ip:''};
+  const liveProducts=catFetchV281117(q);
+  const productFirst=firstPaintRaceV281223(liveProducts,1750).then(r=>{
+    if(!r.timeout&&!r.error&&r.value){catHomeApplyV281117(r.value)}
+    else{
+      const fallback=catCacheV281117(q)||inlineJson('homeShopBootData');
       if(fallback)catHomeApplyV281117(Object.assign({ok:true,total:Number(fallback.total??fallback.counts?.all??fallback.items?.length??0)},fallback));
-    }finally{
-      document.body.classList.add('home-fresh-products-ready');
     }
-  })();
+    document.body.classList.add('home-fresh-products-ready');
+  });
+  liveProducts.then(d=>{
+    if(d){catHomeApplyV281117(d);document.body.classList.add('home-fresh-products-ready')}
+  }).catch(e=>console.warn('[home] background catalogue sync failed',e));
 
-  const kujiTask=(async()=>{
-    try{
-      let live;try{live=await rpcRead('getPublicV281107OnlineRealtime',[])}catch(e){live=await rpcRead('getPublicOnlineKujiListV27180',[])}
-      const items=Array.isArray(live?.regular)?live.regular:genericItems(live,['items','kuji','list','sets']);
-      S.onlineDraws=items||[];
-      $('#homeKujiGrid')&&($('#homeKujiGrid').innerHTML=S.onlineDraws.slice(0,3).map(homeDrawCardV281109).join('')||'<div class="empty-box">目前沒有線上抽賞</div>');
-      $('#homeKuji')&&($('#homeKuji').textContent=S.onlineDraws.length);
-      if(Array.isArray(live?.japan))$('#homeJapan')&&($('#homeJapan').textContent=live.japan.length);
-    }catch(e){
-      console.warn('[home] fresh kuji failed',e);
+  const liveKuji=(async()=>{try{return await rpcRead('getPublicV281107OnlineRealtime',[])}catch(e){return await rpcRead('getPublicOnlineKujiListV27180',[])}})();
+  const applyKuji=(live)=>{
+    if(!live)return;
+    const items=Array.isArray(live?.regular)?live.regular:genericItems(live,['items','kuji','list','sets']);
+    S.onlineDraws=items||[];
+    $('#homeKujiGrid')&&($('#homeKujiGrid').innerHTML=S.onlineDraws.slice(0,3).map(homeDrawCardV281109).join('')||'<div class="empty-box">目前沒有線上抽賞</div>');
+    $('#homeKuji')&&($('#homeKuji').textContent=S.onlineDraws.length);
+    if(Array.isArray(live?.japan))$('#homeJapan')&&($('#homeJapan').textContent=live.japan.length);
+  };
+  const kujiFirst=firstPaintRaceV281223(liveKuji,1750).then(r=>{
+    if(!r.timeout&&!r.error)applyKuji(r.value);
+    else{
       const boot=inlineJson('onlineBootData');
       if(boot){applyOnlineState(boot);$('#homeKujiGrid')&&($('#homeKujiGrid').innerHTML=S.onlineDraws.slice(0,3).map(homeDrawCardV281109).join(''))}
-    }finally{
-      document.body.classList.add('home-fresh-kuji-ready');
     }
-  })();
+    document.body.classList.add('home-fresh-kuji-ready');
+  });
+  liveKuji.then(d=>{applyKuji(d);document.body.classList.add('home-fresh-kuji-ready')}).catch(e=>console.warn('[home] background kuji sync failed',e));
 
   const activityBoot=inlineJson('activitiesBootData');if(activityBoot?.items?.length)S.activities=activityBoot.items;
   idleTask(()=>syncFukubukuroStatusV281110());
-  await Promise.allSettled([productTask,kujiTask]);
+  await Promise.allSettled([productFirst,kujiFirst]);
   catPollV281117();
 }
 function renderShopContext(){const hero=$('#shopHero');if(!hero)return;const eyebrow=$('#shopHeroEyebrow'),title=$('#shopHeroTitle'),desc=$('#shopHeroDesc'),badges=$('#shopHeroBadges'),notice=$('#shopHeroNotice'),catalogKicker=$('#shopCatalogKicker'),catalogTitle=$('#shopCatalogTitle');let kind='default',e='ONLINE SHOP',t='找到你真正想收藏的',d='預購、現貨、限定與長期代購都集中在這裡，依你的收藏方式快速找到商品。',b=['全站商品','新品預購','現貨直購'],k='SMART CATALOG',ct='線上商城',n=`<div class="shop-notice-card primary"><small>完整商品</small><strong id="shopTotal">${Number(S.counts.all||S.total||0).toLocaleString()}</strong><span>商城公開商品</span></div><div class="shop-notice-card"><small>新品</small><strong id="shopNew">${Number(S.counts.new||0).toLocaleString()}</strong><span>近期上架</span></div><div class="shop-notice-card"><small>快結單</small><strong id="shopClosing">${Number(S.counts.closing||0).toLocaleString()}</strong><span>14 天內截止</span></div><a class="shop-notice-card link" href="./member.html"><small>我的收藏</small><strong data-fav-count>${S.favorites.size}</strong><span>查看收藏商品 →</span></a>`;if(S.mode==='closing'){kind='closing';e='CLOSING SOON';t='快結單商品｜最後倒數';d='這裡只顯示近期即將截止的預購商品。喜歡就別拖到最後一刻，結單後需等待到貨或後續現貨。';b=['結單倒數','錯過需等現貨','日期以商品頁為準'];k='CLOSING SOON';ct='快結單商品';n=`<div class="shop-special-notice urgent"><span class="shop-special-icon">⌛</span><div><small>PRE-ORDER DEADLINE</small><strong>預購即將截止</strong><p>請先確認商品卡上的結單日期；已結單商品將無法加入購物車。</p></div></div><div class="shop-special-points"><div><b>01</b><span>商品結單時間<br><small>依各商品頁標示為準</small></span></div><div><b>02</b><span>錯過結單<br><small>後續需等上市現貨</small></span></div><div><b>03</b><span>想買就先確認<br><small>避免最後一天才下單</small></span></div></div>`}else if(S.ip==='寶可夢'){kind='pokemon';e='POKÉMON COLLECTION';t='Pokémon 專區｜寶可夢收藏基地';d='Pokémon Center、限定周邊、娃娃、景品與各式寶可夢商品集中整理，最新上架直接在這裡找。';b=['Pokémon Center','限定商品','新品持續更新'];k='POKÉMON COLLECTION';ct='Pokémon 專區';n=`<div class="shop-special-notice pokemon"><span class="shop-special-icon pokeball-mark"><i></i></span><div><small>POKÉMON GOODS</small><strong>寶可夢商品集中整理</strong><p>寶可夢商品採開放購買，不設定固定結單日；預計發售月份與實際到貨時間依官方資訊為準。</p></div></div><div class="shop-special-points"><div><b>PC</b><span>Pokémon Center<br><small>日本官方中心商品</small></span></div><div><b>NEW</b><span>新品與限定<br><small>持續更新上架</small></span></div><div><b>INFO</b><span>購買資訊<br><small>無固定結單日／發售時間依官方</small></span></div></div>`}else if(S.mode==='direct'){kind='direct';e='IN STOCK NOW';t='現貨專區｜現在就能帶走';d='不用等預購、不用等上市，這裡都是目前可直接購買的現貨商品；喜歡就直接下單。';b=['現貨直購','不用等預購','售完為止'];k='IN STOCK';ct='現貨專區';n=`<div class="shop-special-notice stock"><span class="shop-special-icon">✓</span><div><small>READY TO GO</small><strong>現貨可直接購買</strong><p>現貨數量會隨門市與線上訂單變動，熱門商品售完即止。</p></div></div><div class="shop-special-points"><div><b>NOW</b><span>現在有貨<br><small>可直接加入購物車</small></span></div><div><b>FAST</b><span>不用等預購<br><small>省去上市等待時間</small></span></div><div><b>LAST</b><span>售完為止<br><small>庫存依實際狀況為準</small></span></div></div>`}hero.className='shop-context-hero is-'+kind;if(eyebrow)eyebrow.textContent=e;if(title)title.textContent=t;if(desc)desc.textContent=d;if(badges)badges.innerHTML=b.map(x=>`<span>${esc(x)}</span>`).join('');if(notice)notice.innerHTML=n;if(catalogKicker)catalogKicker.textContent=k;if(catalogTitle)catalogTitle.textContent=ct;syncCounts()}
