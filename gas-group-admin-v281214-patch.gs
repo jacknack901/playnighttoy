@@ -67,10 +67,15 @@ function saveKujiGroupRevealV281214(sessionToken,kujiId,number,prize){
   var grade=kujiGroupTextV28124_(prize.grade),name=kujiGroupTextV28124_(prize.name),
       imageUrl=kujiGroupTextV28124_(prize.imageUrl),prizeId=kujiGroupTextV28124_(prize.id||prize.prizeId);
   if(!grade)throw new Error('請先選擇賞項。');
+  if(prize.lastPrize)throw new Error('最後賞不使用一般號碼開獎，請在整套最後一抽時另外處理。');
   var lock=LockService.getScriptLock();lock.waitLock(12000);
   try{
     var setting=kujiGroupFindSettingV28124_(kujiId);
     if(!setting)throw new Error('找不到這套集單。');
+    var sum=getKujiGroupOrdersSummaryV28124_(kujiId);
+    if(!sum.full)throw new Error('集單尚未完成，不能開始開獎。');
+    var owners=kujiGroupReservedNumberSetV281213_(kujiId);
+    if(!owners[number])throw new Error('這個號碼沒有客人選擇，不能開獎。');
     var target=Math.max(0,Math.floor(Number(setting.groupTargetQty||0)));
     if(number>target)throw new Error('號碼超出集單範圍。');
     var sh=getSpreadsheetV260_().getSheetByName('線上抽賞籤位');
@@ -82,13 +87,35 @@ function saveKujiGroupRevealV281214(sessionToken,kujiId,number,prize){
         if(kujiGroupTextV28124_(vals[i][1])===kujiId&&Math.floor(Number(vals[i][3]||0))===number){row=i+2;break;}
       }
     }
+    var env=ensureKujiSchemaV25_();
+    var prizeRow=getKujiPrizeRowsV25_(kujiId).find(function(p){return p.id===prizeId;});
+    if(!prizeRow)throw new Error('找不到正式獎項資料。');
+    if(prizeRow.lastPrize)throw new Error('最後賞不能用一般號碼開獎。');
+    if(Number(prizeRow.remainingQty||0)<=0)throw new Error(prizeRow.grade+' 已經沒有剩餘數量。');
+    var existingOpen=false;
+    if(row>0){
+      var oldStatus=kujiGroupTextV28124_(sh.getRange(row,9).getValue());
+      if(oldStatus==='已開')existingOpen=true;
+    }
+    if(existingOpen)throw new Error(number+' 號已經開獎，不能重複登記。');
+
+    var nextRemain=Number(prizeRow.remainingQty||0)-1;
     var now=new Date(),ticketId='KGRP-'+kujiId.replace(/[^0-9A-Za-z]/g,'').slice(-8)+'-'+String(number).padStart(3,'0');
     var values=[ticketId,kujiId,kujiId,number,prizeId,grade,name,imageUrl,'已開','', 'GROUP-ADMIN-'+Utilities.getUuid().slice(0,8),now,now,session.operator||''];
     if(row>0)sh.getRange(row,1,1,14).setValues([values]);
     else sh.appendRow(values);
+    env.prizeSheet.getRange(prizeRow.row,7).setValue(nextRemain);
+    env.prizeSheet.getRange(prizeRow.row,12,1,2).setValues([[now,session.operator||'']]);
+    var setRec=getKujiRowsV25_().find(function(k){return k.id===kujiId;});
+    if(setRec)env.setSheet.getRange(setRec.row,11,1,2).setValues([[now,session.operator||'']]);
+    var logRow=findFirstEmptyDataRow_(env.logSheet,2,2);
+    var reqId='KGRP-REVEAL-'+kujiId+'-'+number;
+    env.logSheet.getRange(logRow,1,1,11).setValues([[
+      now,kujiIdV25_('KLOG'),kujiId,prizeRow.id,prizeRow.grade,prizeRow.name,-1,'集單開獎',reqId,session.operator||'','號碼 '+number
+    ]]);
     SpreadsheetApp.flush();
     kujiGroupInvalidatePublicCacheV28124_();
     try{CacheService.getScriptCache().remove('online-kuji-public-list-v27197');}catch(e){}
-    return {ok:true,number:number,grade:grade,name:name};
+    return {ok:true,number:number,grade:grade,name:name,remainingQty:nextRemain};
   }finally{lock.releaseLock();}
 }
