@@ -213,8 +213,8 @@ async function submitGroup(){
   }
 }
 document.addEventListener('click',e=>{
-  const modeBtn=e.target.closest('.online-mode-btn');if(modeBtn){switchMode(modeBtn.dataset.mode,true);return}
-  const heroLink=e.target.closest('[data-online-mode-link]');if(heroLink){e.preventDefault();switchMode(heroLink.dataset.onlineModeLink,true);return}
+  const modeBtn=e.target.closest('.online-mode-btn');if(modeBtn){switchMode(modeBtn.dataset.mode,false);return}
+  const heroLink=e.target.closest('[data-online-mode-link]');if(heroLink){e.preventDefault();switchMode(heroLink.dataset.onlineModeLink,false);return}
   const q=e.target.closest('.group-qty-btn');if(q){setQty(q.dataset.qty);return}
   const n=e.target.closest('[data-group-number]');if(n){toggleNumber(n.dataset.groupNumber);return}
   const d=e.target.closest('.group-delivery button');if(d){delivery=d.dataset.delivery;$$('.group-delivery button').forEach(b=>b.classList.toggle('active',b===d));return}
@@ -230,8 +230,8 @@ window.addEventListener('pageshow',()=>{
   try{window.scrollTo({top:0,left:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
 });
 window.addEventListener('DOMContentLoaded',()=>{
-  const hash=location.hash.replace('#','');
-  const mode=['regular','group','japan'].includes(hash)?hash:'regular';
+  const qsMode=new URLSearchParams(location.search).get('mode');
+  const mode=['regular','group','japan'].includes(qsMode)?qsMode:'regular';
   const mobile=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
   if('scrollRestoration' in history)history.scrollRestoration='manual';
   if(mobile){
