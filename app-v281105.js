@@ -195,37 +195,18 @@ function renderChips(force=false){const ipBox=$('#shopIps'),catBox=$('#shopCats'
 function shopFreshLoadingMarkup(){return '<div class="shop-fresh-loader" role="status" aria-live="polite"><div class="shop-fresh-loader-head"><span class="shop-fresh-spinner" aria-hidden="true"></span><div><strong>正在同步最新商品</strong><small>確認最新上架與庫存狀態</small></div></div><div class="shop-fresh-skeletons" aria-hidden="true">'+Array.from({length:8},()=>'<i></i>').join('')+'</div></div>'}
 function showShopFreshLoading(){const grid=$('#shopGrid');if(grid){grid.innerHTML=shopFreshLoadingMarkup();grid.setAttribute('aria-busy','true')}$('#shopResult')&&($('#shopResult').textContent='正在同步最新商品…');$('#shopMore')&&($('#shopMore').style.display='none')}
 function renderShop(reset,list){const grid=$('#shopGrid');if(!grid)return;const html=(list||S.products).map((p,i)=>productCardFastV281105(p,i<4)).join('');if(reset)grid.innerHTML=html||'<div class="empty-box">找不到符合條件的商品</div>';else if(html)grid.insertAdjacentHTML('beforeend',html);$('#shopResult')&&($('#shopResult').textContent=`共 ${Number(S.total||S.products.length).toLocaleString()} 件商品`);$('#shopTotal')&&($('#shopTotal').textContent=Number(S.counts.all??S.total??S.products.length).toLocaleString());$('#shopNew')&&($('#shopNew').textContent=Number(S.counts.new??0).toLocaleString());$('#shopClosing')&&($('#shopClosing').textContent=Number(S.counts.closing??0).toLocaleString());$$('[data-shop-mode]').forEach(b=>b.classList.toggle('on',b.dataset.shopMode===S.mode));if($('#shopMore')){$('#shopMore').style.display=S.hasMore?'inline-flex':'none';$('#shopMore').disabled=false;$('#shopMore').textContent='載入更多商品'}}
-async function fetchShop(reset=true){const token=++S.shopRenderToken,q=shopQuery(reset?0:S.nextOffset),grid=$('#shopGrid'),simple=reset&&!S.query&&!S.ip&&!S.cat&&S.mode==='all'&&S.sort==='new';document.body.classList.add('shop-filtering');let snap=null;try{if(reset){if(simple){const head=await loadShopHeadV281105();snap=headShopPageV281105(head,q);if(token!==S.shopRenderToken)return;if(normalizeProducts(snap).length&&(!S.products.length||productId(S.products[0])!==productId(normalizeProducts(snap)[0])))applyShopData(snap,true)}else{await loadShopStatic();snap=staticShopData(q);if(token!==S.shopRenderToken)return;if(normalizeProducts(snap).length)applyShopData(snap,true);else if(!S.products.length)showShopFreshLoading()}}else if(grid)grid.setAttribute('aria-busy','true')}catch(e){console.warn('[shop] snapshot fallback skipped',e)}
-try{const live=await fetchNewestShopWindowV281038(q);if(token!==S.shopRenderToken)return;if(!live)throw new Error('最新商品資料沒有回傳');if(reset){const liveItems=markLiveOnlyNewestV281038(normalizeProducts(live)),snapItems=normalizeProducts(snap),merged=localProductSort(mergeProductListsV281022(snapItems,liveItems),q.sort||'new').slice(0,PAGE_SIZE),d=Object.assign({},snap||{},live,{items:merged,total:Math.max(Number(live?.total||0),Number(snap?.total||0),merged.length),nextOffset:merged.length,hasMore:Math.max(Number(live?.total||0),Number(snap?.total||0))>merged.length,categories:live?.categories?.length?live.categories:(snap?.categories||[]),ips:live?.ips?.length?live.ips:(snap?.ips||[]),counts:Object.assign({},snap?.counts||{},live?.counts||{})});applyShopData(d,true)}else applyShopData(live,false)}catch(e){console.warn('[shop] live sync unavailable; current snapshot remains usable',e);if(!S.products.length&&grid){grid.innerHTML='<div class="empty-box">商城暫時無法同步，請稍後重新整理</div>';$('#shopResult')&&($('#shopResult').textContent='目前使用離線資料')}}finally{if(token===S.shopRenderToken){document.body.classList.remove('shop-filtering');if(grid)grid.setAttribute('aria-busy','false')}}}
+async function fetchShop(reset=true){const token=++S.shopRenderToken,q=shopQuery(reset?0:S.nextOffset),grid=$('#shopGrid');document.body.classList.add('shop-filtering');if(grid)grid.setAttribute('aria-busy','true');try{const live=await fetchNewestShopWindowV281038(q);if(token!==S.shopRenderToken)return;if(!live)throw new Error('最新商品資料沒有回傳');const liveItems=markLiveOnlyNewestV281038(normalizeProducts(live)),d=Object.assign({},live,{items:liveItems});applyShopData(d,reset);if(reset)document.body.classList.add('shop-fresh-ready')}catch(e){console.warn('[shop] live sync unavailable; fallback only now',e);if(token!==S.shopRenderToken)return;if(reset&&!S.products.length){try{let snap=null;const simple=!S.query&&!S.ip&&!S.cat&&S.mode==='all'&&S.sort==='new';if(simple){const head=await loadShopHeadV281105();snap=headShopPageV281105(head,q)}else{await loadShopStatic();snap=staticShopData(q)}if(token!==S.shopRenderToken)return;if(snap&&normalizeProducts(snap).length){applyShopData(snap,true);document.body.classList.add('shop-fresh-ready')}else if(grid){grid.innerHTML='<div class="empty-box">商城目前沒有可顯示商品</div>'}}catch(_){if(grid){grid.innerHTML='<div class="empty-box">商城暫時無法同步，請稍後重新整理</div>';$('#shopResult')&&($('#shopResult').textContent='同步失敗')}}}}finally{if(token===S.shopRenderToken){document.body.classList.remove('shop-filtering');if(grid)grid.setAttribute('aria-busy','false')}}}
 function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
 async function initShop(){
   readQuery();renderShopContext();$('#shopSearch')&&($('#shopSearch').value=S.query);$('#shopSort')&&($('#shopSort').value=S.sort);
   S.products=[];S.total=0;S.nextOffset=0;S.hasMore=false;S.categories=[];S.ips=[];
-  showShopFreshLoading();
-  const schedule=(reset=true)=>{renderChips();requestAnimationFrame(()=>fetchShop(reset))};
+  document.body.classList.remove('shop-fresh-ready');showShopFreshLoading();
+  const schedule=(reset=true)=>{renderChips();if(reset){S.products=[];showShopFreshLoading();document.body.classList.remove('shop-fresh-ready')}requestAnimationFrame(()=>fetchShop(reset))};
   $('#shopSearch')?.addEventListener('input',debounce(e=>{S.query=e.target.value;S.nextOffset=0;schedule(true)},160));
   $('#shopSort')?.addEventListener('change',e=>{S.sort=e.target.value;S.nextOffset=0;schedule(true)});
   document.addEventListener('click',e=>{const m=e.target.closest('[data-shop-mode]');if(m){S.mode=m.dataset.shopMode;if(S.mode==='closing'){S.sort='closing';$('#shopSort')&&($('#shopSort').value='closing')}S.nextOffset=0;renderShopContext();renderChips();schedule(true);return}const ip=e.target.closest('[data-ip]');if(ip){S.ip=S.ip===ip.dataset.ip?'':ip.dataset.ip;S.nextOffset=0;renderShopContext();renderChips();schedule(true);return}const c=e.target.closest('[data-cat]');if(c){S.cat=S.cat===c.dataset.cat?'':c.dataset.cat;S.nextOffset=0;renderShopContext();renderChips();schedule(true)}});
   if(S.focus)addRecent(S.focus);
-
-  const livePromise=fetchShop(true);
-  const first=await firstPaintRaceV281223(livePromise,1750);
-  if(first.timeout||first.error){
-    if(!S.products.length){
-      try{
-        const boot=inlineJson('shopBootData');
-        const simple=!S.query&&!S.ip&&!S.cat&&S.mode==='all'&&S.sort==='new';
-        if(boot&&normalizeProducts(boot).length&&simple)applyShopData(boot,true);
-        else{
-          const head=await Promise.race([loadShopHeadV281105(),new Promise((_,rej)=>setTimeout(()=>rej(new Error('snapshot timeout')),180))]);
-          const snap=headShopPageV281105(head,shopQuery(0));
-          if(normalizeProducts(snap).length)applyShopData(snap,true);
-        }
-      }catch(_){}
-    }
-  }
-  document.body.classList.add('shop-fresh-ready');
-  livePromise.then(()=>document.body.classList.add('shop-fresh-ready')).catch(()=>{});
+  await fetchShop(true);
   idleTask(()=>loadShopStatic().catch(()=>{}));
 }
 function renderKujiPage(d){const items=Array.isArray(d?.items)?d.items:genericItems(d,['items','kuji','list','sets']),c=d?.counts||{};$('#rateCount')&&($('#rateCount').textContent=c.all??items.length);$('#rateActive')&&($('#rateActive').textContent=c.active??items.filter(x=>Number(x.remaining||1)>0).length);$('#rateMajor')&&($('#rateMajor').textContent=(c.major??items.reduce((a,x)=>a+Number(x.majorRemaining||0),0))||'—');$('#kujiRateGrid')&&($('#kujiRateGrid').innerHTML=items.map(drawCard).join('')||'<div class="empty-box">目前沒有公開一番賞</div>');hidePageLoader()}
