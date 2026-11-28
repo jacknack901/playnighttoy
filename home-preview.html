@@ -317,6 +317,166 @@ body[data-page="online"]:not(.online-fresh-ready) #japanGrid::after{
   }
 }
 
+
+/* v28.11.29.6｜手機版首頁預覽完整優化 */
+@media(max-width:620px){
+  .home-preview-v281129{overflow-x:hidden}
+  .home-preview-v281129 main{overflow:hidden}
+  .home-preview-v281129 main>.container{
+    width:100%!important;
+    max-width:none!important;
+    padding-left:10px!important;
+    padding-right:10px!important;
+    box-sizing:border-box!important;
+  }
+  .home-preview-v281129 #homeBannerShell{
+    margin-left:0!important;
+    margin-right:0!important;
+    border-radius:16px!important;
+    overflow:hidden!important;
+  }
+  .home-preview-v281129 #fukubukuro2027,
+  .home-preview-v281129 .home-new-section,
+  .home-preview-v281129 .home-closing-preview,
+  .home-preview-v281129 .home-kuji-section,
+  .home-preview-v281129 .home-group-section,
+  .home-preview-v281129 .home-community-section{
+    width:100%!important;
+    margin-left:0!important;
+    margin-right:0!important;
+    padding:12px!important;
+    box-sizing:border-box!important;
+    border-radius:16px!important;
+  }
+  .home-preview-v281129 .section-head{
+    gap:8px!important;
+    margin-bottom:10px!important;
+  }
+  .home-preview-v281129 .section-head>div{min-width:0}
+  .home-preview-v281129 .section-head h2{
+    font-size:19px!important;
+    line-height:1.2!important;
+  }
+  .home-preview-v281129 .preview-section-sub{
+    font-size:10px!important;
+    line-height:1.45!important;
+  }
+  .home-preview-v281129 .section-link{
+    white-space:nowrap!important;
+    padding:7px 9px!important;
+    font-size:9px!important;
+  }
+
+  /* 商品：手機固定兩欄，避免卡片過寬或文字擠壓 */
+  .home-preview-v281129 #homeProducts,
+  .home-preview-v281129 #homeClosingPreviewGrid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+  }
+  .home-preview-v281129 .product-card{
+    min-width:0!important;
+    border-radius:14px!important;
+  }
+  .home-preview-v281129 .product-media{
+    aspect-ratio:1/1!important;
+    height:auto!important;
+    padding:7px!important;
+  }
+  .home-preview-v281129 .product-body{padding:9px!important}
+  .home-preview-v281129 .product-name{
+    font-size:11px!important;
+    line-height:1.4!important;
+    min-height:31px!important;
+    -webkit-line-clamp:2!important;
+  }
+  .home-preview-v281129 .product-meta{font-size:8px!important}
+  .home-preview-v281129 .price{font-size:15px!important}
+  .home-preview-v281129 .product-close{padding:5px 6px!important}
+  .home-preview-v281129 .product-close-label{font-size:8px!important}
+
+  /* 線上抽 / 集單抽：手機完全同尺寸、同結構 */
+  .home-preview-v281129 #homeKujiGrid,
+  .home-preview-v281129 #homeGroupGrid{
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+  }
+  .home-preview-v281129 .home-draw-card,
+  .home-preview-v281129 .home-group-card{
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    border-radius:16px!important;
+  }
+  .home-preview-v281129 .home-draw-card .draw-card-media,
+  .home-preview-v281129 .home-group-card .home-group-media{
+    flex:0 0 auto!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    aspect-ratio:16/10!important;
+    padding:10px!important;
+  }
+  .home-preview-v281129 .home-draw-card .draw-card-body,
+  .home-preview-v281129 .home-group-card .home-group-body{
+    height:auto!important;
+    min-height:0!important;
+    padding:12px!important;
+    gap:7px!important;
+  }
+  .home-preview-v281129 .home-draw-card h3,
+  .home-preview-v281129 .home-group-card h3{
+    min-height:39px!important;
+    max-height:39px!important;
+    font-size:14px!important;
+    line-height:1.4!important;
+  }
+  .home-preview-v281129 .home-draw-card .draw-price,
+  .home-preview-v281129 .home-group-card .home-group-price{
+    min-height:26px!important;
+    font-size:18px!important;
+  }
+  .home-preview-v281129 .home-draw-card .draw-metrics,
+  .home-preview-v281129 .home-group-card .home-group-metrics{
+    min-height:58px!important;
+    gap:5px!important;
+  }
+  .home-preview-v281129 .home-draw-card .draw-metrics>div,
+  .home-preview-v281129 .home-group-card .home-group-metrics>div{
+    padding:7px 4px!important;
+  }
+  .home-preview-v281129 .home-draw-card .draw-metrics strong,
+  .home-preview-v281129 .home-group-card .home-group-metrics strong{
+    font-size:16px!important;
+  }
+  .home-preview-v281129 .home-draw-card .draw-cta,
+  .home-preview-v281129 .home-group-card .home-group-cta{
+    height:40px!important;
+    min-height:40px!important;
+    flex-basis:40px!important;
+  }
+
+  /* 福袋區避免手機左右切掉 */
+  .home-preview-v281129 #fukubukuro2027 .fuku-shell,
+  .home-preview-v281129 #fukubukuro2027 .fuku-grid,
+  .home-preview-v281129 #fukubukuro2027 .fuku-stage{
+    max-width:100%!important;
+    width:100%!important;
+    box-sizing:border-box!important;
+  }
+
+  /* 社群手機單欄，避免按鈕擠成兩排 */
+  .home-preview-v281129 .home-community-grid{
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+  }
+  .home-preview-v281129 .community-card{
+    min-height:64px!important;
+    padding:10px 12px!important;
+    border-radius:14px!important;
+  }
+}
+
 /* 福袋保持最上方功能區，但寬度、圓角與其他區一致 */
 .home-preview-v281129 #fukubukuro2027{order:initial}
 .home-preview-v281129 #fukubukuro2027 .fuku-shell{margin:0!important}
@@ -431,7 +591,7 @@ body[data-page="online"]:not(.online-fresh-ready) #japanGrid::after{
 <section class="section home-closing-preview">
   <div class="section-head"><div><small>CLOSING SOON</small><h2>🔥 快結單商品</h2><p class="preview-section-sub">越接近結單時間的商品排越前面，讓客人一進來就看到不能再拖的商品。</p></div><a class="section-link" href="./shop.html?filter=closing">查看全部 ＞</a></div>
   <div id="homeClosingPreviewGrid" class="product-grid"><div class="loading-box">正在整理快結單商品…</div></div>
-</section><section class="section draw-band home-kuji-section"><div class="section-head"><div><small>ONLINE KUJI</small><h2>線上抽賞</h2><p class="preview-section-sub">即時查看目前剩餘抽數與大賞狀況。</p></div><a class="section-link" href="./online.html">查看全部 ＞</a></div><div id="homeKujiGrid" class="kuji-grid draw-grid"><article class="draw-card home-draw-card" data-draw-id="OKS-3DD909FB8F3C"><div class="draw-card-media"><img loading="lazy" fetchpriority="low" decoding="async" width="420" height="420" src="https://drive.google.com/thumbnail?id=1Vb7EnmqzB91GVueBFjOkJO6EgxI-GK3k&amp;sz=w420" alt="[日版]一番賞《我的英雄學院》彼女們的故事"><span class="draw-status">開放中</span></div><div class="draw-card-body"><div class="draw-kicker">ONLINE KUJI</div><h3>[日版]一番賞《我的英雄學院》彼女們的故事</h3><div class="draw-price">NT$ 375 <small>/ 抽</small></div><div class="draw-metrics"><div><small>剩餘</small><strong>35</strong><span>抽</span></div><div><small>總抽數</small><strong>70</strong><span>抽</span></div><div><small>大賞剩餘</small><strong>3</strong><span>個</span></div></div><div class="draw-progress"><i style="width:50%"></i></div><a class="draw-cta home-draw-link" href="./online.html?draw=OKS-3DD909FB8F3C">查看即時籤盤 →</a></div></article><article class="draw-card home-draw-card" data-draw-id="OKS-141EE18EBDA1"><div class="draw-card-media"><img loading="lazy" fetchpriority="low" decoding="async" width="420" height="420" src="https://drive.google.com/thumbnail?id=1ZIl3T6pxS8xmSy6wIEyXMLMG14ZsOAZp&amp;sz=w420" alt="[日版]一番賞《快打旋風》～我要去見比我更強的傢伙～"><span class="draw-status">開放中</span></div><div class="draw-card-body"><div class="draw-kicker">ONLINE KUJI</div><h3>[日版]一番賞《快打旋風》～我要去見比我更強的傢伙～</h3><div class="draw-price">NT$ 375 <small>/ 抽</small></div><div class="draw-metrics"><div><small>剩餘</small><strong>70</strong><span>抽</span></div><div><small>總抽數</small><strong>70</strong><span>抽</span></div><div><small>大賞剩餘</small><strong>70</strong><span>個</span></div></div><div class="draw-progress"><i style="width:0%"></i></div><a class="draw-cta home-draw-link" href="./online.html?draw=OKS-141EE18EBDA1">查看即時籤盤 →</a></div></article></div><script id="onlineBootData" type="application/json">{"version":"28.11.9","generatedAt":"2026-11-25T22:30:00+08:00","regular":[{"id":"OKS-3DD909FB8F3C","settingId":"OKS-3DD909FB8F3C","name":"[日版]一番賞《我的英雄學院》彼女們的故事","title":"[日版]一番賞《我的英雄學院》彼女們的故事","price":375,"imageUrl":"https://drive.google.com/uc?export=view&id=1Vb7EnmqzB91GVueBFjOkJO6EgxI-GK3k","remaining":35,"totalDraws":70,"majorRemaining":3,"status":"暫停","canOrder":true,"drawOptions":[1,3,5,10]},{"id":"OKS-141EE18EBDA1","settingId":"OKS-141EE18EBDA1","name":"[日版]一番賞《快打旋風》～我要去見比我更強的傢伙～","title":"[日版]一番賞《快打旋風》～我要去見比我更強的傢伙～","price":375,"imageUrl":"https://drive.google.com/uc?export=view&id=1ZIl3T6pxS8xmSy6wIEyXMLMG14ZsOAZp","remaining":70,"totalDraws":70,"majorRemaining":70,"status":"暫停","canOrder":true,"drawOptions":[1,3,5,10]}],"japan":[],"counts":{"regular":2,"japan":11}}</script></section><section class="section home-group-section" id="homeGroupKuji"><div class="section-head"><div><small>GROUP KUJI</small><h2>集單抽</h2><p class="preview-section-sub">查看目前集單進度，達標後依規則進行抽賞。</p></div><a class="section-link" href="./online.html#group">查看全部 ＞</a></div><div id="homeGroupGrid" class="home-group-grid"><div class="home-group-empty">集單抽載入中…</div></div></section><section class="section home-community-section"><div class="section-head"><div><small>FOLLOW PLAY NIGHT</small><h2>跟著頑夜・小夜一起玩</h2><p class="home-community-sub">新品、開箱、店內消息與玩具交流，都可以從這裡找到我們。</p></div></div><div class="home-community-grid"><a class="community-card youtube" href="https://www.youtube.com/@NightStore901" target="_blank" rel="noopener"><span class="community-icon official-brand"><img src="https://cdn.simpleicons.org/youtube/FF0000" alt="" loading="lazy" decoding="async"></span><span class="community-copy"><strong>小夜NIGHT YouTube</strong><small>開箱・玩具・一番賞</small></span><span class="community-arrow">↗</span></a><a class="community-card instagram" href="https://www.instagram.com/jacknack901/" target="_blank" rel="noopener"><span class="community-icon official-brand"><img src="https://cdn.simpleicons.org/instagram/E4405F" alt="" loading="lazy" decoding="async"></span><span class="community-copy"><strong>小夜NIGHT IG</strong><small>@jacknack901</small></span><span class="community-arrow">↗</span></a><a class="community-card instagram" href="https://www.instagram.com/playnighttoy/" target="_blank" rel="noopener"><span class="community-icon official-brand"><img src="https://cdn.simpleicons.org/instagram/E4405F" alt="" loading="lazy" decoding="async"></span><span class="community-copy"><strong>頑夜 TOY IG</strong><small>@playnighttoy</small></span><span class="community-arrow">↗</span></a><a class="community-card line" href="https://line.me/ti/g2/AcLKEZlvjMfXEL_43jlYJ_G9ky8VpanhSR4q8g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener"><span class="community-icon official-brand"><img src="https://cdn.simpleicons.org/line/06C755" alt="" loading="lazy" decoding="async"></span><span class="community-copy"><strong>LINE 玩具社群</strong><small>一番賞・GK・玩具交流</small></span><span class="community-arrow">↗</span></a><button class="community-card wish-entry" type="button" data-open-wish><span class="community-icon">＋</span><span class="community-copy"><strong>我要許願</strong><small>找不到商品？告訴我們</small></span><span class="community-arrow">→</span></button></div></section></div></main><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><img src="./assets/logo.png" class="logo-box" alt=""><div><div class="footer-title">頑夜 TOY</div><div class="footer-sub">PLAY NIGHT TOY</div></div></div><div class="footer-block"><h4><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#pin"></use></svg>實體門市</h4><p>台北市萬華區漢口街二段88號1樓<br>西門町商圈</p></div><div class="footer-block"><h4><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#clock"></use></svg>營業時間</h4><p>每日 13:00–22:00</p></div><div class="footer-block"><h4>聯絡客服</h4><p><a href="https://lin.ee/sUCSbJV" target="_blank">官方 LINE</a></p></div><div class="footer-block"><h4><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#camera"></use></svg>社群</h4><p>Instagram @playnighttoy<br>YouTube 小夜NIGHT</p></div></div><div class="copyright">© 2026 頑夜 TOY｜PLAY NIGHT TOY · HOME PREVIEW v28.11.29.5</div></div></footer><nav class="bottom-nav"><a href="./index.html"><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#home"></use></svg>首頁</a><a href="./shop.html"><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#shop"></use></svg>商城</a><a href="./online.html"><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#draw"></use></svg>線上抽</a><a href="./kuji.html"><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#rate"></use></svg>配率</a><a href="./member.html"><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#user"></use></svg>我的</a></nav><script defer src="./config.js?v=281223"></script><script defer src="./gas-bridge.js?v=281223"></script><script defer src="./app-v281117-home.js?v=281129live"></script><script defer src="./home-group-v281211.js?v=281211"></script><script defer src="./visitor-v281118.js?v=281118"></script><!-- deploy-trigger:v28.11.14-mobile-home-layout -->
+</section><section class="section draw-band home-kuji-section"><div class="section-head"><div><small>ONLINE KUJI</small><h2>線上抽賞</h2><p class="preview-section-sub">即時查看目前剩餘抽數與大賞狀況。</p></div><a class="section-link" href="./online.html">查看全部 ＞</a></div><div id="homeKujiGrid" class="kuji-grid draw-grid"><article class="draw-card home-draw-card" data-draw-id="OKS-3DD909FB8F3C"><div class="draw-card-media"><img loading="lazy" fetchpriority="low" decoding="async" width="420" height="420" src="https://drive.google.com/thumbnail?id=1Vb7EnmqzB91GVueBFjOkJO6EgxI-GK3k&amp;sz=w420" alt="[日版]一番賞《我的英雄學院》彼女們的故事"><span class="draw-status">開放中</span></div><div class="draw-card-body"><div class="draw-kicker">ONLINE KUJI</div><h3>[日版]一番賞《我的英雄學院》彼女們的故事</h3><div class="draw-price">NT$ 375 <small>/ 抽</small></div><div class="draw-metrics"><div><small>剩餘</small><strong>35</strong><span>抽</span></div><div><small>總抽數</small><strong>70</strong><span>抽</span></div><div><small>大賞剩餘</small><strong>3</strong><span>個</span></div></div><div class="draw-progress"><i style="width:50%"></i></div><a class="draw-cta home-draw-link" href="./online.html?draw=OKS-3DD909FB8F3C">查看即時籤盤 →</a></div></article><article class="draw-card home-draw-card" data-draw-id="OKS-141EE18EBDA1"><div class="draw-card-media"><img loading="lazy" fetchpriority="low" decoding="async" width="420" height="420" src="https://drive.google.com/thumbnail?id=1ZIl3T6pxS8xmSy6wIEyXMLMG14ZsOAZp&amp;sz=w420" alt="[日版]一番賞《快打旋風》～我要去見比我更強的傢伙～"><span class="draw-status">開放中</span></div><div class="draw-card-body"><div class="draw-kicker">ONLINE KUJI</div><h3>[日版]一番賞《快打旋風》～我要去見比我更強的傢伙～</h3><div class="draw-price">NT$ 375 <small>/ 抽</small></div><div class="draw-metrics"><div><small>剩餘</small><strong>70</strong><span>抽</span></div><div><small>總抽數</small><strong>70</strong><span>抽</span></div><div><small>大賞剩餘</small><strong>70</strong><span>個</span></div></div><div class="draw-progress"><i style="width:0%"></i></div><a class="draw-cta home-draw-link" href="./online.html?draw=OKS-141EE18EBDA1">查看即時籤盤 →</a></div></article></div><script id="onlineBootData" type="application/json">{"version":"28.11.9","generatedAt":"2026-11-25T22:30:00+08:00","regular":[{"id":"OKS-3DD909FB8F3C","settingId":"OKS-3DD909FB8F3C","name":"[日版]一番賞《我的英雄學院》彼女們的故事","title":"[日版]一番賞《我的英雄學院》彼女們的故事","price":375,"imageUrl":"https://drive.google.com/uc?export=view&id=1Vb7EnmqzB91GVueBFjOkJO6EgxI-GK3k","remaining":35,"totalDraws":70,"majorRemaining":3,"status":"暫停","canOrder":true,"drawOptions":[1,3,5,10]},{"id":"OKS-141EE18EBDA1","settingId":"OKS-141EE18EBDA1","name":"[日版]一番賞《快打旋風》～我要去見比我更強的傢伙～","title":"[日版]一番賞《快打旋風》～我要去見比我更強的傢伙～","price":375,"imageUrl":"https://drive.google.com/uc?export=view&id=1ZIl3T6pxS8xmSy6wIEyXMLMG14ZsOAZp","remaining":70,"totalDraws":70,"majorRemaining":70,"status":"暫停","canOrder":true,"drawOptions":[1,3,5,10]}],"japan":[],"counts":{"regular":2,"japan":11}}</script></section><section class="section home-group-section" id="homeGroupKuji"><div class="section-head"><div><small>GROUP KUJI</small><h2>集單抽</h2><p class="preview-section-sub">查看目前集單進度，達標後依規則進行抽賞。</p></div><a class="section-link" href="./online.html#group">查看全部 ＞</a></div><div id="homeGroupGrid" class="home-group-grid"><div class="home-group-empty">集單抽載入中…</div></div></section><section class="section home-community-section"><div class="section-head"><div><small>FOLLOW PLAY NIGHT</small><h2>跟著頑夜・小夜一起玩</h2><p class="home-community-sub">新品、開箱、店內消息與玩具交流，都可以從這裡找到我們。</p></div></div><div class="home-community-grid"><a class="community-card youtube" href="https://www.youtube.com/@NightStore901" target="_blank" rel="noopener"><span class="community-icon official-brand"><img src="https://cdn.simpleicons.org/youtube/FF0000" alt="" loading="lazy" decoding="async"></span><span class="community-copy"><strong>小夜NIGHT YouTube</strong><small>開箱・玩具・一番賞</small></span><span class="community-arrow">↗</span></a><a class="community-card instagram" href="https://www.instagram.com/jacknack901/" target="_blank" rel="noopener"><span class="community-icon official-brand"><img src="https://cdn.simpleicons.org/instagram/E4405F" alt="" loading="lazy" decoding="async"></span><span class="community-copy"><strong>小夜NIGHT IG</strong><small>@jacknack901</small></span><span class="community-arrow">↗</span></a><a class="community-card instagram" href="https://www.instagram.com/playnighttoy/" target="_blank" rel="noopener"><span class="community-icon official-brand"><img src="https://cdn.simpleicons.org/instagram/E4405F" alt="" loading="lazy" decoding="async"></span><span class="community-copy"><strong>頑夜 TOY IG</strong><small>@playnighttoy</small></span><span class="community-arrow">↗</span></a><a class="community-card line" href="https://line.me/ti/g2/AcLKEZlvjMfXEL_43jlYJ_G9ky8VpanhSR4q8g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener"><span class="community-icon official-brand"><img src="https://cdn.simpleicons.org/line/06C755" alt="" loading="lazy" decoding="async"></span><span class="community-copy"><strong>LINE 玩具社群</strong><small>一番賞・GK・玩具交流</small></span><span class="community-arrow">↗</span></a><button class="community-card wish-entry" type="button" data-open-wish><span class="community-icon">＋</span><span class="community-copy"><strong>我要許願</strong><small>找不到商品？告訴我們</small></span><span class="community-arrow">→</span></button></div></section></div></main><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><img src="./assets/logo.png" class="logo-box" alt=""><div><div class="footer-title">頑夜 TOY</div><div class="footer-sub">PLAY NIGHT TOY</div></div></div><div class="footer-block"><h4><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#pin"></use></svg>實體門市</h4><p>台北市萬華區漢口街二段88號1樓<br>西門町商圈</p></div><div class="footer-block"><h4><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#clock"></use></svg>營業時間</h4><p>每日 13:00–22:00</p></div><div class="footer-block"><h4>聯絡客服</h4><p><a href="https://lin.ee/sUCSbJV" target="_blank">官方 LINE</a></p></div><div class="footer-block"><h4><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#camera"></use></svg>社群</h4><p>Instagram @playnighttoy<br>YouTube 小夜NIGHT</p></div></div><div class="copyright">© 2026 頑夜 TOY｜PLAY NIGHT TOY · HOME PREVIEW v28.11.29.6</div></div></footer><nav class="bottom-nav"><a href="./index.html"><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#home"></use></svg>首頁</a><a href="./shop.html"><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#shop"></use></svg>商城</a><a href="./online.html"><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#draw"></use></svg>線上抽</a><a href="./kuji.html"><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#rate"></use></svg>配率</a><a href="./member.html"><svg class="ui-icon" aria-hidden="true"><use href="./assets/ui-icons.svg#user"></use></svg>我的</a></nav><script defer src="./config.js?v=281223"></script><script defer src="./gas-bridge.js?v=281223"></script><script defer src="./app-v281117-home.js?v=281129live"></script><script defer src="./home-group-v281211.js?v=281211"></script><script defer src="./visitor-v281118.js?v=281118"></script><!-- deploy-trigger:v28.11.14-mobile-home-layout -->
 <script id="home-preview-closing-v281129">
 (function(){
  function money(n){return 'NT$ '+Number(n||0).toLocaleString('zh-TW')}
