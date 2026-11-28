@@ -4,7 +4,7 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.quer
 const MOBILE=matchMedia('(max-width:820px)').matches;
 const PAGE_SIZE=MOBILE?12:16;
 const PREVIEW=location.protocol==='file:'||['localhost','127.0.0.1'].includes(location.hostname);
-const VERSION='28.11.13';
+const VERSION='28.12.15';
 function readJson(key,fallback){try{const v=JSON.parse(localStorage.getItem(key)||'null');return v==null?fallback:v}catch(e){return fallback}}
 const S={products:[],total:0,nextOffset:0,hasMore:false,counts:{},categories:[],ips:[],requestSeq:0,mode:'all',ip:'',cat:'',sort:'new',query:'',focus:'',activities:[],onlineDraws:[],japanDraws:[],shopStatic:null,shopIndex:null,shopStaticDegraded:false,shopRenderToken:0,homeShopAuthoritative:false,onlineStatic:null,drawSelection:null,activitySelection:null,favorites:new Set(readJson('wanye:favs',[])),recent:readJson('wanye:recent',[]),cart:readJson('wanye:cart',[]),cartItems:readJson('wanye:cartItems',{}),viewStats:readJson('wanye:viewStats',{}),member:readJson('wanye:memberCache',null),memberToken:localStorage.getItem('wanye:memberToken')||'',deviceId:localStorage.getItem('wanye:deviceId')||''};if(!S.memberToken)S.member=null;
 const HOME_BANNER={items:[],index:0,timer:0,paused:false,sig:'',touchX:0};
