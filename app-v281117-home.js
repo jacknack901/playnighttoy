@@ -29,7 +29,40 @@ function withPinnedHomeBannerV281019(items){
   return [pinned].concat(arr).sort((a,b)=>Number(a.sort||0)-Number(b.sort||0));
 }
 function parseHomeBannerData(raw){if(!raw)return[];const now=Date.now();return String(raw).split('§§').map(rec=>{const f=rec.split('||');return{sort:Number(f[0]||0),type:f[1]||'活動',title:f[2]||'',subtitle:f[3]||'',buttonText:f[4]||'立即查看',buttonUrl:f[5]||'./shop.html',desktopImage:f[6]||'',mobileImage:f[7]||f[6]||'',startDate:f[8]||'',endDate:f[9]||''}}).filter(x=>{if(!x.title||!x.desktopImage)return false;const st=x.startDate?Date.parse(x.startDate+'T00:00:00+08:00'):0,en=x.endDate?Date.parse(x.endDate+'T23:59:59+08:00'):0;return(!st||now>=st)&&(!en||now<=en)}).sort((a,b)=>a.sort-b.sort)}
-function homeBannerMarkup(x,i){const desktop=x.desktopImage||'',mobile=x.mobileImage||x.desktopImage||'',url=x.buttonUrl||'./shop.html',external=/^https?:\/\//i.test(url),attrs=external?' target="_blank" rel="noopener noreferrer"' :'',pinnedLuckyBag=String(url).includes('GM2611240143431')||String(x.desktopImage||'').includes('qFXmrw2b/2027.png'),specialClass=pinnedLuckyBag?' is-pinned-announcement':'';return `<article class="home-banner-slide${specialClass} ${i===HOME_BANNER.index?'is-active':''}" data-home-banner-slide="${i}" aria-hidden="${i===HOME_BANNER.index?'false':'true'}"><div class="home-banner-backdrop"><img src="${esc(desktop)}" alt="" loading="${i===0?'eager':'lazy'}" decoding="async"></div><div class="home-banner-shade"></div><div class="home-banner-copy"><span class="home-banner-kicker">${esc(x.type||'活動')}</span><h1>${esc(x.title)}</h1>${x.subtitle?`<p>${esc(x.subtitle)}</p>`:''}<a class="home-banner-cta" href="${esc(url)}"${attrs}>${esc(x.buttonText||'立即查看')} <span>→</span></a></div><a class="home-banner-art" href="${esc(url)}"${attrs} aria-label="${esc(x.title)}"><picture><source media="(max-width:620px)" srcset="${esc(mobile)}"><img src="${esc(desktop)}" alt="${esc(x.title)}" loading="${i===0?'eager':'lazy'}" decoding="async"></picture></a></article>`}
+function homeBannerMarkup(x,i){
+  const desktop=x.desktopImage||'',mobile=x.mobileImage||x.desktopImage||'',url=x.buttonUrl||'./shop.html',
+    external=/^https?:\\/\\//i.test(url),attrs=external?' target="_blank" rel="noopener noreferrer"' :'',
+    pinnedLuckyBag=String(url).includes('GM2611240143431')||String(x.desktopImage||'').includes('2027-1920x800.png'),
+    specialClass=pinnedLuckyBag?' is-pinned-announcement is-hd-fukubukuro':'';
+  if(pinnedLuckyBag){
+    const prizes=[
+      ['30包','龍珠 悟空最後賞','https://on-line.1kuji.com/Contents/ProductImages/0/sap_0000008566_2885890_LL.jpg'],
+      ['60包','獵人 A賞 Book','https://www.kuji-collection.com/uploads/cms_content/ichiban-kuji-hunter-x-hunter-greed-island-2-la-loterie-qui-ramene-gon-kirua-hisoka-et-razor-en-masterlise/6134d5fbb25242111b899c2bc98f9861.webp'],
+      ['90包','Beyblade X CX-20','https://beyblade.takaratomy.co.jp/beyblade-x/lineup/_image/CX20_list.png'],
+      ['100包','PTCG 30週年 9盒','https://shibuyatsutaya.tsite.jp/menu_files/article/000/002/715/article_images/article_resize.pv_20260917065650_85de08a2_249ba360.jpg'],
+      ['120包','Nintendo Switch 2','https://game.watch.impress.co.jp/img/gmw/list/2009/611/0.jpg']
+    ];
+    const cards=prizes.map(p=>`<div class="fuku-hd-prize"><span>${p[0]}</span><div><img src="${p[2]}" alt="${p[1]}" loading="eager" decoding="async"></div><b>${p[1]}</b></div>`).join('');
+    return `<article class="home-banner-slide${specialClass} ${i===HOME_BANNER.index?'is-active':''}" data-home-banner-slide="${i}" aria-hidden="${i===HOME_BANNER.index?'false':'true'}">
+      <a class="home-banner-art" href="${esc(url)}"${attrs} aria-label="2027 頑夜新年福袋">
+        <div class="fuku-hd-banner">
+          <div class="fuku-hd-top">
+            <div class="fuku-hd-copy">
+              <small>PLAY NIGHT TOY · 2027 NEW YEAR</small>
+              <h1>2027 頑夜福袋</h1>
+              <p>陪你過新年・限量 150 包</p>
+              <div class="fuku-hd-tiers"><span><b>666</b> 元 · 1抽</span><span><b>999</b> 元 · 2抽</span><span><b>1688</b> 元 · 4抽</span></div>
+            </div>
+            <div class="fuku-hd-badge"><strong>福</strong><span>每包超值<br>通通有獎</span></div>
+          </div>
+          <div class="fuku-hd-prizes">${cards}</div>
+          <div class="fuku-hd-foot"><span>新春保底</span><img src="https://cdn.snkrdunk.com/upload_bg_removed/4b612379-b64b-4fe9-8221-ea69428c843a.webp?size=l" alt="遊戲王 Rush Duel CROSS ART COLLECTION RD CA01"><b>遊戲王 RD CA01 CROSS</b><em>立即查看 →</em></div>
+        </div>
+      </a>
+    </article>`;
+  }
+  return `<article class="home-banner-slide${specialClass} ${i===HOME_BANNER.index?'is-active':''}" data-home-banner-slide="${i}" aria-hidden="${i===HOME_BANNER.index?'false':'true'}"><div class="home-banner-backdrop"><img src="${esc(desktop)}" alt="" loading="${i===0?'eager':'lazy'}" decoding="async"></div><div class="home-banner-shade"></div><div class="home-banner-copy"><span class="home-banner-kicker">${esc(x.type||'活動')}</span><h1>${esc(x.title)}</h1>${x.subtitle?`<p>${esc(x.subtitle)}</p>`:''}<a class="home-banner-cta" href="${esc(url)}"${attrs}>${esc(x.buttonText||'立即查看')} <span>→</span></a></div><a class="home-banner-art" href="${esc(url)}"${attrs} aria-label="${esc(x.title)}"><picture><source media="(max-width:620px)" srcset="${esc(mobile)}"><img src="${esc(desktop)}" alt="${esc(x.title)}" loading="${i===0?'eager':'lazy'}" decoding="async"></picture></a></article>`;
+}
 function stopHomeBanner(){clearInterval(HOME_BANNER.timer);HOME_BANNER.timer=0}
 function startHomeBanner(){stopHomeBanner();if(HOME_BANNER.items.length<2||matchMedia('(prefers-reduced-motion: reduce)').matches||HOME_BANNER.paused)return;HOME_BANNER.timer=setInterval(()=>goHomeBanner(HOME_BANNER.index+1),5500)}
 function goHomeBanner(n,user=false){const total=HOME_BANNER.items.length;if(!total)return;HOME_BANNER.index=(n%total+total)%total;$$('[data-home-banner-slide]').forEach((e,i)=>{const on=i===HOME_BANNER.index;e.classList.toggle('is-active',on);e.setAttribute('aria-hidden',on?'false':'true')});$$('[data-home-banner-dot]').forEach((e,i)=>{const on=i===HOME_BANNER.index;e.classList.toggle('on',on);e.setAttribute('aria-current',on?'true':'false')});const prog=$('#homeBannerProgress i');if(prog){prog.style.animation='none';void prog.offsetWidth;prog.style.animation=HOME_BANNER.paused?'none':'homeBannerProgress 5.5s linear forwards'}if(user)startHomeBanner()}
