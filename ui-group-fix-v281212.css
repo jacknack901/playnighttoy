@@ -1,0 +1,66 @@
+/* 頑夜 TOY｜集單抽排版修正 v28.12.12
+   只修 layout，不修改任何集單資料/API/送單流程 */
+#homeGroupKuji,.home-group-section,#group.online-mode-panel{min-width:0}
+.home-group-grid,#group .group-kuji-grid{align-items:stretch}
+.home-group-card,.group-kuji-card{min-width:0}
+.home-group-media,.group-kuji-cover{display:flex;align-items:center;justify-content:center}
+.home-group-media img,.group-kuji-cover img{max-width:100%;max-height:100%;object-fit:contain}
+.home-group-body,.group-kuji-body{min-width:0}
+.home-group-body h3,.group-kuji-body h3{overflow-wrap:anywhere}
+.home-group-metrics,.group-kuji-stats{min-width:0}
+.home-group-metrics div,.group-kuji-stats div{min-width:0}
+.home-group-metrics strong,.group-kuji-stats strong{white-space:nowrap}
+.home-group-progress,.group-progress-line{width:100%}
+.home-group-cta,.group-kuji-action{width:100%;box-sizing:border-box}
+.group-kuji-desc{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.group-kuji-deadline{line-height:1.5;overflow-wrap:anywhere}
+.group-modal{overflow:auto;padding:14px}
+.group-modal-card{box-sizing:border-box;max-width:620px;width:100%;margin:auto}
+.group-form-grid input,.group-form-grid textarea,.group-form-grid select{min-width:0;box-sizing:border-box;color:#111827}
+.group-qty-buttons,.group-delivery{min-width:0}
+
+@media (min-width:1100px){
+  .home-group-grid,#group .group-kuji-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .home-group-card,.group-kuji-card{height:100%}
+}
+@media (min-width:681px) and (max-width:1099px){
+  .home-group-grid,#group .group-kuji-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media (max-width:680px){
+  .home-group-head{display:block}
+  .home-group-more{display:inline-block;margin-top:8px}
+  .home-group-grid,#group .group-kuji-grid{display:grid!important;grid-template-columns:1fr!important;gap:10px!important}
+  .home-group-card,.group-kuji-card{
+    display:grid!important;
+    grid-template-columns:118px minmax(0,1fr)!important;
+    align-items:stretch;
+    border-radius:15px
+  }
+  .home-group-media,.group-kuji-cover{
+    width:118px;
+    min-height:178px;
+    height:100%!important;
+    aspect-ratio:auto!important;
+    border-right:1px solid #ece7f5
+  }
+  .home-group-body,.group-kuji-body{padding:10px!important;gap:7px!important}
+  .home-group-body h3,.group-kuji-body h3{font-size:13px!important;line-height:1.4!important;-webkit-line-clamp:2}
+  .home-group-price,.group-kuji-price{font-size:17px!important}
+  .home-group-metrics,.group-kuji-stats{gap:4px!important}
+  .home-group-metrics div,.group-kuji-stats div{padding:6px 2px!important}
+  .home-group-metrics small,.group-kuji-stats small{font-size:8px!important}
+  .home-group-metrics strong,.group-kuji-stats strong{font-size:14px!important}
+  .home-group-meta,.group-kuji-deadline{font-size:10px!important}
+  .group-kuji-desc{font-size:11px!important;-webkit-line-clamp:2}
+  .home-group-cta,.group-kuji-action{min-height:40px!important;font-size:12px}
+  .group-modal{align-items:flex-start;padding:8px}
+  .group-modal-card{border-radius:15px;padding:14px;max-height:calc(100dvh - 16px)}
+  .group-modal-head h3{font-size:17px}
+  .group-qty-buttons{grid-template-columns:repeat(2,1fr)!important}
+  .group-form-grid{grid-template-columns:1fr!important;gap:8px!important}
+  .group-form-grid .full{grid-column:auto!important}
+}
+@media (max-width:380px){
+  .home-group-card,.group-kuji-card{grid-template-columns:100px minmax(0,1fr)!important}
+  .home-group-media,.group-kuji-cover{width:100px;min-height:165px}
+}
