@@ -18,15 +18,23 @@ const PINNED_HOME_BANNER_V281019={
   desktopImage:'https://r2.uploads.tw/2026/11/X9fPh2G6eN.webp',
   mobileImage:'https://r2.uploads.tw/2026/11/X9fPh2G6eN.webp'
 };
+const PINNED_HOME_BANNER_KUJI_V281129={
+  sort:2,
+  type:'一番賞',
+  title:'一番賞配率',
+  subtitle:'查看目前一番賞配率與最新套組',
+  buttonText:'查看配率',
+  buttonUrl:'./kuji.html',
+  desktopImage:'https://i.meee.com.tw/08MmNBA.png',
+  mobileImage:'https://i.meee.com.tw/08MmNBA.png'
+};
 function withPinnedHomeBannerV281019(items){
-  const pinned=PINNED_HOME_BANNER_V281019;
+  const pinned=[PINNED_HOME_BANNER_V281019,PINNED_HOME_BANNER_KUJI_V281129];
   const arr=(Array.isArray(items)?items:[]).filter(x=>{
     if(!x)return false;
-    const sameUrl=String(x.buttonUrl||'')===pinned.buttonUrl;
-    const sameImage=String(x.desktopImage||'')===pinned.desktopImage;
-    return !sameUrl&&!sameImage;
+    return !pinned.some(p=>String(x.buttonUrl||'')===p.buttonUrl||String(x.desktopImage||'')===p.desktopImage);
   });
-  return [pinned].concat(arr).sort((a,b)=>Number(a.sort||0)-Number(b.sort||0));
+  return pinned.concat(arr).sort((a,b)=>Number(a.sort||0)-Number(b.sort||0));
 }
 function parseHomeBannerData(raw){if(!raw)return[];const now=Date.now();return String(raw).split('§§').map(rec=>{const f=rec.split('||');return{sort:Number(f[0]||0),type:f[1]||'活動',title:f[2]||'',subtitle:f[3]||'',buttonText:f[4]||'立即查看',buttonUrl:f[5]||'./shop.html',desktopImage:f[6]||'',mobileImage:f[7]||f[6]||'',startDate:f[8]||'',endDate:f[9]||''}}).filter(x=>{if(!x.title||!x.desktopImage)return false;const st=x.startDate?Date.parse(x.startDate+'T00:00:00+08:00'):0,en=x.endDate?Date.parse(x.endDate+'T23:59:59+08:00'):0;return(!st||now>=st)&&(!en||now<=en)}).sort((a,b)=>a.sort-b.sort)}
 function homeBannerMarkup(x,i){const desktop=x.desktopImage||'',mobile=x.mobileImage||x.desktopImage||'',url=x.buttonUrl||'./shop.html',external=/^https?:\/\//i.test(url),attrs=external?' target="_blank" rel="noopener noreferrer"' :'',pinnedLuckyBag=String(url).includes('GM2611240143431')||String(x.desktopImage||'').includes('2027-1920x800.png')||String(x.desktopImage||'').includes('qFXmrw2b/2027.png'),specialClass=pinnedLuckyBag?' is-pinned-announcement':'';return `<article class="home-banner-slide${specialClass} ${i===HOME_BANNER.index?'is-active':''}" data-home-banner-slide="${i}" aria-hidden="${i===HOME_BANNER.index?'false':'true'}"><div class="home-banner-backdrop"><img src="${esc(desktop)}" alt="" loading="${i===0?'eager':'lazy'}" decoding="async"></div><div class="home-banner-shade"></div><div class="home-banner-copy"><span class="home-banner-kicker">${esc(x.type||'活動')}</span><h1>${esc(x.title)}</h1>${x.subtitle?`<p>${esc(x.subtitle)}</p>`:''}<a class="home-banner-cta" href="${esc(url)}"${attrs}>${esc(x.buttonText||'立即查看')} <span>→</span></a></div><a class="home-banner-art" href="${esc(url)}"${attrs} aria-label="${esc(x.title)}"><picture><source media="(max-width:620px)" srcset="${esc(mobile)}"><img src="${esc(desktop)}" alt="${esc(x.title)}" loading="${i===0?'eager':'lazy'}" decoding="async"></picture></a></article>`;}
