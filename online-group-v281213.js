@@ -58,11 +58,16 @@ function stateOf(x){
 }
 function switchMode(mode,scroll){
   if(!['regular','group','japan'].includes(mode))mode='regular';
-  $$('.online-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+  $('.online-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
   ['regular','group','japan'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('is-active',id===mode)});
   if(mode==='group')loadGroups(false);
-  if(scroll){const el=document.getElementById(mode);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
-  try{history.replaceState(null,'','#'+mode)}catch(e){}
+  const mobile=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
+  if(scroll&&!mobile){const el=document.getElementById(mode);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
+  try{
+    const u=new URL(location.href);
+    u.hash='';
+    history.replaceState(null,'',u.pathname+u.search);
+  }catch(e){}
 }
 window.WANYE_SWITCH_ONLINE_MODE=switchMode;
 
@@ -218,9 +223,22 @@ document.addEventListener('click',e=>{
 document.addEventListener('input',e=>{if(e.target.id==='groupQtyCustom'){qty=Math.max(1,Math.floor(Number(e.target.value||1)));while(selected.size>qty)selected.delete([...selected].pop());$$('.group-qty-btn').forEach(b=>b.classList.toggle('active',Number(b.dataset.qty)===qty));renderNumberBoard();updateSummary()}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#groupModal').classList.contains('hidden'))closeGroup()});
 window.WANYE_SUBMIT_GROUP=submitGroup;
+// pageshow-v281224: 手機回到線上抽賞頁時固定從頁首開始，避免瀏覽器恢復舊捲動位置。
+window.addEventListener('pageshow',()=>{
+  const mobile=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
+  if(!mobile)return;
+  try{window.scrollTo({top:0,left:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
+});
 window.addEventListener('DOMContentLoaded',()=>{
   const hash=location.hash.replace('#','');
   const mode=['regular','group','japan'].includes(hash)?hash:'regular';
+  const mobile=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
+  if('scrollRestoration' in history)history.scrollRestoration='manual';
+  if(mobile){
+    try{window.scrollTo({top:0,left:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
+    requestAnimationFrame(()=>{try{window.scrollTo({top:0,left:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}});
+    setTimeout(()=>{try{window.scrollTo({top:0,left:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}},80);
+  }
   useGroupCache();
   switchMode(mode,false);
   if(mode==='group')loadGroups(false);
