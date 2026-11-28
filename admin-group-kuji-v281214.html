@@ -32,14 +32,18 @@ function loadKujiGroupWorkspaceV281214(id){
 }
 function renderKujiGroupWorkspaceV281214(){
   var d=KUJI_GROUP_ADMIN_V281214.data||{},s=d.summary||{},sum=document.getElementById('kujiGroupAdminSummaryV281214');
-  sum.innerHTML='<b>已集 '+Number(s.reservedQty||0)+' / '+Number(s.targetQty||0)+' 抽</b><br>已收款 '+Number(s.qty||0)+' 抽｜待確認 '+Number(s.pendingQty||0)+' 抽｜剩 '+Number(s.remainingQty||0)+' 抽';
+  sum.innerHTML='<b>已集 '+Number(s.reservedQty||0)+' / '+Number(s.targetQty||0)+' 抽</b><br>已收款 '+Number(s.qty||0)+' 抽｜待確認 '+Number(s.pendingQty||0)+' 抽｜剩 '+Number(s.remainingQty||0)+' 抽'+(s.full?'<br><b style="color:#15803d">集單完成，可開始開獎</b>':'<br><span style="color:#b45309">尚未集滿，籤盤暫時鎖定</span>');
   var pal=document.getElementById('kujiGroupPrizePaletteV281214');
-  pal.innerHTML=(d.prizes||[]).map(function(p,i){return '<button type="button" class="miniBtn" onclick="selectKujiGroupPrizeV281214('+i+',this)"><b>'+kgEsc281214(p.grade)+'</b> '+kgEsc281214(p.name||'')+'</button>'}).join('');
+  pal.innerHTML=(d.prizes||[]).map(function(p,i){
+    var last=!!p.lastPrize;
+    return '<button type="button" class="miniBtn" '+(last?'disabled title="最後賞不使用一般號碼開獎"':'onclick="selectKujiGroupPrizeV281214('+i+',this)"')+'><b>'+kgEsc281214(p.grade)+'</b> '+kgEsc281214(p.name||'')+(last?'（最後賞）':'')+'</button>';
+  }).join('');
   var grid=document.getElementById('kujiGroupNumberGridV281214');
   grid.innerHTML=(d.board||[]).map(function(b){
     var owner=b.owner?('<small>'+kgEsc281214(b.owner.name)+'｜'+kgEsc281214(b.owner.status)+'</small>'):'<small>未選</small>';
-    var opened=b.status==='已開';
-    return '<button type="button" class="onlineKujiTicketV27197 '+(opened?'opened':'')+'" onclick="revealKujiGroupNumberV281214('+Number(b.number)+')" '+(opened?'disabled':'')+'><b>'+Number(b.number)+'</b>'+(opened?('<span>'+kgEsc281214(b.grade)+'</span>'):owner)+'</button>';
+    var opened=b.status==='已開',hasOwner=!!b.owner,canReveal=!!s.full&&hasOwner&&!opened;
+    var cls=(opened?'opened ':(hasOwner?'reserved ':'empty '))+(canReveal?'ready ':'');
+    return '<button type="button" class="onlineKujiTicketV27197 '+cls+'" onclick="revealKujiGroupNumberV281214('+Number(b.number)+')" '+(canReveal?'':'disabled')+'><b>'+Number(b.number)+'</b>'+(opened?('<span>'+kgEsc281214(b.grade)+'</span>'):owner)+'</button>';
   }).join('');
   var orders=document.getElementById('kujiGroupOrdersV281214');
   orders.innerHTML='<div class="tableWrap"><table><thead><tr><th>時間</th><th>客人</th><th>號碼</th><th>抽數</th><th>金額</th><th>狀態</th></tr></thead><tbody>'+
