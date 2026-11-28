@@ -12,7 +12,7 @@ async function groupRpcRead(name,args=[]){
   if(!window.WANYE_RPC)throw Error('RPC 尚未載入');
   return WANYE_RPC.read(name,args,30000);
 }
-function groups(raw){const a=raw&&Array.isArray(raw.items)?raw.items:(Array.isArray(raw)?raw:[]);return a.filter(x=>String(x.publicMode||'')==='group'&&!x.closed)}
+function groups(raw){const a=raw&&Array.isArray(raw.items)?raw.items:(Array.isArray(raw)?raw:[]);return a.filter(x=>String(x.publicMode||'')==='group'&&!x.closed&&!/暫停|下架|關閉|結束|截止/.test(String(x.status||'')))}
 function card(x){
   const target=Math.max(0,Number(x.groupTargetQty||x.total||0));
   const reserved=Math.max(0,Number(x.groupReservedQty||0));
@@ -32,15 +32,16 @@ function card(x){
     '</div></article>';
 }
 async function load(){
-  const grid=$('#homeGroupGrid');if(!grid)return;
+  const grid=$('#homeGroupGrid'),section=$('#homeGroupKuji');if(!grid||!section)return;
   try{
     const data=await groupRpcRead('getPublicV283KujiLite',[]);
-    const list=groups(data).slice(0,3);
-    const count=$('#homeGroupCount');if(count)count.textContent=String(groups(data).length);
-    grid.innerHTML=list.length?list.map(card).join(''):'<div class="home-group-empty">目前沒有開放中的集單抽。</div>';
+    const all=groups(data),list=all.slice(0,3);
+    const count=$('#homeGroupCount');if(count)count.textContent=String(all.length);
+    section.hidden=!all.length;
+    grid.innerHTML=all.length?list.map(card).join(''):'';
   }catch(e){
-    grid.innerHTML='<div class="home-group-empty">集單抽暫時無法更新，請進入線上抽賞頁重新整理。</div>';
+    section.hidden=true;grid.innerHTML='';
   }
 }
-window.addEventListener('DOMContentLoaded',()=>setTimeout(load,350));
+window.addEventListener('DOMContentLoaded',()=>{setTimeout(load,250);const t=setInterval(()=>{if(!document.hidden)load()},20000);window.addEventListener('pagehide',()=>clearInterval(t),{once:true})});
 })();
