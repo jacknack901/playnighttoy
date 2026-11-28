@@ -9,12 +9,12 @@
     <div><label>選擇集單</label><select id="kujiGroupAdminSetV281214" onchange="loadKujiGroupWorkspaceV281214(this.value)"><option value="">請選擇</option></select></div>
     <div id="kujiGroupAdminSummaryV281214" class="hint">尚未選擇集單。</div>
   </div>
-  <div id="kujiGroupPrizePaletteV281214" class="onlineKujiBoardPrizePaletteV27197" style="margin-top:12px"></div>
+  <div id="kujiGroupPrizePaletteV281214" class="onlineKujiBoardPrizePaletteV27197" style="margin-top:12px"></div><div id="kujiGroupDraftBarV281215" class="actionBtns" style="margin-top:10px"><button class="btn good" type="button" onclick="saveKujiGroupDraftV281215()">儲存全部開獎</button><button class="btn secondary" type="button" onclick="clearKujiGroupDraftV281215()">清除草稿</button><span id="kujiGroupDraftCountV281215" class="hint">草稿 0 筆</span></div>
   <div id="kujiGroupNumberGridV281214" class="onlineKujiBoardGridV27197" style="margin-top:12px"></div>
   <div id="kujiGroupOrdersV281214" style="margin-top:14px"></div>
 </section>
 <script>
-var KUJI_GROUP_ADMIN_V281214={sets:[],active:'',data:null,prize:null};
+var KUJI_GROUP_ADMIN_V281214={sets:[],active:'',data:null,prize:null,draft:{}};
 function kgEsc281214(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
 function loadKujiGroupAdminListV281214(){
   google.script.run.withSuccessHandler(function(res){
@@ -25,7 +25,7 @@ function loadKujiGroupAdminListV281214(){
   }).withFailureHandler(handleServerError).getPublicV283KujiLite();
 }
 function loadKujiGroupWorkspaceV281214(id){
-  KUJI_GROUP_ADMIN_V281214.active=id;KUJI_GROUP_ADMIN_V281214.prize=null;
+  KUJI_GROUP_ADMIN_V281214.active=id;KUJI_GROUP_ADMIN_V281214.prize=null;KUJI_GROUP_ADMIN_V281214.draft={};
   if(!id)return;
   google.script.run.withSuccessHandler(function(res){KUJI_GROUP_ADMIN_V281214.data=res;renderKujiGroupWorkspaceV281214()})
     .withFailureHandler(handleServerError).getKujiGroupAdminWorkspaceV281214(SESSION_TOKEN,id);
@@ -42,12 +42,17 @@ function renderKujiGroupWorkspaceV281214(){
   grid.innerHTML=(d.board||[]).map(function(b){
     var owner=b.owner?('<small>'+kgEsc281214(b.owner.name)+'｜'+kgEsc281214(b.owner.status)+'</small>'):'<small>未選</small>';
     var opened=b.status==='已開',hasOwner=!!b.owner,canReveal=!!s.full&&hasOwner&&!opened;
-    var cls=(opened?'opened ':(hasOwner?'reserved ':'empty '))+(canReveal?'ready ':'');
-    return '<button type="button" class="onlineKujiTicketV27197 '+cls+'" onclick="revealKujiGroupNumberV281214('+Number(b.number)+')" '+(canReveal?'':'disabled')+'><b>'+Number(b.number)+'</b>'+(opened?('<span>'+kgEsc281214(b.grade)+'</span>'):owner)+'</button>';
+    var draft=KUJI_GROUP_ADMIN_V281214.draft[b.number],cls=(opened?'opened ':(hasOwner?'reserved ':'empty '))+(draft?'ready ':'');
+    return '<button type="button" class="onlineKujiTicketV27197 '+cls+'" onclick="revealKujiGroupNumberV281214('+Number(b.number)+')" '+(canReveal?'':'disabled')+'><b>'+Number(b.number)+'</b>'+(opened?('<span>'+kgEsc281214(b.grade)+'</span>'):(draft?('<span>'+kgEsc281214(draft.prize.grade)+'</span>'):owner))+'</button>';
   }).join('');
   var orders=document.getElementById('kujiGroupOrdersV281214');
-  orders.innerHTML='<div class="tableWrap"><table><thead><tr><th>時間</th><th>客人</th><th>號碼</th><th>抽數</th><th>金額</th><th>狀態</th></tr></thead><tbody>'+
-   (d.orders||[]).map(function(o){return '<tr><td>'+kgEsc281214(o.createdAt)+'</td><td>'+kgEsc281214(o.name)+'<br><small>'+kgEsc281214(o.phone)+'</small></td><td><b>'+kgEsc281214((o.selectedNumbers||[]).join('、'))+'</b></td><td>'+Number(o.qty||0)+'</td><td>'+Number(o.expectedAmount||0).toLocaleString()+'</td><td>'+kgEsc281214(o.status)+'</td></tr>'}).join('')+
+  orders.innerHTML='<div class="tableWrap"><table><thead><tr><th>時間</th><th>客人</th><th>號碼</th><th>抽數</th><th>金額</th><th>狀態</th><th>操作</th></tr></thead><tbody>'+
+   (d.orders||[]).map(function(o){
+      var acts='';
+      if(o.status==='待確認款項')acts='<button class="miniBtn good" onclick="updateKujiGroupPayV281215(\''+kgEsc281214(o.id)+'\',\'confirm\')">確認收款</button> <button class="miniBtn" onclick="updateKujiGroupPayV281215(\''+kgEsc281214(o.id)+'\',\'cancel\')">取消</button>';
+      else if(o.status==='已收款')acts='<button class="miniBtn" onclick="updateKujiGroupPayV281215(\''+kgEsc281214(o.id)+'\',\'refund\')">退款</button>';
+      return '<tr><td>'+kgEsc281214(o.createdAt)+'</td><td>'+kgEsc281214(o.name)+'<br><small>'+kgEsc281214(o.phone)+'</small></td><td><b>'+kgEsc281214((o.selectedNumbers||[]).join('、'))+'</b></td><td>'+Number(o.qty||0)+'</td><td>'+Number(o.expectedAmount||0).toLocaleString()+'</td><td>'+kgEsc281214(o.status)+'</td><td>'+acts+'</td></tr>';
+    }).join('')+
    '</tbody></table></div>';
 }
 function selectKujiGroupPrizeV281214(i,btn){
@@ -56,8 +61,32 @@ function selectKujiGroupPrizeV281214(i,btn){
 }
 function revealKujiGroupNumberV281214(number){
   var p=KUJI_GROUP_ADMIN_V281214.prize;if(!p)return toast('請先選擇賞項',false);
-  if(!confirm('確認 '+number+' 號開出「'+(p.grade||'')+' '+(p.name||'')+'」？'))return;
-  google.script.run.withSuccessHandler(function(){toast(number+' 號已開獎');loadKujiGroupWorkspaceV281214(KUJI_GROUP_ADMIN_V281214.active)})
-    .withFailureHandler(handleServerError).saveKujiGroupRevealV281214(SESSION_TOKEN,KUJI_GROUP_ADMIN_V281214.active,number,p);
+  var d=KUJI_GROUP_ADMIN_V281214.draft;
+  if(d[number])delete d[number];else d[number]={number:number,prize:p};
+  renderKujiGroupWorkspaceV281214();
+  var cnt=document.getElementById('kujiGroupDraftCountV281215');if(cnt)cnt.textContent='草稿 '+Object.keys(d).length+' 筆';
+}
+
+function clearKujiGroupDraftV281215(){
+  KUJI_GROUP_ADMIN_V281214.draft={};renderKujiGroupWorkspaceV281214();
+  var cnt=document.getElementById('kujiGroupDraftCountV281215');if(cnt)cnt.textContent='草稿 0 筆';
+}
+function saveKujiGroupDraftV281215(){
+  var items=Object.keys(KUJI_GROUP_ADMIN_V281214.draft).map(function(k){return KUJI_GROUP_ADMIN_V281214.draft[k]});
+  if(!items.length)return toast('目前沒有開獎草稿',false);
+  if(!confirm('確認一次儲存 '+items.length+' 個開獎結果？'))return;
+  google.script.run.withSuccessHandler(function(res){
+    toast('已儲存 '+Number(res&&res.count||0)+' 個開獎結果');
+    KUJI_GROUP_ADMIN_V281214.draft={};
+    loadKujiGroupWorkspaceV281214(KUJI_GROUP_ADMIN_V281214.active);
+  }).withFailureHandler(handleServerError).saveKujiGroupRevealBatchV281215(SESSION_TOKEN,KUJI_GROUP_ADMIN_V281214.active,items);
+}
+function updateKujiGroupPayV281215(orderId,action){
+  var label=action==='confirm'?'確認收款':(action==='refund'?'標記退款':'取消集單');
+  if(!confirm('確認要「'+label+'」？'))return;
+  google.script.run.withSuccessHandler(function(){
+    toast(label+'完成');
+    loadKujiGroupWorkspaceV281214(KUJI_GROUP_ADMIN_V281214.active);
+  }).withFailureHandler(handleServerError).updateKujiGroupPaymentStatusV28124(SESSION_TOKEN,orderId,action);
 }
 </script>
