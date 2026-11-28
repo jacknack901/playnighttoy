@@ -380,3 +380,42 @@
   #japan .proxy-media{min-height:176px}
   .japan-proxy-grades{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
+
+
+/* v28.11.29｜線上抽賞所有圖片強制置中 */
+#regular .draw-card-media,
+#japan .proxy-media,
+.online-modal-cover,
+.online-prize-img,
+.group-kuji-cover,
+.group-prize-img,
+.group-kuji-prize-img,
+.group-prize-thumb,
+.japan-proxy-modal .product-modal-main{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  overflow:hidden;
+}
+#regular .draw-card-media>img,
+#japan .proxy-media>img,
+.online-modal-cover>img,
+.online-prize-img>img,
+.group-kuji-cover>img,
+.group-prize-img>img,
+.group-kuji-prize-img>img,
+.group-prize-thumb>img,
+.japan-proxy-modal .product-modal-main>img{
+  display:block!important;
+  margin:auto!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  left:auto!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:auto!important;
+  transform:none!important;
+}
