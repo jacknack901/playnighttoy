@@ -63,6 +63,12 @@ function saveRecent(){localStorage.setItem('wanye:recent',JSON.stringify(S.recen
 function saveCart(){localStorage.setItem('wanye:cart',JSON.stringify(S.cart));localStorage.setItem('wanye:cartItems',JSON.stringify(S.cartItems||{}));syncCounts()}
 function persistentGet(key,maxAge=21600000){try{const x=JSON.parse(localStorage.getItem(key)||'null');return x&&Date.now()-x.t<maxAge?x.v:null}catch(e){return null}}
 function persistentSet(key,v){try{localStorage.setItem(key,JSON.stringify({t:Date.now(),v}))}catch(e){}}
+
+function firstPaintDeadlineV281223(ms=1800){return new Promise(resolve=>setTimeout(()=>resolve({timeout:true}),ms))}
+async function firstPaintRaceV281223(promise,ms=1800){
+  try{return await Promise.race([Promise.resolve(promise).then(value=>({timeout:false,value})),firstPaintDeadlineV281223(ms)])}
+  catch(error){return {timeout:false,error}}
+}
 async function rpcRead(a,args=[]){if(!window.WANYE_RPC)throw new Error('RPC 未載入');return WANYE_RPC.read(a,args,30000)}
 async function rpcWrite(a,args=[]){if(!window.WANYE_RPC)throw new Error('RPC 未載入');return WANYE_RPC.write(a,args,18000)}
 async function swr(key,render,loader,maxAge=604800000){const stale=persistentGet(key,maxAge);if(stale){render(stale);hidePageLoader()}try{const v=await loader();persistentSet(key,v);render(v);hidePageLoader();return v}catch(e){hidePageLoader();if(!stale)throw e;return stale}}
@@ -197,7 +203,25 @@ async function initShop(){
   $('#shopSort')?.addEventListener('change',e=>{S.sort=e.target.value;S.nextOffset=0;schedule(true)});
   document.addEventListener('click',e=>{const m=e.target.closest('[data-shop-mode]');if(m){S.mode=m.dataset.shopMode;S.nextOffset=0;renderShopContext();renderChips();schedule(true);return}const ip=e.target.closest('[data-ip]');if(ip){S.ip=S.ip===ip.dataset.ip?'':ip.dataset.ip;S.nextOffset=0;renderShopContext();renderChips();schedule(true);return}const c=e.target.closest('[data-cat]');if(c){S.cat=S.cat===c.dataset.cat?'':c.dataset.cat;S.nextOffset=0;renderShopContext();renderChips();schedule(true)}});
   if(S.focus)addRecent(S.focus);
-  try{await fetchShop(true)}finally{document.body.classList.add('shop-fresh-ready')}
+
+  const livePromise=fetchShop(true);
+  const first=await firstPaintRaceV281223(livePromise,1750);
+  if(first.timeout||first.error){
+    if(!S.products.length){
+      try{
+        const boot=inlineJson('shopBootData');
+        const simple=!S.query&&!S.ip&&!S.cat&&S.mode==='all'&&S.sort==='new';
+        if(boot&&normalizeProducts(boot).length&&simple)applyShopData(boot,true);
+        else{
+          const head=await Promise.race([loadShopHeadV281105(),new Promise((_,rej)=>setTimeout(()=>rej(new Error('snapshot timeout')),180))]);
+          const snap=headShopPageV281105(head,shopQuery(0));
+          if(normalizeProducts(snap).length)applyShopData(snap,true);
+        }
+      }catch(_){}
+    }
+  }
+  document.body.classList.add('shop-fresh-ready');
+  livePromise.then(()=>document.body.classList.add('shop-fresh-ready')).catch(()=>{});
   idleTask(()=>loadShopStatic().catch(()=>{}));
 }
 function renderKujiPage(d){const items=Array.isArray(d?.items)?d.items:genericItems(d,['items','kuji','list','sets']),c=d?.counts||{};$('#rateCount')&&($('#rateCount').textContent=c.all??items.length);$('#rateActive')&&($('#rateActive').textContent=c.active??items.filter(x=>Number(x.remaining||1)>0).length);$('#rateMajor')&&($('#rateMajor').textContent=(c.major??items.reduce((a,x)=>a+Number(x.majorRemaining||0),0))||'—');$('#kujiRateGrid')&&($('#kujiRateGrid').innerHTML=items.map(drawCard).join('')||'<div class="empty-box">目前沒有公開一番賞</div>');hidePageLoader()}
