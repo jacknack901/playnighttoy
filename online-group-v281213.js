@@ -58,7 +58,7 @@ function stateOf(x){
 }
 function switchMode(mode,scroll){
   if(!['regular','group','japan'].includes(mode))mode='regular';
-  $('.online-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+  $$('.online-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
   ['regular','group','japan'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('is-active',id===mode)});
   if(mode==='group')loadGroups(false);
   const mobile=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
