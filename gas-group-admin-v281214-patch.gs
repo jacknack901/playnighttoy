@@ -119,3 +119,27 @@ function saveKujiGroupRevealV281214(sessionToken,kujiId,number,prize){
     return {ok:true,number:number,grade:grade,name:name,remainingQty:nextRemain};
   }finally{lock.releaseLock();}
 }
+
+
+function saveKujiGroupRevealBatchV281215(sessionToken,kujiId,items){
+  requireSession_(sessionToken);
+  kujiId=kujiGroupTextV28124_(kujiId);
+  items=Array.isArray(items)?items:[];
+  if(!kujiId)throw new Error('缺少一番賞 ID。');
+  if(!items.length)throw new Error('沒有要儲存的開獎資料。');
+  if(items.length>100)throw new Error('一次最多儲存 100 個開獎號碼。');
+
+  var seen={};
+  items.forEach(function(x){
+    var n=Math.floor(Number(x&&x.number||0));
+    if(!(n>0))throw new Error('開獎號碼格式不正確。');
+    if(seen[n])throw new Error('號碼 '+n+' 重複出現在本次草稿。');
+    seen[n]=true;
+  });
+
+  var results=[];
+  items.forEach(function(x){
+    results.push(saveKujiGroupRevealV281214(sessionToken,kujiId,x.number,x.prize||{}));
+  });
+  return {ok:true,count:results.length,results:results};
+}
