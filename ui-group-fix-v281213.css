@@ -55,3 +55,87 @@
  .group-prize-list{grid-template-columns:1fr}.group-number-board{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.group-number{min-height:50px}
 }
 @media (max-width:380px){.home-group-media,.group-kuji-cover{height:170px!important}.group-number-board{grid-template-columns:repeat(4,minmax(0,1fr))}.group-qty-buttons{grid-template-columns:repeat(2,1fr)!important}}
+
+
+/* 頑夜 TOY｜集單抽前台速度＋RWD v28.12.19 */
+#group.online-mode-panel{
+  width:100%;
+  max-width:1240px;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  padding-left:0;
+  padding-right:0;
+}
+#group .draw-section-head{
+  width:min(1180px,100%);
+  margin-left:auto;
+  margin-right:auto;
+}
+#group .group-kuji-grid{
+  width:min(1180px,100%);
+  margin-left:auto!important;
+  margin-right:auto!important;
+  justify-content:center;
+}
+#group .group-kuji-card{
+  width:100%;
+  max-width:380px;
+  justify-self:center;
+}
+.group-loading-fast{
+  width:100%;
+  min-height:120px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  text-align:center;
+}
+.group-loading-fast small{color:#94a3b8}
+@media (min-width:1100px){
+  #group .group-kuji-grid{
+    grid-template-columns:repeat(3,minmax(280px,360px))!important;
+    gap:20px!important;
+  }
+}
+@media (min-width:681px) and (max-width:1099px){
+  #group.online-mode-panel{max-width:920px}
+  #group .group-kuji-grid{
+    grid-template-columns:repeat(2,minmax(260px,1fr))!important;
+    gap:16px!important;
+  }
+  #group .group-kuji-card{max-width:420px}
+}
+@media (max-width:680px){
+  #group.online-mode-panel{
+    width:100%;
+    max-width:none;
+    margin:0 auto!important;
+  }
+  #group .draw-section-head{
+    width:100%;
+    padding-left:2px;
+    padding-right:2px;
+  }
+  #group .group-kuji-grid{
+    width:100%;
+    margin:0!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:12px!important;
+  }
+  #group .group-kuji-card{
+    width:100%;
+    max-width:none;
+    margin:0!important;
+  }
+  .group-kuji-cover{height:190px!important}
+  .group-kuji-body{padding:13px!important}
+  .group-prize-teaser{overflow:hidden}
+  .group-prize-teaser span{max-width:100%}
+}
+@media (max-width:390px){
+  .group-kuji-cover{height:166px!important}
+  .group-kuji-body{padding:11px!important}
+  .group-kuji-stats{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
