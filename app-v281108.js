@@ -155,7 +155,26 @@ function japanProxyReservedV281039(x){return Math.max(0,Number(x?.reserved??x?.r
 function japanProxyRemainingV281039(x){const max=japanProxyLimitV281039(x),reserved=japanProxyReservedV281039(x);return x?.remaining!=null?Math.max(0,Number(x.remaining)||0):Math.max(0,max-reserved)}
 function japanProxyClosedV281039(x){const remain=japanProxyRemainingV281039(x),s=String(x?.reservationStatus||x?.status||'');return !!x?.reservationClosed||!!x?.full||remain<=0||/截止|關閉|已滿|下架|結束/.test(s)}
 function japanProxyCanReserveV281039(x){if(!x)return false;if(japanProxyClosedV281039(x))return false;if(x.reservationOpen===false)return false;return true}
-function proxyCard(x){const id=japanProxyIdV281039(x),max=japanProxyLimitV281039(x),reserved=japanProxyReservedV281039(x),remaining=japanProxyRemainingV281039(x),price=japanProxyPriceV281039(x),pct=Math.max(0,Math.min(100,max?reserved/max*100:0)),closed=japanProxyClosedV281039(x),status=String(x.reservationStatus||x.status||(closed?'預約截止':'查看預約')),time=x.displayTime||x.expectedDrawAt||'';return `<article class="proxy-card" data-japan-proxy-id="${esc(id)}"><div class="proxy-media">${imageMarkup(x,560)}<span class="proxy-badge">JAPAN OFFICIAL</span></div><div class="proxy-body"><div class="proxy-top"><span class="activity-status ${closed?'closed':''}">${esc(status)}</span><span class="proxy-date">台灣 ${esc(time?dateTimeText(time):'時間待公布')}</span></div><h3>${esc(x.name||x.title||'日本官方線上代抽')}</h3><div class="proxy-stats"><span><b>${reserved}</b> / ${max} 抽已預約 · 剩 ${remaining} 抽</span>${price?`<strong>${money(price)} / 抽</strong>`:''}</div><div class="draw-progress"><i style="width:${pct}%"></i></div><button class="activity-cta japan-proxy-reserve-btn" type="button" onclick="WANYE.openJapanProxyReservation('${esc(id)}')">${closed?'查看預約狀態':'查看／預約'} →</button></div></article>`}
+function proxyCard(x){
+  const id=japanProxyIdV281039(x),max=japanProxyLimitV281039(x),reserved=japanProxyReservedV281039(x),remaining=japanProxyRemainingV281039(x),price=japanProxyPriceV281039(x),pct=Math.max(0,Math.min(100,max?reserved/max*100:0)),closed=japanProxyClosedV281039(x),status=String(x.reservationStatus||x.status||(closed?'預約截止':'查看預約')),time=x.displayTime||x.expectedDrawAt||'';
+  return `<article class="proxy-card japan-proxy-card-v281220" data-japan-proxy-id="${esc(id)}">
+    <div class="proxy-media">${imageMarkup(x,560)}<span class="proxy-badge">JAPAN OFFICIAL</span></div>
+    <div class="proxy-body">
+      <div class="proxy-top"><span class="activity-status ${closed?'closed':''}">${esc(status)}</span></div>
+      <h3>${esc(x.name||x.title||'日本官方線上代抽')}</h3>
+      <div class="japan-proxy-meta-v281220">
+        <div><small>台灣開抽時間</small><b>${esc(time?dateTimeText(time):'待公布')}</b></div>
+        <div><small>單抽價格</small><b>${price?money(price):'待公布'}</b></div>
+      </div>
+      <div class="japan-proxy-progress-v281220">
+        <div class="japan-proxy-progress-head-v281220"><span>預約進度</span><strong>${reserved} / ${max}</strong></div>
+        <div class="draw-progress"><i style="width:${pct}%"></i></div>
+        <div class="japan-proxy-progress-foot-v281220"><span>已預約 ${reserved} 抽</span><b>剩 ${remaining} 抽</b></div>
+      </div>
+      <button class="activity-cta japan-proxy-reserve-btn" type="button" onclick="WANYE.openJapanProxyReservation('${esc(id)}')">${closed?'查看預約狀態':'查看／預約'} →</button>
+    </div>
+  </article>`;
+}
 function findJapanProxyV281039(id){return (S.japanDraws||[]).find(x=>japanProxyIdV281039(x)===String(id))||null}
 async function refreshJapanProxyLiveV281039(targetId){try{const live=await rpcRead('getPublicJapanOnlineProxyListV27276',[]),items=genericItems(live,['items','japan','list']);if(Array.isArray(items)){S.japanDraws=items;renderOnline({regular:S.onlineDraws,japan:items});return targetId?findJapanProxyV281039(targetId):items}}catch(e){console.warn('[japan proxy] live refresh failed',e)}return targetId?findJapanProxyV281039(targetId):(S.japanDraws||[])}
 function japanProxyEstimatedV281039(x,count){return Math.round(japanProxyPriceV281039(x)*Math.max(1,Number(count||1))+Math.max(0,Number(x?.firstDrawFeeTwd||0)))}
