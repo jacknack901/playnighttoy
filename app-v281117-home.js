@@ -15,8 +15,8 @@ const PINNED_HOME_BANNER_V281019={
   subtitle:'2027 頑夜福袋陪你過新年・限量福袋現正開放',
   buttonText:'立即查看',
   buttonUrl:'https://myship.7-11.com.tw/general/detail/GM2611240143431',
-  desktopImage:'https://i.ibb.co/svsFgL40/2027-1920x800.png',
-  mobileImage:'https://i.ibb.co/svsFgL40/2027-1920x800.png'
+  desktopImage:'https://r2.uploads.tw/2026/11/X9fPh2G6eN.webp',
+  mobileImage:'https://r2.uploads.tw/2026/11/X9fPh2G6eN.webp'
 };
 function withPinnedHomeBannerV281019(items){
   const pinned=PINNED_HOME_BANNER_V281019;
